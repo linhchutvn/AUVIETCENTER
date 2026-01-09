@@ -1088,7 +1088,11 @@ if "messages" not in st.session_state:
 for msg in st.session_state.messages:
     with st.chat_message(msg["role"], avatar="👨‍🏫" if msg["role"] == "ai" else "👤"):
         if msg["role"] == "user":
-            # ... (Giữ nguyên phần hiển thị của User)
+             if msg.get("topic"):
+                st.markdown(f"**📝 Task Prompt:**\n> {msg['topic']}")
+            if msg.get("image"):
+                st.image(msg["image"], caption="Visual Resource Attached", width=400)
+            st.write(msg["content"])
         else:
             # --- PHẦN HIỂN THỊ MỚI THEO PHONG CÁCH "COMMENT" ---
             
@@ -1314,6 +1318,7 @@ if not st.session_state.submitted:
 # Footer
 st.markdown("---")
 st.caption("Developed by Albert Nguyen - v20251228.")
+
 
 
 
