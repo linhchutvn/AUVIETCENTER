@@ -114,6 +114,19 @@ Bạn hãy đóng vai trò là một Giám khảo IELTS với 30 năm kinh nghi�
 **Phân loại bài thi (Context Awareness):** Bắt buộc phải nhận diện đây là IELTS Academic: Biểu đồ/Đồ thị/Quy trình/Map. Đề bài nói về nội dung gì.
 **Yêu cầu khắt khe:** Bạn phải sử dụng **tiêu chuẩn của Band 9.0 làm thước đo tham chiếu cao nhất** để soi xét bài làm. Hãy thực hiện một bản "Gap Analysis" chi tiết: chỉ ra mọi thiếu sót một cách nghiêm ngặt và chính xác tuyệt đối, từ những lỗi sai căn bản cho đến những điểm chưa đạt được độ tinh tế của một bài viết điểm tuyệt đối.
 **YÊU CẦU ĐẶC BIỆT (CHẾ ĐỘ KIỂM TRA KỸ):** Bạn không cần phải trả lời nhanh. Hãy dành thời gian "suy nghĩ" để phân tích thật sâu và chi tiết (Step-by-step Analysis).
+Nhiệm vụ của bạn là đọc bài viết dưới đây và đưa ra các bình luận (Comments) chi tiết cho từng đoạn văn, giống như cách bạn dùng tính năng "Add Comment" trong MS Word.
+
+**YÊU CẦU BẮT BUỘC:**
+1.  **Phân tích theo đoạn:** Nhận xét của bạn phải bám sát vào từng phần của bài viết (Introduction, Overview, Body 1, Body 2).
+2.  **Phong cách "Comment":** Mỗi nhận xét phải bắt đầu bằng **"Commented [TG...]:"**. 
+3.  **Chiến thuật "I'd do this":** Khi đưa ra gợi ý, hãy dùng văn phong cá nhân, ví dụ: *"I'd group these two together..."* hoặc *"You could add that..."*.
+4.  **Tập trung vào Logic:** Ưu tiên bắt các lỗi về tư duy dữ liệu (Data Logic), cách nhóm thông tin (Grouping), và sự thiếu sót (Omission).
+
+**QUY TRÌNH LÀM VIỆC:**
+1.  Đọc toàn bộ bài viết.
+2.  Với mỗi đoạn, viết ra 1-3 bình luận chi tiết.
+3.  Tổng hợp các bình luận này thành một báo cáo Markdown duy nhất.
+4.  Sau đó, mới tính điểm và xuất JSON như thường lệ.
 
 ### 1. TƯ DUY & GIAO THỨC LÀM VIỆC (CORE PROTOCOL)
 * **>> GIAO THỨC PHÂN TÍCH CHẬM (SLOW REASONING PROTOCOL):**
@@ -1075,53 +1088,37 @@ if "messages" not in st.session_state:
 for msg in st.session_state.messages:
     with st.chat_message(msg["role"], avatar="👨‍🏫" if msg["role"] == "ai" else "👤"):
         if msg["role"] == "user":
-            if msg.get("topic"):
-                st.markdown(f"**📝 Task Prompt:**\n> {msg['topic']}")
-            if msg.get("image"):
-                st.image(msg["image"], caption="Visual Resource Attached", width=400)
-            st.write(msg["content"])
+            # ... (Giữ nguyên phần hiển thị của User)
         else:
-            st.markdown(f'<div style="font-size: 18px; line-height: 1.6; color: #1F2937;">{msg["content"]}</div>', unsafe_allow_html=True)  
+            # --- PHẦN HIỂN THỊ MỚI THEO PHONG CÁCH "COMMENT" ---
             
-            if msg.get("data") and msg["data"]["errors"]:
-                all_errors = msg["data"]["errors"]
-                micro_errors = [e for e in all_errors if e.get('category') in ['Grammar', 'Vocabulary', 'Ngữ pháp', 'Từ vựng']]
-                macro_errors = [e for e in all_errors if e.get('category') not in ['Grammar', 'Vocabulary', 'Ngữ pháp', 'Từ vựng']]
+            # 1. TÁCH BÀI VIẾT GỐC VÀ CÁC BÌNH LUẬN
+            # (Giả sử AI trả về kết quả có dạng: [ĐOẠN VĂN GỐC] \n\n --- \n\n [CÁC COMMENT])
+            parts = msg["content"].split("\n---\n")
+            original_essay_with_highlights = parts[0]
+            comments_markdown = parts[1] if len(parts) > 1 else ""
 
-                # --- PHẦN 1: GRAMMAR & VOCAB ---
-                if micro_errors:
-                    with st.expander(f"🚩 Grammar & Vocabulary Corrections ({len(micro_errors)} Issues)", expanded=True):
-                        for idx, err in enumerate(micro_errors):
-                            cat = err.get('category', 'Grammar')
-                            badge_style = "background:#DCFCE7; color:#166534; border:1px solid #86EFAC" if cat in ['Grammar', 'Ngữ pháp'] else "background:#FEF9C3; color:#854D0E; border:1px solid #FCD34D"
-                            impact = err.get('impact_level', 'Low').upper()
-                            
-                            html_micro = textwrap.dedent(f"""
-                                <div class="error-card" style="margin-bottom:12px; border: 1px solid #eee; padding: 10px; border-radius: 8px;">
-                                    <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #eee; padding-bottom:4px; margin-bottom:4px;">
-                                        <div style="display:flex; align-items:center;">
-                                            <span style="background:#F3F4F6; width:22px; height:22px; display:inline-flex; align-items:center; justify-content:center; border-radius:50%; font-weight:bold; font-size:12px; margin-right:8px;">{idx + 1}</span>
-                                            <span style="{badge_style}; padding: 2px 8px; border-radius: 6px; font-size: 11px; font-weight: 800; text-transform: uppercase;">{cat}</span>
-                                            <span style="font-weight:700; font-size:16px; margin-left:10px; color:#1F2937;">{err['type']}</span>
-                                        </div>
-                                        <span style="background:#F3F4F6; color:#666; padding:2px 8px; border-radius:6px; font-size:10px; font-weight:bold;">{impact}</span>
-                                    </div>
-                                    <div style="background:#F9FAFB; padding:10px; border-radius:6px; font-size:15px; line-height: 1.5;">
-                                        <div style="margin-bottom:4px;">
-                                            <span style="color:#6B7280; font-size:14px; font-weight:800; letter-spacing: 0.5px;">ORIGINAL:</span> 
-                                            <span style="text-decoration:line-through; color:#9CA3AF; margin-left: 6px;">{err['original']}</span>
-                                        </div>
-                                        <div>
-                                            <span style="color:#6B7280; font-size:14px; font-weight:800; letter-spacing: 0.5px;">FIX:</span> 
-                                            <span style="{badge_style}; padding:1px 6px; border-radius:4px; font-weight:bold; margin-left: 6px; color:#111;">{err['correction']}</span>
-                                        </div>
-                                    </div>
-                                    <div style="font-size:14px; color:#4B5563; margin-top:6px; font-style: italic;">
-                                        Note: {err['explanation']}
-                                    </div>
-                                </div>
-                            """).strip()
-                            st.markdown(html_micro, unsafe_allow_html=True)
+            # 2. TẠO LAYOUT 2 CỘT
+            col1, col2 = st.columns([2, 1.5]) # Cột trái rộng hơn
+
+            with col1:
+                st.subheader("Student's Essay")
+                # Hiển thị bài viết gốc (có thể thêm highlight sau này)
+                st.markdown(original_essay_with_highlights, unsafe_allow_html=True)
+
+            with col2:
+                st.subheader("Examiner's Comments")
+                # Hiển thị các ô bình luận
+                # Ta cần parse các comment từ markdown
+                comments = re.findall(r"Commented\s*\[TG\d+\]:\s*([\s\S]*?)(?=\nCommented|\Z)", comments_markdown)
+                
+                for i, comment_text in enumerate(comments):
+                    st.markdown(f"""
+                        <div style="background-color: #E0F2FE; border: 1px solid #7DD3FC; border-radius: 8px; padding: 15px; margin-bottom: 10px; font-size: 15px; line-height: 1.6;">
+                            <b>Commented [TG{i+1}]:</b>
+                            <p style="margin-top: 5px; margin-bottom: 0;">{comment_text.strip()}</p>
+                        </div>
+                    """, unsafe_allow_html=True)
 
                 # --- PHẦN 2: HIỂN THỊ SỬA MẠCH LẠC & LIÊN KẾT (COHERENCE & COHESION) ---
                 if macro_errors:
@@ -1317,6 +1314,7 @@ if not st.session_state.submitted:
 # Footer
 st.markdown("---")
 st.caption("Developed by Albert Nguyen - v20251228.")
+
 
 
 
