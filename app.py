@@ -38,7 +38,7 @@ courses = [
 
 # 3. Sidebar - Bộ lọc & Menu
 with st.sidebar:
-    st.image("https://youpass.vn/images/logo.png", width=150) # Thay bằng link logo thật nếu có
+    st.image("logo.jpg", width=150) # Thay bằng link logo thật nếu có
     st.header("🔍 Tìm kiếm & Lọc")
     
     search_term = st.text_input("Tìm khóa học...")
@@ -94,6 +94,7 @@ else:
 # Footer
 st.markdown("---")
 st.markdown("<center>© 2025 Âu Việt Center Developed by Albert Nguyen</center>", unsafe_allow_html=True)
+
 
 
 
