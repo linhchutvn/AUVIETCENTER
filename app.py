@@ -39,23 +39,27 @@ st.markdown("""
     
     /* Nút bấm màu Xanh Ngọc Bích (Jade) */
     .custom-btn {
-        display: inline-block;
-        background-color: #00b894; /* Mã màu xanh ngọc bích */
+        display: inline-block; /* Giúp nút co giãn theo nội dung */
+        background-color: #00b894; 
         color: white !important;
-        padding: 6px 15px; /* Độ dày nút nhỏ lại */
-        border-radius: 5px;
-        text-decoration: none;
+        padding: 8px 20px; /* Tăng khoảng cách đệm để nút nhìn đẹp hơn */
+        border-radius: 5px; /* Bo tròn góc */
+        
+        text-decoration: none !important; /* QUAN TRỌNG: Bỏ gạch chân dưới chữ */
+        
         font-weight: 500;
-        font-size: 14px; /* Chữ trong nút nhỏ lại */
+        font-size: 14px;
         text-align: center;
         transition: 0.3s;
         border: none;
-        width: 100%; /* Nếu muốn nút dài hết khung thì để 100%, muốn nút ngắn thì xóa dòng này */
+        
+        width: auto; /* QUAN TRỌNG: Dòng này giúp nút thu nhỏ lại vừa bằng chữ */
     }
     
     .custom-btn:hover {
-        background-color: #019376; /* Màu đậm hơn khi di chuột vào */
+        background-color: #019376;
         color: white !important;
+        text-decoration: none !important;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -131,6 +135,7 @@ else:
             
             st.markdown("---")
 st.markdown("<center>© 2025 Âu Việt Center Developed by Albert Nguyen</center>", unsafe_allow_html=True)
+
 
 
 
