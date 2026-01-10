@@ -505,41 +505,47 @@ def parse_grading_response(full_text):
             data["annotatedEssay"] = parsed.get("annotated_essay")
             data["revisedScore"] = parsed.get("revised_score")
             
-            # --- LOGIC SỬA LỖI HIỂN THỊ ---
-            # 1. Ưu tiên lấy key tổng 'analysis_markdown' nếu có
-            raw_analysis = parsed.get("analysis_markdown", "")
+            # --- KHẮC PHỤC LỖI HIỂN THỊ TẠI ĐÂY ---
+            # 1. Nếu AI trả đúng key tổng (analysis_markdown)
+            if parsed.get("analysis_markdown"):
+                data["analysisMarkdown"] = parsed["analysis_markdown"]
             
-            # 2. Nếu key tổng rỗng, tự động đi gom từ các key lẻ (như trong hình lỗi của bạn)
-            if not raw_analysis:
-                sections = []
-                # Kiểm tra các key biến thể mà AI thường trả về
-                if parsed.get("task_achievement_analysis"):
-                    sections.append(f"### 1. Task Achievement\n{parsed['task_achievement_analysis']}")
-                if parsed.get("cohesion_coherence_analysis"):
-                    sections.append(f"### 2. Coherence & Cohesion\n{parsed['cohesion_coherence_analysis']}")
-                if parsed.get("lexical_resource_analysis"):
-                    sections.append(f"### 3. Lexical Resource\n{parsed['lexical_resource_analysis']}")
-                if parsed.get("grammatical_range_analysis"):
-                    sections.append(f"### 4. Grammatical Range & Accuracy\n{parsed['grammatical_range_analysis']}")
+            # 2. Nếu AI tự ý tách lẻ (như trong hình bạn gửi), ta phải đi gom lại
+            else:
+                combined_analysis = []
                 
-                # Nếu gom được thì gán vào, nếu không thì để trống
-                if sections:
-                    raw_analysis = "\n\n".join(sections)
-            
-            data["analysisMarkdown"] = raw_analysis
+                # Danh sách các tên key mà AI hay dùng để tách lẻ
+                potential_keys = [
+                    ("Task Achievement", ["task_achievement_analysis", "ta_analysis", "task_response_analysis"]),
+                    ("Coherence & Cohesion", ["cohesion_coherence_analysis", "cc_analysis", "coherence_analysis"]),
+                    ("Lexical Resource", ["lexical_resource_analysis", "lr_analysis", "vocabulary_analysis"]),
+                    ("Grammatical Range", ["grammatical_range_analysis", "gra_analysis", "grammar_analysis"])
+                ]
+
+                for title, keys in potential_keys:
+                    for k in keys:
+                        if parsed.get(k): # Nếu tìm thấy key này trong JSON
+                            combined_analysis.append(f"### 📘 {title}\n{parsed[k]}")
+                            break # Tìm thấy rồi thì next sang tiêu chí khác
+                
+                if combined_analysis:
+                    data["analysisMarkdown"] = "\n\n".join(combined_analysis)
 
         except: 
-            # Nếu JSON lỗi cấu trúc, lấy phần text trước JSON
-            data["analysisMarkdown"] = full_text.split("```json")[0]
+            # Nếu JSON hỏng cấu trúc, lấy phần text thô bên ngoài
+            pass
             
-    # Fallback cuối cùng: Nếu vẫn rỗng, lấy text thô (nhưng tránh lấy nhầm chuỗi JSON)
+    # Fallback cuối cùng: Nếu vẫn rỗng, lấy toàn bộ text bên ngoài JSON
     if not data["analysisMarkdown"]:
-        text_content = full_text.split("```json")[0].strip()
-        # Chỉ lấy nếu nó không bắt đầu bằng dấu ngoặc nhọn (dấu hiệu của JSON)
-        if not text_content.startswith("{"):
-            data["analysisMarkdown"] = text_content
+        raw_text = full_text.split("```json")[0].strip()
+        if len(raw_text) > 50 and not raw_text.startswith("{"):
+             data["analysisMarkdown"] = raw_text
         else:
-            data["analysisMarkdown"] = "⚠️ AI đã trả về dữ liệu chấm điểm nhưng định dạng văn bản phân tích không tương thích để hiển thị."
+             # Nếu đến bước này vẫn không có, ta hiển thị chuỗi JSON thô để bạn đọc tạm (còn hơn là báo lỗi)
+             if json_str:
+                 data["analysisMarkdown"] = f"**Dữ liệu thô từ AI (Raw JSON):**\n\n{json_str}"
+             else:
+                 data["analysisMarkdown"] = "⚠️ Không thể trích xuất nội dung phân tích."
 
     return data
 
