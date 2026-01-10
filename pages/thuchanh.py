@@ -124,7 +124,7 @@ def generate_content_with_failover(prompt, image=None, json_mode=False):
             continue
     return None, None
 
-# --- PROMPT KHỦNG (ĐÃ KHÔI PHỤC ĐẦY ĐỦ) ---
+# --- PROMPT "KHỦNG" CỦA BẠN (ĐÃ KHÔI PHỤC ĐẦY ĐỦ) ---
 GRADING_PROMPT_TEMPLATE = """
 Bạn hãy đóng vai trò là một Giám khảo IELTS với 30 năm kinh nghiệm làm việc tại Hội đồng Anh (British Council). Nhiệm vụ của bạn là đánh giá bài viết dựa trên **bộ tiêu chí chuẩn xác của IELTS Writing Task 1 (Band Descriptors)**. 
 **Phân loại bài thi (Context Awareness):** Bắt buộc phải nhận diện đây là IELTS Academic: Biểu đồ/Đồ thị/Quy trình/Map. Đề bài nói về nội dung gì.
@@ -244,211 +244,26 @@ Bạn hãy đóng vai trò là một Giám khảo IELTS với 30 năm kinh nghi�
 
 Mọi từ hoặc dấu câu nằm trong thẻ `<del>...</del>` ở bản sửa **BẮT BUỘC** phải có một mục nhập (entry) riêng biệt tương ứng trong danh sách `errors`. Tuyệt đối không được tóm tắt hay gộp lỗi.
 **Bước 1: Deep Scan & Lập danh sách lỗi (JSON Errors Array)**
-*   Dựa trên kết quả quét 3 lớp, liệt kê **TẤT CẢ** vấn đề vào mảng `errors`.
-*   **>> QUY TẮC "BẰNG CHỨNG BẮT BUỘC" (MANDATORY EVIDENCE):**
-    *   Nếu bạn định chấm điểm **Coherence & Cohesion dưới 9.0**, bạn **BẮT BUỘC** phải tạo ra ít nhất **2-3 mục lỗi** trong mảng `errors` thuộc nhóm `Coherence & Cohesion` để giải thích lý do trừ điểm.
-    *   *Ví dụ:* Nếu chấm CC 6.0, bạn phải chỉ ra cụ thể: "Đoạn 2 thiếu câu chủ đề", "Từ nối 'Moreover' dùng sai", hoặc "Mạch văn bị đứt gãy".
-    *   **CẤM:** Tuyệt đối không được để trống danh sách lỗi CC nếu điểm CC < 9.0.
-*   **Thực hiện quét 2 lớp:** 
-        *   *Lớp 1 (Grammar/Vocab):* Soi từng mạo từ, dấu phẩy, số ít/nhiều.
-        *   *Lớp 2 (Data Logic):* Kiểm tra lỗi "Object vs Figure" (vd: nhầm giữa chủ thể ngành công nghiệp và lượng khí thải). 
-*   **Liệt kê toàn bộ lỗi vào mảng `errors` trước.** Nếu có 14 vị trí sai, phải có 14 mục lỗi trong JSON. *Ví dụ:* Nếu sai 3 mạo từ 'the', phải có 3 mục lỗi riêng biệt.
-*   **>> QUY TẮC "DOUBLE-TAGGING" (GẮN NHÃN KÉP - MỚI THÊM):**
-    *   Nếu gặp lỗi ngữ pháp nghiêm trọng làm đứt gãy mạch văn (như `Sentence Fragment`, `Run-on Sentence`, `Comma Splice`), bạn phải tạo **2 mục lỗi** trong JSON:
-        1.  Một mục `Grammar` (để sửa câu chữ).
-        2.  Một mục `Coherence & Cohesion` với tên lỗi `Fragmented Flow` (để cảnh báo về mạch lạc).
-    *   Điều này đảm bảo phần Coherence & Cohesion không bị trống và không hiển thị thông báo "Tuyệt vời" sai lệch.
-*   Dựa trên danh sách lỗi này để tính toán Band điểm cho bài gốc (Markdown).
-*   **Quy tắc làm tròn điểm bài viết theo chuẩn IELTS:**
-    *   Làm tròn đến nửa band gần nhất (.0 hoặc .5).
-    *   **NGOẠI LỆ BẮT BUỘC:**
-        *   Điểm trung bình có đuôi **.25** -> BẮT BUỘC làm tròn **XUỐNG** số nguyên (Ví dụ: 8.25 -> 8.0).
-        *   Điểm trung bình có đuôi **.75** -> BẮT BUỘC làm tròn **XUỐNG** .5 (Ví dụ: 8.75 -> 8.5).
-
 **Bước 2: Tạo bản sửa lỗi (Annotated Essay)**
-    *   **Nguyên tắc "Soi gương":** Bạn chỉ được phép sửa lỗi dựa trên danh sách lỗi đã lập ở Bước 1. 
-    *   **Cấm sửa ngầm (No Hidden Edits):** Tuyệt đối không được "tiện tay" sửa các lỗi nhỏ (như thêm mạo từ 'the' hay viết hoa) trong bài sửa nếu bạn chưa khai báo lỗi đó trong danh sách `errors` ở Bước 1. 
-    *   **Số lượng thẻ `<del>` phải bằng chính xác số lượng lỗi trong JSON.** Nếu sai lệch, hệ thống sẽ coi là vi phạm giao thức.
-    
 **Bước 3: Chấm lại bản sửa lỗi (JSON Output - Internal Re-grading)**
-*   Hãy đóng vai một Giám khảo độc lập thứ 2 chấm lại bản `annotated_essay` vừa tạo (coi đây là một bài nộp mới đã sạch lỗi câu chữ).
-*   **Luật Nội dung (Content Rule):** Vì bản sửa này chỉ khắc phục GRA/LR và giữ nguyên cấu trúc cũ, nên điểm TA và CC của bản sửa **THƯỜNG GIỮ NGUYÊN** như bài gốc. Nếu bài gốc thiếu Overview hoặc sai số liệu, bài sửa vẫn bị điểm thấp ở TA/CC.
-*   **Điểm số `revised_score`:** Phải phản ánh đúng trình độ của bài sau khi đã sạch lỗi GRA/LR.
-    *   **Kiểm tra độ dài:** Nếu bản sửa > 200 từ -> TA tối đa **8.0** (Phạt lỗi thiếu súc tích).
-    *   **Kiểm tra tính tự nhiên:** Nếu dùng từ vựng "đao to búa lớn" gượng ép -> LR tối đa **8.0**.
-*   **Lưu ý về TA & CC:** Vì bản sửa này chỉ sửa lỗi Ngữ pháp/Từ vựng và giữ nguyên cấu trúc cũ, nên điểm TA và CC của bản sửa **PHẢI GIỮ NGUYÊN** như bài gốc (trừ khi việc sửa từ vựng giúp ý nghĩa rõ ràng hơn thì có thể tăng nhẹ .5 điểm). 
-*   **Consistency & Parity Check:** 
-    *   Đếm số lượng thẻ `<del>` trong bài sửa. Nếu không khớp với số lượng mục lỗi trong mảng `errors` (Ví dụ: sửa 14 chỗ nhưng chỉ khai báo 7 lỗi), bạn đã vi phạm giao thức. Bạn phải bổ sung mảng `errors` cho đến khi đạt tỷ lệ **1:1**.
-*   **>> CHỐT CHẶN BAND 9.0 (THE 9.0 BARRIER):**
-    *   **Về Coherence & Cohesion (CC):** Tuyệt đối KHÔNG cho bản sửa đạt 9.0 nếu cấu trúc vẫn sử dụng các từ nối cơ bản ở đầu câu như *"Regarding...", "In addition...", "Overall..."*. Band 9 CC yêu cầu sự liên kết "vô hình" (invisible cohesion). Nếu cấu trúc bài gốc là Band 7-8, điểm CC của bản sửa **BẮT BUỘC** phải giữ nguyên ở mức 7-8.
-    *   **Về Task Achievement & Lexical (TA/LR):** Kiểm tra lỗi logic "Object vs Figure". Nếu thí sinh viết *"Industry was the most polluted"* thay vì *"Industrial emissions were the highest"*, đây là lỗi tư duy dữ liệu nghiêm trọng. Bản sửa dù có sửa lại câu chữ thì điểm TA và LR vẫn phải bị khống chế (Ceiling) ở mức **7.0 - 8.0** vì lỗi sai bản chất chủ thể.
-    *   **Về Đơn vị (Unit Accuracy):** Soi kỹ đơn vị (tonnes, %, number). Nếu bài gốc nhầm lẫn đơn vị, bản sửa dù có thay đổi từ vựng cũng không được phép tăng điểm TA quá 1.0 điểm so với bài gốc.
-*   **>> GIAO THỨC "RE-SCAN" (QUÉT LẠI LẦN CUỐI):** Trước khi chốt điểm `revised_score`, hãy tự đặt câu hỏi: *"Tôi có đang quá hào phóng không? Nếu một Giám khảo khó tính nhất đọc bản sửa này, họ có thấy nó vẫn còn mang 'khung xương' của một bài Band 7 hay không?"*. Nếu có, hãy hạ điểm xuống ngay lập tức.
-Thông tin bài làm:
-a/ Đề bài (Task 1 question): {{TOPIC}}
-b/ Mô tả hình ảnh (Picture/Graph/Chart): {{IMAGE_NOTE}}
-c/ Bài làm của thí sinh (Written report): {{ESSAY}}
 
----
-### NỘI DUNG ĐÁNH GIÁ CHI TIẾT:
-**LƯU Ý QUAN TRỌNG VỀ SƯ PHẠM (PEDAGOGY RULE):**
-Khi đưa ra ví dụ sửa lỗi (Example/Rewrite), bạn phải căn cứ vào **Band điểm hiện tại** của bài làm:
-*   **Nếu bài < 6.0:** Hãy đưa ra ví dụ sửa ở mức **Band 7.0** (Tập trung vào sự Chính xác, Rõ ràng, Dễ hiểu). Đừng dùng từ quá khó.
-*   **Nếu bài >= 6.5:** Hãy đưa ra ví dụ sửa ở mức **Band 9.0** (Tập trung vào sự Tinh tế, Học thuật, Cấu trúc phức tạp).
-**QUY TẮC "CHỐNG SƠ SÀI" (ANTI-BREVITY RULE):**
-1.  **Cấm nhận xét chung chung:** Tuyệt đối không viết "Cần cải thiện ngữ pháp" mà không chỉ rõ là cải thiện cái gì (thì, mạo từ, hay cấu trúc?).
-2.  **Trích dẫn bằng chứng:** Mọi nhận xét đều phải trích dẫn câu văn cụ thể của thí sinh để chứng minh.
-3.  **Luôn viết mẫu:** Dù bài làm ở Band 1 hay Band 9, bạn **BẮT BUỘC** phải cung cấp các ví dụ viết lại (Rewrite) ở cuối mỗi tiêu chí. Không được bỏ qua.
+YÊU CẦU OUTPUT LÀ MỘT JSON OBJECT DUY NHẤT chứa dữ liệu dưới đây. 
+Tuyệt đối KHÔNG trả về markdown bên ngoài JSON. Mọi phân tích chữ viết phải nằm trong các trường "analysis" của JSON.
 
-### **1. Task Achievement (Hoàn thành yêu cầu bài thi):**
-
-*   **Đánh giá Overview (Cái nhìn tổng quan):** 
-    *   [Phân tích: Đã có Overview chưa? Có nêu được xu hướng chính và sự so sánh nổi bật không?]
-    *   **⚠️ Cảnh báo cho trình độ Band 5-6:** [Nếu Overview vẫn bị dính số liệu chi tiết, hãy giải thích tại sao lỗi này khiến họ bị kẹt ở Band 5 và hướng dẫn cách xóa bỏ để lên Band 7.]
-*   **Độ chính xác và Chọn lọc dữ liệu:** 
-    *   [Kiểm tra độ chính xác của số liệu. Có bị lỗi "Data Saturation" - nhồi nhét quá nhiều số liệu vụn vặt không?]
-    *   [**Lưu ý:** Bỏ qua dữ liệu 'Total'/'Other' nếu không quan trọng.]
-*   **Giải quyết yêu cầu (Response Strategy):** [Đánh giá cách nhóm thông tin. Thí sinh đang mô tả đơn lẻ (Band 5) hay đã biết tổng hợp dữ liệu để so sánh (Band 7+)?]
-
-*   **⚠️ Các lỗi nghiêm trọng & Phân tích chuyên sâu:** 
-    *   [Với mỗi lỗi tìm được, bạn **BẮT BUỘC** giải thích theo 3 bước:
-        1. **Trích dẫn lỗi:** (Ví dụ: "the figure of pizza ate")
-        2. **Lý do yếu kém:** (Ví dụ: Vi phạm lỗi tư duy Object vs Figure).
-        3. **Tác động:** (Ví dụ: Làm mất tính chuyên nghiệp, khiến giám khảo đánh giá thấp tư duy logic).]
-
-*   **💡 CHIẾN THUẬT NÂNG BAND (STEP-BY-STEP):**
-    *   **Bước 1 (Lọc):** Tuyệt đối xóa số liệu khỏi Overview. Overview chỉ nói về "ý nghĩa" con số.
-    *   **Bước 2 (Gộp):** Nhóm các đối tượng cùng tăng/cùng giảm để tạo sự súc tích (Economy).
-    *   **Bước 3 (So sánh):** Luôn phải chỉ ra điểm cao nhất/thấp nhất hoặc sự thay đổi thứ hạng đáng kể.
-    *   **Bước 4 (Kết nối):** Sử dụng liên kết "tàng hình" (While/Whereas/V-ing) thay vì từ nối máy móc.
-    
-*   **✍️ HÌNH MẪU ĐỐI CHIẾU (CHỌN MỨC PHÙ HỢP ĐỂ HỌC):**
-    *   **Mẫu thực tế (Mục tiêu Band 7.0):** 
-        *   *"Đây là phiên bản rõ ràng, chính xác, không lỗi logic mà bạn có thể đạt được ngay sau khi chỉnh sửa bài làm hiện tại:"*
-        *   **[AI HÃY VIẾT OVERVIEW & BODY ĐẠT CHUẨN 7.0 DỰA TRÊN Ý TƯỞNG CỦA HỌC VIÊN]**
-    *   **Mẫu chuyên sâu (Tham khảo Band 9.0):** 
-        *   *"Đây là phiên bản để bạn tham khảo cách dùng từ vựng tinh tế và cấu trúc tổng hợp dữ liệu đỉnh cao của Giám khảo:"*
-        *   **[AI HÃY VIẾT OVERVIEW & BODY ĐẠT CHUẨN 9.0 TẠI ĐÂY]**
-
-> **📍 Điểm Task Achievement:** [Điểm số/9.0]
-
-#### **2. Coherence and Cohesion (Độ mạch lạc và liên kết):**
-
-*   **Tổ chức đoạn văn (Paragraphing):** [Phân tích logic chia đoạn: Bạn chia đoạn theo Tiêu chí gì (Thời gian/Đối tượng/Xu hướng)? Cách chia này có giúp người đọc dễ so sánh không? Mỗi đoạn có một trọng tâm rõ ràng không?]
-*   **Sử dụng từ nối (Linking Devices):** [Đánh giá độ tự nhiên:
-    *   **Cảnh báo:** Có bị lạm dụng từ nối đầu câu ("Mechanical Linking") như *Regarding, Turning to, Looking at, Firstly* không?
-    *   **Khuyến khích:** Có sử dụng "Invisible Cohesion" (trạng từ đứng giữa câu như *meanwhile, however* hoặc dùng mệnh đề quan hệ để nối ý) không?]
-*   **Phép tham chiếu (Referencing):** [Kiểm tra kỹ thuật Referencing: Bạn có sử dụng *it, this, that, the former, the latter, respectively* để tránh lặp từ không? Hay bạn lặp lại danh từ liên tục?]
-*   **⚠️ Lỗi cần khắc phục:** [Chỉ ra cụ thể (càng nhiều càng tốt):
-    1.  **Mạch văn đứt gãy:** Các câu rời rạc, không ăn nhập.
-    2.  **Tham chiếu sai:** Dùng "it" nhưng không rõ thay thế cho từ nào (Ambiguous Reference).
-    3.  **Lỗi cấu trúc:** Lặp lại cấu trúc câu (VD: Câu nào cũng bắt đầu bằng "The figure...").
-    4.  **Câu thiếu động từ (Fragment):** Gây khó hiểu.]
-*   **💡 Cải thiện & Nâng cấp (Correction & Upgrade):**
-    *   *Câu gốc (Vấn đề):* "[Trích dẫn chính xác câu văn bị máy móc/lủng củng của thí sinh]"
-    *   *Gợi ý viết lại (Natural Flow):* "[Nếu Band thấp: Sửa cho ĐÚNG ngữ pháp và RÕ nghĩa nối. Nếu Band 7+: Viết lại câu đó sử dụng cấu trúc liên kết ẩn hoặc chủ ngữ liên kết để đạt Band 8-9]"
-    *   *Giải thích:* "[Tại sao cách viết mới giúp bài văn mượt mà và chuyên nghiệp hơn?]"
-* **Yêu cầu bắt buộc về độ sâu:** Với mỗi lỗi tìm được, bạn phải giải thích theo 3 bước:
-    1. Trích dẫn lỗi.
-    2. Giải thích tại sao quy tắc Band Descriptors coi đây là điểm yếu.
-    3. Phân tích tác động của lỗi này đến người đọc (gây hiểu lầm, làm mất tính chuyên nghiệp...).
-    
-> **📍 Điểm Coherence & Cohesion:** [Điểm số/9.0]
-
-#### **3. Lexical Resource (Vốn từ vựng):**
-
-*   **Đánh giá độ đa dạng (Range & Flexibility):** [Nhận xét tổng quan: Vốn từ của thí sinh đang ở mức nào? (Cơ bản/Đủ dùng/Phong phú). Có bị lỗi lặp từ ("Repetition") nghiêm trọng với các từ khóa chính (increase, decrease, figure...) không?]
-*   **Độ chính xác và Văn phong (Precision & Style):** [Đánh giá: Thí sinh có dùng được các cụm từ kết hợp (Collocations) tự nhiên không hay là dịch từ tiếng mẹ đẻ (Word-for-word translation)? Có từ nào bị dùng sai ngữ cảnh (ví dụ: dùng văn nói "get up" thay vì "increase") không?]
-*   **⚠️ Điểm yếu cốt lõi:** [Đừng liệt kê từng lỗi chính tả. Hãy chỉ ra **thói quen sai** của thí sinh. Ví dụ: *"Bạn thường xuyên chọn sai từ để mô tả đối tượng (Object)"* hoặc *"Bạn lạm dụng từ vựng quá trang trọng (Pretentious) không cần thiết"*.]
-*   **💡 Gợi ý nâng cấp (Vocabulary Upgrade):**
-    *   *Thay thế từ vựng thường:* "[Tìm 1 từ lặp lại nhiều nhất trong bài, ví dụ 'increase']"
-    *   *Gợi ý thay thế:* 
-        *   *[Nếu Band < 7]:* Gợi ý các từ cơ bản nhưng đúng (rise, growth, go up).
-        *   *[Nếu Band 7+]:* Gợi ý các từ học thuật (escalate, upsurge, register a growth).
-* **Yêu cầu bắt buộc về độ sâu:** Với mỗi lỗi tìm được, bạn phải giải thích theo 3 bước:
-    1. Trích dẫn lỗi.
-    2. Giải thích tại sao quy tắc Band Descriptors coi đây là điểm yếu.
-    3. Phân tích tác động của lỗi này đến người đọc (gây hiểu lầm, làm mất tính chuyên nghiệp...).
-    
-> **📍 Điểm Lexical Resource:** [Điểm số/9.0]
-
-#### **4. Grammatical Range and Accuracy (Ngữ pháp):**
-
-*   **Độ đa dạng cấu trúc (Range Check):** [Phân tích chiến lược: Bài viết có "nghèo nàn" cấu trúc không? (Chỉ dùng câu đơn/câu ghép cơ bản). Thí sinh có sử dụng được các cấu trúc Band 8+ không: *Passive Voice (Bị động)*, *Reduced Relative Clause (Rút gọn mệnh đề)*, *Nominalization (Danh từ hóa)*?]
-*   **Độ chính xác (Accuracy Check):** [Ước lượng tỷ lệ câu không lỗi (Error-free sentences): Dưới 50% (Band 5), 50-70% (Band 6-7), hay trên 80% (Band 8+)? Lỗi sai chủ yếu là lỗi hệ thống (Systematic - sai quy tắc) hay lỗi sơ suất (Slips)?].Nếu bài viết có trên 80% số câu hoàn toàn sạch lỗi (Error-free) và lỗi duy nhất là một lỗi nhỏ (như "most highest") -> **Vẫn giữ mức Band 8.5 - 9.0**. Đừng ép thí sinh dùng cấu trúc lạ nếu cấu trúc hiện tại đã quá đủ để truyền đạt thông tin một cách tinh tế. Band 9 không bắt buộc phải có "Đảo ngữ" hay "Câu điều kiện". Range được thể hiện qua việc sử dụng linh hoạt: Mệnh đề quan hệ, câu phân từ (Reduced clauses), danh từ hóa (Nominalization), và các cấu trúc so sánh phức tạp. 
-*   **Dấu câu (Punctuation):** [Nhận xét việc dùng dấu phẩy, dấu chấm. Có mắc lỗi *Comma Splice* (Dấu phẩy nối câu) kinh điển không?]
-*   **⚠️ Lỗi hệ thống cần sửa:** [Chỉ ra lỗ hổng kiến thức ngữ pháp lớn nhất của thí sinh. Ví dụ: *"Bạn rất yếu về Mệnh đề quan hệ"* hoặc *"Bạn chưa nắm vững cách dùng Mạo từ"*.]
-*   **💡 Thử thách viết lại (Sentence Transformation):**
-    *   *Câu gốc (Simple/Error):* "[Trích 1 câu đơn giản hoặc có lỗi trong bài]"
-    *   *Nâng cấp câu:* 
-        *   *[Nếu Band thấp]:* Ghép thành câu ghép/câu phức cơ bản (dùng because, although) để đảm bảo đúng.
-        *   *[Nếu Band cao]:* Dùng cấu trúc nâng cao (Mệnh đề phân từ, Đảo ngữ, Nominalization).
-* **Yêu cầu bắt buộc về độ sâu:** Với mỗi lỗi tìm được, bạn phải giải thích theo 3 bước:
-    1. Trích dẫn lỗi.
-    2. Giải thích tại sao quy tắc Band Descriptors coi đây là điểm yếu.
-    3. Phân tích tác động của lỗi này đến người đọc (gây hiểu lầm, làm mất tính chuyên nghiệp...).
-    
-> **📍 Điểm Grammatical Range & Accuracy:** [Điểm số/9.0]
-
----
-### **TỔNG ĐIỂM (OVERALL BAND SCORE):** Quy tắc làm tròn điểm bài viết theo chuẩn IELTS:
-    *   Làm tròn đến nửa band gần nhất (.0 hoặc .5).
-    *   **NGOẠI LỆ BẮT BUỘC:**
-        *   Điểm trung bình có đuôi **.25** -> BẮT BUỘC làm tròn **XUỐNG** số nguyên (Ví dụ: 8.25 -> 8.0).
-        *   Điểm trung bình có đuôi **.75** -> BẮT BUỘC làm tròn **XUỐNG** .5 (Ví dụ: 8.75 -> 8.5).
-
----
-### **LỜI KHUYÊN CHIẾN THUẬT TỪ GIÁM KHẢO (EXAMINER'S TIPS):**
-1.  **Đưa ra các lời khuyên:** Hãy đưa ra các lời khuyên chiến thuật dựa trên những lỗi sai thực tế trong bài.
-2.  **Economy:** Cách cắt giảm số từ thừa (nếu bài > 200 từ).
-3.  **Introduction Power:** Cách đổi Noun Phrase -> Noun Clause trong mở bài.
-4.  **Grouping:** Cách nhóm thông tin thông minh hơn (nhóm theo xu hướng Lớn vs Nhỏ).
-5.  **Overview:** Cách viết Overview tốt hơn.
-
-#### **5. DỮ LIỆU PHÂN TÍCH (ANALYSIS DATA):**
-
-Sau khi đánh giá xong, bạn **BẮT BUỘC** phải trích xuất dữ liệu dưới dạng một **JSON Object duy nhất**.
-
-**QUAN TRỌNG:** Trong trường "type" (Tên lỗi), bạn CHỈ ĐƯỢC PHÉP được dùng các thuật ngữ tiếng Anh chuẩn học thuật dưới đây:
-
-**A. [COHERENCE & COHESION] - Macro Errors:**
-# Organization & Progression (Tổ chức & Phát triển)
-`Illogical Grouping` (Sắp xếp phi logic), `Missing Overview` (Thiếu tổng quan), `Fragmented Flow` (Mạch văn đứt gãy), `Lack of Progression` (Không phát triển ý), `Incoherent Paragraphing` (Chia đoạn không mạch lạc).
-# Linking & Reference (Liên kết & Tham chiếu)
-`Mechanical Linking` (Từ nối máy móc), `Overuse of Connectors` (Lạm dụng từ nối), `Ambiguous Referencing` (Tham chiếu mơ hồ), `Repetitive Structure` (Lặp cấu trúc), `Data Inaccuracy` (Sai số liệu/Logic).
-
-**B. [GRAMMAR] - Micro Errors:**
-# Sentence Structure (Cấu trúc câu)
-`Comma Splice` (Lỗi dấu phẩy), `Run-on Sentence` (Câu dính liền), `Sentence Fragment` (Câu thiếu thành phần), `Faulty Parallelism` (Lỗi song song), `Misplaced Modifier` (Bổ ngữ sai chỗ), `Word Order` (Trật tự từ).
-# Morphology & Syntax (Hình thái & Cú pháp)
-`Subject-Verb Agreement` (Hòa hợp chủ vị), `Tense Inconsistency` (Sai thì), `Passive Voice Error` (Lỗi bị động), `Relative Clause Error` (Lỗi mệnh đề quan hệ).
-# Mechanics (Cơ học)
-`Article Error` (Mạo từ), `Preposition Error` (Giới từ), `Singular/Plural` (Số ít/nhiều), `Countable/Uncountable` (Danh từ đếm được/không), `Punctuation` (Dấu câu).
-
-**C. [VOCABULARY] - Lexical Errors:**
-# Meaning & Use (Nghĩa & Cách dùng)
-`Imprecise Word Choice` (Dùng từ thiếu chính xác), `Incompatible Collocation` (Kết hợp từ sai), `Word Form Error` (Sai loại từ), `Selectional Restriction Violation` (Vi phạm quy tắc chọn lọc từ).
-# Style & Register (Văn phong)
-`Informal Register` (Văn phong suồng sã), `Pretentious Language` (Dùng từ sáo rỗng/làm màu), `Redundancy` (Thừa từ/Lặp ý), `Forced Paraphrasing` (Paraphrase gượng ép).
-
-**CATEGORY MAPPING RULE:**
-*   Group A -> `category`: "Coherence & Cohesion"
-*   Group B -> `category`: "Grammar"
-*   Group C -> `category`: "Vocabulary"
-
-**TỰ CHẤM LẠI BẢN SỬA (INTERNAL RE-GRADING - BƯỚC QUAN TRỌNG NHẤT):**
-   - Hãy quên rằng bạn vừa sửa bài này. Hãy đóng vai một Giám khảo độc lập thứ 2 chấm lại bản 'annotated_essay' vừa tạo.
-   - **Luật Nội dung (Content Rule):** Bản sửa chỉ sửa ngữ pháp/từ vựng, KHÔNG THỂ sửa lỗi thiếu số liệu/thiếu so sánh của bài gốc. Nếu bài gốc TA 6.0, bản sửa TA vẫn là 6.0 (hoặc tối đa 7.0 nếu diễn đạt rõ hơn).
-   - **Kết luận:** Điểm 'revised_score' PHẢI là điểm thực tế của bản sửa, KHÔNG ĐƯỢC mặc định là 9.0.
-Cấu trúc JSON:
 ```json
 {
   "original_score": {
-      "task_achievement": "Điểm TA của bài làm gốc (User's essay)",
-      "cohesion_coherence": "Điểm CC của bài làm gốc",
-      "lexical_resource": "Điểm LR của bài làm gốc",
-      "grammatical_range": "Điểm GRA của bài làm gốc",
-      "overall": "Điểm Overall của bài làm gốc (Average)"
+      "task_achievement": "Điểm TA",
+      "cohesion_coherence": "Điểm CC",
+      "lexical_resource": "Điểm LR",
+      "grammatical_range": "Điểm GRA",
+      "overall": "Điểm Overall"
+  },
+  "detailed_analysis": {
+      "task_achievement": "VIẾT PHÂN TÍCH CHI TIẾT TA VÀO ĐÂY (Markdown allowed, >200 từ)",
+      "cohesion_coherence": "VIẾT PHÂN TÍCH CHI TIẾT CC VÀO ĐÂY (Markdown allowed, >200 từ)",
+      "lexical_resource": "VIẾT PHÂN TÍCH CHI TIẾT LR VÀO ĐÂY (Markdown allowed, >200 từ)",
+      "grammatical_range": "VIẾT PHÂN TÍCH CHI TIẾT GRA VÀO ĐÂY (Markdown allowed, >200 từ)"
   },
   "errors": [
     {
@@ -460,19 +275,14 @@ Cấu trúc JSON:
       "correction": "đoạn văn bản đúng (VIẾT IN HOA)"
     }
   ],
-  "annotated_essay": "Phiên bản bài làm đã được sửa lỗi (giữ nguyên cấu trúc các đoạn văn). Bọc từ sai trong thẻ <del>...</del> và từ sửa đúng trong thẻ <ins class='grammar'>...</ins> hoặc <ins class='vocab'>...</ins>. Nội dung sửa đúng phải viết IN HOA.",
+  "annotated_essay": "Phiên bản bài làm đã được sửa lỗi...",
    "revised_score": {
-      "word_count_check": "BẮT BUỘC GHI SỐ TỪ CỦA BẢN SỬA (Ví dụ: '220 words - Too long')",
-      "logic_re_evaluation": "Giải thích tại sao bị trừ điểm (Ví dụ: 'Dù sạch lỗi ngữ pháp nhưng bài viết dài 220 từ, vi phạm nguyên tắc súc tích, nên TA chỉ đạt 8.0').",
-      "task_achievement": "Điểm TA thực tế (phạt nặng nếu dài dòng)",
-      "cohesion_coherence": "Điểm CC",
-      "lexical_resource": "Điểm LR",
-      "grammatical_range": "Điểm GRA",
-      "overall": "Điểm trung bình (Làm tròn theo Quy tắc làm tròn điểm bài viết theo chuẩn IELTS)"
-          *   Làm tròn đến nửa band gần nhất (.0 hoặc .5).
-          *   **NGOẠI LỆ BẮT BUỘC:**
-              *   Điểm trung bình có đuôi **.25** -> BẮT BUỘC làm tròn **XUỐNG** số nguyên (Ví dụ: 8.25 -> 8.0).
-              *   Điểm trung bình có đuôi **.75** -> BẮT BUỘC làm tròn **XUỐNG** .5 (Ví dụ: 8.75 -> 8.5).
+      "task_achievement": "Điểm TA sau sửa",
+      "cohesion_coherence": "Điểm CC sau sửa",
+      "lexical_resource": "Điểm LR sau sửa",
+      "grammatical_range": "Điểm GRA sau sửa",
+      "overall": "Điểm Overall sau sửa",
+      "logic_re_evaluation": "Giải thích..."
   }
 }
 ```
@@ -495,6 +305,10 @@ def parse_guide_response(text):
     except: return None
 
 def parse_grading_response(full_text):
+    """
+    Hàm Deep Search: Quét toàn bộ cấu trúc JSON để tìm nội dung phân tích
+    bất kể AI giấu nó ở đâu (root, detailed_analysis, gap_analysis...)
+    """
     json_str = clean_json(full_text)
     data = {"errors": [], "annotatedEssay": None, "revisedScore": None, "originalScore": {}, "analysisMarkdown": ""}
     
@@ -506,54 +320,64 @@ def parse_grading_response(full_text):
             data["annotatedEssay"] = parsed.get("annotated_essay")
             data["revisedScore"] = parsed.get("revised_score")
             
-            # --- LOGIC GOM NỘI DUNG THÔNG MINH ---
+            # --- LOGIC DEEP SEARCH (QUÉT SÂU) ---
             sections = []
             
-            # 1. Tìm key 'detailed_analysis' (Dạng Nested Dict) - ĐÂY LÀ PHẦN SỬA LỖI QUAN TRỌNG
-            if isinstance(parsed.get("detailed_analysis"), dict):
-                details = parsed["detailed_analysis"]
-                key_map = {
-                    "task_achievement": "Task Achievement",
-                    "cohesion_coherence": "Coherence & Cohesion",
-                    "lexical_resource": "Lexical Resource",
-                    "grammatical_range": "Grammatical Range & Accuracy"
-                }
-                for k, title in key_map.items():
-                    val = details.get(k) or details.get(f"{k}_analysis")
-                    if val:
-                        sections.append(f"### 📘 {title}\n{val}")
-            
-            # 2. Nếu không có nested, tìm flat keys (ta_gap_analysis...)
-            elif not sections:
-                flat_keys = [
-                    ("Task Achievement", ["task_achievement", "ta_gap_analysis", "task_response", "task_achievement_analysis"]),
-                    ("Coherence & Cohesion", ["cohesion_coherence", "cc_gap_analysis", "coherence", "cohesion_coherence_analysis"]),
-                    ("Lexical Resource", ["lexical_resource", "lr_gap_analysis", "vocabulary", "lexical_resource_analysis"]),
-                    ("Grammatical Range", ["grammatical_range", "gra_gap_analysis", "grammar", "grammatical_range_analysis"])
-                ]
-                for title, candidates in flat_keys:
-                    for k in candidates:
-                        if parsed.get(k) and isinstance(parsed[k], str) and len(parsed[k]) > 20:
-                            sections.append(f"### 📘 {title}\n{parsed[k]}")
-                            break
+            # 1. Định nghĩa các nguồn dữ liệu tiềm năng
+            sources_to_check = [
+                parsed,                                      # Root object
+                parsed.get("detailed_analysis", {}),         # Key tiêu chuẩn
+                parsed.get("original_score", {}),            # AI hay nhầm nhét vào đây
+                parsed.get("analysis", {})                   # Một key phổ biến khác
+            ]
 
-            # 3. Nếu tìm thấy các phần chi tiết, ghép lại
+            # 2. Định nghĩa từ khóa nhận diện cho 4 tiêu chí
+            criteria_keywords = {
+                "Task Achievement": ["task_achievement", "ta_gap", "ta_analysis", "task_response", "achievement"],
+                "Coherence & Cohesion": ["cohesion", "cc_gap", "cc_analysis", "linking", "coherence"],
+                "Lexical Resource": ["lexical", "lr_gap", "lr_analysis", "vocabulary", "lexical_resource"],
+                "Grammatical Range": ["grammatical", "gra_gap", "gra_analysis", "grammar", "grammatical_range"]
+            }
+
+            found_keys = set() # Tránh in trùng lặp
+
+            for title, keywords in criteria_keywords.items():
+                content_found = None
+                
+                # Duyệt qua từng nguồn dữ liệu
+                for source in sources_to_check:
+                    if not isinstance(source, dict): continue
+                    
+                    for k, v in source.items():
+                        # Điều kiện chọn: Key chứa từ khóa VÀ Value là text dài (>50 ký tự)
+                        if any(kw in k.lower() for kw in keywords) and isinstance(v, str) and len(v) > 50:
+                            if k not in found_keys:
+                                content_found = v
+                                found_keys.add(k) # Đánh dấu đã dùng
+                                break
+                    if content_found: break 
+                
+                if content_found:
+                    sections.append(f"### 📘 {title}\n{content_found}")
+
+            # 3. Ghép kết quả
             if sections:
                 data["analysisMarkdown"] = "\n\n".join(sections)
-            # 4. Nếu không, dùng key analysis_markdown tổng (nếu có)
+            
+            # 4. Fallback: Nếu Deep Search thất bại, thử lấy key tổng
             elif parsed.get("analysis_markdown"):
                 data["analysisMarkdown"] = parsed["analysis_markdown"]
 
-        except: 
+        except Exception as e:
             data["analysisMarkdown"] = full_text.split("```json")[0]
             
     # Fallback cuối cùng
-    if not data["analysisMarkdown"]:
-        text_outside = full_text.split("```json")[0].strip()
-        if len(text_outside) > 50 and not text_outside.startswith("{"):
-             data["analysisMarkdown"] = text_outside
+    if not data["analysisMarkdown"] or len(data["analysisMarkdown"]) < 20:
+        if json_str:
+             display_json = {k:v for k,v in parsed.items() if k not in ['annotated_essay', 'errors']} if 'parsed' in locals() else json_str
+             data["analysisMarkdown"] = f"⚠️ **AI trả về định dạng lạ.** Dưới đây là nội dung thô tìm được:\n\n```json\n{json.dumps(display_json, indent=2, ensure_ascii=False)}\n```"
         else:
-             data["analysisMarkdown"] = "⚠️ Không thể trích xuất nội dung phân tích chi tiết. Vui lòng xem các tab bên cạnh."
+             data["analysisMarkdown"] = full_text
 
     return data
 
@@ -603,7 +427,6 @@ def create_pdf(data, topic, essay, analysis):
 if "step" not in st.session_state: st.session_state.step = 1 
 if "guide_data" not in st.session_state: st.session_state.guide_data = None
 if "grading_result" not in st.session_state: st.session_state.grading_result = None
-# Biến lưu trữ an toàn
 if "saved_topic" not in st.session_state: st.session_state.saved_topic = ""
 if "saved_img" not in st.session_state: st.session_state.saved_img = None
 
