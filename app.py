@@ -54,7 +54,7 @@ with st.sidebar:
 # 4. Main Content - Trang chủ
 
 # Banner (Giả lập Banner Slider)
-st.image("https://via.placeholder.com/1200x300.png?text=BANNER+QUANG+CAO+KHOA+HOC", use_column_width=True)
+st.image("MIN_8083.JPG", use_column_width=True)
 
 st.title("🔥 Các khóa học nổi bật")
 
@@ -94,6 +94,7 @@ else:
 # Footer
 st.markdown("---")
 st.markdown("<center>© 2025 Âu Việt Center Developed by Albert Nguyen</center>", unsafe_allow_html=True)
+
 
 
 
