@@ -11,7 +11,7 @@ with nav_col1:
     st.page_link("app.py", label="🏠 Trang chủ", icon=None, use_container_width=True)
 
 with nav_col2:
-    st.page_link("pages/luyentap.py", label="📝 Luyện tập YouPass", icon=None, use_container_width=True, disabled=True)
+    st.page_link("pages/writing.py", label="📝 Luyện tập YouPass", icon=None, use_container_width=True, disabled=True)
 
 st.divider()
 
