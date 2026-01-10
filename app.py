@@ -76,7 +76,7 @@ with col_nav:
         # Bạn nhớ sửa True/False tùy theo file bạn đang dán code vào
         st.page_link("app.py", label="Trang chủ", icon="🏠", use_container_width=True) 
     with nav2:
-        st.page_link("pages/luyentap.py", label="Luyện tập YouPass", icon="📝", use_container_width=True)
+        st.page_link("pages/writing.py", label="Luyện tập YouPass", icon="📝", use_container_width=True)
 
 with col_login:
     # Nút đăng nhập (Căn phải)
@@ -171,4 +171,5 @@ st.markdown(f"""
 </div>
 <center style="color:#666; font-size:12px;">© 2025 Developed by Albert Nguyen</center>
 """, unsafe_allow_html=True)
+
 
