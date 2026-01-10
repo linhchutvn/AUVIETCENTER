@@ -142,10 +142,6 @@ courses = [
     {"id": 6, "title": "Chấm điểm IELTS Writing Task 1", "price": "FREE", "img": "https://raw.githubusercontent.com/linhchutvn/test/main/Assessment_TASK1.png", "category": "Writing Task 1", "link": "https://ielts-test.streamlit.app/"},
     {"id": 7, "title": "Chấm điểm IELTS Writing Task 2", "price": "FREE", "img": "https://raw.githubusercontent.com/linhchutvn/test/main/Assessment_TASK2.png", "category": "Writing Task 2", "link": "https://www.google.com"},
 ]
-
-# ----------------------------------------------------------------
-# 1. HEADER & LOGIN (Giữ nguyên ở trên cùng)
-# ----------------------------------------------------------------
 top_col1, top_col2 = st.columns([8, 2])
 
 with top_col1:
@@ -262,6 +258,7 @@ st.markdown(f"""
 </div>
 </div>
 """, unsafe_allow_html=True)
+
 
 
 
