@@ -81,13 +81,13 @@ st.markdown("""
 # 2. Dữ liệu giả lập
 # LƯU Ý: Link ảnh unsplash.com đôi khi bị lỗi, mình thay tạm bằng placeholder để đảm bảo hiển thị
 courses = [
-    {"id": 1, "title": "Khoá học IELTS Speaking", "price": "499.000đ", "img": "https://github.com/linhchutvn/test/blob/main/SPEAKING.png?raw=true", "category": "Speaking", "link": "https://www.youtube.com/playlist?list=PLI3S3xWA78UXXz0m6QoGyc-8UvHeAYTYT"},
-    {"id": 2, "title": "Khoá học IELTS Reading", "price": "299.000đ", "img": "https://github.com/linhchutvn/test/blob/main/READING.png?raw=true", "category": "Reading", "link": "https://www.google.com"},
-    {"id": 3, "title": "Khoá học IELTS Listening", "price": "199.000đ", "img": "https://github.com/linhchutvn/test/blob/main/LISTENING.png?raw=true", "category": "Listening", "link": "https://www.google.com"},
-    {"id": 4, "title": "Khoá học IELTS Writing Task 1", "price": "599.000đ", "img": "https://github.com/linhchutvn/test/blob/main/TASK%201.png?raw=true", "category": "Writing Task 1", "link": "https://www.youtube.com/playlist?list=PLI3S3xWA78UWtIxIEnZia2siEgxJPwpfQ"},
-    {"id": 5, "title": "Khoá học IELTS Writing Task 2", "price": "899.000đ", "img": "https://github.com/linhchutvn/test/blob/main/task%202.png?raw=true", "category": "Writing Task 2", "link": "https://www.youtube.com/playlist?list=PLI3S3xWA78UWM9nT6jYY9vl3mHb52ZQ08"},
-    {"id": 6, "title": "Chấm điểm IELTS Writing Task 1", "price": "699.000đ", "img": "https://github.com/linhchutvn/test/blob/main/Assessment_TASK1.png?raw=true", "category": "Writing Task 1", "link": "https://ielts-albertnguyen.streamlit.app/"},
-    {"id": 7, "title": "Chấm điểm IELTS Writing Task 2", "price": "699.000đ", "img": "https://github.com/linhchutvn/test/blob/main/Assessment_TASK2.png?raw=true", "category": "Writing Task 2", "link": "https://www.google.com"},
+    {"id": 1, "title": "Khoá học IELTS Speaking", "price": "FREE", "img": "https://github.com/linhchutvn/test/blob/main/SPEAKING.png?raw=true", "category": "Speaking", "link": "https://www.youtube.com/playlist?list=PLI3S3xWA78UXXz0m6QoGyc-8UvHeAYTYT"},
+    {"id": 2, "title": "Khoá học IELTS Reading", "price": "FREE", "img": "https://github.com/linhchutvn/test/blob/main/READING.png?raw=true", "category": "Reading", "link": "https://www.google.com"},
+    {"id": 3, "title": "Khoá học IELTS Listening", "price": "FREE", "img": "https://github.com/linhchutvn/test/blob/main/LISTENING.png?raw=true", "category": "Listening", "link": "https://www.google.com"},
+    {"id": 4, "title": "Khoá học IELTS Writing Task 1", "price": "FREE", "img": "https://github.com/linhchutvn/test/blob/main/TASK%201.png?raw=true", "category": "Writing Task 1", "link": "https://www.youtube.com/playlist?list=PLI3S3xWA78UWtIxIEnZia2siEgxJPwpfQ"},
+    {"id": 5, "title": "Khoá học IELTS Writing Task 2", "price": "FREE", "img": "https://github.com/linhchutvn/test/blob/main/task%202.png?raw=true", "category": "Writing Task 2", "link": "https://www.youtube.com/playlist?list=PLI3S3xWA78UWM9nT6jYY9vl3mHb52ZQ08"},
+    {"id": 6, "title": "Chấm điểm IELTS Writing Task 1", "price": "FREE", "img": "https://github.com/linhchutvn/test/blob/main/Assessment_TASK1.png?raw=true", "category": "Writing Task 1", "link": "https://ielts-albertnguyen.streamlit.app/"},
+    {"id": 7, "title": "Chấm điểm IELTS Writing Task 2", "price": "FREE", "img": "https://github.com/linhchutvn/test/blob/main/Assessment_TASK2.png?raw=true", "category": "Writing Task 2", "link": "https://www.google.com"},
 ]
 
 # 3. Sidebar
@@ -151,6 +151,7 @@ else:
 
 st.markdown("---")
 st.markdown("<center>© 2025 Âu Việt Center Developed by Albert Nguyen</center>", unsafe_allow_html=True)
+
 
 
 
