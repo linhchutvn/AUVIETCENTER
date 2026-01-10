@@ -800,4 +800,3 @@ if st.session_state.step == 3 and st.session_state.grading_result:
         st.session_state.saved_topic = ""
         st.session_state.saved_img = None
         st.rerun()
-```
