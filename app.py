@@ -4,20 +4,22 @@ import streamlit as st
 st.set_page_config(page_title="AUVIET CENTER", layout="wide", page_icon="🎓")
 
 # ----------------------------------------------------------------
-# CSS: GIAO DIỆN CHUYÊN NGHIỆP & ẨN SIDEBAR
+# CSS: GIAO DIỆN CHUYÊN NGHIỆP & CĂN CHỈNH
 # ----------------------------------------------------------------
 st.markdown("""
 <style>
-    /* Ẩn Sidebar mặc định */
+    /* 1. Ẩn Sidebar & Ghim & Footer mặc định */
     [data-testid="stSidebar"] {display: none;}
-    
-    /* Đẩy nội dung lên sát mép trên (Xóa khoảng trắng mặc định của Streamlit) */
+    [data-testid="stHeaderAction"] {display: none !important;}
+    footer {display: none !important;}
+
+    /* 2. Căn chỉnh lề trang để không bị che bởi thanh công cụ phía trên */
     .block-container {
-        padding-top: 1rem;
-        padding-bottom: 1rem;
+        padding-top: 3rem; /* Tăng lên 3rem để né thanh công cụ Streamlit */
+        padding-bottom: 2rem;
     }
 
-    /* Style cho Nút Đăng nhập Google đẹp hơn */
+    /* 3. Style cho Nút Đăng nhập Google */
     .login-btn {
         display: inline-flex;
         align-items: center;
@@ -25,60 +27,61 @@ st.markdown("""
         background-color: white;
         color: #3c4043;
         border: 1px solid #dadce0;
-        border-radius: 20px; /* Bo tròn hình viên thuốc */
-        padding: 5px 15px;
+        border-radius: 20px;
+        padding: 6px 16px; /* Tăng độ dày nút */
         text-decoration: none;
         font-weight: 500;
         font-size: 14px;
         transition: 0.3s;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        box-shadow: 0 1px 2px rgba(0,0,0,0.05);
     }
     .login-btn:hover {
         background-color: #f7fafe;
         border-color: #d2e3fc;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-        color: #3c4043;
+        color: #1a73e8;
     }
     
-    /* CSS cho thẻ Card sản phẩm (Giữ nguyên) */
-    .product-card {
-        background-color: white; border: 1px solid #e0e0e0; border-radius: 10px;
-        padding: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 20px;
-        height: 100%; display: flex; flex-direction: column; justify-content: space-between;
+    /* 4. Style cho Logo chữ */
+    .brand-text {
+        font-size: 24px;
+        font-weight: 800;
+        color: #0984e3;
+        margin: 0;
+        line-height: 1.2; /* Giúp chữ không bị cắt dòng */
+        white-space: nowrap; /* Không xuống dòng */
     }
-    .card-img { width: 100%; border-radius: 5px; object-fit: cover; height: 180px; margin-bottom: 10px; }
-    .course-title { font-size: 18px; font-weight: bold; color: #2c3e50; min-height: 50px; }
-    .course-price { color: #d63031; font-weight: bold; font-size: 16px; margin-bottom: 15px; }
-    
-    /* Ẩn ghim tiêu đề */
-    [data-testid="stHeaderAction"] { display: none !important; }
-    h1 a, h2 a, h3 a, h4 a, h5 a, h6 a { display: none !important; }
 </style>
 """, unsafe_allow_html=True)
 
 # ----------------------------------------------------------------
-# HEADER (NAVBAR) - GIAO DIỆN MỚI
+# HEADER (NAVBAR) - CĂN GIỮA HOÀN HẢO
 # ----------------------------------------------------------------
-# Chia làm 3 phần: [Logo (2)] --- [Menu (6)] --- [Login (2)]
-col_brand, col_nav, col_login = st.columns([2, 5, 2], gap="small", vertical_alignment="center")
+# vertical_alignment="center" giúp Logo, Menu và Nút Login tự động thẳng hàng
+col_brand, col_nav, col_login = st.columns([2.5, 5, 1.5], gap="medium", vertical_alignment="center")
 
 with col_brand:
-    # Logo hoặc Tên thương hiệu
-    st.markdown("<h3 style='margin:0; color:#0984e3;'>🎓 AU VIET</h3>", unsafe_allow_html=True)
+    # Logo + Tên thương hiệu
+    st.markdown("""
+    <div style="display: flex; align-items: center; gap: 10px;">
+        <span style="font-size: 30px;">🎓</span>
+        <span class="brand-text">AU VIET</span>
+    </div>
+    """, unsafe_allow_html=True)
 
 with col_nav:
-    # Menu nằm giữa
+    # Menu điều hướng
     nav1, nav2 = st.columns(2)
     with nav1:
-        st.page_link("app.py", label="Trang chủ", icon="🏠", use_container_width=True, disabled=True)
+        # Nếu đang ở app.py thì disable nút Trang chủ, ngược lại ở luyentap.py thì disable nút kia
+        # Bạn nhớ sửa True/False tùy theo file bạn đang dán code vào
+        st.page_link("app.py", label="Trang chủ", icon="🏠", use_container_width=True) 
     with nav2:
-        st.page_link("pages/writing.py", label="Luyện tập 4 kỹ năng", icon="📝", use_container_width=True)
+        st.page_link("pages/luyentap.py", label="Luyện tập YouPass", icon="📝", use_container_width=True)
 
 with col_login:
-    # Nút đăng nhập nằm bên phải
-    # Dùng HTML để căn phải (float: right)
+    # Nút đăng nhập (Căn phải)
     st.markdown("""
-        <div style="text-align: right;">
+        <div style="display: flex; justify-content: flex-end;">
             <a href="https://accounts.google.com" target="_blank" class="login-btn">
                 <img src="https://www.svgrepo.com/show/475656/google-color.svg" width="18" height="18" style="margin-right:8px;">
                 Đăng nhập
@@ -86,7 +89,7 @@ with col_login:
         </div>
     """, unsafe_allow_html=True)
 
-st.divider() # Đường kẻ ngang phân cách Header
+st.divider() # Đường kẻ ngang phân cách
 
 # ----------------------------------------------------------------
 # NỘI DUNG CHÍNH (BODY)
@@ -168,3 +171,4 @@ st.markdown(f"""
 </div>
 <center style="color:#666; font-size:12px;">© 2025 Developed by Albert Nguyen</center>
 """, unsafe_allow_html=True)
+
