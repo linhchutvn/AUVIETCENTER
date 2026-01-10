@@ -8,15 +8,15 @@ st.markdown("""
 <style>
     .course-card {
         background-color: #f0f2f6;
-        padding: 20px;
-        border-radius: 10px;
-        margin-bottom: 20px;
+        padding: 15px;
+        border-radius: 50px;
+        margin-bottom: 10px;
         text-align: center;
     }
     .price {
         color: #d63031;
         font-weight: bold;
-        font-size: 18px;
+        font-size: 15px;
     }
     .stButton>button {
         width: 100%;
@@ -95,3 +95,4 @@ else:
 # Footer
 st.markdown("---")
 st.markdown("<center>© 2025 Âu Việt Center Developed by Albert Nguyen</center>", unsafe_allow_html=True)
+
