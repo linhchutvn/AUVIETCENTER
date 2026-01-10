@@ -480,13 +480,13 @@ Cấu trúc JSON:
 # 3. HELPER FUNCTIONS
 # ==========================================
 def clean_json(text):
-    match = re.search(r"json\s*([\s\S]*?)\s*", text)
+match = re.search(r"json\s*([\s\S]*?)\s*", text)
 if match: return match.group(1).strip()
 if text.strip().startswith("{"): return text.strip()
 return None
 def parse_guide_response(text):
 try:
-    j_str = clean_json(text)
+j_str = clean_json(text)
 return json.loads(j_str) if j_str else None
 except: return None
 def parse_grading_response(full_text):
