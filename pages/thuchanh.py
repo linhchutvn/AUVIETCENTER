@@ -493,6 +493,10 @@ def parse_guide_response(text):
     except: return None
 
 def parse_grading_response(full_text):
+    """
+    Hàm xử lý JSON thông minh: Tự động gom nội dung từ detailed_analysis (nested object)
+    để khắc phục lỗi hiển thị JSON thô.
+    """
     json_str = clean_json(full_text)
     data = {"errors": [], "annotatedEssay": None, "revisedScore": None, "originalScore": {}, "analysisMarkdown": ""}
     
@@ -504,47 +508,56 @@ def parse_grading_response(full_text):
             data["annotatedEssay"] = parsed.get("annotated_essay")
             data["revisedScore"] = parsed.get("revised_score")
             
-            # --- KHẮC PHỤC LỖI HIỂN THỊ TẠI ĐÂY ---
-            # 1. Nếu AI trả đúng key tổng (analysis_markdown)
-            if parsed.get("analysis_markdown"):
-                data["analysisMarkdown"] = parsed["analysis_markdown"]
+            # --- LOGIC GOM NỘI DUNG THÔNG MINH ---
+            sections = []
             
-            # 2. Nếu AI tự ý tách lẻ (như trong hình bạn gửi), ta phải đi gom lại
-            else:
-                combined_analysis = []
-                
-                # Danh sách các tên key mà AI hay dùng để tách lẻ
-                potential_keys = [
-                    ("Task Achievement", ["task_achievement_analysis", "ta_analysis", "task_response_analysis", "ta_gap_analysis"]),
-                    ("Coherence & Cohesion", ["cohesion_coherence_analysis", "cc_analysis", "coherence_analysis", "cc_gap_analysis"]),
-                    ("Lexical Resource", ["lexical_resource_analysis", "lr_analysis", "vocabulary_analysis", "lr_gap_analysis"]),
-                    ("Grammatical Range", ["grammatical_range_analysis", "gra_analysis", "grammar_analysis", "gra_gap_analysis"])
+            # 1. Kiểm tra key 'detailed_analysis' (Dạng Nested Dict - Như trong hình lỗi của bạn)
+            if isinstance(parsed.get("detailed_analysis"), dict):
+                details = parsed["detailed_analysis"]
+                # Định nghĩa map tên key sang tiêu đề hiển thị
+                key_map = {
+                    "task_achievement": "Task Achievement",
+                    "cohesion_coherence": "Coherence & Cohesion",
+                    "lexical_resource": "Lexical Resource",
+                    "grammatical_range": "Grammatical Range & Accuracy"
+                }
+                for k, title in key_map.items():
+                    # Tìm key chính xác hoặc key có hậu tố _analysis
+                    val = details.get(k) or details.get(f"{k}_analysis")
+                    if val:
+                        sections.append(f"### 📘 {title}\n{val}")
+            
+            # 2. Nếu không có nested, tìm flat keys (ta_gap_analysis...)
+            elif not sections:
+                flat_keys = [
+                    ("Task Achievement", ["task_achievement", "ta_gap_analysis", "task_response"]),
+                    ("Coherence & Cohesion", ["cohesion_coherence", "cc_gap_analysis", "coherence"]),
+                    ("Lexical Resource", ["lexical_resource", "lr_gap_analysis", "vocabulary"]),
+                    ("Grammatical Range", ["grammatical_range", "gra_gap_analysis", "grammar"])
                 ]
+                for title, candidates in flat_keys:
+                    for k in candidates:
+                        if parsed.get(k) and isinstance(parsed[k], str) and len(parsed[k]) > 20:
+                            sections.append(f"### 📘 {title}\n{parsed[k]}")
+                            break
 
-                for title, keys in potential_keys:
-                    for k in keys:
-                        if parsed.get(k): # Nếu tìm thấy key này trong JSON
-                            combined_analysis.append(f"### 📘 {title}\n{parsed[k]}")
-                            break # Tìm thấy rồi thì next sang tiêu chí khác
-                
-                if combined_analysis:
-                    data["analysisMarkdown"] = "\n\n".join(combined_analysis)
+            # 3. Nếu tìm thấy các phần chi tiết, ghép lại
+            if sections:
+                data["analysisMarkdown"] = "\n\n".join(sections)
+            # 4. Nếu không, dùng key analysis_markdown tổng (nếu có)
+            elif parsed.get("analysis_markdown"):
+                data["analysisMarkdown"] = parsed["analysis_markdown"]
 
         except: 
-            # Nếu JSON hỏng cấu trúc, lấy phần text thô bên ngoài
-            pass
+            data["analysisMarkdown"] = full_text.split("```json")[0]
             
-    # Fallback cuối cùng: Nếu vẫn rỗng, lấy toàn bộ text bên ngoài JSON
+    # Fallback cuối cùng
     if not data["analysisMarkdown"]:
-        raw_text = full_text.split("```json")[0].strip()
-        if len(raw_text) > 50 and not raw_text.startswith("{"):
-             data["analysisMarkdown"] = raw_text
+        text_outside = full_text.split("```json")[0].strip()
+        if len(text_outside) > 50 and not text_outside.startswith("{"):
+             data["analysisMarkdown"] = text_outside
         else:
-             # Nếu đến bước này vẫn không có, ta hiển thị chuỗi JSON thô để bạn đọc tạm (còn hơn là báo lỗi)
-             if json_str:
-                 data["analysisMarkdown"] = f"**Dữ liệu thô từ AI (Raw JSON):**\n\n{json_str}"
-             else:
-                 data["analysisMarkdown"] = "⚠️ Không thể trích xuất nội dung phân tích."
+             data["analysisMarkdown"] = "⚠️ Không thể trích xuất nội dung phân tích chi tiết. Vui lòng xem các tab bên cạnh."
 
     return data
 
@@ -594,7 +607,7 @@ def create_pdf(data, topic, essay, analysis):
 if "step" not in st.session_state: st.session_state.step = 1 
 if "guide_data" not in st.session_state: st.session_state.guide_data = None
 if "grading_result" not in st.session_state: st.session_state.grading_result = None
-# Thêm biến lưu trữ đề bài và ảnh để tránh mất khi đổi bước
+# Biến lưu trữ an toàn
 if "saved_topic" not in st.session_state: st.session_state.saved_topic = ""
 if "saved_img" not in st.session_state: st.session_state.saved_img = None
 
@@ -607,7 +620,6 @@ if st.session_state.step == 1:
     col1, col2 = st.columns([1, 1])
     with col1:
         st.subheader("1. Đề bài")
-        # Widget này sẽ bị mất khi qua step 2, nên cần lưu giá trị
         question_input = st.text_area("Nhập câu hỏi:", height=150, placeholder="The chart below shows...", key="q_input")
 
     with col2:
@@ -620,11 +632,9 @@ if st.session_state.step == 1:
         if not question_input and not img_data:
             st.warning("Vui lòng nhập đề bài hoặc ảnh.")
         else:
-            # --- QUAN TRỌNG: LƯU DỮ LIỆU TRƯỚC KHI ĐỔI STEP ---
             st.session_state.saved_topic = question_input
             st.session_state.saved_img = img_data
-            # ---------------------------------------------------
-
+            
             with st.spinner("AI đang phân tích chiến thuật..."):
                 prompt_guide = """
                 Phân tích đề bài IELTS Writing Task 1. Trả về JSON:
@@ -675,15 +685,12 @@ if st.session_state.step == 2 and st.session_state.guide_data:
             status = st.status("👨‍🏫 Examiner đang chấm bài...", expanded=True)
             status.write("🔍 Quét lỗi ngữ pháp & Logic...")
             
-            # --- SỬA LỖI: DÙNG BIẾN ĐÃ LƯU (SAVED_TOPIC) THAY VÌ WIDGET (Q_INPUT) ---
             prompt_grade = GRADING_PROMPT_TEMPLATE.replace('{{TOPIC}}', st.session_state.saved_topic).replace('{{ESSAY}}', full_essay)
             
-            # Dùng ảnh đã lưu trong session state
             res_grade, _ = generate_content_with_failover(prompt_grade, st.session_state.saved_img, json_mode=True)
             
             status.write("📝 Tổng hợp báo cáo...")
             if res_grade:
-                # Parse kết quả
                 p_data = parse_grading_response(res_grade.text)
                 st.session_state.grading_result = {
                     "data": p_data, "essay": full_essay, "topic": st.session_state.saved_topic
@@ -691,6 +698,8 @@ if st.session_state.step == 2 and st.session_state.guide_data:
                 st.session_state.step = 3
                 status.update(label="✅ Đã chấm xong!", state="complete", expanded=False)
                 st.rerun()
+            else:
+                status.update(label="❌ AI Đang bận, vui lòng thử lại!", state="error")
 
 # ==========================================
 # 7. UI: PHASE 3 - GRADING RESULT (EXAMINER UI)
@@ -701,7 +710,7 @@ if st.session_state.step == 3 and st.session_state.grading_result:
     
     st.markdown("## 🛡️ KẾT QUẢ ĐÁNH GIÁ CHI TIẾT")
     
-    # 1. Bảng điểm Gốc (Original Score)
+    # 1. Bảng điểm Gốc
     scores = g_data.get("originalScore", {})
     st.markdown("### 📊 Điểm số hiện tại")
     cols = st.columns(5)
