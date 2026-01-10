@@ -26,7 +26,7 @@ from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.lib.fonts import addMapping
 
 # ==========================================
-# 1. CẤU HÌNH & CSS (CHUẨN GIAO DIỆN EXAMINER PRO)
+# 1. CẤU HÌNH & CSS
 # ==========================================
 st.set_page_config(page_title="IELTS Writing Master", page_icon="🎓", layout="wide")
 
@@ -37,7 +37,6 @@ st.markdown("""
     html, body, [class*="css"] { font-family: 'Inter', sans-serif; }
     h1, h2, h3 { font-family: 'Merriweather', serif !important; color: #0F172A !important; }
     
-    /* Style cho Tutor Phase */
     .guide-box {
         background-color: #f8f9fa;
         border-left: 5px solid #ff4b4b;
@@ -47,7 +46,6 @@ st.markdown("""
         color: #31333F;
     }
     
-    /* Style cho Error Cards (Giống hệt Reference Code) */
     .error-card {
         background-color: white;
         border: 1px solid #E5E7EB;
@@ -78,7 +76,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ==========================================
-# 2. LOGIC AI (FAILOVER & PROMPTS)
+# 2. LOGIC AI (FAILOVER)
 # ==========================================
 try:
     ALL_KEYS = st.secrets["GEMINI_API_KEYS"]
@@ -496,10 +494,6 @@ def parse_guide_response(text):
     except: return None
 
 def parse_grading_response(full_text):
-    """
-    Hàm này xử lý phản hồi từ AI.
-    Ưu tiên lấy JSON chứa key 'analysis_markdown'.
-    """
     json_str = clean_json(full_text)
     data = {"errors": [], "annotatedEssay": None, "revisedScore": None, "originalScore": {}, "analysisMarkdown": ""}
     
@@ -507,23 +501,17 @@ def parse_grading_response(full_text):
         try:
             parsed = json.loads(json_str)
             data.update(parsed)
-            # Map các key quan trọng
             data["originalScore"] = parsed.get("original_score", {})
             data["annotatedEssay"] = parsed.get("annotated_essay")
             data["revisedScore"] = parsed.get("revised_score")
-            # Nếu AI trả về analysis_markdown trong JSON (như prompt yêu cầu)
             data["analysisMarkdown"] = parsed.get("analysis_markdown", "")
         except: 
-            # Fallback nếu JSON lỗi, coi toàn bộ text là markdown (trừ phần json)
             data["analysisMarkdown"] = full_text.split("```json")[0]
             
-    # Nếu analysisMarkdown trống (do AI output kiểu cũ), fallback lấy phần text bên ngoài JSON
     if not data["analysisMarkdown"]:
         data["analysisMarkdown"] = full_text.split("```json")[0]
-
     return data
 
-# --- FILE EXPORT FUNCTIONS (Rút gọn) ---
 def register_vietnamese_font():
     try:
         font_reg = "Roboto-Regular.ttf"
@@ -570,6 +558,9 @@ def create_pdf(data, topic, essay, analysis):
 if "step" not in st.session_state: st.session_state.step = 1 
 if "guide_data" not in st.session_state: st.session_state.guide_data = None
 if "grading_result" not in st.session_state: st.session_state.grading_result = None
+# Thêm biến lưu trữ đề bài và ảnh để tránh mất khi đổi bước
+if "saved_topic" not in st.session_state: st.session_state.saved_topic = ""
+if "saved_img" not in st.session_state: st.session_state.saved_img = None
 
 # ==========================================
 # 5. UI: PHASE 1 - INPUT & GUIDE
@@ -580,6 +571,7 @@ if st.session_state.step == 1:
     col1, col2 = st.columns([1, 1])
     with col1:
         st.subheader("1. Đề bài")
+        # Widget này sẽ bị mất khi qua step 2, nên cần lưu giá trị
         question_input = st.text_area("Nhập câu hỏi:", height=150, placeholder="The chart below shows...", key="q_input")
 
     with col2:
@@ -592,6 +584,11 @@ if st.session_state.step == 1:
         if not question_input and not img_data:
             st.warning("Vui lòng nhập đề bài hoặc ảnh.")
         else:
+            # --- QUAN TRỌNG: LƯU DỮ LIỆU TRƯỚC KHI ĐỔI STEP ---
+            st.session_state.saved_topic = question_input
+            st.session_state.saved_img = img_data
+            # ---------------------------------------------------
+
             with st.spinner("AI đang phân tích chiến thuật..."):
                 prompt_guide = """
                 Phân tích đề bài IELTS Writing Task 1. Trả về JSON:
@@ -642,24 +639,18 @@ if st.session_state.step == 2 and st.session_state.guide_data:
             status = st.status("👨‍🏫 Examiner đang chấm bài...", expanded=True)
             status.write("🔍 Quét lỗi ngữ pháp & Logic...")
             
-            # Lấy lại ảnh từ session state hoặc file uploader nếu cần (ở đây giả sử step 1 đã lưu hoặc user upload lại nếu mất)
-            # Để đơn giản, giả định img_data vẫn còn trong scope hoặc user upload lại
-            # Trong thực tế session state, cần lưu img_data vào session_state.img_bytes
+            # --- SỬA LỖI: DÙNG BIẾN ĐÃ LƯU (SAVED_TOPIC) THAY VÌ WIDGET (Q_INPUT) ---
+            prompt_grade = GRADING_PROMPT_TEMPLATE.replace('{{TOPIC}}', st.session_state.saved_topic).replace('{{ESSAY}}', full_essay)
             
-            prompt_grade = GRADING_PROMPT_TEMPLATE.replace('{{TOPIC}}', st.session_state.q_input).replace('{{ESSAY}}', full_essay)
-            
-            # Lưu ý: img_input ở step 1 là FileUploader object. 
-            # Nếu cần truyền ảnh qua các step, nên dùng st.session_state để lưu bytes.
-            # Ở đây ta gọi hàm generate đơn giản hóa.
-            
-            res_grade, _ = generate_content_with_failover(prompt_grade, None, json_mode=True)
+            # Dùng ảnh đã lưu trong session state
+            res_grade, _ = generate_content_with_failover(prompt_grade, st.session_state.saved_img, json_mode=True)
             
             status.write("📝 Tổng hợp báo cáo...")
             if res_grade:
                 # Parse kết quả
                 p_data = parse_grading_response(res_grade.text)
                 st.session_state.grading_result = {
-                    "data": p_data, "essay": full_essay, "topic": st.session_state.q_input
+                    "data": p_data, "essay": full_essay, "topic": st.session_state.saved_topic
                 }
                 st.session_state.step = 3
                 status.update(label="✅ Đã chấm xong!", state="complete", expanded=False)
@@ -686,7 +677,7 @@ if st.session_state.step == 3 and st.session_state.grading_result:
     
     st.markdown("---")
 
-    # 2. Tabs Chi tiết (Analysis, Errors, Annotated)
+    # 2. Tabs Chi tiết
     tab_analysis, tab_errors, tab_macro, tab_annotated = st.tabs([
         "📝 Phân tích 4 Tiêu chí", 
         "🔴 Lỗi Ngữ pháp/Từ vựng", 
@@ -694,7 +685,6 @@ if st.session_state.step == 3 and st.session_state.grading_result:
         "✍️ Bài sửa (Annotated)"
     ])
     
-    # TAB 1: Detailed Analysis Markdown (Đây là phần bạn bị thiếu ở code cũ)
     with tab_analysis:
         st.info("Dưới đây là nhận xét chi tiết của Giám khảo cho từng tiêu chí:")
         analysis_content = g_data.get("analysisMarkdown", "")
@@ -703,7 +693,6 @@ if st.session_state.step == 3 and st.session_state.grading_result:
         else:
             st.warning("Không tìm thấy nội dung phân tích chi tiết.")
 
-    # TAB 2: Micro Errors
     with tab_errors:
         errors = g_data.get("errors", [])
         micro = [e for e in errors if e.get('category') in ['Grammar', 'Vocabulary', 'Ngữ pháp', 'Từ vựng']]
@@ -723,7 +712,6 @@ if st.session_state.step == 3 and st.session_state.grading_result:
             </div>
             """, unsafe_allow_html=True)
 
-    # TAB 3: Macro Errors
     with tab_macro:
         macro = [e for e in errors if e.get('category') not in ['Grammar', 'Vocabulary', 'Ngữ pháp', 'Từ vựng']]
         if not macro: st.success("Cấu trúc mạch lạc tốt.")
@@ -736,11 +724,10 @@ if st.session_state.step == 3 and st.session_state.grading_result:
             </div>
             """, unsafe_allow_html=True)
 
-    # TAB 4: Annotated Essay
     with tab_annotated:
         st.markdown(f'<div class="annotated-text">{g_data.get("annotatedEssay", "")}</div>', unsafe_allow_html=True)
 
-    # 3. Revised Score (Điểm sau sửa - Hiển thị đủ 5 cột)
+    # 3. Revised Score
     st.markdown("---")
     st.subheader("📈 Dự báo điểm sau khi sửa lỗi (Revised Score)")
     
@@ -762,7 +749,6 @@ if st.session_state.step == 3 and st.session_state.grading_result:
     st.markdown("---")
     d1, d2 = st.columns(2)
     
-    # Tạo nội dung text đầy đủ cho file report
     full_report_text = g_data.get("analysisMarkdown", "")
     
     docx = create_docx(g_data, res['topic'], res['essay'], full_report_text)
@@ -775,4 +761,6 @@ if st.session_state.step == 3 and st.session_state.grading_result:
         st.session_state.step = 1
         st.session_state.guide_data = None
         st.session_state.grading_result = None
+        st.session_state.saved_topic = ""
+        st.session_state.saved_img = None
         st.rerun()
