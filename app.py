@@ -121,34 +121,31 @@ else:
     # Chia lưới: 3 cột mỗi hàng
     cols = st.columns(3)
     
-    for i, course in enumerate(filtered_courses):
+   for i, course in enumerate(filtered_courses):
         with cols[i % 3]:
-            with st.container():
-                # 1. Hiển thị ảnh (Vẫn dùng Streamlit để tự co giãn đẹp)
-                try:
-                    st.image(course['img'], use_column_width=True)
-                except:
-                    st.image("https://via.placeholder.com/400x200", use_column_width=True)
+            # Chỉ dùng 1 lệnh st.markdown duy nhất để vẽ toàn bộ cái hộp
+            st.markdown(f"""
+            <div class="product-card">
+                <!-- Phần Ảnh -->
+                <img src="{course['img']}" class="card-img" onerror="this.onerror=null; this.src='https://via.placeholder.com/400x200'">
                 
-                # 2. Dùng HTML để hiển thị thông tin và nút bấm (Giúp sát dòng nhau)
-                # Lưu ý: Chỗ href='{course['link']}' chính là link bạn đã thêm ở bước trước
-                st.markdown(f"""
-                <div class="course-info">
-                    <p class="course-title">{course['title']}</p>
-                    <p class="course-cat">Danh mục: {course['category']}</p>
-                    <p class="course-price">{course['price']}</p>
-                    
-                    <!-- Thêm div này để căn giữa nút bấm -->
-                    <div style="text-align: center;"> 
-                        <a href="{course.get('link', '#')}" target="_blank" class="custom-btn">
-                            Xem chi tiết
-                        </a>
-                    </div>
+                <!-- Phần Nội dung -->
+                <p class="course-title">{course['title']}</p>
+                <p class="course-cat">{course['category']}</p>
+                <p class="course-price">{course['price']}</p>
+                
+                <!-- Phần Nút bấm -->
+                <div style="text-align: center;">
+                    <a href="{course.get('link', '#')}" target="_blank" class="custom-btn">
+                        Xem chi tiết
+                    </a>
                 </div>
-                """, unsafe_allow_html=True)
+            </div>
+            """, unsafe_allow_html=True)
             
             st.markdown("---")
 st.markdown("<center>© 2025 Âu Việt Center Developed by Albert Nguyen</center>", unsafe_allow_html=True)
+
 
 
 
