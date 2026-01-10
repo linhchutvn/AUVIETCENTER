@@ -504,12 +504,43 @@ def parse_grading_response(full_text):
             data["originalScore"] = parsed.get("original_score", {})
             data["annotatedEssay"] = parsed.get("annotated_essay")
             data["revisedScore"] = parsed.get("revised_score")
-            data["analysisMarkdown"] = parsed.get("analysis_markdown", "")
+            
+            # --- LOGIC SỬA LỖI HIỂN THỊ ---
+            # 1. Ưu tiên lấy key tổng 'analysis_markdown' nếu có
+            raw_analysis = parsed.get("analysis_markdown", "")
+            
+            # 2. Nếu key tổng rỗng, tự động đi gom từ các key lẻ (như trong hình lỗi của bạn)
+            if not raw_analysis:
+                sections = []
+                # Kiểm tra các key biến thể mà AI thường trả về
+                if parsed.get("task_achievement_analysis"):
+                    sections.append(f"### 1. Task Achievement\n{parsed['task_achievement_analysis']}")
+                if parsed.get("cohesion_coherence_analysis"):
+                    sections.append(f"### 2. Coherence & Cohesion\n{parsed['cohesion_coherence_analysis']}")
+                if parsed.get("lexical_resource_analysis"):
+                    sections.append(f"### 3. Lexical Resource\n{parsed['lexical_resource_analysis']}")
+                if parsed.get("grammatical_range_analysis"):
+                    sections.append(f"### 4. Grammatical Range & Accuracy\n{parsed['grammatical_range_analysis']}")
+                
+                # Nếu gom được thì gán vào, nếu không thì để trống
+                if sections:
+                    raw_analysis = "\n\n".join(sections)
+            
+            data["analysisMarkdown"] = raw_analysis
+
         except: 
+            # Nếu JSON lỗi cấu trúc, lấy phần text trước JSON
             data["analysisMarkdown"] = full_text.split("```json")[0]
             
+    # Fallback cuối cùng: Nếu vẫn rỗng, lấy text thô (nhưng tránh lấy nhầm chuỗi JSON)
     if not data["analysisMarkdown"]:
-        data["analysisMarkdown"] = full_text.split("```json")[0]
+        text_content = full_text.split("```json")[0].strip()
+        # Chỉ lấy nếu nó không bắt đầu bằng dấu ngoặc nhọn (dấu hiệu của JSON)
+        if not text_content.startswith("{"):
+            data["analysisMarkdown"] = text_content
+        else:
+            data["analysisMarkdown"] = "⚠️ AI đã trả về dữ liệu chấm điểm nhưng định dạng văn bản phân tích không tương thích để hiển thị."
+
     return data
 
 def register_vietnamese_font():
