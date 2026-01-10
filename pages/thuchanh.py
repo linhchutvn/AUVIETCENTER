@@ -477,327 +477,320 @@ Cấu trúc JSON:
 ```
 """
 
-# ==========================================
-# 3. HELPER FUNCTIONS
-# ==========================================
-
+==========================================
+3. HELPER FUNCTIONS
+==========================================
 def clean_json(text):
-    match = re.search(r"```json\s*([\s\S]*?)\s*```", text)
-    if match: return match.group(1).strip()
-    if text.strip().startswith("{"): return text.strip()
-    return None
-
+match = re.search(r"json\s*([\s\S]*?)\s*", text)
+if match: return match.group(1).strip()
+if text.strip().startswith("{"): return text.strip()
+return None
 def parse_guide_response(text):
-    try:
-        j_str = clean_json(text)
-        return json.loads(j_str) if j_str else None
-    except: return None
-
+try:
+j_str = clean_json(text)
+return json.loads(j_str) if j_str else None
+except: return None
 def parse_grading_response(full_text):
-    json_str = clean_json(full_text)
-    data = {"errors": [], "annotatedEssay": None, "revisedScore": None, "originalScore": {}, "analysisMarkdown": ""}
-    
-    if json_str:
-        try:
-            parsed = json.loads(json_str)
-            data.update(parsed)
-            data["originalScore"] = parsed.get("original_score", {})
-            data["annotatedEssay"] = parsed.get("annotated_essay")
-            data["revisedScore"] = parsed.get("revised_score")
-            
-            # --- KHẮC PHỤC LỖI HIỂN THỊ TẠI ĐÂY ---
-            # 1. Nếu AI trả đúng key tổng (analysis_markdown)
-            if parsed.get("analysis_markdown"):
-                data["analysisMarkdown"] = parsed["analysis_markdown"]
-            
-            # 2. Nếu AI tự ý tách lẻ (như trong hình bạn gửi), ta phải đi gom lại
-            else:
-                combined_analysis = []
-                
-                # Danh sách các tên key mà AI hay dùng để tách lẻ
-                potential_keys = [
-                    ("Task Achievement", ["task_achievement_analysis", "ta_analysis", "task_response_analysis"]),
-                    ("Coherence & Cohesion", ["cohesion_coherence_analysis", "cc_analysis", "coherence_analysis"]),
-                    ("Lexical Resource", ["lexical_resource_analysis", "lr_analysis", "vocabulary_analysis"]),
-                    ("Grammatical Range", ["grammatical_range_analysis", "gra_analysis", "grammar_analysis"])
-                ]
-
-                for title, keys in potential_keys:
-                    for k in keys:
-                        if parsed.get(k): # Nếu tìm thấy key này trong JSON
-                            combined_analysis.append(f"### 📘 {title}\n{parsed[k]}")
-                            break # Tìm thấy rồi thì next sang tiêu chí khác
-                
-                if combined_analysis:
-                    data["analysisMarkdown"] = "\n\n".join(combined_analysis)
-
-        except: 
-            # Nếu JSON hỏng cấu trúc, lấy phần text thô bên ngoài
-            pass
-            
-    # Fallback cuối cùng: Nếu vẫn rỗng, lấy toàn bộ text bên ngoài JSON
-    if not data["analysisMarkdown"]:
-        raw_text = full_text.split("```json")[0].strip()
-        if len(raw_text) > 50 and not raw_text.startswith("{"):
-             data["analysisMarkdown"] = raw_text
-        else:
-             # Nếu đến bước này vẫn không có, ta hiển thị chuỗi JSON thô để bạn đọc tạm (còn hơn là báo lỗi)
-             if json_str:
-                 data["analysisMarkdown"] = f"**Dữ liệu thô từ AI (Raw JSON):**\n\n{json_str}"
-             else:
-                 data["analysisMarkdown"] = "⚠️ Không thể trích xuất nội dung phân tích."
-
-    return data
-
-def register_vietnamese_font():
+json_str = clean_json(full_text)
+data = {"errors": [], "annotatedEssay": None, "revisedScore": None, "originalScore": {}, "analysisMarkdown": ""}
+code
+Code
+if json_str:
     try:
-        font_reg = "Roboto-Regular.ttf"
-        font_bold = "Roboto-Bold.ttf"
-        if not os.path.exists(font_reg):
-            r = requests.get("https://github.com/googlefonts/roboto/raw/main/src/hinted/Roboto-Regular.ttf")
-            with open(font_reg, "wb") as f: f.write(r.content)
-        if not os.path.exists(font_bold):
-            r = requests.get("https://github.com/googlefonts/roboto/raw/main/src/hinted/Roboto-Bold.ttf")
-            with open(font_bold, "wb") as f: f.write(r.content)
-        pdfmetrics.registerFont(TTFont('Roboto', font_reg))
-        pdfmetrics.registerFont(TTFont('Roboto-Bold', font_bold))
-        addMapping('Roboto', 0, 0, 'Roboto')
-        addMapping('Roboto', 1, 0, 'Roboto-Bold')
-        return True
-    except: return False
+        parsed = json.loads(json_str)
+        data.update(parsed)
+        data["originalScore"] = parsed.get("original_score", {})
+        data["annotatedEssay"] = parsed.get("annotated_essay")
+        data["revisedScore"] = parsed.get("revised_score")
+        
+        # --- KHẮC PHỤC LỖI HIỂN THỊ TẠI ĐÂY ---
+        # 1. Nếu AI trả đúng key tổng (analysis_markdown)
+        if parsed.get("analysis_markdown"):
+            data["analysisMarkdown"] = parsed["analysis_markdown"]
+        
+        # 2. Nếu AI tự ý tách lẻ (như trong hình bạn gửi), ta phải đi gom lại
+        else:
+            combined_analysis = []
+            
+            # Danh sách các tên key mà AI hay dùng để tách lẻ
+            potential_keys = [
+                ("Task Achievement", ["task_achievement_analysis", "ta_analysis", "task_response_analysis"]),
+                ("Coherence & Cohesion", ["cohesion_coherence_analysis", "cc_analysis", "coherence_analysis"]),
+                ("Lexical Resource", ["lexical_resource_analysis", "lr_analysis", "vocabulary_analysis"]),
+                ("Grammatical Range", ["grammatical_range_analysis", "gra_analysis", "grammar_analysis"])
+            ]
 
+            for title, keys in potential_keys:
+                for k in keys:
+                    if parsed.get(k): # Nếu tìm thấy key này trong JSON
+                        combined_analysis.append(f"### 📘 {title}\n{parsed[k]}")
+                        break # Tìm thấy rồi thì next sang tiêu chí khác
+            
+            if combined_analysis:
+                data["analysisMarkdown"] = "\n\n".join(combined_analysis)
+
+    except: 
+        # Nếu JSON hỏng cấu trúc, lấy phần text thô bên ngoài
+        pass
+        
+# Fallback cuối cùng: Nếu vẫn rỗng, lấy toàn bộ text bên ngoài JSON
+if not data["analysisMarkdown"]:
+    raw_text = full_text.split("```json")[0].strip()
+    if len(raw_text) > 50 and not raw_text.startswith("{"):
+         data["analysisMarkdown"] = raw_text
+    else:
+         # Nếu đến bước này vẫn không có, ta hiển thị chuỗi JSON thô để bạn đọc tạm (còn hơn là báo lỗi)
+         if json_str:
+             data["analysisMarkdown"] = f"**Dữ liệu thô từ AI (Raw JSON):**\n\n{json_str}"
+         else:
+             data["analysisMarkdown"] = "⚠️ Không thể trích xuất nội dung phân tích."
+
+return data
+def register_vietnamese_font():
+try:
+font_reg = "Roboto-Regular.ttf"
+font_bold = "Roboto-Bold.ttf"
+if not os.path.exists(font_reg):
+r = requests.get("https://github.com/googlefonts/roboto/raw/main/src/hinted/Roboto-Regular.ttf")
+with open(font_reg, "wb") as f: f.write(r.content)
+if not os.path.exists(font_bold):
+r = requests.get("https://github.com/googlefonts/roboto/raw/main/src/hinted/Roboto-Bold.ttf")
+with open(font_bold, "wb") as f: f.write(r.content)
+pdfmetrics.registerFont(TTFont('Roboto', font_reg))
+pdfmetrics.registerFont(TTFont('Roboto-Bold', font_bold))
+addMapping('Roboto', 0, 0, 'Roboto')
+addMapping('Roboto', 1, 0, 'Roboto-Bold')
+return True
+except: return False
 def create_docx(data, topic, essay, analysis):
-    doc = Document()
-    doc.add_heading('IELTS ASSESSMENT REPORT', 0).alignment = WD_ALIGN_PARAGRAPH.CENTER
-    doc.add_heading('1. DETAILED ANALYSIS', level=1)
-    doc.add_paragraph(analysis)
-    buffer = BytesIO()
-    doc.save(buffer)
-    buffer.seek(0)
-    return buffer
-
+doc = Document()
+doc.add_heading('IELTS ASSESSMENT REPORT', 0).alignment = WD_ALIGN_PARAGRAPH.CENTER
+doc.add_heading('1. DETAILED ANALYSIS', level=1)
+doc.add_paragraph(analysis)
+buffer = BytesIO()
+doc.save(buffer)
+buffer.seek(0)
+return buffer
 def create_pdf(data, topic, essay, analysis):
-    register_vietnamese_font()
-    buffer = BytesIO()
-    doc = SimpleDocTemplate(buffer, pagesize=A4)
-    styles = getSampleStyleSheet()
-    elements = [Paragraph("IELTS ASSESSMENT REPORT", styles['Title'])]
-    elements.append(Paragraph("DETAILED ANALYSIS", styles['Heading1']))
-    safe_text = html.escape(analysis).replace('\n', '<br/>')
-    elements.append(Paragraph(safe_text, styles['Normal']))
-    doc.build(elements)
-    buffer.seek(0)
-    return buffer
-
-# ==========================================
-# 4. UI: SESSION STATE INIT
-# ==========================================
-if "step" not in st.session_state: st.session_state.step = 1 
+register_vietnamese_font()
+buffer = BytesIO()
+doc = SimpleDocTemplate(buffer, pagesize=A4)
+styles = getSampleStyleSheet()
+elements = [Paragraph("IELTS ASSESSMENT REPORT", styles['Title'])]
+elements.append(Paragraph("DETAILED ANALYSIS", styles['Heading1']))
+safe_text = html.escape(analysis).replace('\n', '<br/>')
+elements.append(Paragraph(safe_text, styles['Normal']))
+doc.build(elements)
+buffer.seek(0)
+return buffer
+==========================================
+4. UI: SESSION STATE INIT
+==========================================
+if "step" not in st.session_state: st.session_state.step = 1
 if "guide_data" not in st.session_state: st.session_state.guide_data = None
 if "grading_result" not in st.session_state: st.session_state.grading_result = None
-# Thêm biến lưu trữ đề bài và ảnh để tránh mất khi đổi bước
+Thêm biến lưu trữ đề bài và ảnh để tránh mất khi đổi bước
 if "saved_topic" not in st.session_state: st.session_state.saved_topic = ""
 if "saved_img" not in st.session_state: st.session_state.saved_img = None
-
-# ==========================================
-# 5. UI: PHASE 1 - INPUT & GUIDE
-# ==========================================
+==========================================
+5. UI: PHASE 1 - INPUT & GUIDE
+==========================================
 st.title("🎓 IELTS Writing: Learn & Grade")
-
 if st.session_state.step == 1:
-    col1, col2 = st.columns([1, 1])
-    with col1:
-        st.subheader("1. Đề bài")
-        # Widget này sẽ bị mất khi qua step 2, nên cần lưu giá trị
-        question_input = st.text_area("Nhập câu hỏi:", height=150, placeholder="The chart below shows...", key="q_input")
+col1, col2 = st.columns([1, 1])
+with col1:
+st.subheader("1. Đề bài")
+# Widget này sẽ bị mất khi qua step 2, nên cần lưu giá trị
+question_input = st.text_area("Nhập câu hỏi:", height=150, placeholder="The chart below shows...", key="q_input")
+code
+Code
+with col2:
+    st.subheader("2. Hình ảnh")
+    uploaded_image = st.file_uploader("Tải ảnh biểu đồ", type=['png', 'jpg', 'jpeg'], key="img_input")
+    img_data = Image.open(uploaded_image) if uploaded_image else None
+    if img_data: st.image(img_data, caption='Đề bài', use_container_width=True)
 
-    with col2:
-        st.subheader("2. Hình ảnh")
-        uploaded_image = st.file_uploader("Tải ảnh biểu đồ", type=['png', 'jpg', 'jpeg'], key="img_input")
-        img_data = Image.open(uploaded_image) if uploaded_image else None
-        if img_data: st.image(img_data, caption='Đề bài', use_container_width=True)
-
-    if st.button("🚀 Phân tích & Hướng dẫn", type="primary"):
-        if not question_input and not img_data:
-            st.warning("Vui lòng nhập đề bài hoặc ảnh.")
-        else:
-            # --- QUAN TRỌNG: LƯU DỮ LIỆU TRƯỚC KHI ĐỔI STEP ---
-            st.session_state.saved_topic = question_input
-            st.session_state.saved_img = img_data
-            # ---------------------------------------------------
-
-            with st.spinner("AI đang phân tích chiến thuật..."):
-                prompt_guide = """
-                Phân tích đề bài IELTS Writing Task 1. Trả về JSON:
-                { "task_type": "...", "intro_guide": "...", "overview_guide": "...", "body1_guide": "...", "body2_guide": "..." }
-                Viết hướng dẫn chi tiết bằng tiếng Việt.
-                """
-                res, _ = generate_content_with_failover(prompt_guide + "\n" + question_input, img_data, json_mode=True)
-                if res:
-                    data = parse_guide_response(res.text)
-                    if data:
-                        st.session_state.guide_data = data
-                        st.session_state.step = 2
-                        st.rerun()
-
-# ==========================================
-# 6. UI: PHASE 2 - WRITING PRACTICE
-# ==========================================
-if st.session_state.step == 2 and st.session_state.guide_data:
-    data = st.session_state.guide_data
-    st.markdown("---")
-    st.success(f"📌 Loại bài: **{data.get('task_type', 'Task 1')}**")
-    
-    st.markdown("### ✍️ Thực hành viết bài")
-    
-    def render_input(title, guide, key):
-        st.markdown(f"**{title}**")
-        with st.expander(f"💡 Xem gợi ý", expanded=False):
-            st.markdown(f"<div class='guide-box'>{guide}</div>", unsafe_allow_html=True)
-        return st.text_area(f"Nhập {title}:", height=150, key=key)
-
-    c1, c2 = st.columns(2)
-    with c1:
-        intro = render_input("Introduction", data.get("intro_guide"), "in_intro")
-        body1 = render_input("Body 1", data.get("body1_guide"), "in_body1")
-    with c2:
-        over = render_input("Overview", data.get("overview_guide"), "in_overview")
-        body2 = render_input("Body 2", data.get("body2_guide"), "in_body2")
-
-    full_essay = f"{intro}\n\n{over}\n\n{body1}\n\n{body2}".strip()
-    wc = len(full_essay.split())
-    st.caption(f"📊 Số từ: {wc}")
-
-    st.markdown("---")
-    if st.button("✨ Gửi chấm điểm (Examiner Pro Mode)", type="primary", use_container_width=True):
-        if wc < 20:
-            st.warning("Bài viết quá ngắn.")
-        else:
-            status = st.status("👨‍🏫 Examiner đang chấm bài...", expanded=True)
-            status.write("🔍 Quét lỗi ngữ pháp & Logic...")
-            
-            # --- SỬA LỖI: DÙNG BIẾN ĐÃ LƯU (SAVED_TOPIC) THAY VÌ WIDGET (Q_INPUT) ---
-            prompt_grade = GRADING_PROMPT_TEMPLATE.replace('{{TOPIC}}', st.session_state.saved_topic).replace('{{ESSAY}}', full_essay)
-            
-            # Dùng ảnh đã lưu trong session state
-            res_grade, _ = generate_content_with_failover(prompt_grade, st.session_state.saved_img, json_mode=True)
-            
-            status.write("📝 Tổng hợp báo cáo...")
-            if res_grade:
-                # Parse kết quả
-                p_data = parse_grading_response(res_grade.text)
-                st.session_state.grading_result = {
-                    "data": p_data, "essay": full_essay, "topic": st.session_state.saved_topic
-                }
-                st.session_state.step = 3
-                status.update(label="✅ Đã chấm xong!", state="complete", expanded=False)
-                st.rerun()
-
-# ==========================================
-# 7. UI: PHASE 3 - GRADING RESULT (EXAMINER UI)
-# ==========================================
-if st.session_state.step == 3 and st.session_state.grading_result:
-    res = st.session_state.grading_result
-    g_data = res["data"]
-    
-    st.markdown("## 🛡️ KẾT QUẢ ĐÁNH GIÁ CHI TIẾT")
-    
-    # 1. Bảng điểm Gốc (Original Score)
-    scores = g_data.get("originalScore", {})
-    st.markdown("### 📊 Điểm số hiện tại")
-    cols = st.columns(5)
-    cols[0].metric("Task Achievement", scores.get("task_achievement", "-"))
-    cols[1].metric("Coherence", scores.get("cohesion_coherence", "-"))
-    cols[2].metric("Lexical", scores.get("lexical_resource", "-"))
-    cols[3].metric("Grammar", scores.get("grammatical_range", "-"))
-    cols[4].metric("OVERALL", scores.get("overall", "-"))
-    
-    st.markdown("---")
-
-    # 2. Tabs Chi tiết
-    tab_analysis, tab_errors, tab_macro, tab_annotated = st.tabs([
-        "📝 Phân tích 4 Tiêu chí", 
-        "🔴 Lỗi Ngữ pháp/Từ vựng", 
-        "🔵 Lỗi Mạch lạc/Logic",
-        "✍️ Bài sửa (Annotated)"
-    ])
-    
-    with tab_analysis:
-        st.info("Dưới đây là nhận xét chi tiết của Giám khảo cho từng tiêu chí:")
-        analysis_content = g_data.get("analysisMarkdown", "")
-        if analysis_content:
-            st.markdown(analysis_content)
-        else:
-            st.warning("Không tìm thấy nội dung phân tích chi tiết.")
-
-    with tab_errors:
-        errors = g_data.get("errors", [])
-        micro = [e for e in errors if e.get('category') in ['Grammar', 'Vocabulary', 'Ngữ pháp', 'Từ vựng']]
-        if not micro: st.success("Không tìm thấy lỗi ngữ pháp đáng kể.")
-        for i, err in enumerate(micro):
-            badge = "#DCFCE7" if err.get('category') in ['Grammar','Ngữ pháp'] else "#FEF9C3"
-            st.markdown(f"""
-            <div class="error-card">
-                <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
-                    <span><b>#{i+1} [{err.get('category')}]</b>: {err.get('type')}</span>
-                    <span style="background:#eee; padding:2px 8px; border-radius:10px; font-size:0.8em">{err.get('impact_level')}</span>
-                </div>
-                <div style="background:{badge}; padding:8px; border-radius:5px; margin-bottom:5px;">
-                    <s>{err.get('original')}</s> ➔ <b>{err.get('correction')}</b>
-                </div>
-                <small><i>{err.get('explanation')}</i></small>
-            </div>
-            """, unsafe_allow_html=True)
-
-    with tab_macro:
-        macro = [e for e in errors if e.get('category') not in ['Grammar', 'Vocabulary', 'Ngữ pháp', 'Từ vựng']]
-        if not macro: st.success("Cấu trúc mạch lạc tốt.")
-        for err in macro:
-            st.markdown(f"""
-            <div class="error-card" style="border-left: 5px solid #3B82F6;">
-                <b>[{err.get('category')}] {err.get('type')}</b><br>
-                Vấn đề: {err.get('explanation')}<br>
-                Gợi ý: <b>{err.get('correction')}</b>
-            </div>
-            """, unsafe_allow_html=True)
-
-    with tab_annotated:
-        st.markdown(f'<div class="annotated-text">{g_data.get("annotatedEssay", "")}</div>', unsafe_allow_html=True)
-
-    # 3. Revised Score
-    st.markdown("---")
-    st.subheader("📈 Dự báo điểm sau khi sửa lỗi (Revised Score)")
-    
-    rev = g_data.get("revisedScore", {})
-    if rev:
-        r_cols = st.columns(5)
-        r_cols[0].metric("TA (Rev)", rev.get("task_achievement", "-"))
-        r_cols[1].metric("CC (Rev)", rev.get("cohesion_coherence", "-"))
-        r_cols[2].metric("LR (Rev)", rev.get("lexical_resource", "-"))
-        r_cols[3].metric("GRA (Rev)", rev.get("grammatical_range", "-"))
-        r_cols[4].metric("OVERALL (Rev)", rev.get("overall", "-"))
-        
-        if rev.get("logic_re_evaluation"):
-            st.info(f"💡 **Lưu ý của Giám khảo:** {rev.get('logic_re_evaluation')}")
+if st.button("🚀 Phân tích & Hướng dẫn", type="primary"):
+    if not question_input and not img_data:
+        st.warning("Vui lòng nhập đề bài hoặc ảnh.")
     else:
-        st.warning("Không có dữ liệu điểm dự báo.")
+        # --- QUAN TRỌNG: LƯU DỮ LIỆU TRƯỚC KHI ĐỔI STEP ---
+        st.session_state.saved_topic = question_input
+        st.session_state.saved_img = img_data
+        # ---------------------------------------------------
 
-    # 4. Export Buttons
-    st.markdown("---")
-    d1, d2 = st.columns(2)
+        with st.spinner("AI đang phân tích chiến thuật..."):
+            prompt_guide = """
+            Phân tích đề bài IELTS Writing Task 1. Trả về JSON:
+            { "task_type": "...", "intro_guide": "...", "overview_guide": "...", "body1_guide": "...", "body2_guide": "..." }
+            Viết hướng dẫn chi tiết bằng tiếng Việt.
+            """
+            res, _ = generate_content_with_failover(prompt_guide + "\n" + question_input, img_data, json_mode=True)
+            if res:
+                data = parse_guide_response(res.text)
+                if data:
+                    st.session_state.guide_data = data
+                    st.session_state.step = 2
+                    st.rerun()
+==========================================
+6. UI: PHASE 2 - WRITING PRACTICE
+==========================================
+if st.session_state.step == 2 and st.session_state.guide_data:
+data = st.session_state.guide_data
+st.markdown("---")
+st.success(f"📌 Loại bài: {data.get('task_type', 'Task 1')}")
+code
+Code
+st.markdown("### ✍️ Thực hành viết bài")
+
+def render_input(title, guide, key):
+    st.markdown(f"**{title}**")
+    with st.expander(f"💡 Xem gợi ý", expanded=False):
+        st.markdown(f"<div class='guide-box'>{guide}</div>", unsafe_allow_html=True)
+    return st.text_area(f"Nhập {title}:", height=150, key=key)
+
+c1, c2 = st.columns(2)
+with c1:
+    intro = render_input("Introduction", data.get("intro_guide"), "in_intro")
+    body1 = render_input("Body 1", data.get("body1_guide"), "in_body1")
+with c2:
+    over = render_input("Overview", data.get("overview_guide"), "in_overview")
+    body2 = render_input("Body 2", data.get("body2_guide"), "in_body2")
+
+full_essay = f"{intro}\n\n{over}\n\n{body1}\n\n{body2}".strip()
+wc = len(full_essay.split())
+st.caption(f"📊 Số từ: {wc}")
+
+st.markdown("---")
+if st.button("✨ Gửi chấm điểm (Examiner Pro Mode)", type="primary", use_container_width=True):
+    if wc < 20:
+        st.warning("Bài viết quá ngắn.")
+    else:
+        status = st.status("👨‍🏫 Examiner đang chấm bài...", expanded=True)
+        status.write("🔍 Quét lỗi ngữ pháp & Logic...")
+        
+        # --- SỬA LỖI: DÙNG BIẾN ĐÃ LƯU (SAVED_TOPIC) THAY VÌ WIDGET (Q_INPUT) ---
+        prompt_grade = GRADING_PROMPT_TEMPLATE.replace('{{TOPIC}}', st.session_state.saved_topic).replace('{{ESSAY}}', full_essay)
+        
+        # Dùng ảnh đã lưu trong session state
+        res_grade, _ = generate_content_with_failover(prompt_grade, st.session_state.saved_img, json_mode=True)
+        
+        status.write("📝 Tổng hợp báo cáo...")
+        if res_grade:
+            # Parse kết quả
+            p_data = parse_grading_response(res_grade.text)
+            st.session_state.grading_result = {
+                "data": p_data, "essay": full_essay, "topic": st.session_state.saved_topic
+            }
+            st.session_state.step = 3
+            status.update(label="✅ Đã chấm xong!", state="complete", expanded=False)
+            st.rerun()
+==========================================
+7. UI: PHASE 3 - GRADING RESULT (EXAMINER UI)
+==========================================
+if st.session_state.step == 3 and st.session_state.grading_result:
+res = st.session_state.grading_result
+g_data = res["data"]
+code
+Code
+st.markdown("## 🛡️ KẾT QUẢ ĐÁNH GIÁ CHI TIẾT")
+
+# 1. Bảng điểm Gốc (Original Score)
+scores = g_data.get("originalScore", {})
+st.markdown("### 📊 Điểm số hiện tại")
+cols = st.columns(5)
+cols[0].metric("Task Achievement", scores.get("task_achievement", "-"))
+cols[1].metric("Coherence", scores.get("cohesion_coherence", "-"))
+cols[2].metric("Lexical", scores.get("lexical_resource", "-"))
+cols[3].metric("Grammar", scores.get("grammatical_range", "-"))
+cols[4].metric("OVERALL", scores.get("overall", "-"))
+
+st.markdown("---")
+
+# 2. Tabs Chi tiết
+tab_analysis, tab_errors, tab_macro, tab_annotated = st.tabs([
+    "📝 Phân tích 4 Tiêu chí", 
+    "🔴 Lỗi Ngữ pháp/Từ vựng", 
+    "🔵 Lỗi Mạch lạc/Logic",
+    "✍️ Bài sửa (Annotated)"
+])
+
+with tab_analysis:
+    st.info("Dưới đây là nhận xét chi tiết của Giám khảo cho từng tiêu chí:")
+    analysis_content = g_data.get("analysisMarkdown", "")
+    if analysis_content:
+        st.markdown(analysis_content)
+    else:
+        st.warning("Không tìm thấy nội dung phân tích chi tiết.")
+
+with tab_errors:
+    errors = g_data.get("errors", [])
+    micro = [e for e in errors if e.get('category') in ['Grammar', 'Vocabulary', 'Ngữ pháp', 'Từ vựng']]
+    if not micro: st.success("Không tìm thấy lỗi ngữ pháp đáng kể.")
+    for i, err in enumerate(micro):
+        badge = "#DCFCE7" if err.get('category') in ['Grammar','Ngữ pháp'] else "#FEF9C3"
+        st.markdown(f"""
+        <div class="error-card">
+            <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+                <span><b>#{i+1} [{err.get('category')}]</b>: {err.get('type')}</span>
+                <span style="background:#eee; padding:2px 8px; border-radius:10px; font-size:0.8em">{err.get('impact_level')}</span>
+            </div>
+            <div style="background:{badge}; padding:8px; border-radius:5px; margin-bottom:5px;">
+                <s>{err.get('original')}</s> ➔ <b>{err.get('correction')}</b>
+            </div>
+            <small><i>{err.get('explanation')}</i></small>
+        </div>
+        """, unsafe_allow_html=True)
+
+with tab_macro:
+    macro = [e for e in errors if e.get('category') not in ['Grammar', 'Vocabulary', 'Ngữ pháp', 'Từ vựng']]
+    if not macro: st.success("Cấu trúc mạch lạc tốt.")
+    for err in macro:
+        st.markdown(f"""
+        <div class="error-card" style="border-left: 5px solid #3B82F6;">
+            <b>[{err.get('category')}] {err.get('type')}</b><br>
+            Vấn đề: {err.get('explanation')}<br>
+            Gợi ý: <b>{err.get('correction')}</b>
+        </div>
+        """, unsafe_allow_html=True)
+
+with tab_annotated:
+    st.markdown(f'<div class="annotated-text">{g_data.get("annotatedEssay", "")}</div>', unsafe_allow_html=True)
+
+# 3. Revised Score
+st.markdown("---")
+st.subheader("📈 Dự báo điểm sau khi sửa lỗi (Revised Score)")
+
+rev = g_data.get("revisedScore", {})
+if rev:
+    r_cols = st.columns(5)
+    r_cols[0].metric("TA (Rev)", rev.get("task_achievement", "-"))
+    r_cols[1].metric("CC (Rev)", rev.get("cohesion_coherence", "-"))
+    r_cols[2].metric("LR (Rev)", rev.get("lexical_resource", "-"))
+    r_cols[3].metric("GRA (Rev)", rev.get("grammatical_range", "-"))
+    r_cols[4].metric("OVERALL (Rev)", rev.get("overall", "-"))
     
-    full_report_text = g_data.get("analysisMarkdown", "")
-    
-    docx = create_docx(g_data, res['topic'], res['essay'], full_report_text)
-    d1.download_button("📄 Download Report (.docx)", docx, "IELTS_Report.docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", use_container_width=True)
-    
-    pdf = create_pdf(g_data, res['topic'], res['essay'], full_report_text)
-    d2.download_button("📕 Download Report (.pdf)", pdf, "IELTS_Report.pdf", "application/pdf", use_container_width=True)
-    
-    if st.button("🔄 Làm bài mới (Reset)", use_container_width=True):
-        st.session_state.step = 1
-        st.session_state.guide_data = None
-        st.session_state.grading_result = None
-        st.session_state.saved_topic = ""
-        st.session_state.saved_img = None
-        st.rerun()
+    if rev.get("logic_re_evaluation"):
+        st.info(f"💡 **Lưu ý của Giám khảo:** {rev.get('logic_re_evaluation')}")
+else:
+    st.warning("Không có dữ liệu điểm dự báo.")
+
+# 4. Export Buttons
+st.markdown("---")
+d1, d2 = st.columns(2)
+
+full_report_text = g_data.get("analysisMarkdown", "")
+
+docx = create_docx(g_data, res['topic'], res['essay'], full_report_text)
+d1.download_button("📄 Download Report (.docx)", docx, "IELTS_Report.docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", use_container_width=True)
+
+pdf = create_pdf(g_data, res['topic'], res['essay'], full_report_text)
+d2.download_button("📕 Download Report (.pdf)", pdf, "IELTS_Report.pdf", "application/pdf", use_container_width=True)
+
+if st.button("🔄 Làm bài mới (Reset)", use_container_width=True):
+    st.session_state.step = 1
+    st.session_state.guide_data = None
+    st.session_state.grading_result = None
+    st.session_state.saved_topic = ""
+    st.session_state.saved_img = None
+    st.rerun()
