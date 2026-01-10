@@ -89,11 +89,11 @@ else:
                 st.link_button("Xem chi tiết", course['link'], use_container_width=True)
                     # Ở đây có thể chuyển trang hoặc mở modal
             
-            st.markdown() # Đường kẻ ngang phân cách hàng (nếu màn hình nhỏ)
-
+            
 # Footer
 st.markdown("---")
 st.markdown("<center>© 2025 Âu Việt Center Developed by Albert Nguyen</center>", unsafe_allow_html=True)
+
 
 
 
