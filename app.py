@@ -221,53 +221,46 @@ else:
             """, unsafe_allow_html=True)
 
 # ----------------------------------------------------------------
-# FOOTER (CHÂN TRANG)
+# FOOTER (CHÂN TRANG) - ĐÃ SỬA LỖI HIỂN THỊ
 # ----------------------------------------------------------------
-# Mình giả định file logo tên là LOGO.png (hoặc logo.png) trong repo của bạn
-# Hãy kiểm tra tên file trên github và sửa dòng dưới đây nếu cần
 logo_url = "https://raw.githubusercontent.com/linhchutvn/test/main/logo.png" 
-
 dmca_url = "https://images.dmca.com/Badges/dmca_protected_sml_120n.png?ID=YOUR_ID"
 
+# LƯU Ý QUAN TRỌNG: Các dòng HTML bên dưới phải nằm sát lề trái, KHÔNG được thụt vào.
 st.markdown(f"""
 <div class="footer-container">
-    <div class="footer-content">
-        <!-- CỘT TRÁI -->
-        <div class="footer-left">
-            <!-- Đã sửa src="{logo_url}" để nhận link online -->
-            <img src="{logo_url}" style="width: 150px; margin-bottom: 20px;" onerror="this.style.display='none'"> 
-            <h4 style="color: #d63031; margin-top: 0;">Âu Việt Center</h4>
-            <p style="font-size: 14px; color: #666;">Hệ thống đào tạo IELTS chuyên nghiệp.</p>
-            <img src="{dmca_url}" class="dmca-badge">
-        </div>
-
-        <!-- CỘT PHẢI -->
-        <div class="footer-right">
-            <div class="footer-row">
-                <span class="footer-icon">📍</span>
-                <span class="footer-text">Địa chỉ: 213/9 Nguyễn Gia Trí, Phường Thạnh Mỹ Tây, TP Hồ Chí Minh</span>
-            </div>
-            <div class="footer-row">
-                <span class="footer-icon">💬</span>
-                <span class="footer-text">Zalo OA: <a href="https://zalo.me/auviet" target="_blank">https://zalo.me/auviet</a></span>
-            </div>
-            <div class="footer-row">
-                <span class="footer-icon">📞</span>
-                <span class="footer-text">Hotline: <b>0866.771.333</b></span>
-            </div>
-            <div class="footer-row">
-                <span class="footer-icon">🔴</span>
-                <span class="footer-text">Youtube: <a href="#" target="_blank">https://www.youtube.com/@auviet</a></span>
-            </div>
-            <div class="footer-row">
-                <span class="footer-icon">🎵</span>
-                <span class="footer-text">Tiktok: <a href="#" target="_blank">https://www.tiktok.com/@auviet</a></span>
-            </div>
-        </div>
-    </div>
-    
-    <div class="copyright">
-        © 2025 Âu Việt Center. All rights reserved. Developed by Albert Nguyen
-    </div>
+<div class="footer-content">
+<div class="footer-left">
+<img src="{logo_url}" style="width: 150px; margin-bottom: 20px;" onerror="this.style.display='none'"> 
+<h4 style="color: #d63031; margin-top: 0;">Âu Việt Center</h4>
+<p style="font-size: 14px; color: #666;">Hệ thống đào tạo IELTS chuyên nghiệp.</p>
+<img src="{dmca_url}" class="dmca-badge">
+</div>
+<div class="footer-right">
+<div class="footer-row">
+<span class="footer-icon">📍</span>
+<span class="footer-text">Địa chỉ: 213/9 Nguyễn Gia Trí, Phường Thạnh Mỹ Tây, TP Hồ Chí Minh</span>
+</div>
+<div class="footer-row">
+<span class="footer-icon">💬</span>
+<span class="footer-text">Zalo OA: <a href="https://zalo.me/auviet" target="_blank">https://zalo.me/auviet</a></span>
+</div>
+<div class="footer-row">
+<span class="footer-icon">📞</span>
+<span class="footer-text">Hotline: <b>0866.771.333</b></span>
+</div>
+<div class="footer-row">
+<span class="footer-icon">🔴</span>
+<span class="footer-text">Youtube: <a href="#" target="_blank">https://www.youtube.com/@auviet</a></span>
+</div>
+<div class="footer-row">
+<span class="footer-icon">🎵</span>
+<span class="footer-text">Tiktok: <a href="#" target="_blank">https://www.tiktok.com/@auviet</a></span>
+</div>
+</div>
+</div>
+<div class="copyright">
+© 2025 Âu Việt Center. All rights reserved. Developed by Albert Nguyen
+</div>
 </div>
 """, unsafe_allow_html=True)
