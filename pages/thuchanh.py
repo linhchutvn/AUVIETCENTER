@@ -476,9 +476,9 @@ Cấu trúc JSON:
 }
 ```
 """
-==========================================
-3. HELPER FUNCTIONS
-==========================================
+# ==========================================
+# 3. HELPER FUNCTIONS
+# ==========================================
 def clean_json(text):
 match = re.search(r"json\s*([\s\S]*?)\s*", text)
 if match: return match.group(1).strip()
@@ -582,18 +582,18 @@ elements.append(Paragraph(safe_text, styles['Normal']))
 doc.build(elements)
 buffer.seek(0)
 return buffer
-==========================================
-4. UI: SESSION STATE INIT
-==========================================
+# ==========================================
+# 4. UI: SESSION STATE INIT
+# ==========================================
 if "step" not in st.session_state: st.session_state.step = 1
 if "guide_data" not in st.session_state: st.session_state.guide_data = None
 if "grading_result" not in st.session_state: st.session_state.grading_result = None
 Thêm biến lưu trữ đề bài và ảnh để tránh mất khi đổi bước
 if "saved_topic" not in st.session_state: st.session_state.saved_topic = ""
 if "saved_img" not in st.session_state: st.session_state.saved_img = None
-==========================================
-5. UI: PHASE 1 - INPUT & GUIDE
-==========================================
+# ==========================================
+# 5. UI: PHASE 1 - INPUT & GUIDE
+# ==========================================
 st.title("🎓 IELTS Writing: Learn & Grade")
 if st.session_state.step == 1:
 col1, col2 = st.columns([1, 1])
@@ -631,9 +631,9 @@ if st.button("🚀 Phân tích & Hướng dẫn", type="primary"):
                     st.session_state.guide_data = data
                     st.session_state.step = 2
                     st.rerun()
-==========================================
-6. UI: PHASE 2 - WRITING PRACTICE
-==========================================
+# ==========================================
+# 6. UI: PHASE 2 - WRITING PRACTICE
+# ==========================================
 if st.session_state.step == 2 and st.session_state.guide_data:
 data = st.session_state.guide_data
 st.markdown("---")
@@ -684,9 +684,9 @@ if st.button("✨ Gửi chấm điểm (Examiner Pro Mode)", type="primary", use
             st.session_state.step = 3
             status.update(label="✅ Đã chấm xong!", state="complete", expanded=False)
             st.rerun()
-==========================================
-7. UI: PHASE 3 - GRADING RESULT (EXAMINER UI)
-==========================================
+# ==========================================
+# 7. UI: PHASE 3 - GRADING RESULT (EXAMINER UI)
+# ==========================================
 if st.session_state.step == 3 and st.session_state.grading_result:
 res = st.session_state.grading_result
 g_data = res["data"]
