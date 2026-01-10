@@ -4,163 +4,107 @@ import streamlit as st
 st.set_page_config(page_title="AUVIET CENTER", layout="wide", page_icon="🎓")
 
 # ----------------------------------------------------------------
-# THANH MENU ĐIỀU HƯỚNG (NAVBAR) - NẰM TRÊN CÙNG
-# ----------------------------------------------------------------
-# Tạo 3 cột: Trang chủ - Luyện tập - Khoảng trống
-nav_col1, nav_col2, nav_col3 = st.columns([1, 1, 4])
-
-with nav_col1:
-    # Nút dẫn đến trang hiện tại (Trang chủ) - disable để biết đang ở đây
-    st.page_link("app.py", label="🏠 Trang chủ", icon=None, use_container_width=True, disabled=True)
-
-with nav_col2:
-    # Nút dẫn sang trang Luyện tập (Cần tạo file pages/luyentap.py mới chạy được)
-    st.page_link("pages/writing.py", label="📝 Luyện tập YouPass", icon=None, use_container_width=True)
-
-st.divider() # Đường kẻ phân cách menu
-
-# ----------------------------------------------------------------
-# PHẦN CSS (GIAO DIỆN)
+# CSS: GIAO DIỆN CHUYÊN NGHIỆP & ẨN SIDEBAR
 # ----------------------------------------------------------------
 st.markdown("""
 <style>
-    /* QUAN TRỌNG: ẨN SIDEBAR MẶC ĐỊNH BÊN TRÁI */
-    [data-testid="stSidebar"] {
-        display: none;
-    }
+    /* Ẩn Sidebar mặc định */
+    [data-testid="stSidebar"] {display: none;}
     
-    /* 1. CSS CHO THẺ SẢN PHẨM (CARD) */
-    .product-card {
-        background-color: white;
-        border: 1px solid #e0e0e0;
-        border-radius: 10px;
-        padding: 15px;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        margin-bottom: 20px;
-        transition: 0.3s;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
+    /* Đẩy nội dung lên sát mép trên (Xóa khoảng trắng mặc định của Streamlit) */
+    .block-container {
+        padding-top: 1rem;
+        padding-bottom: 1rem;
     }
-    .product-card:hover {
-        box-shadow: 0 8px 15px rgba(0,0,0,0.2);
-        transform: translateY(-5px);
-    }
-    .card-img {
-        width: 100%;
-        border-radius: 5px;
-        object-fit: cover;
-        height: 180px; 
-        margin-bottom: 10px;
-    }
-    .course-title {
-        font-size: 18px;
-        font-weight: bold;
-        color: #2c3e50;
-        margin-bottom: 5px !important;
-        line-height: 1.3;
-        min-height: 50px;
-    }
-    .course-cat { font-size: 13px; color: #7f8c8d; margin-bottom: 5px !important; }
-    .course-price { color: #d63031; font-weight: bold; font-size: 16px; margin-bottom: 15px !important; }
-    
-    /* Nút xem chi tiết */
-    .custom-btn {
-        display: inline-block;
-        background-color: #00b894; 
-        color: white !important;
-        padding: 8px 20px;
-        border-radius: 20px;
-        text-decoration: none !important;
-        font-weight: 500;
-        font-size: 14px;
-        border: none;
-    }
-    .custom-btn:hover { background-color: #019376; }
 
-    /* 2. CSS CHO NÚT LOGIN GOOGLE */
-    .google-btn {
-        border: 1px solid #dadce0;
+    /* Style cho Nút Đăng nhập Google đẹp hơn */
+    .login-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
         background-color: white;
         color: #3c4043;
-        padding: 8px 15px;
-        border-radius: 4px;
+        border: 1px solid #dadce0;
+        border-radius: 20px; /* Bo tròn hình viên thuốc */
+        padding: 5px 15px;
+        text-decoration: none;
         font-weight: 500;
         font-size: 14px;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        text-decoration: none;
-        float: right; 
+        transition: 0.3s;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
     }
-    .google-btn:hover { background-color: #f7fafe; border-color: #d2e3fc; }
-
-    /* 3. CSS CHO FOOTER */
-    .footer-container {
-        background-color: white;
-        border-top: 1px solid #e0e0e0;
-        padding: 40px 0;
-        margin-top: 50px;
-        color: #333;
+    .login-btn:hover {
+        background-color: #f7fafe;
+        border-color: #d2e3fc;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+        color: #3c4043;
     }
-    .footer-content {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 0 20px;
+    
+    /* CSS cho thẻ Card sản phẩm (Giữ nguyên) */
+    .product-card {
+        background-color: white; border: 1px solid #e0e0e0; border-radius: 10px;
+        padding: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 20px;
+        height: 100%; display: flex; flex-direction: column; justify-content: space-between;
     }
-    .footer-left {
-        flex: 1;
-        min-width: 300px;
-        margin-bottom: 20px;
-    }
-    .footer-right {
-        flex: 2;
-        min-width: 300px;
-    }
-    .footer-row {
-        display: flex;
-        align-items: flex-start;
-        margin-bottom: 15px;
-    }
-    .footer-icon {
-        width: 20px;
-        margin-right: 15px;
-        font-size: 18px;
-    }
-    .footer-text {
-        font-size: 14px;
-        line-height: 1.6;
-    }
-    .dmca-badge {
-        margin-top: 15px;
-        width: 120px;
-    }
-    .copyright {
-        text-align: center;
-        font-size: 13px;
-        color: #666;
-        margin-top: 30px;
-        padding-top: 20px;
-        border-top: 1px solid #eee;
-    }
-    /* Ẩn biểu tượng liên kết (cái ghim) bên cạnh tiêu đề */
-    [data-testid="stHeaderAction"] {
-        display: none !important;
-    }
-    h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
-        display: none !important;
-    }
+    .card-img { width: 100%; border-radius: 5px; object-fit: cover; height: 180px; margin-bottom: 10px; }
+    .course-title { font-size: 18px; font-weight: bold; color: #2c3e50; min-height: 50px; }
+    .course-price { color: #d63031; font-weight: bold; font-size: 16px; margin-bottom: 15px; }
+    
+    /* Ẩn ghim tiêu đề */
+    [data-testid="stHeaderAction"] { display: none !important; }
+    h1 a, h2 a, h3 a, h4 a, h5 a, h6 a { display: none !important; }
 </style>
 """, unsafe_allow_html=True)
 
 # ----------------------------------------------------------------
-# DỮ LIỆU KHÓA HỌC
+# HEADER (NAVBAR) - GIAO DIỆN MỚI
 # ----------------------------------------------------------------
+# Chia làm 3 phần: [Logo (2)] --- [Menu (6)] --- [Login (2)]
+col_brand, col_nav, col_login = st.columns([2, 5, 2], gap="small", vertical_alignment="center")
+
+with col_brand:
+    # Logo hoặc Tên thương hiệu
+    st.markdown("<h3 style='margin:0; color:#0984e3;'>🎓 AU VIET</h3>", unsafe_allow_html=True)
+
+with col_nav:
+    # Menu nằm giữa
+    nav1, nav2 = st.columns(2)
+    with nav1:
+        st.page_link("app.py", label="Trang chủ", icon="🏠", use_container_width=True, disabled=True)
+    with nav2:
+        st.page_link("pages/writing.py", label="Luyện tập 4 kỹ năng", icon="📝", use_container_width=True)
+
+with col_login:
+    # Nút đăng nhập nằm bên phải
+    # Dùng HTML để căn phải (float: right)
+    st.markdown("""
+        <div style="text-align: right;">
+            <a href="https://accounts.google.com" target="_blank" class="login-btn">
+                <img src="https://www.svgrepo.com/show/475656/google-color.svg" width="18" height="18" style="margin-right:8px;">
+                Đăng nhập
+            </a>
+        </div>
+    """, unsafe_allow_html=True)
+
+st.divider() # Đường kẻ ngang phân cách Header
+
+# ----------------------------------------------------------------
+# NỘI DUNG CHÍNH (BODY)
+# ----------------------------------------------------------------
+
+# BANNER
+try:
+    st.image("banner.JPG", use_column_width=True)
+except:
+    st.image("https://via.placeholder.com/1200x300?text=AU+VIET+CENTER", use_column_width=True)
+
+st.write("") 
+
+# THANH TÌM KIẾM
+st.markdown("##### 🔍 Tìm kiếm & Lọc") 
+search_col, filter_col = st.columns([3, 1])
+
+# Dữ liệu khóa học
 courses = [
     {"id": 1, "title": "Khoá học IELTS Speaking", "price": "FREE", "img": "https://raw.githubusercontent.com/linhchutvn/test/main/SPEAKING.png", "category": "Speaking", "link": "https://www.youtube.com/playlist?list=PLI3S3xWA78UXXz0m6QoGyc-8UvHeAYTYT"},
     {"id": 2, "title": "Khoá học IELTS Reading", "price": "FREE", "img": "https://raw.githubusercontent.com/linhchutvn/test/main/READING.png", "category": "Reading", "link": "https://www.google.com"},
@@ -170,47 +114,16 @@ courses = [
     {"id": 6, "title": "Chấm điểm IELTS Writing Task 1", "price": "FREE", "img": "https://raw.githubusercontent.com/linhchutvn/test/main/Assessment_TASK1.png", "category": "Writing Task 1", "link": "https://ielts-test.streamlit.app/"},
     {"id": 7, "title": "Chấm điểm IELTS Writing Task 2", "price": "FREE", "img": "https://raw.githubusercontent.com/linhchutvn/test/main/Assessment_TASK2.png", "category": "Writing Task 2", "link": "https://www.google.com"},
 ]
-top_col1, top_col2 = st.columns([8, 2])
-
-with top_col1:
-    st.markdown("### 🎓 TRUNG TÂM NGOẠI NGỮ QUỐC TẾ ÂU VIỆT") 
-
-with top_col2:
-    st.markdown("""
-        <a href="https://accounts.google.com" target="_blank" class="google-btn">
-            <img src="https://www.svgrepo.com/show/475656/google-color.svg" width="20" height="20">
-            Đăng nhập Google
-        </a>
-    """, unsafe_allow_html=True)
-
-# ----------------------------------------------------------------
-# BANNER
-# ----------------------------------------------------------------
-try:
-    st.image("banner.JPG", use_column_width=True)
-except:
-    st.image("https://via.placeholder.com/1200x300?text=AU+VIET+CENTER", use_column_width=True)
-
-st.write("") 
-
-# ----------------------------------------------------------------
-# THANH TÌM KIẾM
-# ----------------------------------------------------------------
-st.markdown("##### 🔍 Tìm kiếm & Lọc") 
-search_col, filter_col = st.columns([3, 1])
 
 with search_col:
     search_term = st.text_input("Search", placeholder="Nhập tên khóa học...", label_visibility="collapsed")
-
 with filter_col:
     categories = ["Tất cả"] + list(set([c['category'] for c in courses]))
     selected_category = st.selectbox("Category", categories, label_visibility="collapsed")
 
 st.markdown("### 🔥 Các khóa học nổi bật")
 
-# ----------------------------------------------------------------
 # LOGIC & HIỂN THỊ
-# ----------------------------------------------------------------
 filtered_courses = courses
 if selected_category != "Tất cả":
     filtered_courses = [c for c in courses if c['category'] == selected_category]
@@ -223,65 +136,35 @@ else:
     cols = st.columns(3)
     for i, course in enumerate(filtered_courses):
         with cols[i % 3]:
+            # Nút Xem chi tiết
             st.markdown(f"""
             <div class="product-card">
                 <img src="{course['img']}" class="card-img" onerror="this.onerror=null; this.src='https://via.placeholder.com/400x200'">
                 <div style="flex-grow: 1;">
                     <p class="course-title">{course['title']}</p>
-                    <p class="course-cat">{course['category']}</p>
                     <p class="course-price">{course['price']}</p>
                 </div>
                 <div style="text-align: center; margin-top: 10px;">
-                    <a href="{course.get('link', '#')}" target="_blank" class="custom-btn">
+                    <a href="{course.get('link', '#')}" target="_blank" style="background-color: #00b894; color: white; padding: 8px 20px; border-radius: 20px; text-decoration: none; font-size: 14px;">
                         Xem chi tiết
                     </a>
                 </div>
             </div>
             """, unsafe_allow_html=True)
 
-# ----------------------------------------------------------------
 # FOOTER
-# ----------------------------------------------------------------
 logo_url = "https://raw.githubusercontent.com/linhchutvn/test/main/logo.png" 
-dmca_url = "https://images.dmca.com/Badges/dmca_protected_sml_120n.png?ID=YOUR_ID"
-
 st.markdown(f"""
-<div class="footer-container">
-<div class="footer-content">
-<div class="footer-left">
-<img src="{logo_url}" style="width: 150px; margin-bottom: 20px;" onerror="this.style.display='none'"> 
-<h4 style="color: #d63031; margin-top: 0;">Âu Việt Center</h4>
-<p style="font-size: 14px; color: #666;">Hệ thống đào tạo IELTS chuyên nghiệp.</p>
-<img src="{dmca_url}" class="dmca-badge">
+<hr>
+<div style="display: flex; justify-content: space-between; padding: 20px;">
+    <div>
+        <img src="{logo_url}" width="100" onerror="this.style.display='none'">
+        <h4>Âu Việt Center</h4>
+    </div>
+    <div>
+        <p>📍 Địa chỉ: 10 Thiên Phát, Quảng Ngãi</p>
+        <p>📞 Hotline: 0866.771.333</p>
+    </div>
 </div>
-<div class="footer-right">
-<div class="footer-row">
-<span class="footer-icon">📍</span>
-<span class="footer-text">Địa chỉ: 10 Thiên Phát, Khu Đô thị - Dịch vụ VSIP, Phường Trương Quang Trọng</span>
-</div>
-<div class="footer-row">
-<span class="footer-icon">💬</span>
-<span class="footer-text">Zalo OA: <a href="https://zalo.me/auviet" target="_blank">https://zalo.me/auviet</a></span>
-</div>
-<div class="footer-row">
-<span class="footer-icon">📞</span>
-<span class="footer-text">Hotline: <b>0866.771.333</b></span>
-</div>
-<div class="footer-row">
-<span class="footer-icon">🔴</span>
-<span class="footer-text">Youtube: <a href="#" target="_blank">https://www.youtube.com/@auviet</a></span>
-</div>
-<div class="footer-row">
-<span class="footer-icon">🎵</span>
-<span class="footer-text">Tiktok: <a href="#" target="_blank">https://www.tiktok.com/@auviet</a></span>
-</div>
-</div>
-</div>
-<div class="copyright">
-© 2025 Âu Việt Center. All rights reserved. Developed by Albert Nguyen
-</div>
-</div>
+<center style="color:#666; font-size:12px;">© 2025 Developed by Albert Nguyen</center>
 """, unsafe_allow_html=True)
-
-
-
