@@ -6,22 +6,56 @@ st.set_page_config(page_title="AuViet Center", layout="wide", page_icon="🎓")
 # CSS tùy chỉnh để làm đẹp giao diện (Hack CSS trong Streamlit)
 st.markdown("""
 <style>
-    .course-card {
-        background-color: #f0f2f6;
-        padding: 15px;
-        border-radius: 50px;
+    /* CSS cho phần hiển thị thông tin */
+    .course-info {
+        margin-top: 5px;
         margin-bottom: 10px;
-        text-align: center;
     }
-    .price {
+    
+    /* Chỉnh tiêu đề nhỏ gọn, khoảng cách thấp */
+    .course-title {
+        font-size: 18px;
+        font-weight: bold;
+        color: #2c3e50;
+        margin-bottom: 2px !important; /* Thu hẹp khoảng cách dưới tiêu đề */
+        line-height: 1.2;
+    }
+    
+    /* Chỉnh dòng danh mục */
+    .course-cat {
+        font-size: 13px;
+        color: #666;
+        margin-bottom: 5px !important;
+        margin-top: 0px !important;
+    }
+    
+    /* Chỉnh giá tiền */
+    .course-price {
         color: #d63031;
         font-weight: bold;
-        font-size: 15px;
+        font-size: 16px;
+        margin-bottom: 10px !important;
     }
-    .stButton>button {
-        width: 100%;
-        background-color: #0984e3;
-        color: white;
+    
+    /* Nút bấm màu Xanh Ngọc Bích (Jade) */
+    .custom-btn {
+        display: inline-block;
+        background-color: #00b894; /* Mã màu xanh ngọc bích */
+        color: white !important;
+        padding: 6px 15px; /* Độ dày nút nhỏ lại */
+        border-radius: 5px;
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 14px; /* Chữ trong nút nhỏ lại */
+        text-align: center;
+        transition: 0.3s;
+        border: none;
+        width: 100%; /* Nếu muốn nút dài hết khung thì để 100%, muốn nút ngắn thì xóa dòng này */
+    }
+    
+    .custom-btn:hover {
+        background-color: #019376; /* Màu đậm hơn khi di chuột vào */
+        color: white !important;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -93,6 +127,7 @@ else:
 # Footer
 st.markdown("---")
 st.markdown("<center>© 2025 Âu Việt Center Developed by Albert Nguyen</center>", unsafe_allow_html=True)
+
 
 
 
