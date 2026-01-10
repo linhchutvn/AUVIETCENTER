@@ -81,7 +81,7 @@ st.markdown("""
 # 2. Dữ liệu giả lập
 # LƯU Ý: Link ảnh unsplash.com đôi khi bị lỗi, mình thay tạm bằng placeholder để đảm bảo hiển thị
 courses = [
-    {"id": 1, "title": "Khoá học IELTS Speaking", "price": "499.000đ", "img": "SPEAKING.png", "category": "Speaking", "link": "https://www.google.com"},
+    {"id": 1, "title": "Khoá học IELTS Speaking", "price": "499.000đ", "img": "https://github.com/linhchutvn/test/blob/main/SPEAKING.png?raw=true", "category": "Speaking", "link": "https://www.google.com"},
     {"id": 2, "title": "Khoá học IELTS Reading", "price": "299.000đ", "img": "https://via.placeholder.com/400x200?text=IELTS+Reading", "category": "Reading", "link": "https://www.google.com"},
     {"id": 3, "title": "Khoá học IELTS Listening", "price": "199.000đ", "img": "https://via.placeholder.com/400x200?text=IELTS+Listening", "category": "Listening", "link": "https://www.google.com"},
     {"id": 4, "title": "Khoá học IELTS Writing Task 1", "price": "599.000đ", "img": "https://via.placeholder.com/400x200?text=Writing+Task+1", "category": "Writing Task 1", "link": "https://www.google.com"},
@@ -151,5 +151,6 @@ else:
 
 st.markdown("---")
 st.markdown("<center>© 2025 Âu Việt Center Developed by Albert Nguyen</center>", unsafe_allow_html=True)
+
 
 
