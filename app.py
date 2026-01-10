@@ -28,12 +28,12 @@ st.markdown("""
 
 # 2. Dữ liệu giả lập (Mock Data) các khóa học
 courses = [
-    {"id": 1, "title": "Lập trình Python cơ bản", "price": "499.000đ", "img": "https://source.unsplash.com/random/400x200?coding", "category": "IT"},
-    {"id": 2, "title": "Tiếng Anh giao tiếp", "price": "299.000đ", "img": "https://source.unsplash.com/random/400x200?english", "category": "Ngoại ngữ"},
-    {"id": 3, "title": "Excel cho người đi làm", "price": "199.000đ", "img": "https://source.unsplash.com/random/400x200?excel", "category": "Tin học VP"},
-    {"id": 4, "title": "Marketing căn bản", "price": "599.000đ", "img": "https://source.unsplash.com/random/400x200?marketing", "category": "Marketing"},
-    {"id": 5, "title": "Data Science nhập môn", "price": "899.000đ", "img": "https://source.unsplash.com/random/400x200?data", "category": "IT"},
-    {"id": 6, "title": "Thiết kế UI/UX", "price": "699.000đ", "img": "https://source.unsplash.com/random/400x200?design", "category": "Design"},
+    {"id": 1, "title": "Khoá học IELTS Speaking", "price": "499.000đ", "img": "https://source.unsplash.com/random/400x200?coding", "category": "Speaking"},
+    {"id": 2, "title": "Khoá học IELTS Reading", "price": "299.000đ", "img": "https://source.unsplash.com/random/400x200?english", "category": "Reading"},
+    {"id": 3, "title": "Khoá học IELTS Listening", "price": "199.000đ", "img": "https://source.unsplash.com/random/400x200?excel", "category": "Listening"},
+    {"id": 4, "title": "Khoá học IELTS Writing Task 1", "price": "599.000đ", "img": "https://source.unsplash.com/random/400x200?marketing", "category": "Writing Task 1"},
+    {"id": 5, "title": "Khoá học IELTS Writing Task 2", "price": "899.000đ", "img": "https://source.unsplash.com/random/400x200?data", "category": "Writing Task 2"},
+    {"id": 6, "title": "Chấm điểm IELTS Writing Task 1", "price": "699.000đ", "img": "https://source.unsplash.com/random/400x200?design", "category": "Design"},
 ]
 
 # 3. Sidebar - Bộ lọc & Menu
@@ -94,6 +94,7 @@ else:
 # Footer
 st.markdown("---")
 st.markdown("<center>© 2025 Âu Việt Center Developed by Albert Nguyen</center>", unsafe_allow_html=True)
+
 
 
 
