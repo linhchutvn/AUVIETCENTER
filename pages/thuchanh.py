@@ -678,10 +678,8 @@ if st.session_state.step == 1:
     st.markdown('<div class="step-desc">Paste the official task question here</div>', unsafe_allow_html=True)
     question_input = st.text_area("Question", height=150, placeholder="The chart below shows...", key="q_input", label_visibility="collapsed")
 
-    st.markdown("---")
-
     # STEP 2 – Visual Data (Đã đổi xuống dưới)
-    st.markdown('<div class="step-header">STEP 2 – Visual Data (bắt buộc)</div>', unsafe_allow_html=True)
+    st.markdown('<div class="step-header">STEP 2 – Visual Data </div>', unsafe_allow_html=True)
     st.markdown('<div class="step-desc">Upload chart / graph / table / diagram</div>', unsafe_allow_html=True)
     uploaded_image = st.file_uploader("Upload Image", type=['png', 'jpg', 'jpeg'], key="img_input", label_visibility="collapsed")
     
@@ -691,7 +689,6 @@ if st.session_state.step == 1:
         st.image(img_data, caption='Uploaded Visual Data', width=400)
 
     # STEP 3 – Examiner Focus (Giữ nguyên vị trí)
-    st.markdown("---")
     st.markdown('<div class="step-header">STEP 3 – Examiner Focus</div>', unsafe_allow_html=True)
     st.markdown("""
     <div style="background-color: #F1F5F9; padding: 15px; border-radius: 8px; border: 1px solid #E2E8F0;">
