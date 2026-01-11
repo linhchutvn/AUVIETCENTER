@@ -766,121 +766,122 @@ if st.session_state.step == 1:
                     st.rerun() # Buộc Streamlit vẽ lại giao diện Phase 2 ngay lập tức
 
 # ==========================================
-# 6. UI: PHASE 2 - WRITING PRACTICE (FIXED STICKY)
+# 6. UI: PHASE 2 - WRITING PRACTICE (ULTIMATE STICKY)
 # ==========================================
 if st.session_state.step == 2 and st.session_state.guide_data:
     
-    # --- 1. CSS "BẤT TỬ" ĐỂ CỐ ĐỊNH CỘT TRÁI ---
+    # --- 1. CSS "ĐÓNG ĐĂNG" CỘT TRÁI ---
     st.markdown("""
         <style>
-            /* 1. Bắt buộc khối ngang không được kéo dãn các cột */
+            /* Nhắm vào container chứa cả 2 cột */
             [data-testid="stHorizontalBlock"] {
                 align-items: flex-start !important;
             }
 
-            /* 2. Cố định cột bên trái (Cột 1) */
-            [data-testid="column"]:nth-of-type(1) {
+            /* Nhắm vào cột đầu tiên (Cột Trái) */
+            [data-testid="stHorizontalBlock"] > div:nth-child(1) {
                 position: -webkit-sticky !important;
                 position: sticky !important;
-                top: 80px !important; /* Khoảng cách so với đỉnh trình duyệt */
-                z-index: 1000 !important;
+                top: 2rem !important;
+                z-index: 999 !important;
             }
 
-            /* 3. Tạo khung cuộn riêng cho nội dung bên trái nếu quá dài */
-            [data-testid="column"]:nth-of-type(1) > div {
-                max-height: 85vh !important;
+            /* Cố định chiều cao vùng hiển thị đề bài để không bị trôi */
+            [data-testid="stHorizontalBlock"] > div:nth-child(1) > div:nth-child(1) {
+                max-height: 95vh !important;
                 overflow-y: auto !important;
-                overflow-x: hidden !important;
-                padding-right: 15px !important;
+                padding-right: 10px !important;
             }
 
-            /* Tùy chỉnh thanh cuộn cho đẹp */
-            [data-testid="column"]:nth-of-type(1) > div::-webkit-scrollbar {
-                width: 5px;
+            /* Tùy chỉnh thanh cuộn cho cột trái (nếu có) */
+            [data-testid="stHorizontalBlock"] > div:nth-child(1) > div:nth-child(1)::-webkit-scrollbar {
+                width: 4px;
             }
-            [data-testid="column"]:nth-of-type(1) > div::-webkit-scrollbar-thumb {
-                background: #d1d5db;
+            [data-testid="stHorizontalBlock"] > div:nth-child(1) > div:nth-child(1)::-webkit-scrollbar-thumb {
+                background: #cccccc;
                 border-radius: 10px;
+            }
+            
+            /* Tăng khoảng cách giữa các ô nhập liệu bên phải cho dễ nhìn */
+            .stTextArea {
+                margin-bottom: 1rem !important;
             }
         </style>
     """, unsafe_allow_html=True)
 
     data = st.session_state.guide_data
 
-    # --- 2. HÀM ĐỊNH NGHĨA (TRÁNH NAMEERROR) ---
+    # --- 2. HÀM RENDER (Giữ nguyên để tránh lỗi NameError) ---
     def render_writing_section(title, guide_key, input_key):
-        st.markdown(f"##### {title}")
-        with st.expander(f"💡 Gợi ý viết {title}", expanded=(title == "Introduction")):
-            guide_text = data.get(guide_key, "Không có hướng dẫn chi tiết.")
-            st.markdown(f"<div class='guide-box'>{guide_text}</div>", unsafe_allow_html=True)
-        return st.text_area(label=title, height=180, key=input_key, placeholder=f"Nhập phần {title} của bạn...", label_visibility="collapsed")
+        st.markdown(f"#### {title}")
+        with st.expander(f"💡 Hướng dẫn viết {title}", expanded=False):
+            g_text = data.get(guide_key, "Không có hướng dẫn.")
+            st.markdown(f"<div class='guide-box'>{g_text}</div>", unsafe_allow_html=True)
+        return st.text_area(label=title, height=200, key=input_key, placeholder=f"Bắt đầu viết {title} tại đây...", label_visibility="collapsed")
 
     # --- 3. CHIA CỘT LAYOUT (4-6) ---
     col_left, col_right = st.columns([4, 6], gap="large")
 
-    # CỘT BÊN TRÁI: ĐỀ BÀI & HÌNH ẢNH (Sẽ đứng yên khi cuộn cột phải)
     with col_left:
-        st.markdown("### 📄 Đề bài & Hình ảnh")
+        st.subheader("📄 Đề bài & Hình ảnh")
+        # Khung chứa đề bài
         st.markdown(f"""
-            <div style="background-color: #f8f9fa; padding: 18px; border-radius: 10px; border: 1px solid #e5e7eb; font-style: italic; line-height: 1.6; margin-bottom: 15px;">
-                {st.session_state.saved_topic}
+            <div style="background-color: #F1F5F9; padding: 20px; border-radius: 10px; border: 1px solid #CBD5E1; line-height: 1.6; color: #1E293B; margin-bottom: 15px;">
+                <b>Question:</b><br><i>{st.session_state.saved_topic}</i>
             </div>
         """, unsafe_allow_html=True)
         
+        # Hình ảnh biểu đồ
         if st.session_state.saved_img:
             st.image(st.session_state.saved_img, use_container_width=True)
         
-        st.info(f"📌 Dạng bài: {data.get('task_type')}")
-        st.markdown("<div style='height: 100px;'></div>", unsafe_allow_html=True) # Khoảng trống đệm cuối cột
+        st.info(f"📌 **Dạng bài:** {data.get('task_type')}")
 
-    # CỘT BÊN PHẢI: KHU VỰC VIẾT BÀI (Cuộn thoải mái)
     with col_right:
-        st.markdown("### ✍️ Bài làm của bạn")
+        st.subheader("✍️ Khu vực viết bài")
         
-        # Word count logic
-        def get_wc(key): return len(st.session_state.get(key, "").split())
-        total_wc = sum(get_wc(k) for k in ["in_intro", "in_overview", "in_body1", "in_body2"])
+        # Bộ đếm từ
+        def count_w(k): return len(st.session_state.get(k, "").split())
+        current_wc = count_w("in_intro") + count_w("in_overview") + count_w("in_body1") + count_w("in_body2")
         
-        # Hiển thị số từ bằng Badge
         st.markdown(f"""
-            <div style="text-align: right; margin-bottom: 10px;">
-                <span style="background-color: #EEF2FF; color: #4338CA; padding: 5px 15px; border-radius: 20px; font-weight: bold; font-size: 14px; border: 1px solid #C7D2FE;">
-                    Count: {total_wc} words
+            <div style="text-align: right; margin-top: -45px;">
+                <span style="background-color: #10B981; color: white; padding: 5px 15px; border-radius: 15px; font-weight: bold; font-size: 14px;">
+                    Word count: {current_wc}
                 </span>
             </div>
         """, unsafe_allow_html=True)
 
-        # Các ô nhập liệu
-        intro = render_writing_section("Introduction", "intro_guide", "in_intro")
-        overview = render_writing_section("Overview", "overview_guide", "in_overview")
-        body1 = render_writing_section("Body 1", "body1_guide", "in_body1")
-        body2 = render_writing_section("Body 2", "body2_guide", "in_body2")
+        # Render các ô nhập liệu
+        intro_text = render_writing_section("Introduction", "intro_guide", "in_intro")
+        overview_text = render_writing_section("Overview", "overview_guide", "in_overview")
+        body1_text = render_writing_section("Body 1", "body1_guide", "in_body1")
+        body2_text = render_writing_section("Body 2", "body2_guide", "in_body2")
 
         st.markdown("---")
         
-        # Nút nộp bài (Giữ nguyên logic chấm điểm nguyên bản của bạn)
-        if st.button("🎓 Submit for Official Grading", type="primary", use_container_width=True):
-            if total_wc < 20:
-                st.warning("⚠️ Bài viết quá ngắn để chấm điểm.")
+        # Nút chấm điểm (Sử dụng Prompt gốc của bạn)
+        if st.button("🎓 Gửi bài chấm điểm (Examiner Pro)", type="primary", use_container_width=True):
+            if current_wc < 30:
+                st.warning("⚠️ Bài viết quá ngắn, AI không thể chấm điểm chính xác.")
             else:
-                status = st.status("👨‍🏫 Senior Examiner is starting assessment...", expanded=True)
-                
-                # Gom bài
-                full_essay = f"{intro}\n\n{overview}\n\n{body1}\n\n{body2}".strip()
-                
-                # Gọi logic chấm điểm của bạn
-                prompt_grade = GRADING_PROMPT_TEMPLATE.replace('{{TOPIC}}', st.session_state.saved_topic).replace('{{ESSAY}}', full_essay)
-                res_grade, _ = generate_content_with_failover(prompt_grade, st.session_state.saved_img, json_mode=False)
-                
-                if res_grade:
-                    mk_text, p_data = process_grading_response(res_grade.text)
-                    st.session_state.grading_result = {
-                        "data": p_data, "markdown": mk_text,
-                        "essay": full_essay, "topic": st.session_state.saved_topic
-                    }
-                    st.session_state.step = 3
-                    status.update(label="✅ Grading Complete!", state="complete", expanded=False)
-                    st.rerun()
+                with st.status("👨‍🏫 Giám khảo đang chấm bài...") as status:
+                    total_essay = f"{intro_text}\n\n{overview_text}\n\n{body1_text}\n\n{body2_text}".strip()
+                    # Sử dụng biến saved_topic để tránh lỗi NameError
+                    prompt_grade = GRADING_PROMPT_TEMPLATE.replace('{{TOPIC}}', st.session_state.saved_topic).replace('{{ESSAY}}', total_essay)
+                    
+                    res_grade, _ = generate_content_with_failover(prompt_grade, st.session_state.saved_img, json_mode=False)
+                    
+                    if res_grade:
+                        # process_grading_response là hàm bóc tách Text và JSON bạn đã có
+                        mk_text, p_data = process_grading_response(res_grade.text)
+                        st.session_state.grading_result = {
+                            "data": p_data, "markdown": mk_text,
+                            "essay": total_essay, "topic": st.session_state.saved_topic
+                        }
+                        st.session_state.step = 3
+                        status.update(label="✅ Đã chấm xong!", state="complete", expanded=False)
+                        st.rerun()
                 else:
                     status.update(label="❌ Lỗi kết nối AI", state="error")
 
