@@ -713,62 +713,101 @@ if st.session_state.step == 1:
                         st.rerun()
 
 # ==========================================
-# 6. UI: PHASE 2 - WRITING PRACTICE
+# 6. UI: PHASE 2 - WRITING PRACTICE (SPLIT LAYOUT)
 # ==========================================
 if st.session_state.step == 2 and st.session_state.guide_data:
     data = st.session_state.guide_data
-    st.markdown("---")
-    st.success(f"📌 Loại bài: **{data.get('task_type', 'Task 1')}**")
     
-    st.markdown("### ✍️ Thực hành viết bài")
+    # Chia giao diện thành 2 cột lớn: Trái (Đề) - Phải (Bài làm)
+    layout_left, layout_right = st.columns([4, 6], gap="medium")
     
-    def render_input(title, guide, key):
-        st.markdown(f"**{title}**")
-        with st.expander(f"💡 Xem gợi ý", expanded=False):
-            st.markdown(f"<div class='guide-box'>{guide}</div>", unsafe_allow_html=True)
-        return st.text_area(f"Nhập {title}:", height=150, key=key)
+    # --- CỘT TRÁI: ĐỀ BÀI & HÌNH ẢNH ---
+    with layout_left:
+        st.markdown("### 📄 Đề bài (Prompt)")
+        
+        # Hiển thị text đề bài trong khung xám
+        st.markdown(f"""
+        <div style="background-color: #F8F9FA; padding: 15px; border-radius: 8px; border: 1px solid #E9ECEF; margin-bottom: 20px; font-style: italic; color: #374151; font-size: 0.95rem; line-height: 1.6;">
+            {st.session_state.saved_topic}
+        </div>
+        """, unsafe_allow_html=True)
+        
+        # Hiển thị ảnh
+        if st.session_state.saved_img:
+            st.image(st.session_state.saved_img, caption="Visual Data Reference", use_container_width=True)
+        
+        st.info(f"📌 **Dạng bài:** {data.get('task_type', 'Mixed/Other')}")
 
-    c1, c2 = st.columns(2)
-    with c1:
-        intro = render_input("Introduction", data.get("intro_guide"), "in_intro")
-        body1 = render_input("Body 1", data.get("body1_guide"), "in_body1")
-    with c2:
-        over = render_input("Overview", data.get("overview_guide"), "in_overview")
-        body2 = render_input("Body 2", data.get("body2_guide"), "in_body2")
+    # --- CỘT PHẢI: KHU VỰC VIẾT BÀI ---
+    with layout_right:
+        # Tính tổng số từ hiện tại (Real-time)
+        def get_word_count(key):
+            text = st.session_state.get(key, "")
+            return len(text.split())
+            
+        total_words = (get_word_count("in_intro") + get_word_count("in_overview") + 
+                       get_word_count("in_body1") + get_word_count("in_body2"))
+        
+        # Header với bộ đếm từ
+        st.markdown(f"""
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #eee;">
+            <span style="font-weight: 700; font-size: 1.2rem; color: #1F2937;">✍️ Bài làm của bạn</span>
+            <span style="background-color: {'#DCFCE7' if total_words >= 150 else '#F3F4F6'}; color: {'#166534' if total_words >= 150 else '#6B7280'}; padding: 4px 12px; border-radius: 99px; font-size: 0.9rem; font-weight: bold; border: 1px solid {'#86EFAC' if total_words >= 150 else '#E5E7EB'};">
+                📝 Word count: {total_words}/150+
+            </span>
+        </div>
+        """, unsafe_allow_html=True)
 
-    full_essay = f"{intro}\n\n{over}\n\n{body1}\n\n{body2}".strip()
-    wc = len(full_essay.split())
-    st.caption(f"📊 Số từ: {wc}")
+        # Hàm render từng ô nhập liệu
+        def render_writing_section(title, guide_key, input_key):
+            st.markdown(f"##### {title}")
+            # Expander hướng dẫn
+            with st.expander(f"💡 Gợi ý viết {title}", expanded=False):
+                st.markdown(f"<div class='guide-box'>{data.get(guide_key, 'Không có hướng dẫn chi tiết.')}</div>", unsafe_allow_html=True)
+            # Ô nhập liệu
+            return st.text_area(
+                label=title,
+                height=150, 
+                key=input_key, 
+                placeholder=f"Nhập phần {title} của bạn ở đây...",
+                label_visibility="collapsed"
+            )
 
-    st.markdown("---")
-    if st.button("✨ Gửi chấm điểm (Examiner Pro Mode)", type="primary", use_container_width=True):
-        if wc < 20:
-            st.warning("Bài viết quá ngắn.")
-        else:
-            status = st.status("👨‍🏫 Examiner đang chấm bài...", expanded=True)
-            status.write("🔍 Đang áp dụng tiêu chuẩn Band 9.0...")
-            
-            # Thay thế biến vào Prompt
-            prompt_grade = GRADING_PROMPT_TEMPLATE.replace('{{TOPIC}}', st.session_state.saved_topic).replace('{{ESSAY}}', full_essay)
-            
-            # Bước này KHÔNG dùng json_mode=True, để AI tự do viết Text phân tích trước rồi mới đến JSON
-            res_grade, _ = generate_content_with_failover(prompt_grade, st.session_state.saved_img, json_mode=False)
-            
-            status.write("📝 Tổng hợp báo cáo...")
-            if res_grade:
-                # Xử lý kết quả bằng hàm chuẩn của App chấm điểm
-                mk_text, p_data = process_grading_response(res_grade.text)
-                st.session_state.grading_result = {
-                    "data": p_data, 
-                    "markdown": mk_text, # Lưu phần text phân tích riêng
-                    "essay": full_essay, 
-                    "topic": st.session_state.saved_topic
-                }
-                st.session_state.step = 3
-                status.update(label="✅ Đã chấm xong!", state="complete", expanded=False)
-                st.rerun()
+        # 4 Phần viết bài xếp dọc
+        intro = render_writing_section("Introduction", "intro_guide", "in_intro")
+        overview = render_writing_section("Overview", "overview_guide", "in_overview")
+        body1 = render_writing_section("Body 1", "body1_guide", "in_body1")
+        body2 = render_writing_section("Body 2", "body2_guide", "in_body2")
+
+        # Nút nộp bài
+        st.markdown("---")
+        full_essay = f"{intro}\n\n{overview}\n\n{body1}\n\n{body2}".strip()
+        
+        if st.button("✨ Submit to Examiner Pro (Chấm điểm)", type="primary", use_container_width=True):
+            if total_words < 20:
+                st.warning("⚠️ Bài viết quá ngắn. Vui lòng hoàn thiện trước khi chấm.")
             else:
-                status.update(label="❌ Lỗi kết nối AI", state="error")
+                status = st.status("👨‍🏫 Examiner đang chấm bài...", expanded=True)
+                status.write("🔍 Analyzing Task Achievement & Data Accuracy...")
+                
+                # Gọi AI Chấm điểm
+                prompt_grade = GRADING_PROMPT_TEMPLATE.replace('{{TOPIC}}', st.session_state.saved_topic).replace('{{ESSAY}}', full_essay)
+                res_grade, _ = generate_content_with_failover(prompt_grade, st.session_state.saved_img, json_mode=False)
+                
+                status.write("📝 Compiling detailed report...")
+                if res_grade:
+                    mk_text, p_data = process_grading_response(res_grade.text)
+                    st.session_state.grading_result = {
+                        "data": p_data, 
+                        "markdown": mk_text,
+                        "essay": full_essay, 
+                        "topic": st.session_state.saved_topic
+                    }
+                    st.session_state.step = 3
+                    status.update(label="✅ Grading Complete!", state="complete", expanded=False)
+                    st.rerun()
+                else:
+                    status.update(label="❌ Lỗi kết nối AI", state="error")
 
 # ==========================================
 # 7. UI: PHASE 3 - GRADING RESULT (EXAMINER UI)
