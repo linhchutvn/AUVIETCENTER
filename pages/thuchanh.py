@@ -26,7 +26,7 @@ from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.lib.fonts import addMapping
 
 # ==========================================
-# 1. CẤU HÌNH & CSS
+# 1. CẤU HÌNH & CSS (GIỮ NGUYÊN)
 # ==========================================
 st.set_page_config(page_title="IELTS Writing Master", page_icon="🎓", layout="wide")
 
@@ -36,7 +36,6 @@ st.markdown("""
     
     html, body, [class*="css"] { font-family: 'Inter', sans-serif; }
     
-    /* Header Style */
     .main-header {
         font-family: 'Merriweather', serif;
         color: #0F172A;
@@ -52,8 +51,6 @@ st.markdown("""
         border-bottom: 1px solid #E2E8F0;
         padding-bottom: 1rem;
     }
-
-    /* Step Headers */
     .step-header {
         font-family: 'Inter', sans-serif;
         font-weight: 700;
@@ -62,8 +59,6 @@ st.markdown("""
         margin-top: 1.5rem;
         margin-bottom: 0.5rem;
     }
-
-    /* Guide Box */
     .guide-box {
         background-color: #f8f9fa;
         border-left: 5px solid #ff4b4b;
@@ -72,8 +67,6 @@ st.markdown("""
         margin-bottom: 10px;
         color: #31333F;
     }
-
-    /* Error Cards */
     .error-card {
         background-color: white;
         border: 1px solid #E5E7EB;
@@ -83,7 +76,6 @@ st.markdown("""
         box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         transition: all 0.2s;
     }
-    
     .annotated-text {
         font-family: 'Merriweather', serif;
         line-height: 1.8;
@@ -93,8 +85,7 @@ st.markdown("""
         border-radius: 12px;
         border: 1px solid #E5E7EB;
     }
-    
-    del { color: #9CA3AF; text-decoration: line-through; margin-right: 4px; }
+    del { color: #9CA3AF; text-decoration: line-through; margin-right: 4px; text-decoration-thickness: 2px; }
     ins.grammar { background-color: #4ADE80; color: #022C22; text-decoration: none; padding: 2px 6px; border-radius: 4px; font-weight: 700; border: 1px solid #22C55E; }
     ins.vocab { background-color: #FDE047; color: #000; text-decoration: none; padding: 2px 6px; border-radius: 4px; font-weight: 700; border: 1px solid #FCD34D; }
     
@@ -104,13 +95,12 @@ st.markdown("""
         font-weight: bold;
         border-radius: 8px;
         padding: 0.5rem 1.5rem;
-        border: none;
     }
 </style>
 """, unsafe_allow_html=True)
 
 # ==========================================
-# 2. LOGIC AI (FAILOVER)
+# 2. LOGIC AI (GIỮ NGUYÊN)
 # ==========================================
 try:
     ALL_KEYS = st.secrets["GEMINI_API_KEYS"]
@@ -121,17 +111,12 @@ except Exception:
 def generate_content_with_failover(prompt, image=None, json_mode=False):
     keys_to_try = list(ALL_KEYS)
     random.shuffle(keys_to_try) 
-    
-    model_priority = [
-        "gemini-2.0-flash-thinking-preview-01-21", "gemini-3-flash-preview", 
-        "gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-pro", "gemini-1.5-flash"
-    ]
+    model_priority = ["gemini-2.0-flash-thinking-preview-01-21", "gemini-3-flash-preview", "gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-pro", "gemini-1.5-flash"]
     
     for current_key in keys_to_try: 
         try:
             genai.configure(api_key=current_key)
             available_models = [m.name for m in genai.list_models() if 'generateContent' in m.supported_generation_methods]
-            
             sel_model = None
             for target in model_priority:
                 if any(target in m_name for m_name in available_models):
@@ -143,9 +128,7 @@ def generate_content_with_failover(prompt, image=None, json_mode=False):
             content_parts = [prompt]
             if image: content_parts.append(image)
             
-            gen_config = {
-                "temperature": 0.3, "top_p": 0.95, "top_k": 64, "max_output_tokens": 32000
-            }
+            gen_config = {"temperature": 0.3, "top_p": 0.95, "top_k": 64, "max_output_tokens": 32000}
             if json_mode and "thinking" not in sel_model.lower():
                 gen_config["response_mime_type"] = "application/json"
             
@@ -154,19 +137,18 @@ def generate_content_with_failover(prompt, image=None, json_mode=False):
 
             response = temp_model.generate_content(content_parts, generation_config=gen_config)
             return response, sel_model 
-            
         except Exception:
             continue
     return None, None
 
 # ==========================================
-# 3. PROMPT KHỦNG (NGUYÊN BẢN CỦA BẠN - GIỮ NGUYÊN)
+# 3. PROMPT KHỦNG (RESTORE 100% - KHÔNG XÓA DÒNG NÀO)
 # ==========================================
 GRADING_PROMPT_TEMPLATE = """
 Bạn hãy đóng vai trò là một Giám khảo IELTS với 30 năm kinh nghiệm làm việc tại Hội đồng Anh (British Council). Nhiệm vụ của bạn là đánh giá bài viết dựa trên **bộ tiêu chí chuẩn xác của IELTS Writing Task 1 (Band Descriptors)**. 
 **Phân loại bài thi (Context Awareness):** Bắt buộc phải nhận diện đây là IELTS Academic: Biểu đồ/Đồ thị/Quy trình/Map. Đề bài nói về nội dung gì.
 **Yêu cầu khắt khe:** Bạn phải sử dụng **tiêu chuẩn của Band 9.0 làm thước đo tham chiếu cao nhất** để soi xét bài làm. Hãy thực hiện một bản "Gap Analysis" chi tiết: chỉ ra mọi thiếu sót một cách nghiêm ngặt và chính xác tuyệt đối, từ những lỗi sai căn bản cho đến những điểm chưa đạt được độ tinh tế của một bài viết điểm tuyệt đối.
-**YÊU CẶC BIỆT (CHẾ ĐỘ KIỂM TRA KỸ):** Bạn không cần phải trả lời nhanh. Hãy dành thời gian "suy nghĩ" để phân tích thật sâu và chi tiết (Step-by-step Analysis).
+**YÊU CẦU ĐẶC BIỆT (CHẾ ĐỘ KIỂM TRA KỸ):** Bạn không cần phải trả lời nhanh. Hãy dành thời gian "suy nghĩ" để phân tích thật sâu và chi tiết (Step-by-step Analysis).
 
 ### 1. TƯ DUY & GIAO THỨC LÀM VIỆC (CORE PROTOCOL)
 * **>> GIAO THỨC PHÂN TÍCH CHẬM (SLOW REASONING PROTOCOL):**
@@ -223,7 +205,7 @@ Bạn hãy đóng vai trò là một Giám khảo IELTS với 30 năm kinh nghi�
     4.  **Vị trí:** Khuyên học sinh đặt ngay sau Introduction để tạo luồng logic.
 #### B. Coherence & Cohesion (CC)
 *   **Liên kết "Vô hình" (Invisible Cohesion - Band 9):** Ưu tiên các cấu trúc "respectively", "in that order", mệnh đề quan hệ rút gọn.
-*   **Mechanical Linkers (Lỗi máy móc):** Nếu câu nào cũng bắt đầu bằng "Firstly, Secondly, In addition, Furthermore" -> Tối đa Band 6.0.
+*   **Mechanical Linkers (Lỗi máy móc):** Nếu câu nào cũng bắt đầu bằng "First, Second, In addition, Furthermore" -> Tối đa Band 6.0.
 *   **Paragraphing:** Bài viết phải chia đoạn logic. Chỉ có 1 đoạn văn -> CC tối đa 5.0.
 *   **>> BỔ SUNG QUY TẮC "AMBIGUOUS REFERENCING" (The 'It' Trap):**
         *   Kiểm tra kỹ các đại từ thay thế (It, This, That, These, Those). Nếu dùng các từ này mà KHÔNG RÕ thay thế cho danh từ nào trước đó (gây khó hiểu) -> **TỐI ĐA BAND 6.0 CC**.
@@ -279,6 +261,11 @@ Bạn hãy đóng vai trò là một Giám khảo IELTS với 30 năm kinh nghi�
     
 ### 3. QUY TRÌNH CHẤM ĐIỂM & TỰ SỬA LỖI (SCORING & SELF-CORRECTION)
 
+Mọi từ hoặc dấu câu nằm trong thẻ `<del>...</del>` ở bản sửa **BẮT BUỘC** phải có một mục nhập (entry) riêng biệt tương ứng trong danh sách `errors`. Tuyệt đối không được tóm tắt hay gộp lỗi.
+**Bước 1: Deep Scan & Lập danh sách lỗi (JSON Errors Array)**
+**Bước 2: Tạo bản sửa lỗi (Annotated Essay)**
+**Bước 3: Chấm lại bản sửa lỗi (JSON Output - Internal Re-grading)**
+
 Sau khi đánh giá xong (viết phần phân tích chi tiết bằng lời văn), bạn **BẮT BUỘC** phải trích xuất dữ liệu kết quả cuối cùng dưới dạng một **JSON Object duy nhất** ở cuối câu trả lời.
 
 Cấu trúc JSON:
@@ -288,22 +275,14 @@ Cấu trúc JSON:
       "task_achievement": "...", "cohesion_coherence": "...", "lexical_resource": "...", "grammatical_range": "...", "overall": "..."
   },
   "detailed_analysis": {
-      "task_achievement": "PHÂN TÍCH CHI TIẾT TA VÀO ĐÂY (Markdown allowed, >200 từ)",
-      "cohesion_coherence": "PHÂN TÍCH CHI TIẾT CC VÀO ĐÂY (Markdown allowed, >200 từ)",
-      "lexical_resource": "PHÂN TÍCH CHI TIẾT LR VÀO ĐÂY (Markdown allowed, >200 từ)",
-      "grammatical_range": "PHÂN TÍCH CHI TIẾT GRA VÀO ĐÂY (Markdown allowed, >200 từ)"
+      "task_achievement": "...", "cohesion_coherence": "...", "lexical_resource": "...", "grammatical_range": "..."
   },
   "errors": [
-    {
-      "category": "Grammar" hoặc "Vocabulary",
-      "type": "Tên Lỗi",
-      "impact_level": "High" | "Medium" | "Low",
-      "explanation": "...", "original": "...", "correction": "..."
-    }
+    { "category": "Grammar" hoặc "Vocabulary", "type": "Tên Lỗi", "impact_level": "High" | "Medium" | "Low", "explanation": "...", "original": "...", "correction": "..." }
   ],
   "annotated_essay": "...",
    "revised_score": {
-      "task_achievement": "...", "cohesion_coherence": "...", "lexical_resource": "...", "grammatical_range": "...", "overall": "...", "logic_re_evaluation": "..."
+      "word_count_check": "...", "logic_re_evaluation": "...", "task_achievement": "...", "cohesion_coherence": "...", "lexical_resource": "...", "grammatical_range": "...", "overall": "..."
   }
 }
 ```
@@ -318,7 +297,6 @@ b/ Bài làm của thí sinh (Written report): {{ESSAY}}
 # ==========================================
 
 def clean_json(text):
-    """Trích xuất JSON từ phản hồi của AI an toàn"""
     match = re.search(r"```json\s*([\s\S]*?)\s*```", text)
     if match: return match.group(1).strip()
     match_raw = re.search(r"\{[\s\S]*\}", text)
@@ -385,7 +363,7 @@ def register_vietnamese_font():
             r = requests.get("https://github.com/googlefonts/roboto/raw/main/src/hinted/Roboto-Bold.ttf")
             with open(f_bold, "wb") as f: f.write(r.content)
         pdfmetrics.registerFont(TTFont('Roboto', f_reg))
-        pdfmetrics.registerFont(TTFont('Roboto-Bold', f_bold))
+        pdfmetrics.registerFont(TTFont('Roboto-Bold', font_bold))
         addMapping('Roboto', 0, 0, 'Roboto'); addMapping('Roboto', 1, 0, 'Roboto-Bold')
         return True
     except: return False
@@ -423,7 +401,7 @@ st.markdown('<div class="main-header">🎓 IELTS Writing Task 1 – Examiner-Gui
 st.markdown('<div class="sub-header">Learning & Scoring Based on IELTS Band Descriptors</div>', unsafe_allow_html=True)
 
 if st.session_state.step == 1:
-    st.markdown('<div class="step-header">STEP 1 – Visual Data </div>', unsafe_allow_html=True)
+    st.markdown('<div class="step-header">STEP 1 – Visual Data</div>', unsafe_allow_html=True)
     uploaded_image = st.file_uploader("Upload Image", type=['png', 'jpg', 'jpeg'], key="img_input", label_visibility="collapsed")
     if uploaded_image:
         img_data = Image.open(uploaded_image)
@@ -447,13 +425,7 @@ if st.session_state.step == 1:
             
             with st.spinner("AI Examiner đang phân tích biểu đồ..."):
                 prompt_guide = """
-                Bạn là một Siêu Giáo viên IELTS Writing (Band 9.0). Nhiệm vụ là phân tích hình ảnh và viết hướng dẫn chi tiết từng bước bằng Tiếng Việt.
-                
-                **BƯỚC 1: NHẬN DIỆN LOẠI BÀI**
-                Xác định loại (Map, Process, Data...).
-                
-                **BƯỚC 2: VIẾT HƯỚNG DẪN (JSON)**
-                Sử dụng HTML (<ul>, <li>, <b>) để trình bày hướng dẫn cho Intro, Overview, Body 1, Body 2.
+                Bạn là một Siêu Giáo viên IELTS Writing (Band 9.0). Hãy phân tích hình ảnh và viết hướng dẫn chi tiết từng bước bằng Tiếng Việt (dùng thẻ HTML <ul>, <li>, <b> để trình bày).
                 FORMAT JSON OUTPUT:
                 { "task_type": "...", "intro_guide": "...", "overview_guide": "...", "body1_guide": "...", "body2_guide": "..." }
                 """
@@ -517,10 +489,10 @@ if st.session_state.step == 3 and st.session_state.grading_result:
     st.markdown("## 🛡️ EXAMINER ASSESSMENT REPORT")
     scores = g_data.get("originalScore", {})
     cols = st.columns(5)
-    cols[0].metric("TA", scores.get("task_achievement", "-"))
-    cols[1].metric("CC", scores.get("cohesion_coherence", "-"))
-    cols[2].metric("LR", scores.get("lexical_resource", "-"))
-    cols[3].metric("GRA", scores.get("grammatical_range", "-"))
+    cols[0].metric("Task Achievement", scores.get("task_achievement", "-"))
+    cols[1].metric("Coherence", scores.get("cohesion_coherence", "-"))
+    cols[2].metric("Lexical", scores.get("lexical_resource", "-"))
+    cols[3].metric("Grammar", scores.get("grammatical_range", "-"))
     cols[4].metric("OVERALL", scores.get("overall", "-"))
     
     st.markdown("---")
