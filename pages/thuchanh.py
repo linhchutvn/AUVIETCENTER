@@ -959,7 +959,7 @@ if st.session_state.step == 3 and st.session_state.grading_result:
     # === HỘP PHẢI: KẾT QUẢ CHẤM ===
     with c2:
         with st.container(height=750, border=True):
-            st.markdown("#### 🛡️ Examiner Analysis")
+            st.markdown("#### 👨‍🏫 Examiner Analysis")
             
             # Bảng điểm
             scores = g_data.get("originalScore", {})
