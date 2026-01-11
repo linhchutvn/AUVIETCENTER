@@ -979,7 +979,7 @@ if st.session_state.step == 3 and st.session_state.grading_result:
             """, unsafe_allow_html=True)
             
             # Tabs chi tiết
-            tab1, tab2, tab3, tab4 = st.tabs(["📝 Phân tích", "🔴 Lỗi Ngữ pháp", "🔵 Lỗi Mạch lạc", "✍️ Bài sửa"])
+            tab1, tab2, tab3, tab4 = st.tabs(["📝 Phân tích chuyên sâu", "🔴 Lỗi Ngữ pháp và Từ vựng", "🔵 Lỗi Mạch lạc", "✍️ Bài sửa"])
             
             with tab1:
                 st.markdown(analysis_text if analysis_text and len(analysis_text) > 50 else "Chưa có dữ liệu phân tích.")
