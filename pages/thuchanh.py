@@ -997,4 +997,4 @@ if st.session_state.step == 3 and st.session_state.grading_result:
             if d2.button("🔄 Reset"):
                 for k in ["step", "guide_data", "grading_result", "saved_topic", "saved_img"]: st.session_state[k] = None
                 st.session_state.step = 1
-                st.rerun()rerun()
+                st.rerun()
