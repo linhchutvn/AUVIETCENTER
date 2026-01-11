@@ -62,11 +62,6 @@ st.markdown("""
         margin-top: 1.5rem;
         margin-bottom: 0.5rem;
     }
-    .step-desc {
-        font-size: 0.9rem;
-        color: #64748B;
-        margin-bottom: 0.8rem;
-    }
 
     /* Guide Box */
     .guide-box {
@@ -88,10 +83,6 @@ st.markdown("""
         box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         transition: all 0.2s;
     }
-    .error-card:hover {
-        box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-        border-color: #D1D5DB;
-    }
     
     .annotated-text {
         font-family: 'Merriweather', serif;
@@ -101,14 +92,12 @@ st.markdown("""
         padding: 24px;
         border-radius: 12px;
         border: 1px solid #E5E7EB;
-        box-shadow: 0 1px 2px rgba(0,0,0,0.05);
     }
     
-    del { color: #9CA3AF; text-decoration: line-through; margin-right: 4px; text-decoration-thickness: 2px; }
+    del { color: #9CA3AF; text-decoration: line-through; margin-right: 4px; }
     ins.grammar { background-color: #4ADE80; color: #022C22; text-decoration: none; padding: 2px 6px; border-radius: 4px; font-weight: 700; border: 1px solid #22C55E; }
     ins.vocab { background-color: #FDE047; color: #000; text-decoration: none; padding: 2px 6px; border-radius: 4px; font-weight: 700; border: 1px solid #FCD34D; }
     
-    /* Button Customization */
     div.stButton > button {
         background-color: #FF4B4B;
         color: white;
@@ -116,9 +105,6 @@ st.markdown("""
         border-radius: 8px;
         padding: 0.5rem 1.5rem;
         border: none;
-    }
-    div.stButton > button:hover {
-        background-color: #D93434;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -160,9 +146,6 @@ def generate_content_with_failover(prompt, image=None, json_mode=False):
             gen_config = {
                 "temperature": 0.3, "top_p": 0.95, "top_k": 64, "max_output_tokens": 32000
             }
-            
-            # QUAN TRỌNG: Chỉ bật JSON mode khi cần thiết (Tutor). 
-            # Khi chấm điểm (Grading), ta cần cả Text + JSON nên để json_mode=False
             if json_mode and "thinking" not in sel_model.lower():
                 gen_config["response_mime_type"] = "application/json"
             
@@ -177,13 +160,13 @@ def generate_content_with_failover(prompt, image=None, json_mode=False):
     return None, None
 
 # ==========================================
-# 3. PROMPT KHỦNG (NGUYÊN BẢN TỪ APP CHẤM ĐIỂM)
+# 3. PROMPT KHỦNG (NGUYÊN BẢN CỦA BẠN - GIỮ NGUYÊN)
 # ==========================================
 GRADING_PROMPT_TEMPLATE = """
 Bạn hãy đóng vai trò là một Giám khảo IELTS với 30 năm kinh nghiệm làm việc tại Hội đồng Anh (British Council). Nhiệm vụ của bạn là đánh giá bài viết dựa trên **bộ tiêu chí chuẩn xác của IELTS Writing Task 1 (Band Descriptors)**. 
 **Phân loại bài thi (Context Awareness):** Bắt buộc phải nhận diện đây là IELTS Academic: Biểu đồ/Đồ thị/Quy trình/Map. Đề bài nói về nội dung gì.
 **Yêu cầu khắt khe:** Bạn phải sử dụng **tiêu chuẩn của Band 9.0 làm thước đo tham chiếu cao nhất** để soi xét bài làm. Hãy thực hiện một bản "Gap Analysis" chi tiết: chỉ ra mọi thiếu sót một cách nghiêm ngặt và chính xác tuyệt đối, từ những lỗi sai căn bản cho đến những điểm chưa đạt được độ tinh tế của một bài viết điểm tuyệt đối.
-**YÊU CẦU ĐẶC BIỆT (CHẾ ĐỘ KIỂM TRA KỸ):** Bạn không cần phải trả lời nhanh. Hãy dành thời gian "suy nghĩ" để phân tích thật sâu và chi tiết (Step-by-step Analysis).
+**YÊU CẶC BIỆT (CHẾ ĐỘ KIỂM TRA KỸ):** Bạn không cần phải trả lời nhanh. Hãy dành thời gian "suy nghĩ" để phân tích thật sâu và chi tiết (Step-by-step Analysis).
 
 ### 1. TƯ DUY & GIAO THỨC LÀM VIỆC (CORE PROTOCOL)
 * **>> GIAO THỨC PHÂN TÍCH CHẬM (SLOW REASONING PROTOCOL):**
@@ -296,250 +279,50 @@ Bạn hãy đóng vai trò là một Giám khảo IELTS với 30 năm kinh nghi�
     
 ### 3. QUY TRÌNH CHẤM ĐIỂM & TỰ SỬA LỖI (SCORING & SELF-CORRECTION)
 
-Mọi từ hoặc dấu câu nằm trong thẻ `<del>...</del>` ở bản sửa **BẮT BUỘC** phải có một mục nhập (entry) riêng biệt tương ứng trong danh sách `errors`. Tuyệt đối không được tóm tắt hay gộp lỗi.
-**Bước 1: Deep Scan & Lập danh sách lỗi (JSON Errors Array)**
-*   Dựa trên kết quả quét 3 lớp, liệt kê **TẤT CẢ** vấn đề vào mảng `errors`.
-*   **>> QUY TẮC "BẰNG CHỨNG BẮT BUỘC" (MANDATORY EVIDENCE):**
-    *   Nếu bạn định chấm điểm **Coherence & Cohesion dưới 9.0**, bạn **BẮT BUỘC** phải tạo ra ít nhất **2-3 mục lỗi** trong mảng `errors` thuộc nhóm `Coherence & Cohesion` để giải thích lý do trừ điểm.
-    *   *Ví dụ:* Nếu chấm CC 6.0, bạn phải chỉ ra cụ thể: "Đoạn 2 thiếu câu chủ đề", "Từ nối 'Moreover' dùng sai", hoặc "Mạch văn bị đứt gãy".
-    *   **CẤM:** Tuyệt đối không được để trống danh sách lỗi CC nếu điểm CC < 9.0.
-*   **Thực hiện quét 2 lớp:** 
-        *   *Lớp 1 (Grammar/Vocab):* Soi từng mạo từ, dấu phẩy, số ít/nhiều.
-        *   *Lớp 2 (Data Logic):* Kiểm tra lỗi "Object vs Figure" (vd: nhầm giữa chủ thể ngành công nghiệp và lượng khí thải). 
-*   **Liệt kê toàn bộ lỗi vào mảng `errors` trước.** Nếu có 14 vị trí sai, phải có 14 mục lỗi trong JSON. *Ví dụ:* Nếu sai 3 mạo từ 'the', phải có 3 mục lỗi riêng biệt.
-*   **>> QUY TẮC "DOUBLE-TAGGING" (GẮN NHÃN KÉP - MỚI THÊM):**
-    *   Nếu gặp lỗi ngữ pháp nghiêm trọng làm đứt gãy mạch văn (như `Sentence Fragment`, `Run-on Sentence`, `Comma Splice`), bạn phải tạo **2 mục lỗi** trong JSON:
-        1.  Một mục `Grammar` (để sửa câu chữ).
-        2.  Một mục `Coherence & Cohesion` với tên lỗi `Fragmented Flow` (để cảnh báo về mạch lạc).
-    *   Điều này đảm bảo phần Coherence & Cohesion không bị trống và không hiển thị thông báo "Tuyệt vời" sai lệch.
-*   Dựa trên danh sách lỗi này để tính toán Band điểm cho bài gốc (Markdown).
-*   **Quy tắc làm tròn điểm bài viết theo chuẩn IELTS:**
-    *   Làm tròn đến nửa band gần nhất (.0 hoặc .5).
-    *   **NGOẠI LỆ BẮT BUỘC:**
-        *   Điểm trung bình có đuôi **.25** -> BẮT BUỘC làm tròn **XUỐNG** số nguyên (Ví dụ: 8.25 -> 8.0).
-        *   Điểm trung bình có đuôi **.75** -> BẮT BUỘC làm tròn **XUỐNG** .5 (Ví dụ: 8.75 -> 8.5).
+Sau khi đánh giá xong (viết phần phân tích chi tiết bằng lời văn), bạn **BẮT BUỘC** phải trích xuất dữ liệu kết quả cuối cùng dưới dạng một **JSON Object duy nhất** ở cuối câu trả lời.
 
-**Bước 2: Tạo bản sửa lỗi (Annotated Essay)**
-    *   **Nguyên tắc "Soi gương":** Bạn chỉ được phép sửa lỗi dựa trên danh sách lỗi đã lập ở Bước 1. 
-    *   **Cấm sửa ngầm (No Hidden Edits):** Tuyệt đối không được "tiện tay" sửa các lỗi nhỏ (như thêm mạo từ 'the' hay viết hoa) trong bài sửa nếu bạn chưa khai báo lỗi đó trong danh sách `errors` ở Bước 1. 
-    *   **Số lượng thẻ `<del>` phải bằng chính xác số lượng lỗi trong JSON.** Nếu sai lệch, hệ thống sẽ coi là vi phạm giao thức.
-    
-**Bước 3: Chấm lại bản sửa lỗi (JSON Output - Internal Re-grading)**
-*   Hãy đóng vai một Giám khảo độc lập thứ 2 chấm lại bản `annotated_essay` vừa tạo (coi đây là một bài nộp mới đã sạch lỗi câu chữ).
-*   **Luật Nội dung (Content Rule):** Vì bản sửa này chỉ khắc phục GRA/LR và giữ nguyên cấu trúc cũ, nên điểm TA và CC của bản sửa **THƯỜNG GIỮ NGUYÊN** như bài gốc. Nếu bài gốc thiếu Overview hoặc sai số liệu, bài sửa vẫn bị điểm thấp ở TA/CC.
-*   **Điểm số `revised_score`:** Phải phản ánh đúng trình độ của bài sau khi đã sạch lỗi GRA/LR.
-    *   **Kiểm tra độ dài:** Nếu bản sửa > 200 từ -> TA tối đa **8.0** (Phạt lỗi thiếu súc tích).
-    *   **Kiểm tra tính tự nhiên:** Nếu dùng từ vựng "đao to búa lớn" gượng ép -> LR tối đa **8.0**.
-*   **Lưu ý về TA & CC:** Vì bản sửa này chỉ sửa lỗi Ngữ pháp/Từ vựng và giữ nguyên cấu trúc cũ, nên điểm TA và CC của bản sửa **PHẢI GIỮ NGUYÊN** như bài gốc (trừ khi việc sửa từ vựng giúp ý nghĩa rõ ràng hơn thì có thể tăng nhẹ .5 điểm). 
-*   **Consistency & Parity Check:** 
-    *   Đếm số lượng thẻ `<del>` trong bài sửa. Nếu không khớp với số lượng mục lỗi trong mảng `errors` (Ví dụ: sửa 14 chỗ nhưng chỉ khai báo 7 lỗi), bạn đã vi phạm giao thức. Bạn phải bổ sung mảng `errors` cho đến khi đạt tỷ lệ **1:1**.
-*   **>> CHỐT CHẶN BAND 9.0 (THE 9.0 BARRIER):**
-    *   **Về Coherence & Cohesion (CC):** Tuyệt đối KHÔNG cho bản sửa đạt 9.0 nếu cấu trúc vẫn sử dụng các từ nối cơ bản ở đầu câu như *"Regarding...", "In addition...", "Overall..."*. Band 9 CC yêu cầu sự liên kết "vô hình" (invisible cohesion). Nếu cấu trúc bài gốc là Band 7-8, điểm CC của bản sửa **BẮT BUỘC** phải giữ nguyên ở mức 7-8.
-    *   **Về Task Achievement & Lexical (TA/LR):** Kiểm tra lỗi logic "Object vs Figure". Nếu thí sinh viết *"Industry was the most polluted"* thay vì *"Industrial emissions were the highest"*, đây là lỗi tư duy dữ liệu nghiêm trọng. Bản sửa dù có sửa lại câu chữ thì điểm TA và LR vẫn phải bị khống chế (Ceiling) ở mức **7.0 - 8.0** vì lỗi sai bản chất chủ thể.
-    *   **Về Đơn vị (Unit Accuracy):** Soi kỹ đơn vị (tonnes, %, number). Nếu bài gốc nhầm lẫn đơn vị, bản sửa dù có thay đổi từ vựng cũng không được phép tăng điểm TA quá 1.0 điểm so với bài gốc.
-*   **>> GIAO THỨC "RE-SCAN" (QUÉT LẠI LẦN CUỐI):** Trước khi chốt điểm `revised_score`, hãy tự đặt câu hỏi: *"Tôi có đang quá hào phóng không? Nếu một Giám khảo khó tính nhất đọc bản sửa này, họ có thấy nó vẫn còn mang 'khung xương' của một bài Band 7 hay không?"*. Nếu có, hãy hạ điểm xuống ngay lập tức.
-Thông tin bài làm:
-a/ Đề bài (Task 1 question): {{TOPIC}}
-b/ Mô tả hình ảnh (Picture/Graph/Chart): {{IMAGE_NOTE}}
-c/ Bài làm của thí sinh (Written report): {{ESSAY}}
-
----
-### NỘI DUNG ĐÁNH GIÁ CHI TIẾT:
-**LƯU Ý QUAN TRỌNG VỀ SƯ PHẠM (PEDAGOGY RULE):**
-Khi đưa ra ví dụ sửa lỗi (Example/Rewrite), bạn phải căn cứ vào **Band điểm hiện tại** của bài làm:
-*   **Nếu bài < 6.0:** Hãy đưa ra ví dụ sửa ở mức **Band 7.0** (Tập trung vào sự Chính xác, Rõ ràng, Dễ hiểu). Đừng dùng từ quá khó.
-*   **Nếu bài >= 6.5:** Hãy đưa ra ví dụ sửa ở mức **Band 9.0** (Tập trung vào sự Tinh tế, Học thuật, Cấu trúc phức tạp).
-**QUY TẮC "CHỐNG SƠ SÀI" (ANTI-BREVITY RULE):**
-1.  **Cấm nhận xét chung chung:** Tuyệt đối không viết "Cần cải thiện ngữ pháp" mà không chỉ rõ là cải thiện cái gì (thì, mạo từ, hay cấu trúc?).
-2.  **Trích dẫn bằng chứng:** Mọi nhận xét đều phải trích dẫn câu văn cụ thể của thí sinh để chứng minh.
-3.  **Luôn viết mẫu:** Dù bài làm ở Band 1 hay Band 9, bạn **BẮT BUỘC** phải cung cấp các ví dụ viết lại (Rewrite) ở cuối mỗi tiêu chí. Không được bỏ qua.
-
-### **1. Task Achievement (Hoàn thành yêu cầu bài thi):**
-
-*   **Đánh giá Overview (Cái nhìn tổng quan):** 
-    *   [Phân tích: Đã có Overview chưa? Có nêu được xu hướng chính và sự so sánh nổi bật không?]
-    *   **⚠️ Cảnh báo cho trình độ Band 5-6:** [Nếu Overview vẫn bị dính số liệu chi tiết, hãy giải thích tại sao lỗi này khiến họ bị kẹt ở Band 5 và hướng dẫn cách xóa bỏ để lên Band 7.]
-*   **Độ chính xác và Chọn lọc dữ liệu:** 
-    *   [Kiểm tra độ chính xác của số liệu. Có bị lỗi "Data Saturation" - nhồi nhét quá nhiều số liệu vụn vặt không?]
-    *   [**Lưu ý:** Bỏ qua dữ liệu 'Total'/'Other' nếu không quan trọng.]
-*   **Giải quyết yêu cầu (Response Strategy):** [Đánh giá cách nhóm thông tin. Thí sinh đang mô tả đơn lẻ (Band 5) hay đã biết tổng hợp dữ liệu để so sánh (Band 7+)?]
-
-*   **⚠️ Các lỗi nghiêm trọng & Phân tích chuyên sâu:** 
-    *   [Với mỗi lỗi tìm được, bạn **BẮT BUỘC** giải thích theo 3 bước:
-        1. **Trích dẫn lỗi:** (Ví dụ: "the figure of pizza ate")
-        2. **Lý do yếu kém:** (Ví dụ: Vi phạm lỗi tư duy Object vs Figure).
-        3. **Tác động:** (Ví dụ: Làm mất tính chuyên nghiệp, khiến giám khảo đánh giá thấp tư duy logic).]
-
-*   **💡 CHIẾN THUẬT NÂNG BAND (STEP-BY-STEP):**
-    *   **Bước 1 (Lọc):** Tuyệt đối xóa số liệu khỏi Overview. Overview chỉ nói về "ý nghĩa" con số.
-    *   **Bước 2 (Gộp):** Nhóm các đối tượng cùng tăng/cùng giảm để tạo sự súc tích (Economy).
-    *   **Bước 3 (So sánh):** Luôn phải chỉ ra điểm cao nhất/thấp nhất hoặc sự thay đổi thứ hạng đáng kể.
-    *   **Bước 4 (Kết nối):** Sử dụng liên kết "tàng hình" (While/Whereas/V-ing) thay vì từ nối máy móc.
-    
-*   **✍️ HÌNH MẪU ĐỐI CHIẾU (CHỌN MỨC PHÙ HỢP ĐỂ HỌC):**
-    *   **Mẫu thực tế (Mục tiêu Band 7.0):** 
-        *   *"Đây là phiên bản rõ ràng, chính xác, không lỗi logic mà bạn có thể đạt được ngay sau khi chỉnh sửa bài làm hiện tại:"*
-        *   **[AI HÃY VIẾT OVERVIEW & BODY ĐẠT CHUẨN 7.0 DỰA TRÊN Ý TƯỞNG CỦA HỌC VIÊN]**
-    *   **Mẫu chuyên sâu (Tham khảo Band 9.0):** 
-        *   *"Đây là phiên bản để bạn tham khảo cách dùng từ vựng tinh tế và cấu trúc tổng hợp dữ liệu đỉnh cao của Giám khảo:"*
-        *   **[AI HÃY VIẾT OVERVIEW & BODY ĐẠT CHUẨN 9.0 TẠI ĐÂY]**
-
-> **📍 Điểm Task Achievement:** [Điểm số/9.0]
-
-#### **2. Coherence and Cohesion (Độ mạch lạc và liên kết):**
-
-*   **Tổ chức đoạn văn (Paragraphing):** [Phân tích logic chia đoạn: Bạn chia đoạn theo Tiêu chí gì (Thời gian/Đối tượng/Xu hướng)? Cách chia này có giúp người đọc dễ so sánh không? Mỗi đoạn có một trọng tâm rõ ràng không?]
-*   **Sử dụng từ nối (Linking Devices):** [Đánh giá độ tự nhiên:
-    *   **Cảnh báo:** Có bị lạm dụng từ nối đầu câu ("Mechanical Linking") như *Regarding, Turning to, Looking at, Firstly* không?
-    *   **Khuyến khích:** Có sử dụng "Invisible Cohesion" (trạng từ đứng giữa câu như *meanwhile, however* hoặc dùng mệnh đề quan hệ để nối ý) không?]
-*   **Phép tham chiếu (Referencing):** [Kiểm tra kỹ thuật Referencing: Bạn có sử dụng *it, this, that, the former, the latter, respectively* để tránh lặp từ không? Hay bạn lặp lại danh từ liên tục?]
-*   **⚠️ Lỗi cần khắc phục:** [Chỉ ra cụ thể (càng nhiều càng tốt):
-    1.  **Mạch văn đứt gãy:** Các câu rời rạc, không ăn nhập.
-    2.  **Tham chiếu sai:** Dùng "it" nhưng không rõ thay thế cho từ nào (Ambiguous Reference).
-    3.  **Lỗi cấu trúc:** Lặp lại cấu trúc câu (VD: Câu nào cũng bắt đầu bằng "The figure...").
-    4.  **Câu thiếu động từ (Fragment):** Gây khó hiểu.]
-*   **💡 Cải thiện & Nâng cấp (Correction & Upgrade):**
-    *   *Câu gốc (Vấn đề):* "[Trích dẫn chính xác câu văn bị máy móc/lủng củng của thí sinh]"
-    *   *Gợi ý viết lại (Natural Flow):* "[Nếu Band thấp: Sửa cho ĐÚNG ngữ pháp và RÕ nghĩa nối. Nếu Band 7+: Viết lại câu đó sử dụng cấu trúc liên kết ẩn hoặc chủ ngữ liên kết để đạt Band 8-9]"
-    *   *Giải thích:* "[Tại sao cách viết mới giúp bài văn mượt mà và chuyên nghiệp hơn?]"
-* **Yêu cầu bắt buộc về độ sâu:** Với mỗi lỗi tìm được, bạn phải giải thích theo 3 bước:
-    1. Trích dẫn lỗi.
-    2. Giải thích tại sao quy tắc Band Descriptors coi đây là điểm yếu.
-    3. Phân tích tác động của lỗi này đến người đọc (gây hiểu lầm, làm mất tính chuyên nghiệp...).
-    
-> **📍 Điểm Coherence & Cohesion:** [Điểm số/9.0]
-
-#### **3. Lexical Resource (Vốn từ vựng):**
-
-*   **Đánh giá độ đa dạng (Range & Flexibility):** [Nhận xét tổng quan: Vốn từ của thí sinh đang ở mức nào? (Cơ bản/Đủ dùng/Phong phú). Có bị lỗi lặp từ ("Repetition") nghiêm trọng với các từ khóa chính (increase, decrease, figure...) không?]
-*   **Độ chính xác và Văn phong (Precision & Style):** [Đánh giá: Thí sinh có dùng được các cụm từ kết hợp (Collocations) tự nhiên không hay là dịch từ tiếng mẹ đẻ (Word-for-word translation)? Có từ nào bị dùng sai ngữ cảnh (ví dụ: dùng văn nói "get up" thay vì "increase") không?]
-*   **⚠️ Điểm yếu cốt lõi:** [Đừng liệt kê từng lỗi chính tả. Hãy chỉ ra **thói quen sai** của thí sinh. Ví dụ: *"Bạn thường xuyên chọn sai từ để mô tả đối tượng (Object)"* hoặc *"Bạn lạm dụng từ vựng quá trang trọng (Pretentious) không cần thiết"*.]
-*   **💡 Gợi ý nâng cấp (Vocabulary Upgrade):**
-    *   *Thay thế từ vựng thường:* "[Tìm 1 từ lặp lại nhiều nhất trong bài, ví dụ 'increase']"
-    *   *Gợi ý thay thế:* 
-        *   *[Nếu Band < 7]:* Gợi ý các từ cơ bản nhưng đúng (rise, growth, go up).
-        *   *[Nếu Band 7+]:* Gợi ý các từ học thuật (escalate, upsurge, register a growth).
-* **Yêu cầu bắt buộc về độ sâu:** Với mỗi lỗi tìm được, bạn phải giải thích theo 3 bước:
-    1. Trích dẫn lỗi.
-    2. Giải thích tại sao quy tắc Band Descriptors coi đây là điểm yếu.
-    3. Phân tích tác động của lỗi này đến người đọc (gây hiểu lầm, làm mất tính chuyên nghiệp...).
-    
-> **📍 Điểm Lexical Resource:** [Điểm số/9.0]
-
-#### **4. Grammatical Range and Accuracy (Ngữ pháp):**
-
-*   **Độ đa dạng cấu trúc (Range Check):** [Phân tích chiến lược: Bài viết có "nghèo nàn" cấu trúc không? (Chỉ dùng câu đơn/câu ghép cơ bản). Thí sinh có sử dụng được các cấu trúc Band 8+ không: *Passive Voice (Bị động)*, *Reduced Relative Clause (Rút gọn mệnh đề)*, *Nominalization (Danh từ hóa)*?]
-*   **Độ chính xác (Accuracy Check):** [Ước lượng tỷ lệ câu không lỗi (Error-free sentences): Dưới 50% (Band 5), 50-70% (Band 6-7), hay trên 80% (Band 8+)? Lỗi sai chủ yếu là lỗi hệ thống (Systematic - sai quy tắc) hay lỗi sơ suất (Slips)?].Nếu bài viết có trên 80% số câu hoàn toàn sạch lỗi (Error-free) và lỗi duy nhất là một lỗi nhỏ (như "most highest") -> **Vẫn giữ mức Band 8.5 - 9.0**. Đừng ép thí sinh dùng cấu trúc lạ nếu cấu trúc hiện tại đã quá đủ để truyền đạt thông tin một cách tinh tế. Band 9 không bắt buộc phải có "Đảo ngữ" hay "Câu điều kiện". Range được thể hiện qua việc sử dụng linh hoạt: Mệnh đề quan hệ, câu phân từ (Reduced clauses), danh từ hóa (Nominalization), và các cấu trúc so sánh phức tạp. 
-*   **Dấu câu (Punctuation):** [Nhận xét việc dùng dấu phẩy, dấu chấm. Có mắc lỗi *Comma Splice* (Dấu phẩy nối câu) kinh điển không?]
-*   **⚠️ Lỗi hệ thống cần sửa:** [Chỉ ra lỗ hổng kiến thức ngữ pháp lớn nhất của thí sinh. Ví dụ: *"Bạn rất yếu về Mệnh đề quan hệ"* hoặc *"Bạn chưa nắm vững cách dùng Mạo từ"*.]
-*   **💡 Thử thách viết lại (Sentence Transformation):**
-    *   *Câu gốc (Simple/Error):* "[Trích 1 câu đơn giản hoặc có lỗi trong bài]"
-    *   *Nâng cấp câu:* 
-        *   *[Nếu Band thấp]:* Ghép thành câu ghép/câu phức cơ bản (dùng because, although) để đảm bảo đúng.
-        *   *[Nếu Band cao]:* Dùng cấu trúc nâng cao (Mệnh đề phân từ, Đảo ngữ, Nominalization).
-* **Yêu cầu bắt buộc về độ sâu:** Với mỗi lỗi tìm được, bạn phải giải thích theo 3 bước:
-    1. Trích dẫn lỗi.
-    2. Giải thích tại sao quy tắc Band Descriptors coi đây là điểm yếu.
-    3. Phân tích tác động của lỗi này đến người đọc (gây hiểu lầm, làm mất tính chuyên nghiệp...).
-    
-> **📍 Điểm Grammatical Range & Accuracy:** [Điểm số/9.0]
-
----
-### **TỔNG ĐIỂM (OVERALL BAND SCORE):** Quy tắc làm tròn điểm bài viết theo chuẩn IELTS:
-    *   Làm tròn đến nửa band gần nhất (.0 hoặc .5).
-    *   **NGOẠI LỆ BẮT BUỘC:**
-        *   Điểm trung bình có đuôi **.25** -> BẮT BUỘC làm tròn **XUỐNG** số nguyên (Ví dụ: 8.25 -> 8.0).
-        *   Điểm trung bình có đuôi **.75** -> BẮT BUỘC làm tròn **XUỐNG** .5 (Ví dụ: 8.75 -> 8.5).
-
----
-### **LỜI KHUYÊN CHIẾN THUẬT TỪ GIÁM KHẢO (EXAMINER'S TIPS):**
-1.  **Đưa ra các lời khuyên:** Hãy đưa ra các lời khuyên chiến thuật dựa trên những lỗi sai thực tế trong bài.
-2.  **Economy:** Cách cắt giảm số từ thừa (nếu bài > 200 từ).
-3.  **Introduction Power:** Cách đổi Noun Phrase -> Noun Clause trong mở bài.
-4.  **Grouping:** Cách nhóm thông tin thông minh hơn (nhóm theo xu hướng Lớn vs Nhỏ).
-5.  **Overview:** Cách viết Overview tốt hơn.
-
-#### **5. DỮ LIỆU PHÂN TÍCH (ANALYSIS DATA):**
-
-Sau khi đánh giá xong, bạn **BẮT BUỘC** phải trích xuất dữ liệu dưới dạng một **JSON Object duy nhất**.
-
-**QUAN TRỌNG:** Trong trường "type" (Tên lỗi), bạn CHỈ ĐƯỢC PHÉP được dùng các thuật ngữ tiếng Anh chuẩn học thuật dưới đây:
-
-**A. [COHERENCE & COHESION] - Macro Errors:**
-# Organization & Progression (Tổ chức & Phát triển)
-`Illogical Grouping` (Sắp xếp phi logic), `Missing Overview` (Thiếu tổng quan), `Fragmented Flow` (Mạch văn đứt gãy), `Lack of Progression` (Không phát triển ý), `Incoherent Paragraphing` (Chia đoạn không mạch lạc).
-# Linking & Reference (Liên kết & Tham chiếu)
-`Mechanical Linking` (Từ nối máy móc), `Overuse of Connectors` (Lạm dụng từ nối), `Ambiguous Referencing` (Tham chiếu mơ hồ), `Repetitive Structure` (Lặp cấu trúc), `Data Inaccuracy` (Sai số liệu/Logic).
-
-**B. [GRAMMAR] - Micro Errors:**
-# Sentence Structure (Cấu trúc câu)
-`Comma Splice` (Lỗi dấu phẩy), `Run-on Sentence` (Câu dính liền), `Sentence Fragment` (Câu thiếu thành phần), `Faulty Parallelism` (Lỗi song song), `Misplaced Modifier` (Bổ ngữ sai chỗ), `Word Order` (Trật tự từ).
-# Morphology & Syntax (Hình thái & Cú pháp)
-`Subject-Verb Agreement` (Hòa hợp chủ vị), `Tense Inconsistency` (Sai thì), `Passive Voice Error` (Lỗi bị động), `Relative Clause Error` (Lỗi mệnh đề quan hệ).
-# Mechanics (Cơ học)
-`Article Error` (Mạo từ), `Preposition Error` (Giới từ), `Singular/Plural` (Số ít/nhiều), `Countable/Uncountable` (Danh từ đếm được/không), `Punctuation` (Dấu câu).
-
-**C. [VOCABULARY] - Lexical Errors:**
-# Meaning & Use (Nghĩa & Cách dùng)
-`Imprecise Word Choice` (Dùng từ thiếu chính xác), `Incompatible Collocation` (Kết hợp từ sai), `Word Form Error` (Sai loại từ), `Selectional Restriction Violation` (Vi phạm quy tắc chọn lọc từ).
-# Style & Register (Văn phong)
-`Informal Register` (Văn phong suồng sã), `Pretentious Language` (Dùng từ sáo rỗng/làm màu), `Redundancy` (Thừa từ/Lặp ý), `Forced Paraphrasing` (Paraphrase gượng ép).
-
-**CATEGORY MAPPING RULE:**
-*   Group A -> `category`: "Coherence & Cohesion"
-*   Group B -> `category`: "Grammar"
-*   Group C -> `category`: "Vocabulary"
-
-**TỰ CHẤM LẠI BẢN SỬA (INTERNAL RE-GRADING - BƯỚC QUAN TRỌNG NHẤT):**
-   - Hãy quên rằng bạn vừa sửa bài này. Hãy đóng vai một Giám khảo độc lập thứ 2 chấm lại bản 'annotated_essay' vừa tạo.
-   - **Luật Nội dung (Content Rule):** Bản sửa chỉ sửa ngữ pháp/từ vựng, KHÔNG THỂ sửa lỗi thiếu số liệu/thiếu so sánh của bài gốc. Nếu bài gốc TA 6.0, bản sửa TA vẫn là 6.0 (hoặc tối đa 7.0 nếu diễn đạt rõ hơn).
-   - **Kết luận:** Điểm 'revised_score' PHẢI là điểm thực tế của bản sửa, KHÔNG ĐƯỢC mặc định là 9.0.
 Cấu trúc JSON:
 ```json
 {
   "original_score": {
-      "task_achievement": "Điểm TA của bài làm gốc (User's essay)",
-      "cohesion_coherence": "Điểm CC của bài làm gốc",
-      "lexical_resource": "Điểm LR của bài làm gốc",
-      "grammatical_range": "Điểm GRA của bài làm gốc",
-      "overall": "Điểm Overall của bài làm gốc (Average)"
+      "task_achievement": "...", "cohesion_coherence": "...", "lexical_resource": "...", "grammatical_range": "...", "overall": "..."
+  },
+  "detailed_analysis": {
+      "task_achievement": "PHÂN TÍCH CHI TIẾT TA VÀO ĐÂY (Markdown allowed, >200 từ)",
+      "cohesion_coherence": "PHÂN TÍCH CHI TIẾT CC VÀO ĐÂY (Markdown allowed, >200 từ)",
+      "lexical_resource": "PHÂN TÍCH CHI TIẾT LR VÀO ĐÂY (Markdown allowed, >200 từ)",
+      "grammatical_range": "PHÂN TÍCH CHI TIẾT GRA VÀO ĐÂY (Markdown allowed, >200 từ)"
   },
   "errors": [
     {
       "category": "Grammar" hoặc "Vocabulary",
       "type": "Tên Lỗi",
       "impact_level": "High" | "Medium" | "Low",
-      "explanation": "Giải thích ngắn gọn lỗi.",
-      "original": "đoạn văn bản sai",
-      "correction": "đoạn văn bản đúng (VIẾT IN HOA)"
+      "explanation": "...", "original": "...", "correction": "..."
     }
   ],
-  "annotated_essay": "Phiên bản bài làm đã được sửa lỗi (giữ nguyên cấu trúc các đoạn văn). Bọc từ sai trong thẻ <del>...</del> và từ sửa đúng trong thẻ <ins class='grammar'>...</ins> hoặc <ins class='vocab'>...</ins>. Nội dung sửa đúng phải viết IN HOA.",
+  "annotated_essay": "...",
    "revised_score": {
-      "word_count_check": "BẮT BUỘC GHI SỐ TỪ CỦA BẢN SỬA (Ví dụ: '220 words - Too long')",
-      "logic_re_evaluation": "Giải thích tại sao bị trừ điểm (Ví dụ: 'Dù sạch lỗi ngữ pháp nhưng bài viết dài 220 từ, vi phạm nguyên tắc súc tích, nên TA chỉ đạt 8.0').",
-      "task_achievement": "Điểm TA thực tế (phạt nặng nếu dài dòng)",
-      "cohesion_coherence": "Điểm CC",
-      "lexical_resource": "Điểm LR",
-      "grammatical_range": "Điểm GRA",
-      "overall": "Điểm trung bình (Làm tròn theo Quy tắc làm tròn điểm bài viết theo chuẩn IELTS)"
-          *   Làm tròn đến nửa band gần nhất (.0 hoặc .5).
-          *   **NGOẠI LỆ BẮT BUỘC:**
-              *   Điểm trung bình có đuôi **.25** -> BẮT BUỘC làm tròn **XUỐNG** số nguyên (Ví dụ: 8.25 -> 8.0).
-              *   Điểm trung bình có đuôi **.75** -> BẮT BUỘC làm tròn **XUỐNG** .5 (Ví dụ: 8.75 -> 8.5).
+      "task_achievement": "...", "cohesion_coherence": "...", "lexical_resource": "...", "grammatical_range": "...", "overall": "...", "logic_re_evaluation": "..."
   }
 }
 ```
+
+Thông tin bài làm:
+a/ Đề bài (Task 1 question): {{TOPIC}}
+b/ Bài làm của thí sinh (Written report): {{ESSAY}}
 """
 
 # ==========================================
-# 3. HELPER FUNCTIONS
+# 4. HELPER FUNCTIONS
 # ==========================================
 
 def clean_json(text):
+    """Trích xuất JSON từ phản hồi của AI an toàn"""
     match = re.search(r"```json\s*([\s\S]*?)\s*```", text)
     if match: return match.group(1).strip()
-    if text.strip().startswith("{"): return text.strip()
+    match_raw = re.search(r"\{[\s\S]*\}", text)
+    if match_raw: return match_raw.group(0).strip()
     return None
 
 def parse_guide_response(text):
@@ -549,60 +332,61 @@ def parse_guide_response(text):
     except: return None
 
 def process_grading_response(full_text):
-    """
-    Hàm xử lý kết quả chấm điểm (CHUẨN TỪ APP CHẤM ĐIỂM).
-    Tách biệt:
-    1. Markdown Text (Phân tích chi tiết ở đầu).
-    2. JSON Data (Điểm số và lỗi ở cuối).
-    """
+    """Deep Search: Quét toàn bộ JSON để tìm nội dung phân tích chi tiết"""
     json_str = clean_json(full_text)
-    
-    # Mặc định
-    markdown_part = full_text
-    data = {
-        "errors": [], 
-        "annotatedEssay": None, 
-        "revisedScore": None, 
-        "originalScore": {
-            "task_achievement": "-", "cohesion_coherence": "-", 
-            "lexical_resource": "-", "grammatical_range": "-", "overall": "-"
-        }
-    }
+    data = {"errors": [], "annotatedEssay": None, "revisedScore": None, "originalScore": {}, "analysisMarkdown": ""}
     
     if json_str:
-        # Tách phần Markdown (trước JSON)
-        markdown_part = full_text.split("```json")[0].strip()
-        # Nếu AI không dùng code block, thử split bằng ký tự '{' đầu tiên của JSON
-        if "original_score" in markdown_part: # Dấu hiệu JSON bị lẫn
-             parts = full_text.split("{", 1)
-             markdown_part = parts[0].strip()
-
         try:
             parsed = json.loads(json_str)
-            data["errors"] = parsed.get("errors", [])
+            data.update(parsed)
+            data["originalScore"] = parsed.get("original_score", {})
             data["annotatedEssay"] = parsed.get("annotated_essay")
             data["revisedScore"] = parsed.get("revised_score")
-            data["originalScore"] = parsed.get("original_score", {})
-        except json.JSONDecodeError:
-            pass
+            
+            sections = []
+            sources = [parsed, parsed.get("detailed_analysis", {}), parsed.get("original_score", {}), parsed.get("analysis", {})]
+            keywords = {
+                "Task Achievement": ["task_achievement", "ta_gap", "ta_analysis", "achievement"],
+                "Coherence & Cohesion": ["cohesion", "cc_gap", "cc_analysis", "coherence"],
+                "Lexical Resource": ["lexical", "lr_gap", "lr_analysis", "vocabulary"],
+                "Grammatical Range": ["grammatical", "gra_gap", "gra_analysis", "grammar"]
+            }
 
-    return markdown_part, data
+            used_keys = set()
+            for title, kw_list in keywords.items():
+                found = False
+                for src in sources:
+                    if not isinstance(src, dict): continue
+                    for k, v in src.items():
+                        if any(kw in k.lower() for kw in kw_list) and isinstance(v, str) and len(v) > 50 and k not in used_keys:
+                            sections.append(f"### 📘 {title}\n{v}")
+                            used_keys.add(k)
+                            found = True; break
+                    if found: break
+            
+            if sections: data["analysisMarkdown"] = "\n\n".join(sections)
+            elif parsed.get("analysis_markdown"): data["analysisMarkdown"] = parsed["analysis_markdown"]
+        except:
+             data["analysisMarkdown"] = full_text.split("```json")[0]
+             
+    if not data["analysisMarkdown"]: 
+        data["analysisMarkdown"] = full_text.split("```json")[0]
+    return data
 
 # --- FILE EXPORT ---
 def register_vietnamese_font():
     try:
-        font_reg = "Roboto-Regular.ttf"
-        font_bold = "Roboto-Bold.ttf"
-        if not os.path.exists(font_reg):
+        f_reg, f_bold = "Roboto-Regular.ttf", "Roboto-Bold.ttf"
+        if not os.path.exists(f_reg):
             r = requests.get("https://github.com/googlefonts/roboto/raw/main/src/hinted/Roboto-Regular.ttf")
-            with open(font_reg, "wb") as f: f.write(r.content)
-        if not os.path.exists(font_bold):
+            with open(f_reg, "wb") as f: f.write(r.content)
+        if not os.path.exists(f_bold):
             r = requests.get("https://github.com/googlefonts/roboto/raw/main/src/hinted/Roboto-Bold.ttf")
-            with open(font_bold, "wb") as f: f.write(r.content)
-        pdfmetrics.registerFont(TTFont('Roboto', font_reg))
-        pdfmetrics.registerFont(TTFont('Roboto-Bold', font_bold))
-        addMapping('Roboto', 0, 0, 'Roboto')
-        addMapping('Roboto', 1, 0, 'Roboto-Bold')
+            with open(f_bold, "wb") as f: f.write(r.content)
+        pdfmetrics.registerFont(TTFont('Roboto', f_reg))
+        pdfmetrics.registerFont(TTFont('Roboto-Bold', f_bold))
+        addMapping('Roboto', 0, 0, 'Roboto'); addMapping('Roboto', 1, 0, 'Roboto-Bold')
         return True
     except: return False
 
@@ -610,39 +394,21 @@ def create_docx(data, topic, essay, analysis):
     doc = Document()
     doc.add_heading('IELTS ASSESSMENT REPORT', 0).alignment = WD_ALIGN_PARAGRAPH.CENTER
     doc.add_heading('1. DETAILED ANALYSIS', level=1)
-    doc.add_paragraph(analysis) # Phân tích chi tiết từ Markdown
-    
-    # Thêm bảng điểm
-    doc.add_heading('2. SCORE BREAKDOWN', level=1)
-    scores = data.get("originalScore", {})
-    p = doc.add_paragraph()
-    p.add_run(f"Overall Band: {scores.get('overall', '-')}\n").bold = True
-    p.add_run(f"TA: {scores.get('task_achievement', '-')}, CC: {scores.get('cohesion_coherence', '-')}, LR: {scores.get('lexical_resource', '-')}, GRA: {scores.get('grammatical_range', '-')}")
-
-    buffer = BytesIO()
-    doc.save(buffer)
-    buffer.seek(0)
+    doc.add_paragraph(analysis)
+    buffer = BytesIO(); doc.save(buffer); buffer.seek(0)
     return buffer
 
 def create_pdf(data, topic, essay, analysis):
     register_vietnamese_font()
-    buffer = BytesIO()
-    doc = SimpleDocTemplate(buffer, pagesize=A4)
-    styles = getSampleStyleSheet()
-    elements = [Paragraph("IELTS ASSESSMENT REPORT", styles['Title'])]
-    
-    # Analysis
-    elements.append(Paragraph("DETAILED ANALYSIS", styles['Heading1']))
-    # Clean markdown basic symbols for PDF
-    safe_text = html.escape(analysis).replace('\n', '<br/>').replace('**', '').replace('#', '')
+    buffer = BytesIO(); doc = SimpleDocTemplate(buffer, pagesize=A4)
+    styles = getSampleStyleSheet(); elements = [Paragraph("IELTS ASSESSMENT REPORT", styles['Title']), Paragraph("DETAILED ANALYSIS", styles['Heading1'])]
+    safe_text = html.escape(analysis).replace('\n', '<br/>')
     elements.append(Paragraph(safe_text, styles['Normal']))
-    
-    doc.build(elements)
-    buffer.seek(0)
+    doc.build(elements); buffer.seek(0)
     return buffer
 
 # ==========================================
-# 4. UI: QUẢN LÝ TRẠNG THÁI (SESSION STATE)
+# 5. QUẢN LÝ TRẠNG THÁI (SESSION STATE)
 # ==========================================
 if "step" not in st.session_state: st.session_state.step = 1 
 if "guide_data" not in st.session_state: st.session_state.guide_data = None
@@ -651,266 +417,136 @@ if "saved_topic" not in st.session_state: st.session_state.saved_topic = ""
 if "saved_img" not in st.session_state: st.session_state.saved_img = None
 
 # ==========================================
-# 5. GIAO DIỆN CHÍNH (THEO YÊU CẦU MỚI)
+# 6. GIAO DIỆN CHÍNH
 # ==========================================
-
-# TIÊU ĐỀ CHÍNH
 st.markdown('<div class="main-header">🎓 IELTS Writing Task 1 – Examiner-Guided</div>', unsafe_allow_html=True)
 st.markdown('<div class="sub-header">Learning & Scoring Based on IELTS Band Descriptors</div>', unsafe_allow_html=True)
 
 if st.session_state.step == 1:
-    
-    # STEP 1
     st.markdown('<div class="step-header">STEP 1 – Visual Data </div>', unsafe_allow_html=True)
-    st.markdown('<div class="step-desc">Upload chart / graph / table / diagram</div>', unsafe_allow_html=True)
     uploaded_image = st.file_uploader("Upload Image", type=['png', 'jpg', 'jpeg'], key="img_input", label_visibility="collapsed")
     if uploaded_image:
         img_data = Image.open(uploaded_image)
-        st.image(img_data, caption='Uploaded Visual Data', width=400)
-    else:
-        img_data = None
+        st.image(img_data, width=400)
+    else: img_data = None
 
-    # STEP 2
     st.markdown("---")
     st.markdown('<div class="step-header">STEP 2 – Task 1 Question</div>', unsafe_allow_html=True)
-    st.markdown('<div class="step-desc">Paste the official task question here</div>', unsafe_allow_html=True)
     question_input = st.text_area("Question", height=150, placeholder="The chart below shows...", key="q_input", label_visibility="collapsed")
 
-    # STEP 3
     st.markdown("---")
     st.markdown('<div class="step-header">STEP 3 – Examiner Focus</div>', unsafe_allow_html=True)
-    st.markdown("""
-    <div style="background-color: #F1F5F9; padding: 15px; border-radius: 8px; border: 1px solid #E2E8F0;">
-        <div style="font-weight: 500; color: #334155;">✓ Task type identification</div>
-        <div style="font-weight: 500; color: #334155;">✓ Key trends & overview logic</div>
-        <div style="font-weight: 500; color: #334155;">✓ Data selection & comparison</div>
-        <div style="font-weight: 500; color: #334155;">✓ Band scoring (TA – CC – LR – GRA)</div>
-    </div>
-    """, unsafe_allow_html=True)
+    st.markdown('<div style="background:#F1F5F9; padding:15px; border-radius:8px;">✓ Task type identification<br>✓ Key trends & overview logic<br>✓ Data selection & comparison<br>✓ Band scoring (TA – CC – LR – GRA)</div>', unsafe_allow_html=True)
 
-    st.markdown("<br>", unsafe_allow_html=True)
-
-    # BUTTON
-    # ... (Trong khối if st.session_state.step == 1:) ...
-
-    # BUTTON
     if st.button("🚀  Analyze & Guide (Start Learning)", type="primary", use_container_width=True):
-        if not question_input and not img_data:
-            st.warning("⚠️ Vui lòng nhập đề bài và tải ảnh lên để bắt đầu.")
+        if not question_input or not img_data:
+            st.warning("⚠️ Vui lòng nhập đề bài và tải ảnh lên.")
         else:
-            # --- QUAN TRỌNG: LƯU DỮ LIỆU VÀO SESSION STATE ---
             st.session_state.saved_topic = question_input
-            st.session_state.saved_img = img_data # Lưu đối tượng PIL Image vào đây
-            # -------------------------------------------------
+            st.session_state.saved_img = img_data
             
-            with st.spinner("Examiner đang phân tích loại biểu đồ và lên chiến thuật..."):
-                    # Prompt Tutor Vạn Năng: Tự động thích ứng theo từng dạng bài
-                    prompt_guide = """
-                    Bạn là một Siêu Giáo viên IELTS Writing (Band 9.0). Nhiệm vụ của bạn là phân tích hình ảnh đầu vào và viết hướng dẫn thực hành chi tiết.
-                    
-                    **BƯỚC 1: NHẬN DIỆN LOẠI BÀI (QUAN TRỌNG)**
-                    Hãy nhìn hình ảnh và xác định nó thuộc loại nào:
-                    1. **Change Over Time** (Line, Bar, Table có năm tháng): Cần từ vựng xu hướng (increase, decrease).
-                    2. **Static Chart** (Pie, Table 1 năm): Cần từ vựng so sánh (higher, lower, accounts for).
-                    3. **Map (Bản đồ):** Cần từ vựng phương hướng (North, South) và sự thay đổi (demolished, constructed). Tuyệt đối không dùng "increase/decrease" cho nhà cửa.
-                    4. **Process (Quy trình):** Cần câu Bị động (Passive voice) và từ nối trình tự (First, Then, Finally).
-                    5. **Mixed (Kết hợp):** Cần hướng dẫn cách liên kết 2 biểu đồ.
+            with st.spinner("AI Examiner đang phân tích biểu đồ..."):
+                prompt_guide = """
+                Bạn là một Siêu Giáo viên IELTS Writing (Band 9.0). Nhiệm vụ là phân tích hình ảnh và viết hướng dẫn chi tiết từng bước bằng Tiếng Việt.
+                
+                **BƯỚC 1: NHẬN DIỆN LOẠI BÀI**
+                Xác định loại (Map, Process, Data...).
+                
+                **BƯỚC 2: VIẾT HƯỚNG DẪN (JSON)**
+                Sử dụng HTML (<ul>, <li>, <b>) để trình bày hướng dẫn cho Intro, Overview, Body 1, Body 2.
+                FORMAT JSON OUTPUT:
+                { "task_type": "...", "intro_guide": "...", "overview_guide": "...", "body1_guide": "...", "body2_guide": "..." }
+                """
+                res, _ = generate_content_with_failover(prompt_guide + "\nĐề bài: " + question_input, img_data, json_mode=True)
+                if res:
+                    g_data = parse_guide_response(res.text)
+                    if g_data:
+                        st.session_state.guide_data = g_data
+                        st.session_state.step = 2
+                        st.rerun()
 
-                    **BƯỚC 2: VIẾT HƯỚNG DẪN (OUTPUT JSON)**
-                    Dựa vào loại bài đã nhận diện, hãy viết nội dung hướng dẫn bằng Tiếng Việt (dùng thẻ HTML <ul>, <li>, <b> để trình bày đẹp):
-
-                    1. **"intro_guide"**: 
-                       - Hướng dẫn paraphrase đề bài cụ thể.
-                       - Nếu là Map: Gợi ý dùng "illustrates the transformation/development...".
-                       - Nếu là Process: Gợi ý dùng "demonstrates the procedure/stages...".
-                       - Nếu là Data: Gợi ý dùng "compares the data/figures...".
-
-                    2. **"overview_guide"**:
-                       - **Map:** Nhấn mạnh sự thay đổi tổng quan (Vd: "trở nên hiện đại hơn", "nhiều tiện ích hơn").
-                       - **Process:** Đếm tổng số bước, điểm đầu và điểm cuối.
-                       - **Data:** Tìm xu hướng chung (Trend) hoặc Số liệu cao nhất/thấp nhất.
-                       - Cung cấp mẫu câu mở đầu Overview "Overall, it is clear that...".
-
-                    3. **"body1_guide" & "body2_guide"**:
-                       - **Map:** Chia theo khu vực (Bắc/Nam) hoặc Giai đoạn (Trước/Sau). Hướng dẫn dùng thì Quá khứ đơn/Hiện tại hoàn thành.
-                       - **Process:** Chia giai đoạn (ví dụ: Chuẩn bị vs Sản xuất). Nhắc học sinh dùng Passive Voice.
-                       - **Data:** Hướng dẫn Grouping (Nhóm các đường tăng vào Body 1, giảm vào Body 2). Gợi ý cấu trúc so sánh phức tạp.
-                       - Cung cấp từ vựng "ăn điểm" cụ thể cho bài này (Key Vocab).
-
-                    **FORMAT JSON OUTPUT:**
-                    {
-                        "task_type": "Tên loại bài (VD: Map / Process Diagram / Mixed Charts)",
-                        "intro_guide": "HTML string...",
-                        "overview_guide": "HTML string...",
-                        "body1_guide": "HTML string (Gợi ý Grouping + Grammar + Vocab)",
-                        "body2_guide": "HTML string (Gợi ý Grouping + Grammar + Vocab)"
-                    }
-                    """
-                    
-                    # Gọi AI với Prompt Vạn Năng
-                    res, _ = generate_content_with_failover(prompt_guide + "\nĐề bài: " + question_input, img_data, json_mode=True)
-
-# ==========================================
-# 6. UI: PHASE 2 - WRITING PRACTICE (SỬA LẠI LAYOUT TẠI ĐÂY)
-# ==========================================
+# --- STEP 2: WRITING PRACTICE ---
 if st.session_state.step == 2 and st.session_state.guide_data:
+    if not st.session_state.saved_topic or not st.session_state.saved_img:
+        st.session_state.step = 1; st.rerun()
+    
     data = st.session_state.guide_data
-
-    # --- BƯỚC CHÍNH: CHIA CỘT TRÁI (4) VÀ PHẢI (6) ---
-    col_left, col_right = st.columns([4, 6], gap="large")
-
-    # CỘT BÊN TRÁI: HIỂN THỊ ĐỀ VÀ HÌNH ẢNH
+    col_left, col_right = st.columns([4, 6], gap="medium")
+    
     with col_left:
         st.markdown("### 📄 Đề bài & Hình ảnh")
-        st.markdown(f"""<div style="background-color: #f8f9fa; padding: 15px; border-radius: 8px; border: 1px solid #eee; font-style: italic;">{st.session_state.saved_topic}</div>""", unsafe_allow_html=True)
-        
-        if st.session_state.saved_img:
-            st.image(st.session_state.saved_img, use_container_width=True)
-        st.info(f"📌 Dạng bài: {data.get('task_type')}")
+        st.markdown(f'<div style="background:#f8f9fa; padding:15px; border-radius:8px; border:1px solid #eee; font-style:italic;">{st.session_state.saved_topic}</div>', unsafe_allow_html=True)
+        st.image(st.session_state.saved_img, use_container_width=True)
+        st.info(f"📌 **Dạng bài:** {data.get('task_type')}")
 
-    # CỘT BÊN PHẢI: CÁC Ô NHẬP LIỆU (INTRODUCTION, OVERVIEW...)
     with col_right:
-        st.markdown("### ✍️ Bài làm của bạn")
+        def get_wc(k): return len(st.session_state.get(k, "").split())
+        total_wc = sum(get_wc(k) for k in ["in_intro", "in_overview", "in_body1", "in_body2"])
         
-        # Bạn giữ nguyên các hàm render_input hoặc render_writing_section của bạn ở đây
-        # Ví dụ:
-        intro = render_writing_section("Introduction", "intro_guide", "in_intro")
-        overview = render_writing_section("Overview", "overview_guide", "in_overview")
-        body1 = render_writing_section("Body 1", "body1_guide", "in_body1")
-        body2 = render_writing_section("Body 2", "body2_guide", "in_body2")
+        st.markdown(f'<div style="display:flex; justify-content:space-between;"><b>✍️ Bài làm của bạn</b><span style="color:#6B7280;">Word count: {total_wc}/150+</span></div>', unsafe_allow_html=True)
 
-        # Nút nộp bài để chấm điểm (Sử dụng nguyên bản GRADING_PROMPT_TEMPLATE của bạn)
+        def render_sec(title, g_key, i_key):
+            st.markdown(f"##### {title}")
+            with st.expander(f"💡 Hướng dẫn {title}"):
+                st.markdown(f'<div class="guide-box">{data.get(g_key)}</div>', unsafe_allow_html=True)
+            return st.text_area(title, height=150, key=i_key, label_visibility="collapsed")
+
+        intro = render_sec("Introduction", "intro_guide", "in_intro")
+        overview = render_sec("Overview", "overview_guide", "in_overview")
+        body1 = render_sec("Body 1", "body1_guide", "in_body1")
+        body2 = render_sec("Body 2", "body2_guide", "in_body2")
+
         if st.button("✨ Submit to Examiner Pro (Chấm điểm)", type="primary", use_container_width=True):
-            if total_words < 20:
-                st.warning("⚠️ Bài viết quá ngắn. Vui lòng hoàn thiện trước khi chấm.")
+            if total_wc < 20: st.warning("⚠️ Bài viết quá ngắn.")
             else:
-                status = st.status("👨‍🏫 Examiner đang chấm bài...", expanded=True)
-                status.write("🔍 Analyzing Task Achievement & Data Accuracy...")
-                
-                # Gọi AI Chấm điểm
-                prompt_grade = GRADING_PROMPT_TEMPLATE.replace('{{TOPIC}}', st.session_state.saved_topic).replace('{{ESSAY}}', full_essay)
-                res_grade, _ = generate_content_with_failover(prompt_grade, st.session_state.saved_img, json_mode=False)
-                
-                status.write("📝 Compiling detailed report...")
-                if res_grade:
-                    mk_text, p_data = process_grading_response(res_grade.text)
-                    st.session_state.grading_result = {
-                        "data": p_data, 
-                        "markdown": mk_text,
-                        "essay": full_essay, 
-                        "topic": st.session_state.saved_topic
-                    }
-                    st.session_state.step = 3
-                    status.update(label="✅ Grading Complete!", state="complete", expanded=False)
-                    st.rerun()
-                else:
-                    status.update(label="❌ Lỗi kết nối AI", state="error")
+                with st.status("👨‍🏫 Examiner đang chấm bài...") as status:
+                    full_essay = f"{intro}\n\n{overview}\n\n{body1}\n\n{body2}".strip()
+                    prompt_grade = GRADING_PROMPT_TEMPLATE.replace('{{TOPIC}}', st.session_state.saved_topic).replace('{{ESSAY}}', full_essay)
+                    res_grade, _ = generate_content_with_failover(prompt_grade, st.session_state.saved_img)
+                    if res_grade:
+                        mk, p_data = process_grading_response(res_grade.text)
+                        st.session_state.grading_result = {"data": p_data, "markdown": mk, "essay": full_essay, "topic": st.session_state.saved_topic}
+                        st.session_state.step = 3
+                        status.update(label="✅ Đã chấm xong!", state="complete", expanded=False)
+                        st.rerun()
 
-# ==========================================
-# 7. UI: PHASE 3 - GRADING RESULT (EXAMINER UI)
-# ==========================================
+# --- STEP 3: RESULTS ---
 if st.session_state.step == 3 and st.session_state.grading_result:
     res = st.session_state.grading_result
-    g_data = res["data"]
-    analysis_text = res["markdown"] # Lấy text phân tích từ biến đã tách
-    
-    st.markdown("## 🛡️ KẾT QUẢ ĐÁNH GIÁ (EXAMINER REPORT)")
-    
-    # 1. Bảng điểm Gốc
+    g_data, analysis_text = res["data"], res["markdown"]
+    st.markdown("## 🛡️ EXAMINER ASSESSMENT REPORT")
     scores = g_data.get("originalScore", {})
-    st.markdown("### 📊 Điểm số hiện tại")
     cols = st.columns(5)
-    cols[0].metric("Task Achievement", scores.get("task_achievement", "-"))
-    cols[1].metric("Coherence", scores.get("cohesion_coherence", "-"))
-    cols[2].metric("Lexical", scores.get("lexical_resource", "-"))
-    cols[3].metric("Grammar", scores.get("grammatical_range", "-"))
+    cols[0].metric("TA", scores.get("task_achievement", "-"))
+    cols[1].metric("CC", scores.get("cohesion_coherence", "-"))
+    cols[2].metric("LR", scores.get("lexical_resource", "-"))
+    cols[3].metric("GRA", scores.get("grammatical_range", "-"))
     cols[4].metric("OVERALL", scores.get("overall", "-"))
     
     st.markdown("---")
-
-    # 2. Tabs Chi tiết
-    tab_analysis, tab_errors, tab_macro, tab_annotated = st.tabs([
-        "📝 Phân tích 4 Tiêu chí", 
-        "🔴 Lỗi Ngữ pháp/Từ vựng", 
-        "🔵 Lỗi Mạch lạc/Logic",
-        "✍️ Bài sửa (Annotated)"
-    ])
-    
-    # TAB 1: HIỂN THỊ PHẦN TEXT PHÂN TÍCH
-    with tab_analysis:
-        if analysis_text and len(analysis_text) > 50:
-            st.markdown(analysis_text) # Hiển thị Markdown chuẩn
-        else:
-            st.warning("Không có dữ liệu phân tích chi tiết.")
-
-    # TAB 2: LỖI MICRO (GRAMMAR/VOCAB)
-    with tab_errors:
-        errors = g_data.get("errors", [])
-        micro = [e for e in errors if e.get('category') in ['Grammar', 'Vocabulary', 'Ngữ pháp', 'Từ vựng']]
-        if not micro: st.success("Không tìm thấy lỗi ngữ pháp đáng kể.")
-        for i, err in enumerate(micro):
+    t1, t2, t3, t4 = st.tabs(["📝 Phân tích", "🔴 Lỗi Ngôn ngữ", "🔵 Lỗi Logic", "✍️ Bài sửa"])
+    with t1: st.markdown(analysis_text)
+    with t2:
+        micro = [e for e in g_data.get('errors', []) if e.get('category') in ['Grammar', 'Vocabulary', 'Ngữ pháp', 'Từ vựng']]
+        for idx, err in enumerate(micro):
             badge = "#DCFCE7" if err.get('category') in ['Grammar','Ngữ pháp'] else "#FEF9C3"
-            
-            # Sử dụng HTML thẻ div để render card đẹp như App Chấm điểm
-            st.markdown(f"""
-            <div class="error-card">
-                <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
-                    <span><b>#{i+1} [{err.get('category')}]</b>: {err.get('type')}</span>
-                    <span style="background:#eee; padding:2px 8px; border-radius:10px; font-size:0.8em">{err.get('impact_level')}</span>
-                </div>
-                <div style="background:{badge}; padding:8px; border-radius:5px; margin-bottom:5px;">
-                    <s>{err.get('original')}</s> ➔ <b>{err.get('correction')}</b>
-                </div>
-                <small><i>{err.get('explanation')}</i></small>
-            </div>
-            """, unsafe_allow_html=True)
+            st.markdown(f'<div class="error-card"><b>#{idx+1} {err["type"]}</b><div style="background:{badge}; padding:8px; border-radius:5px;"><s>{err["original"]}</s> ➔ <b>{err["correction"]}</b></div><small><i>{err["explanation"]}</i></small></div>', unsafe_allow_html=True)
+    with t3:
+        macro = [e for e in g_data.get('errors', []) if e.get('category') not in ['Grammar', 'Vocabulary', 'Ngữ pháp', 'Từ vựng']]
+        for err in macro: st.markdown(f'<div class="error-card" style="border-left:5px solid #3B82F6;"><b>{err["type"]}</b><br>{err["explanation"]}<br>Gợi ý: <b>{err["correction"]}</b></div>', unsafe_allow_html=True)
+    with t4: st.markdown(f'<div class="annotated-text">{g_data.get("annotatedEssay", "")}</div>', unsafe_allow_html=True)
 
-    # TAB 3: LỖI MACRO (COHERENCE)
-    with tab_macro:
-        macro = [e for e in errors if e.get('category') not in ['Grammar', 'Vocabulary', 'Ngữ pháp', 'Từ vựng']]
-        if not macro: st.success("Cấu trúc mạch lạc tốt.")
-        for err in macro:
-            st.markdown(f"""
-            <div class="error-card" style="border-left: 5px solid #3B82F6;">
-                <b>[{err.get('category')}] {err.get('type')}</b><br>
-                Vấn đề: {err.get('explanation')}<br>
-                Gợi ý: <b>{err.get('correction')}</b>
-            </div>
-            """, unsafe_allow_html=True)
-
-    # TAB 4: BÀI SỬA
-    with tab_annotated:
-        st.markdown(f'<div class="annotated-text">{g_data.get("annotatedEssay", "")}</div>', unsafe_allow_html=True)
-
-    # 3. Revised Score
     st.markdown("---")
-    st.subheader("📈 Dự báo điểm sau khi sửa lỗi (Revised Score)")
-    rev = g_data.get("revisedScore", {})
+    rev = g_data.get("revised_score", {})
     if rev:
+        st.subheader("📈 Dự báo điểm sau sửa")
         r_cols = st.columns(5)
-        r_cols[0].metric("TA (Rev)", rev.get("task_achievement", "-"))
-        r_cols[1].metric("CC (Rev)", rev.get("cohesion_coherence", "-"))
-        r_cols[2].metric("LR (Rev)", rev.get("lexical_resource", "-"))
-        r_cols[3].metric("GRA (Rev)", rev.get("grammatical_range", "-"))
-        r_cols[4].metric("OVERALL (Rev)", rev.get("overall", "-"))
-        
-        if rev.get("logic_re_evaluation"):
-            st.info(f"💡 **Lưu ý của Giám khảo:** {rev.get('logic_re_evaluation')}")
-
-    # 4. Export Buttons
-    st.markdown("---")
-    d1, d2 = st.columns(2)
+        r_cols[0].metric("TA", rev.get("task_achievement", "-"))
+        r_cols[1].metric("CC", rev.get("cohesion_coherence", "-"))
+        r_cols[2].metric("LR", rev.get("lexical_resource", "-"))
+        r_cols[3].metric("GRA", rev.get("grammatical_range", "-"))
+        r_cols[4].metric("OVERALL", rev.get("overall", "-"))
     
-    docx = create_docx(g_data, res['topic'], res['essay'], analysis_text)
-    d1.download_button("📄 Download Report (.docx)", docx, "IELTS_Report.docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", use_container_width=True)
-    
-    pdf = create_pdf(g_data, res['topic'], res['essay'], analysis_text)
-    d2.download_button("📕 Download Report (.pdf)", pdf, "IELTS_Report.pdf", "application/pdf", use_container_width=True)
-    
-    if st.button("🔄 Làm bài mới (Reset)", use_container_width=True):
-        st.session_state.step = 1
-        st.session_state.guide_data = None
-        st.session_state.grading_result = None
-        st.session_state.saved_topic = ""
-        st.session_state.saved_img = None
-        st.rerun()
+    if st.button("🔄 Làm bài mới", use_container_width=True):
+        for k in ["step", "guide_data", "grading_result", "saved_topic", "saved_img"]: st.session_state[k] = None
+        st.session_state.step = 1; st.rerun()
