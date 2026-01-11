@@ -698,19 +698,52 @@ if st.session_state.step == 1:
             st.session_state.saved_topic = question_input
             st.session_state.saved_img = img_data
             
-            with st.spinner("AI Examiner is analyzing the task type..."):
-                prompt_guide = """
-                Phân tích đề bài IELTS Writing Task 1. Trả về JSON:
-                { "task_type": "...", "intro_guide": "...", "overview_guide": "...", "body1_guide": "...", "body2_guide": "..." }
-                Viết hướng dẫn chi tiết bằng tiếng Việt.
-                """
-                res, _ = generate_content_with_failover(prompt_guide + "\n" + question_input, img_data, json_mode=True)
-                if res:
-                    data = parse_guide_response(res.text)
-                    if data:
-                        st.session_state.guide_data = data
-                        st.session_state.step = 2
-                        st.rerun()
+            with st.spinner("Examiner đang phân tích loại biểu đồ và lên chiến thuật..."):
+                    # Prompt Tutor Vạn Năng: Tự động thích ứng theo từng dạng bài
+                    prompt_guide = """
+                    Bạn là một Siêu Giáo viên IELTS Writing (Band 9.0). Nhiệm vụ của bạn là phân tích hình ảnh đầu vào và viết hướng dẫn thực hành chi tiết.
+                    
+                    **BƯỚC 1: NHẬN DIỆN LOẠI BÀI (QUAN TRỌNG)**
+                    Hãy nhìn hình ảnh và xác định nó thuộc loại nào:
+                    1. **Change Over Time** (Line, Bar, Table có năm tháng): Cần từ vựng xu hướng (increase, decrease).
+                    2. **Static Chart** (Pie, Table 1 năm): Cần từ vựng so sánh (higher, lower, accounts for).
+                    3. **Map (Bản đồ):** Cần từ vựng phương hướng (North, South) và sự thay đổi (demolished, constructed). Tuyệt đối không dùng "increase/decrease" cho nhà cửa.
+                    4. **Process (Quy trình):** Cần câu Bị động (Passive voice) và từ nối trình tự (First, Then, Finally).
+                    5. **Mixed (Kết hợp):** Cần hướng dẫn cách liên kết 2 biểu đồ.
+
+                    **BƯỚC 2: VIẾT HƯỚNG DẪN (OUTPUT JSON)**
+                    Dựa vào loại bài đã nhận diện, hãy viết nội dung hướng dẫn bằng Tiếng Việt (dùng thẻ HTML <ul>, <li>, <b> để trình bày đẹp):
+
+                    1. **"intro_guide"**: 
+                       - Hướng dẫn paraphrase đề bài cụ thể.
+                       - Nếu là Map: Gợi ý dùng "illustrates the transformation/development...".
+                       - Nếu là Process: Gợi ý dùng "demonstrates the procedure/stages...".
+                       - Nếu là Data: Gợi ý dùng "compares the data/figures...".
+
+                    2. **"overview_guide"**:
+                       - **Map:** Nhấn mạnh sự thay đổi tổng quan (Vd: "trở nên hiện đại hơn", "nhiều tiện ích hơn").
+                       - **Process:** Đếm tổng số bước, điểm đầu và điểm cuối.
+                       - **Data:** Tìm xu hướng chung (Trend) hoặc Số liệu cao nhất/thấp nhất.
+                       - Cung cấp mẫu câu mở đầu Overview "Overall, it is clear that...".
+
+                    3. **"body1_guide" & "body2_guide"**:
+                       - **Map:** Chia theo khu vực (Bắc/Nam) hoặc Giai đoạn (Trước/Sau). Hướng dẫn dùng thì Quá khứ đơn/Hiện tại hoàn thành.
+                       - **Process:** Chia giai đoạn (ví dụ: Chuẩn bị vs Sản xuất). Nhắc học sinh dùng Passive Voice.
+                       - **Data:** Hướng dẫn Grouping (Nhóm các đường tăng vào Body 1, giảm vào Body 2). Gợi ý cấu trúc so sánh phức tạp.
+                       - Cung cấp từ vựng "ăn điểm" cụ thể cho bài này (Key Vocab).
+
+                    **FORMAT JSON OUTPUT:**
+                    {
+                        "task_type": "Tên loại bài (VD: Map / Process Diagram / Mixed Charts)",
+                        "intro_guide": "HTML string...",
+                        "overview_guide": "HTML string...",
+                        "body1_guide": "HTML string (Gợi ý Grouping + Grammar + Vocab)",
+                        "body2_guide": "HTML string (Gợi ý Grouping + Grammar + Vocab)"
+                    }
+                    """
+                    
+                    # Gọi AI với Prompt Vạn Năng
+                    res, _ = generate_content_with_failover(prompt_guide + "\nĐề bài: " + question_input, img_data, json_mode=True)
 
 # ==========================================
 # 6. UI: PHASE 2 - WRITING PRACTICE (SPLIT LAYOUT)
