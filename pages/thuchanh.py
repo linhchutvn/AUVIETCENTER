@@ -886,64 +886,46 @@ if st.session_state.step == 2 and st.session_state.guide_data:
                         status.update(label="❌ Lỗi kết nối AI", state="error")
 
 # ==========================================
-# 7. UI: PHASE 3 - GRADING RESULT (SCROLLABLE STICKY BOX)
+# 7. UI: PHASE 3 - GRADING RESULT (FINAL STABLE VERSION)
 # ==========================================
 if st.session_state.step == 3 and st.session_state.grading_result:
     
-    # --- 1. CSS CỰC MẠNH: TẠO HỘP CUỘN ĐỘC LẬP BÊN TRÁI ---
+    # --- 1. CSS KHẮC PHỤC LỖI HIỂN THỊ ---
     st.markdown("""
         <style>
-            /* 1. Ngắt tính năng kéo dãn chiều cao của Flexbox */
+            /* Ngăn chặn Streamlit tự động căn đều chiều cao 2 cột */
             [data-testid="stHorizontalBlock"] {
                 align-items: flex-start !important;
             }
-
-            /* 2. Biến CỘT TRÁI thành một cái HỘP CỐ ĐỊNH có thanh cuộn riêng */
+            
+            /* Định dạng Cột Trái (Cột 1) thành thanh bên cố định */
             div[data-testid="column"]:nth-of-type(1) {
-                /* Vị trí cố định */
-                position: -webkit-sticky !important;
                 position: sticky !important;
-                top: 4rem !important;         /* Cách mép trên màn hình */
-                z-index: 100 !important;
+                top: 3rem !important; /* Khoảng cách với mép trên */
+                height: 85vh !important; /* Chiều cao cố định bằng 85% màn hình */
+                overflow-y: auto !important; /* Cho phép cuộn bên trong cột này */
                 
-                /* Kích thước & Cuộn */
-                height: auto !important;      /* Chiều cao tự động theo nội dung */
-                max-height: 85vh !important;  /* Tối đa bằng 85% chiều cao màn hình */
-                overflow-y: auto !important;  /* Hiện thanh cuộn nếu nội dung dài */
-                
-                /* Giao diện Hộp (Card UI) */
+                /* Trang trí cho giống cái hộp */
                 background-color: #ffffff;
-                border: 1px solid #d1d5db;
-                border-radius: 12px;
-                padding: 1.5rem !important;
-                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-                margin-bottom: 2rem; /* Khoảng cách dưới */
+                border: 1px solid #e5e7eb;
+                border-radius: 10px;
+                padding: 15px !important;
+                box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+                
+                /* Đảm bảo nằm trên các lớp khác */
+                z-index: 100;
+                display: block !important;
             }
 
-            /* Tùy chỉnh thanh cuộn cho cột trái (nhỏ, đẹp) */
-            div[data-testid="column"]:nth-of-type(1)::-webkit-scrollbar {
-                width: 6px;
-            }
-            div[data-testid="column"]:nth-of-type(1)::-webkit-scrollbar-track {
-                background: #f1f5f9;
-                border-radius: 4px;
-            }
-            div[data-testid="column"]:nth-of-type(1)::-webkit-scrollbar-thumb {
-                background-color: #94a3b8;
-                border-radius: 4px;
-            }
-
-            /* Style hiển thị bài văn của user */
-            .user-essay-container {
-                font-family: 'Inter', sans-serif;
+            /* Style cho nội dung bài viết */
+            .essay-content {
+                font-family: 'Courier New', Courier, monospace;
                 font-size: 0.95rem;
-                line-height: 1.6;
-                color: #334155;
                 background-color: #f8fafc;
-                padding: 15px;
-                border-radius: 8px;
+                padding: 10px;
+                border-radius: 5px;
                 border: 1px solid #e2e8f0;
-                white-space: pre-wrap; /* Giữ định dạng xuống dòng */
+                white-space: pre-wrap;
             }
         </style>
     """, unsafe_allow_html=True)
@@ -952,33 +934,34 @@ if st.session_state.step == 3 and st.session_state.grading_result:
     g_data = res["data"]
     analysis_text = res["markdown"]
     
-    # --- 2. CHIA CỘT (Cột trái nhỏ hơn chút để giống sidebar) ---
-    col_ref, col_result = st.columns([3.5, 6.5], gap="large")
+    # --- 2. CHIA CỘT ---
+    # Lưu ý: Cột trái (4) sẽ chịu ảnh hưởng của CSS ở trên
+    col_ref, col_result = st.columns([4, 6], gap="medium")
     
-    # === CỘT TRÁI: HỘP THÔNG TIN (STICKY CONTAINER) ===
-    # Nhờ CSS ở trên, toàn bộ nội dung trong `with col_ref` này sẽ nằm trong cái hộp trắng cố định
+    # === CỘT TRÁI (Nội dung tham chiếu - Đã được CSS biến thành hộp cuộn) ===
     with col_ref:
-        st.markdown("#### 📄 Thông tin đối chiếu")
-        st.caption("Cột này được cố định để bạn dễ dàng so sánh.")
-
+        st.subheader("📄 Thông tin đối chiếu")
+        
         # 1. Hình ảnh
         if st.session_state.saved_img:
-            st.image(st.session_state.saved_img, use_container_width=True, caption="Visual Data")
+            st.image(st.session_state.saved_img, use_container_width=True, caption="Đề bài (Hình ảnh)")
         
-        st.markdown("---")
+        st.divider()
         
-        # 2. Đề bài
-        with st.expander("📌 Xem lại Đề bài (Prompt)", expanded=False):
+        # 2. Câu hỏi
+        with st.expander("📌 Xem lại câu hỏi", expanded=True):
             st.info(st.session_state.saved_topic)
         
+        st.divider()
+
         # 3. Bài viết của bạn
         st.markdown("**✍️ Bài làm của bạn:**")
-        st.markdown(f'<div class="user-essay-container">{html.escape(res["essay"])}</div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="essay-content">{html.escape(res["essay"])}</div>', unsafe_allow_html=True)
         
-        # Một khoảng trống nhỏ cuối hộp để không bị sát mép
-        st.markdown("<br>", unsafe_allow_html=True)
+        # Khoảng trống để không bị sát đáy
+        st.markdown("<br><br>", unsafe_allow_html=True)
 
-    # === CỘT PHẢI: KẾT QUẢ CHẤM (CUỘN BÌNH THƯỜNG) ===
+    # === CỘT PHẢI (Kết quả chấm - Cuộn theo trang chính) ===
     with col_result:
         st.markdown("## 🛡️ EXAMINER REPORT")
         
@@ -1001,7 +984,7 @@ if st.session_state.step == 3 and st.session_state.grading_result:
         st.markdown("---")
 
         # Tabs chi tiết
-        tab1, tab2, tab3, tab4 = st.tabs(["📝 Phân tích", "🔴 Lỗi Ngữ pháp", "🔵 Lỗi Mạch lạc", "✍️ Bài sửa"])
+        tab1, tab2, tab3, tab4 = st.tabs(["📝 Phân tích", "🔴 Lỗi Ngữ pháp", "🔵 Lỗi Logic", "✍️ Bài sửa"])
         
         with tab1:
             if analysis_text and len(analysis_text) > 50:
