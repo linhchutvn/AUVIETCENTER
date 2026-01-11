@@ -901,7 +901,7 @@ if st.session_state.step == 3 and st.session_state.grading_result:
             /* 2. Style cho 2 cái Hộp lớn (Container) */
             /* Streamlit tự tạo container có viền, ta chỉ cần chỉnh background app cho nổi bật */
             .stApp {
-                background-color: #f1f5f9;
+                background-color: #ffffff;
             }
 
             /* 3. Style Bài viết: Tự động xuống dòng, không cuộn ngang */
