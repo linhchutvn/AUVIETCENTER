@@ -26,7 +26,7 @@ from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.lib.fonts import addMapping
 
 # ==========================================
-# 1. CẤU HÌNH & CSS (COPY TỪ APP CHẤM ĐIỂM)
+# 1. CẤU HÌNH & CSS
 # ==========================================
 st.set_page_config(page_title="IELTS Writing Master", page_icon="🎓", layout="wide")
 
@@ -35,9 +35,40 @@ st.markdown("""
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:wght@300;400;700&display=swap');
     
     html, body, [class*="css"] { font-family: 'Inter', sans-serif; }
-    h1, h2, h3 { font-family: 'Merriweather', serif !important; color: #0F172A !important; }
     
-    /* Tutor Style */
+    /* Header Style */
+    .main-header {
+        font-family: 'Merriweather', serif;
+        color: #0F172A;
+        font-weight: 700;
+        font-size: 2.2rem;
+        margin-bottom: 0.5rem;
+    }
+    .sub-header {
+        font-family: 'Inter', sans-serif;
+        color: #64748B;
+        font-size: 1.1rem;
+        margin-bottom: 2rem;
+        border-bottom: 1px solid #E2E8F0;
+        padding-bottom: 1rem;
+    }
+
+    /* Step Headers */
+    .step-header {
+        font-family: 'Inter', sans-serif;
+        font-weight: 700;
+        font-size: 1.2rem;
+        color: #1E293B;
+        margin-top: 1.5rem;
+        margin-bottom: 0.5rem;
+    }
+    .step-desc {
+        font-size: 0.9rem;
+        color: #64748B;
+        margin-bottom: 0.8rem;
+    }
+
+    /* Guide Box */
     .guide-box {
         background-color: #f8f9fa;
         border-left: 5px solid #ff4b4b;
@@ -47,7 +78,7 @@ st.markdown("""
         color: #31333F;
     }
 
-    /* Examiner Style - Error Cards */
+    /* Error Cards */
     .error-card {
         background-color: white;
         border: 1px solid #E5E7EB;
@@ -61,6 +92,7 @@ st.markdown("""
         box-shadow: 0 4px 6px rgba(0,0,0,0.05);
         border-color: #D1D5DB;
     }
+    
     .annotated-text {
         font-family: 'Merriweather', serif;
         line-height: 1.8;
@@ -71,13 +103,26 @@ st.markdown("""
         border: 1px solid #E5E7EB;
         box-shadow: 0 1px 2px rgba(0,0,0,0.05);
     }
+    
     del { color: #9CA3AF; text-decoration: line-through; margin-right: 4px; text-decoration-thickness: 2px; }
     ins.grammar { background-color: #4ADE80; color: #022C22; text-decoration: none; padding: 2px 6px; border-radius: 4px; font-weight: 700; border: 1px solid #22C55E; }
     ins.vocab { background-color: #FDE047; color: #000; text-decoration: none; padding: 2px 6px; border-radius: 4px; font-weight: 700; border: 1px solid #FCD34D; }
     
-    div.stButton > button { font-weight: bold; border-radius: 8px; }
+    /* Button Customization */
+    div.stButton > button {
+        background-color: #FF4B4B;
+        color: white;
+        font-weight: bold;
+        border-radius: 8px;
+        padding: 0.5rem 1.5rem;
+        border: none;
+    }
+    div.stButton > button:hover {
+        background-color: #D93434;
+    }
 </style>
 """, unsafe_allow_html=True)
+)
 
 # ==========================================
 # 2. LOGIC AI (FAILOVER)
@@ -607,37 +652,59 @@ if "saved_topic" not in st.session_state: st.session_state.saved_topic = ""
 if "saved_img" not in st.session_state: st.session_state.saved_img = None
 
 # ==========================================
-# 5. UI: PHASE 1 - INPUT & GUIDE
+# 5. GIAO DIỆN CHÍNH (THEO YÊU CẦU MỚI)
 # ==========================================
-st.title("🎓 IELTS Writing Task 1 – Examiner-Guided Learning & Scoring")
+
+# TIÊU ĐỀ CHÍNH
+st.markdown('<div class="main-header">🎓 IELTS Writing Task 1 – Examiner-Guided</div>', unsafe_allow_html=True)
+st.markdown('<div class="sub-header">Learning & Scoring Based on IELTS Band Descriptors</div>', unsafe_allow_html=True)
 
 if st.session_state.step == 1:
-    col1, col2 = st.columns([1, 1])
-    with col1:
-        st.subheader("📝 TASK 1 QUESTION / PROMPT")
-        question_input = st.text_area("Paste the official question text here...:", height=150, placeholder="The chart below shows...", key="q_input")
+    
+    # STEP 1
+    st.markdown('<div class="step-header">STEP 1 – Visual Data (bắt buộc)</div>', unsafe_allow_html=True)
+    st.markdown('<div class="step-desc">Upload chart / graph / table / diagram</div>', unsafe_allow_html=True)
+    uploaded_image = st.file_uploader("Upload Image", type=['png', 'jpg', 'jpeg'], key="img_input", label_visibility="collapsed")
+    if uploaded_image:
+        img_data = Image.open(uploaded_image)
+        st.image(img_data, caption='Uploaded Visual Data', width=400)
+    else:
+        img_data = None
 
-    with col2:
-        st.subheader("📊 Visual Data")
-        uploaded_image = st.file_uploader("Upload a clear image of the chart, graph, table, or diagram.", type=['png', 'jpg', 'jpeg'], key="img_input")
-        img_data = Image.open(uploaded_image) if uploaded_image else None
-        if img_data: st.image(img_data, caption='Đề bài', use_container_width=True)
+    # STEP 2
+    st.markdown("---")
+    st.markdown('<div class="step-header">STEP 2 – Task 1 Question</div>', unsafe_allow_html=True)
+    st.markdown('<div class="step-desc">Paste the official task question here</div>', unsafe_allow_html=True)
+    question_input = st.text_area("Question", height=150, placeholder="The chart below shows...", key="q_input", label_visibility="collapsed")
 
-    if st.button("🚀 Phân tích & Hướng dẫn", type="primary"):
+    # STEP 3
+    st.markdown("---")
+    st.markdown('<div class="step-header">STEP 3 – Examiner Focus</div>', unsafe_allow_html=True)
+    st.markdown("""
+    <div style="background-color: #F1F5F9; padding: 15px; border-radius: 8px; border: 1px solid #E2E8F0;">
+        <div style="font-weight: 500; color: #334155;">✓ Task type identification</div>
+        <div style="font-weight: 500; color: #334155;">✓ Key trends & overview logic</div>
+        <div style="font-weight: 500; color: #334155;">✓ Data selection & comparison</div>
+        <div style="font-weight: 500; color: #334155;">✓ Band scoring (TA – CC – LR – GRA)</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("<br>", unsafe_allow_html=True)
+
+    # BUTTON
+    if st.button("🚀  Analyze & Guide (Start Learning)", type="primary", use_container_width=True):
         if not question_input and not img_data:
-            st.warning("Vui lòng nhập đề bài hoặc ảnh.")
+            st.warning("⚠️ Vui lòng nhập đề bài và tải ảnh lên để bắt đầu.")
         else:
-            # Lưu lại input
             st.session_state.saved_topic = question_input
             st.session_state.saved_img = img_data
             
-            with st.spinner("AI đang phân tích chiến thuật..."):
+            with st.spinner("AI Examiner is analyzing the task type..."):
                 prompt_guide = """
                 Phân tích đề bài IELTS Writing Task 1. Trả về JSON:
                 { "task_type": "...", "intro_guide": "...", "overview_guide": "...", "body1_guide": "...", "body2_guide": "..." }
                 Viết hướng dẫn chi tiết bằng tiếng Việt.
                 """
-                # Bước này dùng JSON Mode để lấy hướng dẫn
                 res, _ = generate_content_with_failover(prompt_guide + "\n" + question_input, img_data, json_mode=True)
                 if res:
                     data = parse_guide_response(res.text)
