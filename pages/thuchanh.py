@@ -751,83 +751,35 @@ if st.session_state.step == 1:
                     res, _ = generate_content_with_failover(prompt_guide + "\nĐề bài: " + question_input, img_data, json_mode=True)
 
 # ==========================================
-# 6. UI: PHASE 2 - WRITING PRACTICE (SPLIT LAYOUT)
+# 6. UI: PHASE 2 - WRITING PRACTICE (SỬA LẠI LAYOUT TẠI ĐÂY)
 # ==========================================
 if st.session_state.step == 2 and st.session_state.guide_data:
-    
-    # Kiểm tra an toàn: Nếu mất dữ liệu (do F5), quay về Step 1
-    if not st.session_state.saved_topic or not st.session_state.saved_img:
-        st.warning("⚠️ Dữ liệu phiên làm việc đã hết hạn. Vui lòng tải lại đề bài.")
-        st.session_state.step = 1
-        st.rerun()
-    
     data = st.session_state.guide_data
-    
-    # Chia giao diện thành 2 cột lớn: Trái (Đề) - Phải (Bài làm)
-    layout_left, layout_right = st.columns([4, 6], gap="medium")
-    
-    # --- CỘT TRÁI: ĐỀ BÀI & HÌNH ẢNH ---
-    with layout_left:
-        st.markdown("### 📄 Đề bài (Prompt)")
+
+    # --- BƯỚC CHÍNH: CHIA CỘT TRÁI (4) VÀ PHẢI (6) ---
+    col_left, col_right = st.columns([4, 6], gap="large")
+
+    # CỘT BÊN TRÁI: HIỂN THỊ ĐỀ VÀ HÌNH ẢNH
+    with col_left:
+        st.markdown("### 📄 Đề bài & Hình ảnh")
+        st.markdown(f"""<div style="background-color: #f8f9fa; padding: 15px; border-radius: 8px; border: 1px solid #eee; font-style: italic;">{st.session_state.saved_topic}</div>""", unsafe_allow_html=True)
         
-        # Hiển thị text đề bài trong khung xám
-        st.markdown(f"""
-        <div style="background-color: #F8F9FA; padding: 15px; border-radius: 8px; border: 1px solid #E9ECEF; margin-bottom: 20px; font-style: italic; color: #374151; font-size: 0.95rem; line-height: 1.6;">
-            {st.session_state.saved_topic}
-        </div>
-        """, unsafe_allow_html=True)
-        
-        # Hiển thị ảnh
         if st.session_state.saved_img:
-            st.image(st.session_state.saved_img, caption="Visual Data Reference", use_container_width=True)
+            st.image(st.session_state.saved_img, use_container_width=True)
+        st.info(f"📌 Dạng bài: {data.get('task_type')}")
+
+    # CỘT BÊN PHẢI: CÁC Ô NHẬP LIỆU (INTRODUCTION, OVERVIEW...)
+    with col_right:
+        st.markdown("### ✍️ Bài làm của bạn")
         
-        st.info(f"📌 **Dạng bài:** {data.get('task_type', 'Mixed/Other')}")
-
-    # --- CỘT PHẢI: KHU VỰC VIẾT BÀI ---
-    with layout_right:
-        # Tính tổng số từ hiện tại (Real-time)
-        def get_word_count(key):
-            text = st.session_state.get(key, "")
-            return len(text.split())
-            
-        total_words = (get_word_count("in_intro") + get_word_count("in_overview") + 
-                       get_word_count("in_body1") + get_word_count("in_body2"))
-        
-        # Header với bộ đếm từ
-        st.markdown(f"""
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #eee;">
-            <span style="font-weight: 700; font-size: 1.2rem; color: #1F2937;">✍️ Bài làm của bạn</span>
-            <span style="background-color: {'#DCFCE7' if total_words >= 150 else '#F3F4F6'}; color: {'#166534' if total_words >= 150 else '#6B7280'}; padding: 4px 12px; border-radius: 99px; font-size: 0.9rem; font-weight: bold; border: 1px solid {'#86EFAC' if total_words >= 150 else '#E5E7EB'};">
-                📝 Word count: {total_words}/150+
-            </span>
-        </div>
-        """, unsafe_allow_html=True)
-
-        # Hàm render từng ô nhập liệu
-        def render_writing_section(title, guide_key, input_key):
-            st.markdown(f"##### {title}")
-            # Expander hướng dẫn
-            with st.expander(f"💡 Gợi ý viết {title}", expanded=False):
-                st.markdown(f"<div class='guide-box'>{data.get(guide_key, 'Không có hướng dẫn chi tiết.')}</div>", unsafe_allow_html=True)
-            # Ô nhập liệu
-            return st.text_area(
-                label=title,
-                height=150, 
-                key=input_key, 
-                placeholder=f"Nhập phần {title} của bạn ở đây...",
-                label_visibility="collapsed"
-            )
-
-        # 4 Phần viết bài xếp dọc
+        # Bạn giữ nguyên các hàm render_input hoặc render_writing_section của bạn ở đây
+        # Ví dụ:
         intro = render_writing_section("Introduction", "intro_guide", "in_intro")
         overview = render_writing_section("Overview", "overview_guide", "in_overview")
         body1 = render_writing_section("Body 1", "body1_guide", "in_body1")
         body2 = render_writing_section("Body 2", "body2_guide", "in_body2")
 
-        # Nút nộp bài
-        st.markdown("---")
-        full_essay = f"{intro}\n\n{overview}\n\n{body1}\n\n{body2}".strip()
-        
+        # Nút nộp bài để chấm điểm (Sử dụng nguyên bản GRADING_PROMPT_TEMPLATE của bạn)
         if st.button("✨ Submit to Examiner Pro (Chấm điểm)", type="primary", use_container_width=True):
             if total_words < 20:
                 st.warning("⚠️ Bài viết quá ngắn. Vui lòng hoàn thiện trước khi chấm.")
