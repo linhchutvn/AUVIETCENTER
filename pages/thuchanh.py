@@ -886,110 +886,172 @@ if st.session_state.step == 2 and st.session_state.guide_data:
                         status.update(label="❌ Lỗi kết nối AI", state="error")
 
 # ==========================================
-# 7. UI: PHASE 3 - GRADING RESULT (EXAMINER UI)
+# 7. UI: PHASE 3 - GRADING RESULT (SPLIT LAYOUT)
 # ==========================================
 if st.session_state.step == 3 and st.session_state.grading_result:
+    
+    # --- 1. CSS STICKY CHO PHASE 3 (Tương tự Phase 2) ---
+    st.markdown("""
+        <style>
+            [data-testid="stHorizontalBlock"] { align-items: flex-start !important; }
+            [data-testid="column"]:nth-of-type(1) {
+                position: -webkit-sticky !important;
+                position: sticky !important;
+                top: 2rem !important;
+                z-index: 999 !important;
+            }
+            [data-testid="column"]:nth-of-type(1) > div:nth-child(1) {
+                max-height: 95vh !important;
+                overflow-y: auto !important;
+                padding-right: 10px;
+            }
+            /* Style riêng cho khung bài làm bên trái Phase 3 */
+            .user-essay-box {
+                background-color: #ffffff;
+                border: 1px solid #e5e7eb;
+                padding: 15px;
+                border-radius: 8px;
+                font-family: monospace;
+                font-size: 0.9rem;
+                color: #374151;
+                white-space: pre-wrap; /* Giữ xuống dòng */
+                margin-top: 10px;
+            }
+        </style>
+    """, unsafe_allow_html=True)
+
     res = st.session_state.grading_result
     g_data = res["data"]
-    analysis_text = res["markdown"] # Lấy text phân tích từ biến đã tách
+    analysis_text = res["markdown"]
     
-    st.markdown("## 🛡️ KẾT QUẢ ĐÁNH GIÁ (EXAMINER REPORT)")
+    # --- 2. CHIA CỘT ---
+    col_ref, col_result = st.columns([4, 6], gap="large")
     
-    # 1. Bảng điểm Gốc
-    scores = g_data.get("originalScore", {})
-    st.markdown("### 📊 Điểm số hiện tại")
-    cols = st.columns(5)
-    cols[0].metric("Task Achievement", scores.get("task_achievement", "-"))
-    cols[1].metric("Coherence", scores.get("cohesion_coherence", "-"))
-    cols[2].metric("Lexical", scores.get("lexical_resource", "-"))
-    cols[3].metric("Grammar", scores.get("grammatical_range", "-"))
-    cols[4].metric("OVERALL", scores.get("overall", "-"))
-    
-    st.markdown("---")
-
-    # 2. Tabs Chi tiết
-    tab_analysis, tab_errors, tab_macro, tab_annotated = st.tabs([
-        "📝 Phân tích 4 Tiêu chí", 
-        "🔴 Lỗi Ngữ pháp/Từ vựng", 
-        "🔵 Lỗi Mạch lạc/Logic",
-        "✍️ Bài sửa (Annotated)"
-    ])
-    
-    # TAB 1: HIỂN THỊ PHẦN TEXT PHÂN TÍCH
-    with tab_analysis:
-        if analysis_text and len(analysis_text) > 50:
-            st.markdown(analysis_text) # Hiển thị Markdown chuẩn
-        else:
-            st.warning("Không có dữ liệu phân tích chi tiết.")
-
-    # TAB 2: LỖI MICRO (GRAMMAR/VOCAB)
-    with tab_errors:
-        errors = g_data.get("errors", [])
-        micro = [e for e in errors if e.get('category') in ['Grammar', 'Vocabulary', 'Ngữ pháp', 'Từ vựng']]
-        if not micro: st.success("Không tìm thấy lỗi ngữ pháp đáng kể.")
-        for i, err in enumerate(micro):
-            badge = "#DCFCE7" if err.get('category') in ['Grammar','Ngữ pháp'] else "#FEF9C3"
-            
-            # Sử dụng HTML thẻ div để render card đẹp như App Chấm điểm
-            st.markdown(f"""
-            <div class="error-card">
-                <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
-                    <span><b>#{i+1} [{err.get('category')}]</b>: {err.get('type')}</span>
-                    <span style="background:#eee; padding:2px 8px; border-radius:10px; font-size:0.8em">{err.get('impact_level')}</span>
-                </div>
-                <div style="background:{badge}; padding:8px; border-radius:5px; margin-bottom:5px;">
-                    <s>{err.get('original')}</s> ➔ <b>{err.get('correction')}</b>
-                </div>
-                <small><i>{err.get('explanation')}</i></small>
-            </div>
-            """, unsafe_allow_html=True)
-
-    # TAB 3: LỖI MACRO (COHERENCE)
-    with tab_macro:
-        macro = [e for e in errors if e.get('category') not in ['Grammar', 'Vocabulary', 'Ngữ pháp', 'Từ vựng']]
-        if not macro: st.success("Cấu trúc mạch lạc tốt.")
-        for err in macro:
-            st.markdown(f"""
-            <div class="error-card" style="border-left: 5px solid #3B82F6;">
-                <b>[{err.get('category')}] {err.get('type')}</b><br>
-                Vấn đề: {err.get('explanation')}<br>
-                Gợi ý: <b>{err.get('correction')}</b>
-            </div>
-            """, unsafe_allow_html=True)
-
-    # TAB 4: BÀI SỬA
-    with tab_annotated:
-        st.markdown(f'<div class="annotated-text">{g_data.get("annotatedEssay", "")}</div>', unsafe_allow_html=True)
-
-    # 3. Revised Score
-    st.markdown("---")
-    st.subheader("📈 Dự báo điểm sau khi sửa lỗi (Revised Score)")
-    rev = g_data.get("revisedScore", {})
-    if rev:
-        r_cols = st.columns(5)
-        r_cols[0].metric("TA (Rev)", rev.get("task_achievement", "-"))
-        r_cols[1].metric("CC (Rev)", rev.get("cohesion_coherence", "-"))
-        r_cols[2].metric("LR (Rev)", rev.get("lexical_resource", "-"))
-        r_cols[3].metric("GRA (Rev)", rev.get("grammatical_range", "-"))
-        r_cols[4].metric("OVERALL (Rev)", rev.get("overall", "-"))
+    # === CỘT TRÁI: ĐỀ BÀI + ẢNH + BÀI VIẾT CỦA BẠN ===
+    with col_ref:
+        st.subheader("📄 Thông tin bài làm")
         
-        if rev.get("logic_re_evaluation"):
-            st.info(f"💡 **Lưu ý của Giám khảo:** {rev.get('logic_re_evaluation')}")
+        # 1. Đề bài
+        st.caption("Task Question")
+        st.markdown(f"""
+        <div style="background-color: #F8FAFC; padding: 12px; border-radius: 6px; border: 1px solid #E2E8F0; font-style: italic; font-size: 0.9rem; margin-bottom: 10px;">
+            {st.session_state.saved_topic}
+        </div>
+        """, unsafe_allow_html=True)
+        
+        # 2. Hình ảnh
+        if st.session_state.saved_img:
+            st.image(st.session_state.saved_img, use_container_width=True)
+        
+        # 3. Bài viết gốc của người dùng
+        st.markdown("---")
+        st.subheader("✍️ Bài viết của bạn")
+        # Dùng st.text_area chế độ disabled để hiển thị bài văn giúp dễ đọc/copy
+        st.text_area(
+            label="Original Essay",
+            value=res['essay'],
+            height=400,
+            disabled=True,
+            label_visibility="collapsed"
+        )
 
-    # 4. Export Buttons
-    st.markdown("---")
-    d1, d2 = st.columns(2)
-    
-    docx = create_docx(g_data, res['topic'], res['essay'], analysis_text)
-    d1.download_button("📄 Download Report (.docx)", docx, "IELTS_Report.docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", use_container_width=True)
-    
-    pdf = create_pdf(g_data, res['topic'], res['essay'], analysis_text)
-    d2.download_button("📕 Download Report (.pdf)", pdf, "IELTS_Report.pdf", "application/pdf", use_container_width=True)
-    
-    if st.button("🔄 Làm bài mới (Reset)", use_container_width=True):
-        st.session_state.step = 1
-        st.session_state.guide_data = None
-        st.session_state.grading_result = None
-        st.session_state.saved_topic = ""
-        st.session_state.saved_img = None
-        st.rerun()
+    # === CỘT PHẢI: KẾT QUẢ CHẤM ===
+    with col_result:
+        st.markdown("## 🛡️ EXAMINER REPORT")
+        
+        # 1. Bảng điểm
+        scores = g_data.get("originalScore", {})
+        c1, c2, c3, c4, c5 = st.columns(5)
+        c1.metric("TA", scores.get("task_achievement", "-"))
+        c2.metric("CC", scores.get("cohesion_coherence", "-"))
+        c3.metric("LR", scores.get("lexical_resource", "-"))
+        c4.metric("GRA", scores.get("grammatical_range", "-"))
+        
+        # Điểm Overall làm nổi bật
+        c5.markdown(f"""
+        <div style="text-align: center; border: 2px solid #D40E14; border-radius: 8px; padding: 5px; background-color: #FFF5F5;">
+            <div style="font-size: 0.8rem; color: #D40E14; font-weight: bold;">OVERALL</div>
+            <div style="font-size: 1.5rem; color: #D40E14; font-weight: 900;">{scores.get("overall", "-")}</div>
+        </div>
+        """, unsafe_allow_html=True)
+        
+        st.markdown("---")
+
+        # 2. Tabs chi tiết
+        tab_analysis, tab_errors, tab_macro, tab_annotated = st.tabs([
+            "📝 Nhận xét chi tiết", 
+            "🔴 Lỗi Ngữ pháp (Micro)", 
+            "🔵 Lỗi Mạch lạc (Macro)", 
+            "✍️ Bản sửa lại (Annotated)"
+        ])
+        
+        # Tab Phân tích
+        with tab_analysis:
+            if analysis_text and len(analysis_text) > 50:
+                st.markdown(analysis_text)
+            else:
+                st.info("Không có dữ liệu phân tích văn bản.")
+
+        # Tab Lỗi Ngữ pháp
+        with tab_errors:
+            micro = [e for e in g_data.get('errors', []) if e.get('category') in ['Grammar', 'Vocabulary', 'Ngữ pháp', 'Từ vựng']]
+            if not micro: st.success("✅ Không tìm thấy lỗi ngữ pháp/từ vựng đáng kể.")
+            for i, err in enumerate(micro):
+                badge = "#DCFCE7" if err.get('category') in ['Grammar','Ngữ pháp'] else "#FEF9C3"
+                st.markdown(f"""
+                <div class="error-card">
+                    <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+                        <span><b>#{i+1} [{err.get('category')}]</b>: {err.get('type')}</span>
+                        <span style="background:#eee; padding:2px 8px; border-radius:10px; font-size:0.8em">{err.get('impact_level')}</span>
+                    </div>
+                    <div style="background:{badge}; padding:8px; border-radius:5px; margin-bottom:5px;">
+                        <s>{err.get('original')}</s> ➔ <b>{err.get('correction')}</b>
+                    </div>
+                    <small><i>{err.get('explanation')}</i></small>
+                </div>
+                """, unsafe_allow_html=True)
+
+        # Tab Lỗi Logic
+        with tab_macro:
+            macro = [e for e in g_data.get('errors', []) if e.get('category') not in ['Grammar', 'Vocabulary', 'Ngữ pháp', 'Từ vựng']]
+            if not macro: st.success("✅ Cấu trúc mạch lạc tốt.")
+            for err in macro:
+                st.markdown(f"""
+                <div class="error-card" style="border-left: 5px solid #3B82F6;">
+                    <b>[{err.get('category')}] {err.get('type')}</b><br>
+                    Vấn đề: {err.get('explanation')}<br>
+                    Gợi ý: <b>{err.get('correction')}</b>
+                </div>
+                """, unsafe_allow_html=True)
+
+        # Tab Bài sửa
+        with tab_annotated:
+            st.markdown(f'<div class="annotated-text">{g_data.get("annotatedEssay", "")}</div>', unsafe_allow_html=True)
+
+        # 3. Dự báo điểm & Export
+        st.markdown("---")
+        rev = g_data.get("revisedScore", {})
+        if rev:
+            st.subheader("📈 Dự báo điểm sau khi sửa lỗi")
+            r_cols = st.columns(5)
+            r_cols[0].metric("TA", rev.get("task_achievement", "-"))
+            r_cols[1].metric("CC", rev.get("cohesion_coherence", "-"))
+            r_cols[2].metric("LR", rev.get("lexical_resource", "-"))
+            r_cols[3].metric("GRA", rev.get("grammatical_range", "-"))
+            r_cols[4].metric("OVERALL", rev.get("overall", "-"))
+            if rev.get("logic_re_evaluation"):
+                st.info(f"💡 **Examiner's Note:** {rev.get('logic_re_evaluation')}")
+
+        st.markdown("<br>", unsafe_allow_html=True)
+        
+        # Nút Download & Reset
+        d1, d2 = st.columns(2)
+        docx = create_docx(g_data, res['topic'], res['essay'], analysis_text)
+        d1.download_button("📄 Tải báo cáo (.docx)", docx, "IELTS_Report.docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", use_container_width=True)
+        pdf = create_pdf(g_data, res['topic'], res['essay'], analysis_text)
+        d2.download_button("📕 Tải báo cáo (.pdf)", pdf, "IELTS_Report.pdf", "application/pdf", use_container_width=True)
+        
+        if st.button("🔄 Làm bài mới (Reset)", use_container_width=True):
+            for k in ["step", "guide_data", "grading_result", "saved_topic", "saved_img"]: st.session_state[k] = None
+            st.session_state.step = 1
+            st.rerun()
