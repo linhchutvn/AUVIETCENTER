@@ -770,62 +770,77 @@ if st.session_state.step == 1:
 # ==========================================
 if st.session_state.step == 2 and st.session_state.guide_data:
     
-    # --- 1. THÊM CSS ĐỂ CỐ ĐỊNH THANH BÊN TRÁI (STICKY) ---
+    # --- 1. THÊM CSS NÂNG CAO ĐỂ CỐ ĐỊNH THANH BÊN TRÁI ---
     st.markdown("""
         <style>
+            /* Nhắm trực tiếp vào cột bên trái (cột 1) */
             [data-testid="column"]:nth-of-type(1) {
+                position: -webkit-sticky;
                 position: sticky;
-                top: 1rem;
-                height: fit-content;
-                z-index: 99;
+                top: 2.5rem; /* Khoảng cách từ đỉnh */
+                align-self: flex-start; /* Quan trọng: để cột không bị kéo dài theo bên phải */
+                z-index: 1000;
+            }
+            
+            /* Tạo thanh cuộn riêng cho cột trái nếu ảnh quá to so với màn hình */
+            [data-testid="column"]:nth-of-type(1) > div:first-child {
+                max-height: 90vh;
+                overflow-y: auto;
+                padding-right: 10px;
+            }
+            
+            /* Làm đẹp thanh cuộn nhỏ cho gọn */
+            [data-testid="column"]:nth-of-type(1) > div:first-child::-webkit-scrollbar {
+                width: 4px;
+            }
+            [data-testid="column"]:nth-of-type(1) > div:first-child::-webkit-scrollbar-thumb {
+                background: #888;
+                border-radius: 10px;
             }
         </style>
     """, unsafe_allow_html=True)
 
     data = st.session_state.guide_data
 
-    # --- 2. ĐỊNH NGHĨA HÀM NÀY TẠI ĐÂY ĐỂ HẾT LỖI NAMEERROR ---
+    # --- 2. ĐỊNH NGHĨA HÀM (TRÁNH LỖI NAMEERROR) ---
     def render_writing_section(title, guide_key, input_key):
         st.markdown(f"##### {title}")
         with st.expander(f"💡 Gợi ý viết {title}", expanded=False):
-            # Lấy nội dung hướng dẫn từ biến 'data'
             guide_text = data.get(guide_key, "Không có hướng dẫn chi tiết.")
             st.markdown(f"<div class='guide-box'>{guide_text}</div>", unsafe_allow_html=True)
-        return st.text_area(
-            label=title, 
-            height=150, 
-            key=input_key, 
-            placeholder=f"Nhập phần {title} của bạn...", 
-            label_visibility="collapsed"
-        )
-    # ---------------------------------------------------------
+        return st.text_area(label=title, height=180, key=input_key, placeholder=f"Nhập phần {title} của bạn...", label_visibility="collapsed")
 
     # --- 3. CHIA CỘT LAYOUT ---
     col_left, col_right = st.columns([4, 6], gap="large")
 
-    # CỘT BÊN TRÁI (Sẽ tự dính khi kéo xuống nhờ CSS ở trên)
+    # CỘT BÊN TRÁI (Sẽ đứng yên khi cuộn màn hình)
     with col_left:
         st.markdown("### 📄 Đề bài & Hình ảnh")
-        st.markdown(f"""<div style="background-color: #f8f9fa; padding: 15px; border-radius: 8px; border: 1px solid #eee; font-style: italic;">{st.session_state.saved_topic}</div>""", unsafe_allow_html=True)
+        st.markdown(f"""<div style="background-color: #f8f9fa; padding: 15px; border-radius: 8px; border: 1px solid #eee; font-style: italic; line-height: 1.5;">{st.session_state.saved_topic}</div>""", unsafe_allow_html=True)
         
         if st.session_state.saved_img:
             st.image(st.session_state.saved_img, use_container_width=True)
+        
         st.info(f"📌 Dạng bài: {data.get('task_type')}")
 
-    # CỘT BÊN PHẢI (Khu vực viết bài)
+    # CỘT BÊN PHẢI (Khu vực nhập liệu bài viết)
     with col_right:
         st.markdown("### ✍️ Bài làm của bạn")
         
-        # Bây giờ các dòng này sẽ KHÔNG còn lỗi NameError nữa
+        # Tính toán số từ (Word count)
+        def get_wc(key): return len(st.session_state.get(key, "").split())
+        total_wc = sum(get_wc(k) for k in ["in_intro", "in_overview", "in_body1", "in_body2"])
+        st.caption(f"📊 **Tổng số từ:** {total_wc} words")
+
+        # Các ô nhập liệu
         intro = render_writing_section("Introduction", "intro_guide", "in_intro")
         overview = render_writing_section("Overview", "overview_guide", "in_overview")
         body1 = render_writing_section("Body 1", "body1_guide", "in_body1")
         body2 = render_writing_section("Body 2", "body2_guide", "in_body2")
 
-        # --- TÍNH TOÁN TRƯỚC KHI NHẤN NÚT ---
-        full_essay = f"{intro}\n\n{overview}\n\n{body1}\n\n{body2}".strip()
-        total_words = len(full_essay.split())
-
+        st.markdown("<br>", unsafe_allow_html=True)
+        
+        # Nút nộp bài (Giữ nguyên logic chấm điểm nguyên bản của bạn)
         if st.button("✨ Submit to Examiner Pro (Chấm điểm)", type="primary", use_container_width=True):
             if total_words < 20:
                 st.warning("⚠️ Bài viết quá ngắn. Vui lòng hoàn thiện trước khi chấm.")
