@@ -673,23 +673,24 @@ st.markdown('<div class="sub-header">Learning & Scoring Based on IELTS Band Desc
 
 if st.session_state.step == 1:
     
-    # STEP 1
-    st.markdown('<div class="step-header">STEP 1 – Visual Data </div>', unsafe_allow_html=True)
-    st.markdown('<div class="step-desc">Upload chart / graph / table / diagram</div>', unsafe_allow_html=True)
-    uploaded_image = st.file_uploader("Upload Image", type=['png', 'jpg', 'jpeg'], key="img_input", label_visibility="collapsed")
-    if uploaded_image:
-        img_data = Image.open(uploaded_image)
-        st.image(img_data, caption='Uploaded Visual Data', width=400)
-    else:
-        img_data = None
-
-    # STEP 2
-    st.markdown("---")
-    st.markdown('<div class="step-header">STEP 2 – Task 1 Question</div>', unsafe_allow_html=True)
+    # STEP 1 – Task 1 Question (Đã đổi lên trên)
+    st.markdown('<div class="step-header">STEP 1 – Task 1 Question</div>', unsafe_allow_html=True)
     st.markdown('<div class="step-desc">Paste the official task question here</div>', unsafe_allow_html=True)
     question_input = st.text_area("Question", height=150, placeholder="The chart below shows...", key="q_input", label_visibility="collapsed")
 
-    # STEP 3
+    st.markdown("---")
+
+    # STEP 2 – Visual Data (Đã đổi xuống dưới)
+    st.markdown('<div class="step-header">STEP 2 – Visual Data (bắt buộc)</div>', unsafe_allow_html=True)
+    st.markdown('<div class="step-desc">Upload chart / graph / table / diagram</div>', unsafe_allow_html=True)
+    uploaded_image = st.file_uploader("Upload Image", type=['png', 'jpg', 'jpeg'], key="img_input", label_visibility="collapsed")
+    
+    img_data = None
+    if uploaded_image:
+        img_data = Image.open(uploaded_image)
+        st.image(img_data, caption='Uploaded Visual Data', width=400)
+
+    # STEP 3 – Examiner Focus (Giữ nguyên vị trí)
     st.markdown("---")
     st.markdown('<div class="step-header">STEP 3 – Examiner Focus</div>', unsafe_allow_html=True)
     st.markdown("""
@@ -703,18 +704,14 @@ if st.session_state.step == 1:
 
     st.markdown("<br>", unsafe_allow_html=True)
 
-    # BUTTON
-    # ... (Trong khối if st.session_state.step == 1:) ...
-
-    # BUTTON
+    # Nút bấm xử lý (vẫn sử dụng question_input và img_data đã khai báo ở trên)
     if st.button("🚀  Analyze & Guide (Start Learning)", type="primary", use_container_width=True):
-        if not question_input and not img_data:
-            st.warning("⚠️ Vui lòng nhập đề bài và tải ảnh lên để bắt đầu.")
+        if not question_input or not img_data:
+            st.warning("⚠️ Vui lòng nhập đầy đủ Đề bài và tải Ảnh lên để bắt đầu.")
         else:
             st.session_state.saved_topic = question_input
-            st.session_state.saved_img = img_data # Lưu đối tượng PIL Image vào đây
-            # -------------------------------------------------
-            
+            st.session_state.saved_img = img_data
+                   
             with st.spinner("Examiner đang phân tích loại biểu đồ và lên chiến thuật..."):
                     # Prompt Tutor Vạn Năng: Tự động thích ứng theo từng dạng bài
                     prompt_guide = """
