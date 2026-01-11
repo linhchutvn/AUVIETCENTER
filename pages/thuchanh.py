@@ -886,57 +886,62 @@ if st.session_state.step == 2 and st.session_state.guide_data:
                         status.update(label="❌ Lỗi kết nối AI", state="error")
 
 # ==========================================
-# 7. UI: PHASE 3 - GRADING RESULT (BOX LAYOUT)
+# 7. UI: PHASE 3 - GRADING RESULT (THE BIG BOX LAYOUT)
 # ==========================================
 if st.session_state.step == 3 and st.session_state.grading_result:
     
-    # --- 1. CSS GIAO DIỆN "HỘP CỐ ĐỊNH" ---
+    # --- 1. CSS TẠO HỘP LỚN BÊN TRÁI ---
     st.markdown("""
         <style>
-            /* Reset căn chỉnh cột */
-            [data-testid="stHorizontalBlock"] { align-items: flex-start !important; }
+            /* 1. Ngắt liên kết chiều cao để cột trái không bị kéo dãn */
+            [data-testid="stHorizontalBlock"] {
+                align-items: flex-start !important;
+            }
 
-            /* --- CẤU HÌNH HỘP LỚN BÊN TRÁI (LEFT PANEL BOX) --- */
-            /* Nhắm vào nội dung bên trong cột 1 */
-            div[data-testid="column"]:nth-of-type(1) > div {
-                position: sticky !important;
+            /* 2. BIẾN CỘT TRÁI THÀNH HỘP (MAGIC CSS) */
+            /* Selector này chọn cái "ruột" của cột đầu tiên */
+            div[data-testid="column"]:nth-of-type(1) > div[data-testid="stVerticalBlock"] {
+                background-color: #ffffff; /* Nền trắng */
+                border: 1px solid #e2e8f0; /* Viền xám */
+                border-radius: 12px;       /* Bo góc */
+                padding: 20px;             /* Đệm bên trong */
+                box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); /* Bóng đổ nổi bật */
+                
+                /* Sticky & Scroll Logic */
                 position: -webkit-sticky !important;
-                top: 4rem !important; /* Cách đỉnh màn hình */
-                z-index: 100;
-                
-                /* Giao diện cái Hộp */
-                background-color: #ffffff;
-                border: 1px solid #e2e8f0;
-                border-radius: 12px;
-                padding: 20px;
-                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-                
-                /* Giới hạn chiều cao tổng của hộp trái */
-                max-height: 88vh;
-                overflow-y: auto; /* Cuộn cả hộp nếu cần */
+                position: sticky !important;
+                top: 2rem !important;
+                z-index: 999;
+                max-height: 90vh !important; /* Giới hạn chiều cao */
+                overflow-y: auto !important; /* Cuộn bên trong hộp này */
             }
 
-            /* --- CẤU HÌNH HỘP NHỎ CHỨA BÀI VIẾT (INNER SCROLL BOX) --- */
-            .essay-scroll-container {
-                background-color: #f8fafc; /* Nền xám nhẹ khác biệt */
+            /* Tùy chỉnh thanh cuộn cho Hộp Trái */
+            div[data-testid="column"]:nth-of-type(1) > div[data-testid="stVerticalBlock"]::-webkit-scrollbar {
+                width: 8px;
+            }
+            div[data-testid="column"]:nth-of-type(1) > div[data-testid="stVerticalBlock"]::-webkit-scrollbar-track {
+                background: #f1f5f9;
+                border-radius: 4px;
+            }
+            div[data-testid="column"]:nth-of-type(1) > div[data-testid="stVerticalBlock"]::-webkit-scrollbar-thumb {
+                background-color: #94a3b8;
+                border-radius: 4px;
+                border: 2px solid #f1f5f9;
+            }
+
+            /* Style hiển thị bài viết text */
+            .essay-display {
+                background-color: #f8fafc;
                 border: 1px solid #cbd5e1;
-                border-radius: 8px;
-                padding: 12px;
-                
-                /* Kích thước cố định cho hộp con */
-                height: 300px; /* Chiều cao cố định */
-                overflow-y: auto; /* Chỉ cuộn nội dung bài viết trong hộp này */
-                
-                font-family: 'Courier New', Courier, monospace; /* Font code dễ check lỗi */
+                border-radius: 6px;
+                padding: 15px;
+                font-family: 'Courier New', Courier, monospace;
                 font-size: 0.9rem;
-                line-height: 1.5;
-                color: #334155;
+                color: #0f172a;
                 white-space: pre-wrap;
+                margin-top: 5px;
             }
-
-            /* Tùy chỉnh thanh cuộn */
-            .essay-scroll-container::-webkit-scrollbar { width: 6px; }
-            .essay-scroll-container::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 4px; }
         </style>
     """, unsafe_allow_html=True)
 
@@ -944,27 +949,32 @@ if st.session_state.step == 3 and st.session_state.grading_result:
     g_data = res["data"]
     analysis_text = res["markdown"]
     
-    # --- 2. CHIA CỘT (Tỉ lệ 3.5 : 6.5 để cột phải rộng hơn chút cho việc đọc) ---
-    col_ref, col_result = st.columns([3.5, 6.5], gap="medium")
+    # --- 2. LAYOUT 4:6 ---
+    col_ref, col_result = st.columns([4, 6], gap="medium")
     
-    # === CỘT TRÁI: HỘP THÔNG TIN (STICKY BOX) ===
+    # === CỘT TRÁI: HỘP THÔNG TIN (Tất cả nội dung này sẽ nằm trong cái Hộp trắng do CSS tạo) ===
     with col_ref:
-        st.markdown("### 📄 Context & Reference")
+        st.markdown("### 📄 Nguồn & Đối chiếu")
+        st.caption("Đây là đề bài và bài làm gốc của bạn để đối chiếu với nhận xét bên phải.")
         
-        # 1. Hình ảnh (Luôn hiện trên cùng)
+        st.markdown("---")
+        
+        # 1. Hình ảnh (Đưa lên đầu cho dễ nhìn)
         if st.session_state.saved_img:
-            st.image(st.session_state.saved_img, use_container_width=True, caption="Visual Data")
+            st.markdown("**1. Visual Data:**")
+            st.image(st.session_state.saved_img, use_container_width=True)
         
-        # 2. Đề bài (Có thể đóng mở cho gọn)
-        with st.expander("📌 Xem lại câu hỏi (Prompt)", expanded=False):
-            st.info(st.session_state.saved_topic)
+        st.markdown("<br>", unsafe_allow_html=True)
 
-        st.divider()
+        # 2. Đề bài text
+        st.markdown("**2. Task Prompt:**")
+        st.info(st.session_state.saved_topic)
+        
+        st.markdown("<br>", unsafe_allow_html=True)
 
-        # 3. HỘP NHỎ CHỨA BÀI VIẾT (Scrollable)
-        st.markdown("**✍️ Bài viết của bạn:**")
-        st.markdown(f'<div class="essay-scroll-container">{html.escape(res["essay"])}</div>', unsafe_allow_html=True)
-        st.caption("💡 *Cuộn trong khung xám để xem toàn bộ bài viết của bạn.*")
+        # 3. Bài làm
+        st.markdown("**3. Original Response:**")
+        st.markdown(f'<div class="essay-display">{html.escape(res["essay"])}</div>', unsafe_allow_html=True)
 
     # === CỘT PHẢI: KẾT QUẢ CHẤM ===
     with col_result:
@@ -979,20 +989,20 @@ if st.session_state.step == 3 and st.session_state.grading_result:
         c4.metric("GRA", scores.get("grammatical_range", "-"))
         c5.metric("OVERALL", scores.get("overall", "-"))
         
-        st.divider()
+        st.markdown("---")
 
         # Tabs chi tiết
-        tab1, tab2, tab3, tab4 = st.tabs(["📝 Phân tích (Detailed)", "🔴 Grammar Errors", "🔵 Logic Issues", "✍️ Revised Essay"])
+        tab1, tab2, tab3, tab4 = st.tabs(["📝 Phân tích", "🔴 Ngữ pháp", "🔵 Mạch lạc", "✍️ Bài sửa"])
         
         with tab1:
             if analysis_text and len(analysis_text) > 50:
                 st.markdown(analysis_text)
             else:
-                st.info("Không có dữ liệu phân tích.")
+                st.info("Chưa có dữ liệu phân tích.")
 
         with tab2:
             micro = [e for e in g_data.get('errors', []) if e.get('category') in ['Grammar', 'Vocabulary', 'Ngữ pháp', 'Từ vựng']]
-            if not micro: st.success("✅ Clean Grammar/Vocab!")
+            if not micro: st.success("✅ Grammar & Vocab tốt.")
             for i, err in enumerate(micro):
                 badge = "#DCFCE7" if err.get('category') in ['Grammar','Ngữ pháp'] else "#FEF9C3"
                 st.markdown(f"""
@@ -1007,7 +1017,7 @@ if st.session_state.step == 3 and st.session_state.grading_result:
 
         with tab3:
             macro = [e for e in g_data.get('errors', []) if e.get('category') not in ['Grammar', 'Vocabulary', 'Ngữ pháp', 'Từ vựng']]
-            if not macro: st.success("✅ Good Structure!")
+            if not macro: st.success("✅ Logic tốt.")
             for err in macro:
                 st.markdown(f"""
                 <div class="error-card" style="border-left:4px solid #3b82f6;">
@@ -1020,13 +1030,26 @@ if st.session_state.step == 3 and st.session_state.grading_result:
         with tab4:
             st.markdown(f'<div class="annotated-text">{g_data.get("annotatedEssay", "")}</div>', unsafe_allow_html=True)
 
-        st.divider()
-        col_down, col_reset = st.columns(2)
+        # Nút chức năng
+        st.markdown("---")
+        rev = g_data.get("revisedScore", {})
+        if rev:
+            st.subheader("📈 Dự báo điểm sau sửa")
+            r_cols = st.columns(5)
+            r_cols[0].metric("TA", rev.get("task_achievement", "-"))
+            r_cols[4].metric("OVERALL", rev.get("overall", "-"))
+            if rev.get("logic_re_evaluation"):
+                st.info(f"💡 {rev.get('logic_re_evaluation')}")
+
+        st.markdown("<br>", unsafe_allow_html=True)
         
+        d1, d2 = st.columns(2)
         docx = create_docx(g_data, res['topic'], res['essay'], analysis_text)
-        col_down.download_button("📥 Tải báo cáo (.docx)", docx, "IELTS_Report.docx", mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document")
+        d1.download_button("📥 Tải báo cáo (.docx)", docx, "IELTS_Report.docx", mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document")
+        pdf = create_pdf(g_data, res['topic'], res['essay'], analysis_text)
+        d2.download_button("📕 Tải báo cáo (.pdf)", pdf, "IELTS_Report.pdf", mime="application/pdf")
         
-        if col_reset.button("🔄 Làm bài mới (Reset)"):
+        if st.button("🔄 Làm bài mới (Reset)", use_container_width=True):
             for k in ["step", "guide_data", "grading_result", "saved_topic", "saved_img"]: st.session_state[k] = None
             st.session_state.step = 1
             st.rerun()
