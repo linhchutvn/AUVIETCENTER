@@ -44,7 +44,6 @@ with col_login:
 
 st.divider()
 
-# NỘI DUNG YOUPASS
 st.markdown("""
 <style>
     .exam-card { background-color: white; border: 1px solid #e0e0e0; border-radius: 8px; padding: 15px; margin-bottom: 20px; display: flex; gap: 15px; position: relative; }
