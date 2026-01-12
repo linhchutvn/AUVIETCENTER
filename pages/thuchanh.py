@@ -874,20 +874,31 @@ if st.session_state.step == 1:
     </ul>
 
                     2. **"overview_guide" (Trend + Ranking):**
-                       - <ul>
-                         <li><b>Mở đầu:</b> <i>"Overall, it is clear that..."</i></li>
-                         <li><b>🏗️ Cấu trúc câu:</b>
-                            <br>- <i>Overall, [S1] + [V1], while [S2] + [V2].</i> (Câu ghép tương phản).
-                            <br>- <i>It is clear that [General Trend]. In addition, [Outstanding Feature].</i></li>
-                         <li><b>Ý 1 (Main Trend):</b> Xác định xu hướng chủ đạo.
-                            <br>- <i>...witnessed an upward trend</i> (xu hướng tăng).
-                            <br>- <i>...experienced a downward trend</i> (xu hướng giảm).</li>
-                         <li><b>Ý 2 (Ranking/Difference):</b>
-                            <br>- Cái nào cao nhất? <i>(consistently the highest)</i>.
-                            <br>- Có sự thay đổi thứ hạng không? <i>(A overtook B)</i>.</li>
-                         <li><div style="background-color:#e6fffa; padding:10px; border-radius:5px; margin-top:5px; border-left: 4px solid #00b894;">
+                        - <ul>
+                         <li><b>Nguyên tắc bất di bất dịch:</b> KHÔNG đưa số liệu cụ thể (năm, số tiền, phần trăm...) vào phần này. Chỉ mô tả đặc điểm chung.</li>
+
+                         <li><b>Cấu trúc chuẩn:</b>
+                             <br><code>Overall, [Sentence 1: Trends]. In addition / Also, [Sentence 2: Highlights].</code></li>
+                         
+                         <li><b>Bước 1: Sentence 1 - Xác định Xu hướng (Trends):</b>
+                             <br>Quan sát điểm đầu và điểm cuối của các đường:
+                             <br>- <b>Nếu tất cả cùng tăng/giảm:</b> <i>"It is clear that the total [Topic] increased/decreased over the period."</i>
+                             <br>- <b>Nếu có xu hướng trái ngược (Mix):</b> <i>"It is clear that while the figures for [Line A] and [Line B] increased, the opposite was true for [Line C]."</i>
+                             <br>- <b>Cấu trúc Ngoại lệ (Nên dùng):</b> <i>"The figures for most categories increased, with the exception of [Line C]."</i></li>
+
+                         <li><b>Bước 2: Sentence 2 - Xác định Điểm nổi bật (Highlights):</b>
+                             <br>Tìm đường nằm ở vị trí cao nhất/thấp nhất hoặc thay đổi mạnh nhất:
+                             <br>- <b>Cao nhất/Thấp nhất:</b> <i>"[Line A] consistently had the highest figures throughout the period."</i> (hoặc <i>remained the most popular...</i>).
+                             <br>- <b>Thay đổi lớn nhất:</b> <i>"[Line B] witnessed the most dramatic change."</i></li>
+
+                         <li><b>Vocabulary Bank:</b>
+                             <br>- <i>witnessed / experienced / saw + an upward/downward trend</i>.
+                             <br>- <i>volatile / fluctuated</i> (nếu dao động mạnh).
+                             <br>- <i>dominant / highest / lowest</i>.</li>
+
+                         <li><div style="background-color:#fff3e0; padding:10px; border-radius:5px; margin-top:5px; border-left: 4px solid #ff9f43;">
                              <b>📝 Nội dung mẫu (Sample Overview):</b><br>
-                             <i>[Viết 2 câu Overview: Câu 1 nêu xu hướng tăng/giảm chung, Câu 2 nêu đối tượng cao nhất hoặc sự thay đổi đáng chú ý nhất, dựa trên hình ảnh và áp dụng các hướng dẫn đã nêu trên]</i>
+                             <i>[Dựa vào biểu đồ, hãy viết 2 câu Overview hoàn chỉnh, ghép lại bằng từ nối "Overall,... In addition,..."]</i>
                          </div></li>
                        </ul>
 
