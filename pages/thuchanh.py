@@ -895,6 +895,8 @@ if st.session_state.step == 1:
                              <br>- <i>witnessed / experienced / saw + an upward/downward trend</i>.
                              <br>- <i>volatile / fluctuated</i> (nếu dao động mạnh).
                              <br>- <i>dominant / highest / lowest</i>.</li>
+                         <li><b>Từ vựng: liệt kê từ vựng được viết trong 📝 Nội dung mẫu (Sample Body 1) (kèm nghĩa tiếng việt).</li>
+                         <li><b>paraphrase: liệt kê các cụm từ được paraphrase trong 📝 Nội dung mẫu (Sample Body 1).</li>
 
                          <li><div style="background-color:#fff3e0; padding:10px; border-radius:5px; margin-top:5px; border-left: 4px solid #ff9f43;">
                              <b>📝 Nội dung mẫu (Sample Overview):</b><br>
@@ -931,6 +933,8 @@ if st.session_state.step == 1:
                              <br>- <b>Verbs (Tăng):</b> <i>climb, surge, rocket, go up</i>.
                              <br>- <b>Verbs (Giảm/Dao động):</b> <i>decline, plummet, fluctuate</i>.
                              <br>- <b>Prepositions (Giới từ):</b> Tăng <b>to</b> (đến mức), Tăng <b>by</b> (một khoảng), Đạt đỉnh <b>at</b> (tại mức).</li>
+                         <li><b>Từ vựng: liệt kê từ vựng được viết trong 📝 Nội dung mẫu (Sample Body 1) (kèm nghĩa tiếng việt).</li>
+                         <li><b>paraphrase: liệt kê các cụm từ được paraphrase trong 📝 Nội dung mẫu (Sample Body 1).</li>
 
                          <li><div style="background-color:#fff8e1; padding:10px; border-radius:5px; margin-top:5px; border-left: 4px solid #ffa502;">
                              <b>📝 Nội dung mẫu (Sample Body 1):</b><br>
@@ -938,22 +942,43 @@ if st.session_state.step == 1:
                          </div></li>
                        </ul>
 
-                    4. **"body2_guide" (Nhóm Giảm / Dao động / Thấp hơn):**
+                    4. **"body2_guide" (Thân bài 2 - Các nhóm còn lại & So sánh):**
                        - <ul>
-                         <li><b>Chiến thuật Gom:</b> Các đường có xu hướng <b>GIẢM</b>, <b>DAO ĐỘNG</b> hoặc <b>THẤP HƠN</b>.</li>
-                         <li><b>Từ nối chuyển đoạn:</b> <i>In contrast / Meanwhile / Regarding the figure for...</i></li>
-                         <li><b>Từ vựng Giảm/Dao động:</b> <i>decline / plummet / drop / fluctuate (dao động) / stabilize (ổn định)</i>.</li>
-                         <li><b>🏗️ Cấu trúc câu So sánh & Biến động:</b>
-                            <br>- <b>Fluctuation:</b> <i>X fluctuated wildy between [A] and [B].</i>
-                            <br>- <b>Overtake:</b> <i>X started lower than Y but overtook it in [Year].</i>
-                            <br>- <b>Ranking:</b> <i>X remained the highest/lowest figure throughout the period.</i></li>
-                         <li><b>Từ vựng Điểm đặc biệt:</b>
-                            <br>- <i>reach a peak of</i> (đạt đỉnh tại...).
-                            <br>- <i>hit a low of</i> (chạm đáy tại...).
-                            <br>- <i>surpass / overtake</i> (vượt qua - dùng khi 2 đường cắt nhau).</li>
-                         <li><div style="background-color:#e6fffa; padding:10px; border-radius:5px; margin-top:5px; border-left: 4px solid #00b894;">
+                         <li><b>Logic chọn nhóm (Grouping Strategy):</b> Phân tích tất cả các đường (lines) chưa được nhắc đến ở Body 1. Thường là nhóm có xu hướng <b>NGƯỢC LẠI</b> (Giảm/Dao động) hoặc số liệu <b>THẤP HƠN</b>.</li>
+
+                         <li><b>Từ nối chuyển đoạn (Linking Words - BẮT BUỘC):</b>
+                             <br>Đầu câu phải dùng từ nối để tạo tính liên kết (Cohesion):
+                             <br>- <b>Tương phản (Contrast):</b> <i>In contrast / By contrast / On the other hand / Conversely</i>.
+                             <br>- <b>Tương đồng (Similarity):</b> <i>Similarly / Likewise</i>.
+                             <br>- <b>Diễn biến đồng thời:</b> <i>Meanwhile / At the same time</i>.</li>
+
+                         <li><b>Cấu trúc chuẩn (Flow):</b>
+                             <br><code>[Linker] + [Topic Sentence] + [Detailed Trend (Fluctuation/Intersection)] + [Ending Data]</code>.</li>
+                         
+                         <li><b>Chi tiết triển khai & Cấu trúc câu (Step-by-step):</b>
+                             <br>- <b>Bước 1: Giới thiệu đối tượng (Start).</b>
+                             <br><i>(VD: Meanwhile, the figure for [Line C] started at [Data]...)</i>
+                             <br>
+                             <br>- <b>Bước 2: Mô tả xu hướng & Điểm đặc biệt (Trend Analysis).</b>
+                             <br>Sử dụng các mẫu câu đặc thù cho Body 2:
+                             <br>+ <b>Biến động (Fluctuation):</b> <i>It fluctuated wildly between [Data A] and [Data B] / It saw a volatile pattern...</i>
+                             <br>+ <b>Giao nhau/Vượt mặt (Intersection):</b> <i>[Line X] started lower than [Line Y] but <b>overtook / surpassed</b> it in [Year].</i>
+                             <br>+ <b>Ổn định/Giảm:</b> <i>The figure leveled off at... / It witnessed a plummet to...</i>
+                             <br>+ <b>Cực đại/Cực tiểu:</b> <i>...hitting a low of [Data] in [Year].</i>
+                             <br>
+                             <br>- <b>Bước 3: Kết thúc (End Point).</b>
+                             <br><i>(VD: ...before finishing the period at [Data End].)</i></li>
+
+                         <li><b>Từ vựng nâng cao (Advanced Vocabulary):</b>
+                             <br>- <b>Verbs:</b> <i>plummet / decline</i> (giảm mạnh), <i>recover</i> (hồi phục), <i>stabilize</i> (ổn định).
+                             <br>- <b>Nouns:</b> <i>a volatile pattern</i> (mẫu hình biến động), <i>a downward trend</i>.
+                             <br>- <b>Comparison:</b> <i>overtake / surpass</i> (vượt qua).</li>
+                         <li><b>Từ vựng: liệt kê từ vựng được viết trong 📝 Nội dung mẫu (Sample Body 2) (kèm nghĩa tiếng việt).</li>
+                         <li><b>paraphrase: liệt kê các cụm từ được paraphrase trong 📝 Nội dung mẫu (Sample Body 2).</li>
+
+                         <li><div style="background-color:#ffebee; padding:10px; border-radius:5px; margin-top:5px; border-left: 4px solid #ff5252;">
                              <b>📝 Nội dung mẫu (Sample Body 2):</b><br>
-                             <i>[Viết 3-4 câu mô tả nhóm còn lại. Chú ý mô tả các điểm giao nhau (intersections) hoặc điểm dao động nếu có. Viết hoàn chỉnh dựa trên hình ảnh và áp dụng các hướng dẫn đã nêu trên]</i>
+                             <i>[Viết đoạn Body 2 hoàn chỉnh phải dựa vào gợi ý đã đưa ra ở trên. Bắt đầu bằng từ nối tương phản/đồng thời. Ưu tiên sử dụng cấu trúc mô tả sự biến động (fluctuation) hoặc cắt nhau (overtake) nếu có trong biểu đồ.]</i>
                          </div></li>
                        </ul>
 
