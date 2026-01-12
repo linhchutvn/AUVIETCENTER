@@ -734,9 +734,10 @@ if st.session_state.step == 1:
                          <li><b>Mục tiêu:</b> Viết lại đề bài mà không đổi nghĩa.</li>
                          <li><b>Từ vựng thay thế (Subject):</b>
                             <br>- <i>The pie charts / The bar graph</i> (Biểu đồ tròn/cột).
-                            <br>- <i>The provided chart</i> (Biểu đồ được cung cấp).</li>
+                            <br>- <i>The chart</i> (Biểu đồ được cung cấp).</li>
                          <li><b>Động từ giới thiệu (Verb):</b>
                             <br>- <i>compare</i> (so sánh).
+                            <br>- <i>give information about</i> (so sánh).
                             <br>- <i>illustrate the breakdown of</i> (minh họa cơ cấu của...).
                             <br>- <i>give information on</i> (đưa thông tin về...).</li>
                          <li><b>Cấu trúc câu:</b> <code>[Subject] + [Verb] + [Object] + [in Place] + [in Year]</code>.</li>
