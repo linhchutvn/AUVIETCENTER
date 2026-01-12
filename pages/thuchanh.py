@@ -770,6 +770,8 @@ if st.session_state.step == 1:
                             <br>- <i>account for / constitute / make up / comprise</i> (chiếm...).
                             <br>- <i>represent the vast majority of...</i> (đại diện cho đại đa số...).</li>
                          <li><b>Ngữ pháp (Xếp hạng):</b> <i>rank first / take the lead</i> (đứng đầu).</li>
+                         <li><b>Từ vựng: liệt kê từ vựng để viết (kèm nghĩa tiếng việt).</li>
+                         <li><b>paraphrase: paraphrase lại từ vựng cần thiết.</li>
                          <li><div style="background-color:#e6fffa; padding:10px; border-radius:5px; margin-top:5px; border-left: 4px solid #00b894;">
                              <b>📝 Nội dung mẫu (Sample Body 1):</b><br>
                              <i>[Viết 3-4 câu mô tả chi tiết nhóm số liệu lớn nhất trong ảnh và theo hướng dẫn. Nhớ trích dẫn số liệu cụ thể.]</i>
@@ -790,6 +792,8 @@ if st.session_state.step == 1:
                             <br>- Dùng: <i>"..., with respective figures of X and Y."</i> (...với số liệu lần lượt là X và Y).
                             <br>- Dùng: <i>"ranging from X to Y"</i> (dao động từ X đến Y).</li>
                          <li><b>Từ vựng cho số nhỏ:</b> <i>negligible</i> (không đáng kể).</li>
+                         <li><b>Từ vựng: liệt kê từ vựng để viết (kèm nghĩa tiếng việt).</li>
+                         <li><b>paraphrase: paraphrase lại từ vựng cần thiết.</li>
                          <li><div style="background-color:#e6fffa; padding:10px; border-radius:5px; margin-top:5px; border-left: 4px solid #00b894;">
                              <b>📝 Nội dung mẫu (Sample Body 2):</b><br>
                              <i>[Viết 3-4 câu mô tả nhóm còn lại dựa vào hình ảnh và hướng dẫn.]</i>
