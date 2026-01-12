@@ -898,7 +898,7 @@ if st.session_state.step == 1:
 
                          <li><div style="background-color:#fff3e0; padding:10px; border-radius:5px; margin-top:5px; border-left: 4px solid #ff9f43;">
                              <b>📝 Nội dung mẫu (Sample Overview):</b><br>
-                             <i>[Dựa vào biểu đồ, hãy viết 2 câu Overview hoàn chỉnh, ghép lại bằng từ nối "Overall,... In addition,..."]</i>
+                             <i>[Hãy viết 2 câu Overview hoàn chỉnh dựa vào gợi ý đã đưa ra, ghép lại bằng từ nối "Overall,... In addition,..."]</i>
                          </div></li>
                        </ul>
 
