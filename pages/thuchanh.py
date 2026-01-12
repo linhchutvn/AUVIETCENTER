@@ -740,6 +740,10 @@ if st.session_state.step == 1:
                             <br>- <i>illustrate the breakdown of</i> (minh họa cơ cấu của...).
                             <br>- <i>give information on</i> (đưa thông tin về...).</li>
                          <li><b>Cấu trúc câu:</b> <code>[Subject] + [Verb] + [Object] + [in Place] + [in Year]</code>.</li>
+                         <li><div style="background-color:#e6fffa; padding:10px; border-radius:5px; margin-top:5px; border-left: 4px solid #00b894;">
+                             <b>📝 Nội dung mẫu (Sample Intro):</b><br>
+                             <i>[Hãy viết 1 câu Introduction hoàn chỉnh Paraphrase lại đề bài dựa trên hình ảnh và hướng dẫn]</i>
+                         </div></li>
                        </ul>
 
                     2. **"overview_guide" (Tổng quan - Không số liệu):**
@@ -749,6 +753,10 @@ if st.session_state.step == 1:
                          <li><b>Cấu trúc so sánh (Grammar):</b>
                             <br>- <i>While X accounted for the largest share, Y was the least significant.</i> (Trong khi X chiếm phần lớn nhất, Y là ít quan trọng nhất).
                             <br>- <i>X was the dominant category...</i> (X là hạng mục chiếm ưu thế...).</li>
+                        <li><div style="background-color:#e6fffa; padding:10px; border-radius:5px; margin-top:5px; border-left: 4px solid #00b894;">
+                             <b>📝 Nội dung mẫu (Sample Overview):</b><br>
+                             <i>[Hãy viết 2 câu Overview chuẩn xác dựa trên hình ảnh và hướng dẫn]</i>
+                         </div></li>
                        </ul>
 
                     3. **"body1_guide" (Nhóm Lớn Nhất - The Giants):**
@@ -761,6 +769,10 @@ if st.session_state.step == 1:
                             <br>- <i>account for / constitute / make up / comprise</i> (chiếm...).
                             <br>- <i>represent the vast majority of...</i> (đại diện cho đại đa số...).</li>
                          <li><b>Ngữ pháp (Xếp hạng):</b> <i>rank first / take the lead</i> (đứng đầu).</li>
+                         <li><div style="background-color:#e6fffa; padding:10px; border-radius:5px; margin-top:5px; border-left: 4px solid #00b894;">
+                             <b>📝 Nội dung mẫu (Sample Body 1):</b><br>
+                             <i>[Viết 3-4 câu mô tả chi tiết nhóm số liệu lớn nhất trong ảnh và theo hướng dẫn. Nhớ trích dẫn số liệu cụ thể.]</i>
+                         </div></li>                   
                        </ul>
 
                     4. **"body2_guide" (Nhóm Còn Lại - The Rest):**
@@ -777,6 +789,10 @@ if st.session_state.step == 1:
                             <br>- Dùng: <i>"..., with respective figures of X and Y."</i> (...với số liệu lần lượt là X và Y).
                             <br>- Dùng: <i>"ranging from X to Y"</i> (dao động từ X đến Y).</li>
                          <li><b>Từ vựng cho số nhỏ:</b> <i>negligible</i> (không đáng kể).</li>
+                         <li><div style="background-color:#e6fffa; padding:10px; border-radius:5px; margin-top:5px; border-left: 4px solid #00b894;">
+                             <b>📝 Nội dung mẫu (Sample Body 2):</b><br>
+                             <i>[Viết 3-4 câu mô tả nhóm còn lại dựa vào hình ảnh và hướng dẫn.]</i>
+                         </div></li>
                        </ul>
 
                     # =================================================================
