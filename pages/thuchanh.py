@@ -759,7 +759,8 @@ if st.session_state.step == 1:
                     3. **Map (Bản đồ):** Cần từ vựng phương hướng (North, South) và sự thay đổi (demolished, constructed). Tuyệt đối không dùng "increase/decrease" cho nhà cửa.
                     4. **Process (Quy trình):** Cần câu Bị động (Passive voice) và từ nối trình tự (First, Then, Finally).
                     5. **Mixed (Kết hợp):** Cần hướng dẫn cách liên kết 2 biểu đồ.
-
+                    *Quy tắc chung cho mọi phần: Phải liệt kê Từ vựng/Cấu trúc (kèm nghĩa Tiếng Việt) trước, sau đó mới viết đoạn Mẫu (Sample) áp dụng các từ đó.*
+                    
                     **BƯỚC 2: SOẠN HƯỚNG DẪN (OUTPUT JSON)**
 
                     # =================================================================
@@ -839,18 +840,70 @@ if st.session_state.step == 1:
                        </ul>
 
                     # =================================================================
-                    # 🔵 TRƯỜNG HỢP 2: DẠNG "CHANGE OVER TIME" (ĐỘNG)
+                    # 🔵 TRƯỜNG HỢP 2: DẠNG "CHANGE OVER TIME" (LINE GRAPH / DYNAMIC BAR)
+                    # (Tư duy cốt lõi: Trend (Xu hướng) & Speed (Tốc độ thay đổi))
                     # =================================================================
-                    *Tập trung vào Xu hướng (Trend) và Tốc độ thay đổi.*
-                    
-                    1. **"intro_guide"**: Paraphrase dùng <i>"show changes in..."</i> hoặc <i>"compare the number of..."</i>.
-                    2. **"overview_guide"**: Nêu xu hướng chung (Tăng/Giảm/Dao động). Dùng <i>"witnessed an upward trend"</i>.
-                    3. **"body1_guide" (Nhóm Tăng):**
-                       - Vocab: <i>surge, rocket, climb, escalate</i> (Tăng mạnh).
-                       - Time: <i>Over the period / In the first year</i>.
-                    4. **"body2_guide" (Nhóm Giảm/Dao động):**
-                       - Vocab: <i>plummet, decline, plateau, fluctuate</i>.
-                       - Grammar: <i>rose **by**</i> (tăng thêm) vs <i>rose **to**</i> (tăng đến).
+
+                    1. **"intro_guide" (Paraphrase):**
+                       - <ul>
+                         <li><b>Cấu trúc chuẩn:</b> <code>[Subject] + [Finite Verb] + [Object] + [Place] + [Time]</code>.</li>
+                         <li><b>Subject (Lưu ý đơn vị):</b>
+                            <br>- <i>The line graph...</i>
+                            <br>- <i>The number of / The amount of / The percentage of...</i> (Tùy đơn vị trong ảnh).</li>
+                         <li><b>Verb:</b> <i>illustrates the changes in / compares the data on / gives information about</i>.</li>
+                         <li><b>Time Paraphrase:</b> <i>over a period of X years starting from... / between... and...</i></li>
+                         <li><div style="background-color:#e6fffa; padding:10px; border-radius:5px; margin-top:5px; border-left: 4px solid #00b894;">
+                             <b>📝 Nội dung mẫu (Sample Intro):</b><br>
+                             <i>[Viết 1 câu Introduction hoàn chỉnh dựa trên hình ảnh]</i>
+                         </div></li>
+                       </ul>
+
+                    2. **"overview_guide" (Trend + Ranking):**
+                       - <ul>
+                         <li><b>Mở đầu:</b> <i>"Overall, it is clear that..."</i></li>
+                         <li><b>Ý 1 (Main Trend):</b> Xác định xu hướng chủ đạo.
+                            <br>- <i>...witnessed an upward trend</i> (xu hướng tăng).
+                            <br>- <i>...experienced a downward trend</i> (xu hướng giảm).</li>
+                         <li><b>Ý 2 (Ranking/Difference):</b>
+                            <br>- Cái nào cao nhất? <i>(consistently the highest)</i>.
+                            <br>- Có sự thay đổi thứ hạng không? <i>(A overtook B)</i>.</li>
+                         <li><div style="background-color:#e6fffa; padding:10px; border-radius:5px; margin-top:5px; border-left: 4px solid #00b894;">
+                             <b>📝 Nội dung mẫu (Sample Overview):</b><br>
+                             <i>[Viết 2 câu Overview: Câu 1 nêu xu hướng tăng/giảm chung, Câu 2 nêu đối tượng cao nhất hoặc sự thay đổi đáng chú ý nhất]</i>
+                         </div></li>
+                       </ul>
+
+                    3. **"body1_guide" (Nhóm Tăng / Nhóm Nổi bật):**
+                       - <ul>
+                         <li><b>Chiến thuật Gom (Grouping):</b> Chọn các đường có xu hướng <b>TĂNG</b> hoặc số liệu <b>CAO NHẤT</b>.</li>
+                         <li><b>Từ nối thời gian (Linking):</b> <i>At the beginning of the period / In the first year / From... to...</i></li>
+                         <li><b>Công thức mô tả (Grammar):</b>
+                            <br>- <i>Subject + Verb + Adverb</i> (VD: <i>increased significantly</i>).
+                            <br>- <i>There was + Adjective + Noun + in...</i> (VD: <i>There was a sharp rise in...</i>).</li>
+                         <li><b>Từ vựng Tăng:</b> <i>climb / surge / rocket / go up</i>.</li>
+                         <li><b>Giới từ (Prepositions - Quan trọng):</b>
+                            <br>- <i>to</i> (tăng đến mức nào).
+                            <br>- <i>by</i> (tăng thêm bao nhiêu).</li>
+                         <li><div style="background-color:#e6fffa; padding:10px; border-radius:5px; margin-top:5px; border-left: 4px solid #00b894;">
+                             <b>📝 Nội dung mẫu (Sample Body 1):</b><br>
+                             <i>[Viết 3-4 câu mô tả chi tiết nhóm Tăng/Cao nhất. Sử dụng đa dạng cấu trúc câu (Active/Passive/There was).]</i>
+                         </div></li>
+                       </ul>
+
+                    4. **"body2_guide" (Nhóm Giảm / Dao động / Thấp hơn):**
+                       - <ul>
+                         <li><b>Chiến thuật Gom:</b> Các đường có xu hướng <b>GIẢM</b>, <b>DAO ĐỘNG</b> hoặc <b>THẤP HƠN</b>.</li>
+                         <li><b>Từ nối chuyển đoạn:</b> <i>In contrast / Meanwhile / Regarding the figure for...</i></li>
+                         <li><b>Từ vựng Giảm/Dao động:</b> <i>decline / plummet / drop / fluctuate (dao động) / stabilize (ổn định)</i>.</li>
+                         <li><b>Từ vựng Điểm đặc biệt:</b>
+                            <br>- <i>reach a peak of</i> (đạt đỉnh tại...).
+                            <br>- <i>hit a low of</i> (chạm đáy tại...).
+                            <br>- <i>surpass / overtake</i> (vượt qua - dùng khi 2 đường cắt nhau).</li>
+                         <li><div style="background-color:#e6fffa; padding:10px; border-radius:5px; margin-top:5px; border-left: 4px solid #00b894;">
+                             <b>📝 Nội dung mẫu (Sample Body 2):</b><br>
+                             <i>[Viết 3-4 câu mô tả nhóm còn lại. Chú ý mô tả các điểm giao nhau (intersections) hoặc điểm dao động nếu có.]</i>
+                         </div></li>
+                       </ul>
 
                     # =================================================================
                     # 🟡 TRƯỜNG HỢP 3: CÁC DẠNG KHÁC (MAP, PROCESS, MIXED)
