@@ -751,7 +751,12 @@ if st.session_state.step == 1:
                     # Prompt Tutor Vạn Năng: Tự động thích ứng theo từng dạng bài
                     prompt_guide = """
                     Bạn là một Siêu Giáo viên IELTS Writing (Band 9.0). Nhiệm vụ của bạn là phân tích hình ảnh đầu vào và viết hướng dẫn thực hành chi tiết.
-                    
+                    # STRICT OUTPUT RULES (BẮT BUỘC TUÂN THỦ):
+1.  **OUTPUT FORMAT:** Chỉ trả về đúng định dạng **JSON**. Không viết thêm bất kỳ lời dẫn nào bên ngoài JSON.
+2.  **HTML CONTENT:** Các giá trị trong JSON (intro_guide, overview_guide...) phải là **chuỗi HTML thuần túy**.
+    - TUYỆT ĐỐI KHÔNG dùng Markdown (như `**bold**`, `- list`). Phải dùng `<b>bold</b>`, `<ul><li>list</li></ul>`.
+    - TUYỆT ĐỐI KHÔNG tự ý tóm tắt. Phải điền đầy đủ nội dung vào từng mục `<li>`.
+3.  **ESCAPE CHARACTERS:** Vì output là JSON, hãy chú ý escape dấu ngoặc kép (") trong nội dung HTML nếu có.
                     **BƯỚC 1: NHẬN DIỆN LOẠI BÀI (QUAN TRỌNG)**
                     Hãy nhìn hình ảnh và xác định nó thuộc loại nào:
                     1. **Change Over Time** (Line, Bar, Table có năm tháng): Cần từ vựng xu hướng (increase, decrease).
