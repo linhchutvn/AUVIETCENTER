@@ -95,6 +95,16 @@ st.markdown("""
         color: #64748B;
         margin-bottom: 0.8rem;
     }
+    /* --- ẨN CÁC ICON GHIM (LINK CHAIN) BÊN CẠNH TIÊU ĐỀ --- */
+    [data-testid="stMarkdownContainer"] h1 a,
+    [data-testid="stMarkdownContainer"] h2 a,
+    [data-testid="stMarkdownContainer"] h3 a,
+    [data-testid="stMarkdownContainer"] h4 a,
+    [data-testid="stMarkdownContainer"] h5 a,
+    [data-testid="stMarkdownContainer"] h6 a {
+        display: none !important;
+        pointer-events: none;
+    }
 
     /* Guide Box */
     .guide-box {
