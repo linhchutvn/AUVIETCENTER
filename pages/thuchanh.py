@@ -731,12 +731,11 @@ if st.session_state.step == 1:
     st.markdown("""
     st.markdown("---")
     st.markdown('<div class="step-header">STEP 3 – AI Examiner Workflow</div>', unsafe_allow_html=True)
-    
     st.markdown("""
     <style>
         .wf-container {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 5fr 5fr;
             gap: 12px;
             margin-bottom: 20px;
         }
