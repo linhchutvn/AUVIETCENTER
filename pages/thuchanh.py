@@ -857,6 +857,7 @@ if st.session_state.step == 1:
         <li><b>Cấu trúc chuẩn (Formula):</b> <code>[Subject] + [Finite Verb] + [Object/Topic] + [Place] + [Time]</code>.</li>
     
         <li><b>Subject (Lưu ý quan trọng):</b>
+            <br>- <b>Xác định đúng chủ thể:</b> <i>[Xác định chính xác cái gì thay đổi]</i>.
             <br>- <b>Đơn vị trong bài này là:</b> <i>[Điền đơn vị cụ thể của bài, VD: million dollars / tonnes / %]</i>.
             <br>- <b>Tuyệt đối không đưa đơn vị tính vào chủ ngữ.</b> Ví dụ: Không viết <i>"The chart shows [Đơn vị của bài]..."</i> mà phải viết <i>"The chart shows the amount/number/proportion of..."</i>.
             <br>- <b>Hòa hợp chủ ngữ - động từ:</b> Nếu 1 biểu đồ dùng <i>shows/illustrates</i>. Nếu nhiều biểu đồ dùng <i>show/illustrate</i>.</li>
@@ -868,12 +869,13 @@ if st.session_state.step == 1:
             <br><i>(Lưu ý: chọn từ Spending/Number/Percentage phù hợp).</i></li>
     
         <li><b>Verb (Động từ khuyên dùng):</b>
-            <br><i>illustrates / compares the data on / presents information about / gives information about</i>.</li>
+            <br><i>illustrates / gives information about / compares the data on / presents information about</i>.</li>
     
         <li><b>Time Paraphrase (Thời gian: [Năm đầu] - [Năm cuối]):</b>
             <br>- Cách 1: <i>Between [Năm đầu] and [Năm cuối]</i>.
-            <br>- Cách 2: <i>Over a period of [Số năm] years commencing in [Năm đầu]</i>.</li>
-    
+            <br>- Cách 2: <i>Over a period of [Số năm] years commencing in [Năm đầu]</i>.</li>    
+        <li><b>Từ vựng và paraphrase: liệt kê Vocab và paraphrase trong Sample Intro (kèm nghĩa tiếng việt).</li>
+        
         <li><div style="background-color:#e6fffa; padding:10px; border-radius:5px; margin-top:5px; border-left: 4px solid #00b894;">
             <b>📝 Nội dung mẫu (Sample Intro):</b><br>                             
             <i>"[Viết câu Introduction hoàn chỉnh, chuẩn ngữ pháp và từ vựng tại đây]"</i>
@@ -902,7 +904,7 @@ if st.session_state.step == 1:
                              <br>- <i>witnessed / experienced / saw + an upward/downward trend</i>.
                              <br>- <i>volatile / fluctuated</i> (nếu dao động mạnh).
                              <br>- <i>dominant / highest / lowest</i>.</li>
-                         <li><b>Từ vựng và paraphrase: liệt kê trong Sample Overview (kèm nghĩa tiếng việt).</li>
+                         <li><b>Từ vựng và paraphrase: liệt kê Vocab và paraphrase trong trong Sample Overview (kèm nghĩa tiếng việt).</li>
 
                          <li><div style="background-color:#fff3e0; padding:10px; border-radius:5px; margin-top:5px; border-left: 4px solid #ff9f43;">
                              <b>📝 Nội dung mẫu (Sample Overview):</b><br>
@@ -939,7 +941,7 @@ if st.session_state.step == 1:
                              <br>- <b>Verbs (Tăng):</b> <i>climb, surge, rocket, go up</i>.
                              <br>- <b>Verbs (Giảm/Dao động):</b> <i>decline, plummet, fluctuate</i>.
                              <br>- <b>Prepositions (Giới từ):</b> Tăng <b>to</b> (đến mức), Tăng <b>by</b> (một khoảng), Đạt đỉnh <b>at</b> (tại mức).</li>
-                         <li><b>Từ vựng và paraphrase: liệt kê chi tiết có trong Sample Body 1 (kèm nghĩa tiếng việt).</li>
+                         <li><b>Từ vựng và paraphrase: liệt kê chi tiết (ít nhất 5 Vocab và paraphrasing) trong có trong Sample Body 1 (kèm nghĩa tiếng việt).</li>
 
                          <li><div style="background-color:#fff8e1; padding:10px; border-radius:5px; margin-top:5px; border-left: 4px solid #ffa502;">
                              <b>📝 Nội dung mẫu (Sample Body 1):</b><br>
@@ -978,7 +980,7 @@ if st.session_state.step == 1:
                              <br>- <b>Verbs:</b> <i>plummet / decline</i> (giảm mạnh), <i>recover</i> (hồi phục), <i>stabilize</i> (ổn định).
                              <br>- <b>Nouns:</b> <i>a volatile pattern</i> (mẫu hình biến động), <i>a downward trend</i>.
                              <br>- <b>Comparison:</b> <i>overtake / surpass</i> (vượt qua).</li>
-                         <li><b>Từ vựng và paraphrase: liệt kê chi tiết có trong Sample Body 2 (kèm nghĩa tiếng việt).</li>
+                         <li><b>Từ vựng và paraphrase: liệt kê chi tiết (ít nhất 5 Vocab và paraphrasing) có trong Sample Body 2 (kèm nghĩa tiếng việt).</li>
                         
                          <li><div style="background-color:#ffebee; padding:10px; border-radius:5px; margin-top:5px; border-left: 4px solid #ff5252;">
                              <b>📝 Nội dung mẫu (Sample Body 2):</b><br>
