@@ -918,29 +918,35 @@ if st.session_state.step == 1:
 
                     2. **"overview_guide" (Trend + Ranking):**
                         - <ul>
-                         <!-- PHẦN 1: KHO MẪU CÂU (Dùng HTML Entity để khóa nội dung) -->
+                         <!-- PHẦN 1: KHO MẪU CÂU (TÁCH RA 3 KHỐI RIÊNG ĐỂ TRÁNH BỊ AI CẮT BỚT) -->
                          <li>
-                             <div style="background-color:#f8f9fa; border:1px solid #e9ecef; border-radius:5px; padding:15px; margin-bottom:15px;">
-                                 <strong style="color:#d35400;">📚 KHO MẪU CÂU (TEMPLATES) - CẦN HỌC THUỘC:</strong>
-                                 <p style="font-size:0.9em; color:#636e72; margin-top:5px;"><i>(Nguyên tắc: Giữ nguyên các từ trong ngoặc vuông)</i></p>
-                                 
-                                 <br><b>► 1. Cấu trúc tổng quát:</b>
+                             <strong style="color:#d35400;">📚 KHO MẪU CÂU (CẦN HỌC THUỘC):</strong>
+                             
+                             <!-- KHỐI 1: TỔNG QUÁT -->
+                             <div style="background-color:#fdf2e9; border-left:4px solid #d35400; padding:10px; margin-top:5px;">
+                                 <b>► 1. Cấu trúc tổng quát:</b>
                                  <br><code>Overall, &#91;Sentence 1: Trends&#93;. In addition / Also, &#91;Sentence 2: Highlights&#93;.</code>
-                                 
-                                 <br><br><b>► 2. Mẫu câu Xu hướng (Trends):</b>
+                             </div>
+
+                             <!-- KHỐI 2: TRENDS -->
+                             <div style="background-color:#fdf2e9; border-left:4px solid #d35400; padding:10px; margin-top:5px;">
+                                 <b>► 2. Mẫu câu Xu hướng (Trends):</b>
                                  <br>- <i>Đồng loạt Tăng/Giảm:</i> "It is clear that the total <b>&#91;Topic&#93;</b> increased/decreased over the period."
                                  <br>- <i>Xu hướng ngược (Mix):</i> "It is clear that while the figures for <b>&#91;Line A&#93;</b> and <b>&#91;Line B&#93;</b> increased, the opposite was true for <b>&#91;Line C&#93;</b>."
-                                 
-                                 <br><br><b>► 3. Mẫu câu Điểm nổi bật (Highlights):</b>
+                             </div>
+
+                             <!-- KHỐI 3: HIGHLIGHTS (ĐÂY LÀ PHẦN BỊ THIẾU CẦN HIỆN RA) -->
+                             <div style="background-color:#fdf2e9; border-left:4px solid #d35400; padding:10px; margin-top:5px;">
+                                 <b>► 3. Mẫu câu Điểm nổi bật (Highlights):</b>
                                  <br>- <i>Cao nhất/Phổ biến nhất:</i> "<b>&#91;Line A&#93;</b> consistently had the highest figures..." (hoặc <i>remained the most popular...</i>).
                                  <br>- <i>Thay đổi lớn nhất:</i> "<b>&#91;Line B&#93;</b> witnessed the most dramatic change."
                              </div>
                          </li>
                          
-                         <!-- PHẦN 2: PHÂN TÍCH CHI TIẾT (Đã bổ sung phần Highlight bị thiếu) -->
+                         <!-- PHẦN 2: PHÂN TÍCH -->
                          <li>
                              <b>🔍 PHÂN TÍCH DỮ LIỆU ĐỂ LẮP VÀO CÔNG THỨC:</b>
-                             <br><i>(AI xác định dữ liệu thực tế cho từng mẫu câu)</i>
+                             <br><i>(AI hãy xác định dữ liệu thực tế cho từng mẫu câu)</i>
                              <br>
                              <br><b>1. Dữ liệu cho Mẫu câu 1 (Tổng quát):</b>
                              <br>- <b>&#91;Topic&#93; là gì?</b> <i>[AI điền. VD: Tỷ lệ thất nghiệp]</i>
@@ -949,12 +955,26 @@ if st.session_state.step == 1:
                              <br>- <b>&#91;Line A/B&#93; (Nhóm Tăng/Cao):</b> <i>[AI liệt kê tên]</i>
                              <br>- <b>&#91;Line C&#93; (Nhóm Giảm/Thấp):</b> <i>[AI liệt kê tên]</i>
                              
-                             <!-- ĐÂY LÀ PHẦN BỊ THIẾU TRƯỚC ĐÓ -->
-                             <br><br><b>3. Dữ liệu cho Mẫu câu 3 (Điểm nổi bật - Highlights):</b>
-                             <br>- <b>Bạn chọn tiêu chí nào?</b> <i>[AI trả lời: Cao nhất hay Thay đổi lớn nhất?]</i>
-                             <br>- <b>Đối tượng đó (&#91;Line A&#93; hoặc &#91;Line B&#93;) là gì?</b> <i>[AI điền tên đối tượng nổi bật nhất vào đây. VD: Nuclear Power]</i>
+                             <br><br><b>3. Dữ liệu cho Mẫu câu 3 (Điểm nổi bật):</b>
+                             <br>- <b>Chọn tiêu chí nào?</b> <i>[AI chọn: Cao nhất hay Thay đổi lớn nhất?]</i>
+                             <br>- <b>Đối tượng đó (&#91;Line A&#93; hoặc &#91;Line B&#93;) tên là gì?</b> <i>[AI điền tên đối tượng]</i>
                          </li>
 
+                         <!-- PHẦN 3: TỪ VỰNG -->
+                         <li><b>🔑 TỪ VỰNG GỢI Ý (Vocabulary):</b>
+                             <br>- <b>Verbs:</b> <i>witnessed a downward trend / saw a significant rise</i>.
+                             <br>- <b>Adjectives:</b> <i>volatile (biến động) / stable (ổn định)</i>.
+                             <br>- <b>Paraphrase bài này:</b> <i>[AI liệt kê 3 từ vựng sát với chủ đề bài viết]</i>
+                         </li>
+
+                         <!-- PHẦN 4: BÀI MẪU -->
+                         <li><div style="background-color:#fff3e0; padding:15px; border-radius:8px; margin-top:10px; border-left: 5px solid #ff9f43;">
+                             <b>📝 Nội dung mẫu (Sample Overview):</b><br>
+                             <div style="margin-top:5px; font-style: italic; color: #5d4037;">
+                             [AI hãy viết đoạn Overview hoàn chỉnh, ghép nối dữ liệu ở Phần 2 vào Cấu trúc ở Phần 1.]
+                             </div>
+                         </div></li>
+                       </ul>
                          <!-- PHẦN 3: TỪ VỰNG -->
                          <li><b>🔑 TỪ VỰNG GỢI Ý (Vocabulary):</b>
                              <br>- <b>Verbs:</b> <i>witnessed a downward trend / saw a significant rise</i>.
