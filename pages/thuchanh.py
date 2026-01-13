@@ -735,7 +735,8 @@ if st.session_state.step == 1:
     <style>
         .wf-container {
             display: grid;
-            grid-template-columns: 5fr 5fr;
+            /* Python không hiểu dòng này nếu không nằm trong ngoặc kép */
+            grid-template-columns: 1fr 1fr; 
             gap: 12px;
             margin-bottom: 20px;
         }
