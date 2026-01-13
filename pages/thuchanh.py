@@ -918,31 +918,50 @@ if st.session_state.step == 1:
 
                     2. **"overview_guide" (Trend + Ranking):**
                         - <ul>
-                         <li><b>Nguyên tắc bất di bất dịch:</b> KHÔNG đưa số liệu cụ thể (năm, số tiền, phần trăm...) vào phần này. Chỉ mô tả đặc điểm chung.</li>
-
-                         <li><b>Cấu trúc chuẩn (Formula):</b>
-                             <br><code>Overall, [Sentence 1: Trends]. In addition / Morever / Also, [Sentence 2: Highlights].</code></li>
+                         <!-- PHẦN 1: LÝ THUYẾT CỐ ĐỊNH (BẮT BUỘC GIỮ NGUYÊN) -->
+                         <li>
+                             <b>📘 CẤU TRÚC & CÔNG THỨC (Học thuộc):</b>
+                             <br><i>(Lưu ý: Không đưa số liệu cụ thể vào phần Overview)</i>
+                             <div style="background:#f4f4f5; padding:10px; border-radius:5px; border: 1px dashed #ccc; margin-top: 5px;">
+                                 <b>1. Cấu trúc tổng quát:</b>
+                                 <br><code>Overall, [Sentence 1: Trends]. In addition / Also, [Sentence 2: Highlights].</code>
+                                 <br>
+                                 <br><b>2. Các mẫu câu Trends (Xu hướng):</b>
+                                 <br>- <i>Đồng loạt Tăng/Giảm:</i> "It is clear that the total <b>[Topic]</b> increased/decreased over the period."
+                                 <br>- <i>Xu hướng ngược (Mix):</i> "It is clear that while the figures for <b>[Line A]</b> and <b>[Line B]</b> increased, the opposite was true for <b>[Line C]</b>."
+                                 <br>- <i>Ngoại lệ:</i> "The figures for most categories increased, with the exception of <b>[Line C]</b>."
+                                 <br>
+                                 <br><b>3. Các mẫu câu Highlights (Nổi bật):</b>
+                                 <br>- <i>Cao/Thấp nhất:</i> "<b>[Line A]</b> consistently had the highest figures..." (hoặc <i>remained the most popular...</i>).
+                                 <br>- <i>Thay đổi lớn nhất:</i> "<b>[Line B]</b> witnessed the most dramatic change."
+                             </div>
+                         </li>
                          
-                         <li><b>Bước 1: Sentence 1 - Xác định Xu hướng (Trends):</b>
-                             <br>Quan sát điểm đầu và điểm cuối của các đường:
-                             <br>- <b>Nếu tất cả cùng tăng/giảm:</b> <i>"It is clear that the total [Topic] increased/decreased over the period."</i>
-                             <br>- <b>Nếu có xu hướng trái ngược (Mix):</b> <i>"It is clear that while the figures for [Line A] and [Line B] increased, the opposite was true for [Line C]."</i>
-                             <br>- <b>Cấu trúc Ngoại lệ (Nên dùng):</b> <i>"The figures for most categories increased, with the exception of [Line C]."</i></li>
+                         <hr style="border-top: 1px solid #eee; margin: 15px 0;">
 
-                         <li><b>Bước 2: Sentence 2 - Xác định Điểm nổi bật (Highlights):</b>
-                             <br>Tìm đường nằm ở vị trí cao nhất/thấp nhất hoặc thay đổi mạnh nhất:
-                             <br>- <b>Cao nhất/Thấp nhất:</b> <i>"[Line A] consistently had the highest figures throughout the period."</i> (hoặc <i>remained the most popular...</i>).
-                             <br>- <b>Thay đổi lớn nhất:</b> <i>"[Line B] witnessed the most dramatic change."</i></li>
-                             <br>- <b>Phổ biến nhất:</b> <i>"[Line A] was the most common reason..."</i>
+                         <!-- PHẦN 2: PHÂN TÍCH NHÁP (AI ĐƯỢC PHÉP ĐIỀN VÀO ĐÂY) -->
+                         <li><b>🔍 PHÂN TÍCH BÀI NÀY (Nháp ý tưởng):</b>
+                             <br><i>(Dựa trên hình ảnh thực tế, xác định các thành phần để lắp vào công thức)</i>
+                             <br>- <b>Xác định [Topic]:</b> <i>[AI điền Topic. VD: lượng khí thải/doanh thu...]</i>
+                             <br>- <b>Xác định [Line A/B] (Xu hướng 1):</b> <i>[AI điền tên đối tượng tăng/giảm]</i>
+                             <br>- <b>Xác định [Line C] (Xu hướng ngược/Ngoại lệ):</b> <i>[AI điền tên đối tượng ngược lại]</i>
+                             <br>- <b>Xác định Highlight (Cao nhất/Thay đổi nhất):</b> <i>[AI điền đối tượng nổi bật]</i>
+                         </li>
 
-                         <li><b>Vocabulary:</b>
-                             <br>- <i>witnessed / experienced / saw + an upward/downward trend</i>.
-                             <br>- <i>volatile / fluctuated</i> (nếu dao động mạnh).
-                             <br>- <i>dominant / highest / lowest</i>.</li>
-                         
-                         <li><div style="background-color:#fff3e0; padding:10px; border-radius:5px; margin-top:5px; border-left: 4px solid #ff9f43;">
+                         <li><b>🔑 TỪ VỰNG (Vocabulary Bank):</b>
+                             <br><i>(Các từ vựng này sẽ được dùng trong bài mẫu bên dưới)</i>
+                             <br>- <b>Verbs:</b> <i>witnessed / experienced / saw + an upward/downward trend</i>.
+                             <br>- <b>Adjectives:</b> <i>volatile / fluctuated</i> (nếu dao động mạnh).
+                             <br>- <b>Ranking:</b> <i>dominant / highest / lowest</i>.
+                             <br>- <b>Paraphrase bài này:</b> <i>[AI liệt kê thêm 2-3 từ vựng cụ thể cho bài]</i>
+                         </li>
+
+                         <!-- PHẦN 3: BÀI MẪU (LẮP GHÉP TỪ PHẦN 2) -->
+                         <li><div style="background-color:#fff3e0; padding:15px; border-radius:8px; margin-top:10px; border-left: 5px solid #ff9f43;">
                              <b>📝 Nội dung mẫu (Sample Overview):</b><br>
-                             <i>[Hãy viết 2 câu Overview hoàn chỉnh phải dựa vào các bước đã nêu trên, ghép lại bằng từ nối "Overall,... In addition,..."]</i>
+                             <div style="margin-top:5px; font-style: italic; color: #5d4037;">
+                             [AI hãy viết 2 câu Overview hoàn chỉnh, sử dụng chính xác các thành phần đã phân tích ở mục 'PHÂN TÍCH BÀI NÀY' và ghép vào 'CẤU TRÚC' ở trên.]
+                             </div>
                          </div></li>
                        </ul>
 
