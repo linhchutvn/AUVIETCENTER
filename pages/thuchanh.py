@@ -886,7 +886,6 @@ if st.session_state.step == 1:
                     # 🔵 TRƯỜNG HỢP 2: DẠNG "CHANGE OVER TIME" (Line, Bar, Table, Pie nhiểu năm)
                     # (Tư duy cốt lõi: Trend (Xu hướng) & Speed (Tốc độ thay đổi))
                     # =================================================================
-                    *Quy tắc chung cho mọi phần: Phải liệt kê Từ vựng/Cấu trúc (kèm nghĩa Tiếng Việt) trước, sau đó mới viết đoạn Mẫu (Sample) áp dụng các hướng dẫn đó.*
 
                     1. **"intro_guide" (Paraphrase):**                    
     - <ul>
