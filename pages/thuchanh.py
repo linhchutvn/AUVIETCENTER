@@ -919,46 +919,31 @@ if st.session_state.step == 1:
 
                     2. **"overview_guide" (Trend + Ranking):**
                         - <ul>
-                         <!-- PHẦN 1: TÀI LIỆU CỐ ĐỊNH (AI PHẢI CHÉP LẠI Y NGUYÊN) -->
-                         <li><b>📘 LÝ THUYẾT & CẤU TRÚC (Cần học thuộc):</b>
-                             <br>
-                             <br>• <b>Nguyên tắc bất di bất dịch:</b> KHÔNG đưa số liệu cụ thể (năm, số tiền, phần trăm...) vào phần này. Chỉ mô tả đặc điểm chung.
-                             <br>
-                             <br>• <b>Bước 1: Sentence 1 - Xác định Xu hướng (Trends):</b>
-                             <br>Quan sát điểm đầu và điểm cuối của các đường:
-                             <br>- <b>Nếu tất cả cùng tăng/giảm:</b> <code>"It is clear that the total [Topic] increased/decreased over the period."</code>
-                             <br>- <b>Nếu có xu hướng trái ngược (Mix):</b> <code>"It is clear that while the figures for [Line A] and [Line B] increased, the opposite was true for [Line C]."</code>
-                             <br>- <b>Cấu trúc Ngoại lệ (Nên dùng):</b> <code>"The figures for most categories increased, with the exception of [Line C]."</code>
-                             <br>
-                             <br>• <b>Bước 2: Sentence 2 - Xác định Điểm nổi bật (Highlights):</b>
-                             <br>Tìm đường nằm ở vị trí cao nhất/thấp nhất hoặc thay đổi mạnh nhất:
-                             <br>- <b>Cao nhất/Thấp nhất:</b> <code>"[Line A] consistently had the highest figures throughout the period."</code> (hoặc <i>remained the most popular...</i>).
-                             <br>- <b>Thay đổi lớn nhất:</b> <code>"[Line B] witnessed the most dramatic change."</code>
-                         </li>
+                         <li><b>Nguyên tắc bất di bất dịch:</b> KHÔNG đưa số liệu cụ thể (năm, số tiền, phần trăm...) vào phần này. Chỉ mô tả đặc điểm chung.</li>
+
+                         <li><b>Cấu trúc chuẩn:</b>
+                             <br><code>Overall, [Sentence 1: Trends]. In addition / Also, [Sentence 2: Highlights].</code></li>
                          
-                         <hr style="border-top: 1px dashed #bbb;">
+                         <li><b>Bước 1: Sentence 1 - Xác định Xu hướng (Trends):</b>
+                             <br>Quan sát điểm đầu và điểm cuối của các đường:
+                             <br>- <b>Nếu tất cả cùng tăng/giảm:</b> <i>"It is clear that the total [Topic] increased/decreased over the period."</i>
+                             <br>- <b>Nếu có xu hướng trái ngược (Mix):</b> <i>"It is clear that while the figures for [Line A] and [Line B] increased, the opposite was true for [Line C]."</i>
+                             <br>- <b>Cấu trúc Ngoại lệ (Nên dùng):</b> <i>"The figures for most categories increased, with the exception of [Line C]."</i></li>
 
-                         <!-- PHẦN 2: PHÂN TÍCH THỰC TẾ (AI LÀM VIỆC Ở ĐÂY) -->
-                         <li><b>🚀 ÁP DỤNG VÀO BÀI NÀY (Analysis):</b>
-                             <br><i>(AI hãy phân tích ngắn gọn hình ảnh để học sinh lắp vào công thức trên)</i>
-                             <br>- <b>Xu hướng chung (Trend):</b> <i>[AI mô tả xu hướng chính tại đây. VD: Lượng khí thải giảm...]</i>
-                             <br>- <b>Điểm nổi bật (Highlight):</b> <i>[AI chỉ ra đối tượng nổi bật nhất tại đây. VD: Ngành công nghiệp cao nhất...]</i>
-                         </li>
+                         <li><b>Bước 2: Sentence 2 - Xác định Điểm nổi bật (Highlights):</b>
+                             <br>Tìm đường nằm ở vị trí cao nhất/thấp nhất hoặc thay đổi mạnh nhất:
+                             <br>- <b>Cao nhất/Thấp nhất:</b> <i>"[Line A] consistently had the highest figures throughout the period."</i> (hoặc <i>remained the most popular...</i>).
+                             <br>- <b>Thay đổi lớn nhất:</b> <i>"[Line B] witnessed the most dramatic change."</i></li>
 
-                         <li><b>🔑 TỪ VỰNG & PARAPHRASE (Chuẩn bị cho Sample):</b>
-                             <br><i>Học các từ này trước khi xem bài mẫu:</i>
-                             <br>- <b>Vocabulary Bank:</b>
-                                <br>+ <i>witnessed / experienced / saw + an upward/downward trend</i>.
-                                <br>+ <i>volatile / fluctuated</i> (nếu dao động mạnh).
-                                <br>+ <i>dominant / highest / lowest</i>.
-                             <br>- <b>Từ vựng riêng cho bài này:</b> <i>[AI liệt kê thêm 3 từ vựng/paraphrase đắt giá dùng trong Sample Overview bên dưới (kèm nghĩa tiếng Việt)]</i>
-                         </li>
+                         <li><b>Vocabulary Bank:</b>
+                             <br>- <i>witnessed / experienced / saw + an upward/downward trend</i>.
+                             <br>- <i>volatile / fluctuated</i> (nếu dao động mạnh).
+                             <br>- <i>dominant / highest / lowest</i>.</li>
+                         <li><b>Từ vựng và paraphrase: Phải liệt kê ít nhất 3 Vocab và 3 paraphrasing (nếu có)từ Sample Overview (kèm nghĩa tiếng việt).</li>
 
-                         <li><div style="background-color:#fff3e0; padding:15px; border-radius:8px; margin-top:10px; border-left: 5px solid #ff9f43;">
+                         <li><div style="background-color:#fff3e0; padding:10px; border-radius:5px; margin-top:5px; border-left: 4px solid #ff9f43;">
                              <b>📝 Nội dung mẫu (Sample Overview):</b><br>
-                             <div style="margin-top:5px; font-style: italic; color: #5d4037;">
-                             [AI hãy viết 2 câu Overview hoàn chỉnh, áp dụng chính xác cấu trúc ở trên với dữ liệu của hình ảnh]
-                             </div>
+                             <i>[Hãy viết 2 câu Overview hoàn chỉnh phải dựa vào các bước đã nêu trên, ghép lại bằng từ nối "Overall,... In addition,..."]</i>
                          </div></li>
                        </ul>
 
