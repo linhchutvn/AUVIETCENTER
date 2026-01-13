@@ -918,11 +918,11 @@ if st.session_state.step == 1:
 
                     2. **"overview_guide" (Trend + Ranking):**
                         - <ul>
-                         <!-- PHẦN 1: LÝ THUYẾT (Sử dụng kỹ thuật HTML Entity để chặn AI điền) -->
+                         <!-- PHẦN 1: KHO MẪU CÂU (Dùng HTML Entity để khóa nội dung) -->
                          <li>
                              <div style="background-color:#f8f9fa; border:1px solid #e9ecef; border-radius:5px; padding:15px; margin-bottom:15px;">
                                  <strong style="color:#d35400;">📚 KHO MẪU CÂU (TEMPLATES) - CẦN HỌC THUỘC:</strong>
-                                 <p style="font-size:0.9em; color:#636e72; margin-top:5px;"><i>(Nguyên tắc: Giữ nguyên các từ trong ngoặc vuông, chỉ điền vào phần Phân tích bên dưới)</i></p>
+                                 <p style="font-size:0.9em; color:#636e72; margin-top:5px;"><i>(Nguyên tắc: Giữ nguyên các từ trong ngoặc vuông)</i></p>
                                  
                                  <br><b>► 1. Cấu trúc tổng quát:</b>
                                  <br><code>Overall, &#91;Sentence 1: Trends&#93;. In addition / Also, &#91;Sentence 2: Highlights&#93;.</code>
@@ -932,22 +932,27 @@ if st.session_state.step == 1:
                                  <br>- <i>Xu hướng ngược (Mix):</i> "It is clear that while the figures for <b>&#91;Line A&#93;</b> and <b>&#91;Line B&#93;</b> increased, the opposite was true for <b>&#91;Line C&#93;</b>."
                                  
                                  <br><br><b>► 3. Mẫu câu Điểm nổi bật (Highlights):</b>
-                                 <br>- <i>Cao nhất:</i> "<b>&#91;Line A&#93;</b> consistently had the highest figures throughout the period."
+                                 <br>- <i>Cao nhất/Phổ biến nhất:</i> "<b>&#91;Line A&#93;</b> consistently had the highest figures..." (hoặc <i>remained the most popular...</i>).
                                  <br>- <i>Thay đổi lớn nhất:</i> "<b>&#91;Line B&#93;</b> witnessed the most dramatic change."
                              </div>
                          </li>
                          
-                         <!-- PHẦN 2: PHÂN TÍCH (AI ĐIỀN VÀO ĐÂY) -->
+                         <!-- PHẦN 2: PHÂN TÍCH CHI TIẾT (Đã bổ sung phần Highlight bị thiếu) -->
                          <li>
-                             <b>🔍 PHÂN TÍCH DỮ LIỆU BÀI NÀY (Drafting):</b>
-                             <br><i>(AI hãy xác định các thành phần thực tế để học sinh lắp vào công thức trên)</i>
+                             <b>🔍 PHÂN TÍCH DỮ LIỆU ĐỂ LẮP VÀO CÔNG THỨC:</b>
+                             <br><i>(AI xác định dữ liệu thực tế cho từng mẫu câu)</i>
                              <br>
-                             <br><b>1. Xác định &#91;Topic&#93; là gì?</b>
-                             <br>👉 <i>[AI trả lời ngắn gọn. VD: Tỷ lệ thất nghiệp]</i>
-                             <br>
-                             <br><b>2. Xác định các Line A/B/C:</b>
+                             <br><b>1. Dữ liệu cho Mẫu câu 1 (Tổng quát):</b>
+                             <br>- <b>&#91;Topic&#93; là gì?</b> <i>[AI điền. VD: Tỷ lệ thất nghiệp]</i>
+                             
+                             <br><br><b>2. Dữ liệu cho Mẫu câu 2 (Xu hướng):</b>
                              <br>- <b>&#91;Line A/B&#93; (Nhóm Tăng/Cao):</b> <i>[AI liệt kê tên]</i>
-                             <br>- <b>&#91;Line C&#93; (Nhóm Giảm/Thấp/Ngược):</b> <i>[AI liệt kê tên]</i>
+                             <br>- <b>&#91;Line C&#93; (Nhóm Giảm/Thấp):</b> <i>[AI liệt kê tên]</i>
+                             
+                             <!-- ĐÂY LÀ PHẦN BỊ THIẾU TRƯỚC ĐÓ -->
+                             <br><br><b>3. Dữ liệu cho Mẫu câu 3 (Điểm nổi bật - Highlights):</b>
+                             <br>- <b>Bạn chọn tiêu chí nào?</b> <i>[AI trả lời: Cao nhất hay Thay đổi lớn nhất?]</i>
+                             <br>- <b>Đối tượng đó (&#91;Line A&#93; hoặc &#91;Line B&#93;) là gì?</b> <i>[AI điền tên đối tượng nổi bật nhất vào đây. VD: Nuclear Power]</i>
                          </li>
 
                          <!-- PHẦN 3: TỪ VỰNG -->
