@@ -907,12 +907,12 @@ if st.session_state.step == 1:
     
         <li><b>Time Paraphrase (Thời gian: [Năm đầu] - [Năm cuối]):</b>
             <br>- Cách 1: <i>Between [Năm đầu] and [Năm cuối]</i>.
-            <br>- Cách 2: <i>Over a period of [Số năm] years commencing in [Năm đầu]</i>.</li>    
-        <li><b>Từ vựng và paraphrase: Phải liệt kê ít nhất 3 Vocab và 3 paraphrasing (nếu có) từ Sample Intro (kèm nghĩa tiếng việt).</li>
+            <br>- Cách 2: <i>Over a period of [Số năm] years starting from / commencing in [Năm đầu]</i>.</li>    
+        <li><b>Từ vựng và paraphrasing: Phải liệt kê ít nhất 3 Vocab và 3 paraphrasing (nếu có) từ Sample Intro (kèm nghĩa tiếng việt).</li>
         
         <li><div style="background-color:#e6fffa; padding:10px; border-radius:5px; margin-top:5px; border-left: 4px solid #00b894;">
             <b>📝 Nội dung mẫu (Sample Intro):</b><br>                             
-            <i>"[Viết câu Introduction hoàn chỉnh, chuẩn ngữ pháp và từ vựng tại đây]"</i>
+            <i>"[Viết câu Introduction hoàn chỉnh, chuẩn ngữ pháp và từ vựng THEO hướng dẫn đã phân tích tại đây]"</i>
         </div></li>
     </ul>
 
