@@ -943,11 +943,14 @@ if st.session_state.step == 1:
                                  <b>► 2. Các mẫu câu Xu hướng (Trends):</b>
                                  <br><i>(Người viết chọn 1 trong 3 loại dưới đây tùy vào biểu đồ)</i>                                
                                  <br>🔹 <b>Loại 1: Đồng loạt Tăng/Giảm (Same Direction)</b>
-                                 <br>"It is clear that the total <b>&#91;Topic&#93;</b> increased/decreased over the period."                             
+                                 <br>"It is clear that the total <b>&#91;Topic&#93;</b> increased/decreased over the period."
+                                 <br>
                                  <br>🔹 <b>Loại 2: Xu hướng ngược (Mix / Opposite)</b>
                                  <br>"It is clear that while the figures for <b>&#91;Line A&#93;</b> and <b>&#91;Line B&#93;</b> increased, the opposite was true for <b>&#91;Line C&#93;</b>."                            
+                                 <br>
                                  <br>🔹 <b>Loại 3: Ngoại lệ (Exception)</b>
                                  <br>"The figures for most categories increased, with the exception of <b>&#91;Line C&#93;</b>."
+                                 <br>
                              </div>
 
                              <!-- KHỐI 3: HIGHLIGHTS (LIỆT KÊ ĐỦ 3 LOẠI) -->
@@ -956,10 +959,13 @@ if st.session_state.step == 1:
                                  <br><i>(Người viết chọn 1 trong 3 loại dưới đây)</i>                               
                                  <br>🔸 <b>Loại 1: Cao nhất/Thấp nhất (Ranking)</b>
                                  <br>"<b>&#91;Line A&#93;</b> consistently had the highest figures throughout the period."                              
+                                 <br>
                                  <br>🔸 <b>Loại 2: Biến động lớn nhất (Biggest Change)</b>
                                  <br>"<b>&#91;Line B&#93;</b> witnessed the most dramatic change."                             
+                                 <br>
                                  <br>🔸 <b>Loại 3: Soán ngôi (Ranking Shift)</b>
                                  <br>"<b>&#91;Line A&#93;</b> overtook <b>&#91;Line B&#93;</b> to become the dominant category."
+                                 <br>
                              </div>
                          </li>
                          
