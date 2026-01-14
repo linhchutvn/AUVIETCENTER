@@ -171,12 +171,185 @@ except Exception:
     st.error("⚠️ Chưa cấu hình secrets.toml chứa GEMINI_API_KEYS!")
     st.stop()
 
+import streamlit as st
+from google import genai
+from google.genai import types
+import json
+import re
+import time
+import random
+import textwrap
+import html
+import os
+import requests
+from PIL import Image
+from io import BytesIO
+
+# Thư viện Word
+from docx import Document
+from docx.shared import Pt, RGBColor, Inches
+from docx.enum.text import WD_ALIGN_PARAGRAPH
+
+# Thư viện PDF
+from reportlab.lib.pagesizes import A4
+from reportlab.lib import colors
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, PageBreak
+from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
+from reportlab.lib.fonts import addMapping
+
+# ==========================================
+# 1. CẤU HÌNH TRANG (PHẢI ĐẶT ĐẦU TIÊN)
+# ==========================================
+st.set_page_config(page_title="IELTS Writing Master", page_icon="🎓", layout="wide")
+
+# ==========================================
+# 2. CSS TỔNG HỢP (ẨN HEADER/FOOTER + STYLE APP)
+# ==========================================
+st.markdown("""
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:wght@300;400;700&display=swap');
+    
+    html, body, [class*="css"] { font-family: 'Inter', sans-serif; }
+
+    /* --- PHẦN ẨN GIAO DIỆN MẶC ĐỊNH --- */
+    
+    /* 1. Ẩn thanh Header trên cùng (Chứa nút 3 chấm và Running man) */
+    .stAppHeader {
+        display: none;
+    }
+    
+    /* 2. Ẩn Footer 'Made with Streamlit' */
+    footer {
+        visibility: hidden;
+    }
+    
+    /* 3. Ẩn nút Deploy (Con thuyền màu đỏ) */
+    .stDeployButton {
+        display: none;
+    }
+    
+    /* 4. Ẩn Menu Hamburger (nếu CSS trên chưa ẩn hết) */
+    #MainMenu {
+        visibility: hidden;
+    }
+
+    /* --- PHẦN STYLE GIAO DIỆN APP --- */
+    
+    /* Header Style */
+    .main-header {
+        font-family: 'Merriweather', serif;
+        color: #0F172A;
+        font-weight: 700;
+        font-size: 2.2rem;
+        margin-bottom: 0rem;
+        margin-top: -2rem; /* Đẩy tiêu đề lên cao hơn vì đã ẩn Header */
+    }
+    .sub-header {
+        font-family: 'Inter', sans-serif;
+        color: #64748B;
+        font-size: 1.1rem;
+        margin-bottom: 1rem;
+        border-bottom: 1px solid #E2E8F0;
+        padding-bottom: 0.5rem;
+    }
+
+    /* Step Headers */
+    .step-header {
+        font-family: 'Inter', sans-serif;
+        font-weight: 700;
+        font-size: 1.2rem;
+        color: #1E293B;
+        margin-top: 1.5rem;
+        margin-bottom: 0.5rem;
+    }
+    .step-desc {
+        font-size: 0.9rem;
+        color: #64748B;
+        margin-bottom: 0.8rem;
+    }
+    /* --- ẨN CÁC ICON GHIM (LINK CHAIN) BÊN CẠNH TIÊU ĐỀ --- */
+    [data-testid="stMarkdownContainer"] h1 a,
+    [data-testid="stMarkdownContainer"] h2 a,
+    [data-testid="stMarkdownContainer"] h3 a,
+    [data-testid="stMarkdownContainer"] h4 a,
+    [data-testid="stMarkdownContainer"] h5 a,
+    [data-testid="stMarkdownContainer"] h6 a {
+        display: none !important;
+        pointer-events: none;
+    }
+
+    /* Guide Box */
+    .guide-box {
+        background-color: #f8f9fa;
+        border-left: 5px solid #ff4b4b;
+        padding: 15px;
+        border-radius: 5px;
+        margin-bottom: 10px;
+        color: #31333F;
+    }
+
+    /* Error Cards */
+    .error-card {
+        background-color: white;
+        border: 1px solid #E5E7EB;
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 16px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        transition: all 0.2s;
+    }
+    .error-card:hover {
+        box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        border-color: #D1D5DB;
+    }
+    
+    .annotated-text {
+        font-family: 'Merriweather', serif;
+        line-height: 1.8;
+        color: #374151;
+        background-color: white;
+        padding: 24px;
+        border-radius: 12px;
+        border: 1px solid #E5E7EB;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    }
+    
+    del { color: #9CA3AF; text-decoration: line-through; margin-right: 4px; text-decoration-thickness: 2px; }
+    ins.grammar { background-color: #4ADE80; color: #022C22; text-decoration: none; padding: 2px 6px; border-radius: 4px; font-weight: 700; border: 1px solid #22C55E; }
+    ins.vocab { background-color: #FDE047; color: #000; text-decoration: none; padding: 2px 6px; border-radius: 4px; font-weight: 700; border: 1px solid #FCD34D; }
+    
+    /* Button Customization */
+    div.stButton > button {
+        background-color: #FF4B4B;
+        color: white;
+        font-weight: bold;
+        border-radius: 8px;
+        padding: 0.5rem 1.5rem;
+        border: none;
+    }
+    div.stButton > button:hover {
+        background-color: #D93434;
+    }
+</style>
+""", unsafe_allow_html=True)
+
+# ==========================================
+# 2. LOGIC AI (FAILOVER)
+# ==========================================
+try:
+    ALL_KEYS = st.secrets["GEMINI_API_KEYS"]
+except Exception:
+    st.error("⚠️ Chưa cấu hình secrets.toml chứa GEMINI_API_KEYS!")
+    st.stop()
+
 def generate_content_with_failover(prompt, image=None, json_mode=False):
     keys_to_try = list(ALL_KEYS)
     random.shuffle(keys_to_try) 
     
     model_priority = [
-        "gemini-2.0-flash-thinking-preview-01-21", "gemini-3-flash-preview", 
+        "gemini-3-flash-preview", "gemini-2.0-flash-thinking-preview-01-21", 
         "gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-pro", "gemini-1.5-flash"
     ]
     
