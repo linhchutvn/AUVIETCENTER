@@ -345,47 +345,66 @@ except Exception:
     st.stop()
 
 def generate_content_with_failover(prompt, image=None, json_mode=False):
+    """Phiên bản Debug: Hiển thị lỗi chi tiết để sửa chữa"""
     keys_to_try = list(ALL_KEYS)
     random.shuffle(keys_to_try) 
     
+    # Rút gọn danh sách model về các model ổn định nhất để test
     model_priority = [
-        "gemini-2.0-flash-thinking-preview-01-21", "gemini-3-flash-preview", 
-        "gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-pro", "gemini-1.5-flash"
+        "gemini-1.5-flash",
+        "gemini-1.5-pro",
+        "gemini-2.0-flash"
     ]
     
-    for current_key in keys_to_try: 
+    last_error = ""
+    
+    # Hiển thị đang thử kết nối (Debug)
+    status_container = st.empty()
+    
+    for index, current_key in enumerate(keys_to_try):
         try:
-            genai.configure(api_key=current_key)
-            available_models = [m.name for m in genai.list_models() if 'generateContent' in m.supported_generation_methods]
+            status_container.info(f"🔄 Đang thử Key #{index+1}...")
             
-            sel_model = None
-            for target in model_priority:
-                if any(target in m_name for m_name in available_models):
-                    sel_model = target
-                    break
-            if not sel_model: sel_model = "gemini-1.5-flash" 
-
-            temp_model = client.models.generate_content(model_name=sel_model)
-            content_parts = [prompt]
-            if image: content_parts.append(image)
+            # 1. Khởi tạo Client
+            client = genai.Client(api_key=current_key)
             
-            gen_config = {
-                "temperature": 0.3, "top_p": 0.95, "top_k": 64, "max_output_tokens": 32000
+            # 2. Chọn model (Mặc định Flash cho nhanh)
+            sel_model = "gemini-1.5-flash"
+            
+            # 3. Chuẩn bị nội dung
+            contents = []
+            if image:
+                # SDK mới đôi khi kén định dạng ảnh, ta giữ nguyên PIL Image
+                contents.append(image)
+            contents.append(prompt)
+            
+            # 4. Cấu hình
+            config_args = {
+                "temperature": 0.3,
+                "max_output_tokens": 8192,
             }
             
-            # QUAN TRỌNG: Chỉ bật JSON mode khi cần thiết (Tutor). 
-            # Khi chấm điểm (Grading), ta cần cả Text + JSON nên để json_mode=False
-            if json_mode and "thinking" not in sel_model.lower():
-                gen_config["response_mime_type"] = "application/json"
-            
-            if "thinking" in sel_model.lower():
-                 gen_config["thinking_config"] = {"include_thoughts": True, "thinking_budget": 1024}
+            if json_mode:
+                config_args["response_mime_type"] = "application/json"
 
-            response = temp_model.generate_content(content_parts, generation_config=gen_config)
+            # 5. Gọi API
+            response = client.models.generate_content(
+                model=sel_model,
+                contents=contents,
+                config=types.GenerateContentConfig(**config_args)
+            )
+            
+            status_container.empty() # Xóa thông báo nếu thành công
             return response, sel_model 
             
-        except Exception:
+        except Exception as e:
+            last_error = str(e)
+            # --- IN RA LỖI ĐỂ BẠN NHÌN THẤY ---
+            st.warning(f"⚠️ Key #{index+1} thất bại. Lỗi: {last_error}")
             continue
+            
+    # Nếu chạy hết vòng lặp mà vẫn lỗi
+    st.error(f"❌ TẤT CẢ CÁC KEY ĐỀU LỖI. Lỗi cuối cùng: {last_error}")
     return None, None
 
 # ==========================================
