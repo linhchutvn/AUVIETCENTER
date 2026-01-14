@@ -1074,17 +1074,17 @@ if st.session_state.step == 1:
          <br><i>(AI phân tích dữ liệu và <b>CHỌN</b> mẫu câu phù hợp nhất từ Kho phía trên để áp dụng)</i>
          <br>
          <br><b>🔹 BƯỚC 1: Xử lý Câu mở đầu (Starting Point)</b>
-         <br>- <b>Dữ liệu năm đầu:</b> [Line A] = ... ; [Line B] = ...
-         <br>- <b>Quyết định chọn Mẫu:</b> <i>(AI trả lời: Nên dùng Mẫu 1 (Dẫn nhập) hay Mẫu 2 (So sánh)? Tại sao?)</i>
+         <br>- <b>Dữ liệu năm đầu:</b> [Category A] = ... ; [Category B] = ...
+         <br>- <b>Quyết định chọn Mẫu:</b> <i>(AI trả lời: Nên dùng Mẫu nào ở KHỐI 1? Tại sao?)</i>
          <br>👉 <b>Viết nháp Câu 1:</b> <i>[AI viết câu hoàn chỉnh dựa trên mẫu đã chọn]</i>
          <br>
          <br><b>🔹 BƯỚC 2: Xử lý Xu hướng chính (Main Trend)</b>
-         <br>- <b>Đặc điểm dữ liệu:</b> [Line A] tăng thẳng đứng, hay tăng rồi giảm? Có đạt đỉnh không?
-         <br>- <b>Quyết định chọn Cấu trúc:</b> <i>(AI trả lời: Nên dùng "Before V-ing", "Reach a peak" hay "Followed by"?)</i>
+         <br>- <b>Đặc điểm dữ liệu:</b> [Category A] tăng thẳng đứng, hay tăng rồi giảm? Có đạt đỉnh không?
+         <br>- <b>Quyết định chọn Cấu trúc nào trong KHỐI 2:</b> <i>(AI trả lời: Nên dùng "Before V-ing", "Reach a peak" hay "Followed by"?)</i>
          <br>👉 <b>Viết nháp Câu 2:</b> <i>[AI viết câu hoàn chỉnh dựa trên cấu trúc đã chọn]</i>
          <br>
-         <br><b>🔹 BƯỚC 3: Xử lý Line còn lại (Comparison)</b>
-         <br>- <b>Mối quan hệ:</b> [Line B] cùng chiều hay ngược chiều [Line A]?
+         <br><b>🔹 BƯỚC 3: Xử lý Category còn lại (Comparison)</b>
+         <br>- <b>Mối quan hệ:</b> [Category B] cùng chiều hay ngược chiều [Category A]?
          <br>- <b>Quyết định chọn Từ nối:</b> <i>(Dùng "Similarly" hay "In contrast"?)</i>
          <br>👉 <b>Viết nháp Câu 3:</b> <i>[AI viết câu hoàn chỉnh]</i>
      </li>
