@@ -775,7 +775,7 @@ if st.session_state.step == 1:
     st.markdown("<br>", unsafe_allow_html=True)
 
     # Nút bấm xử lý (vẫn sử dụng question_input và img_data đã khai báo ở trên)
-    if st.button("🔍 Analyze & Guide (Start Learning)", type="primary", use_container_width=True):
+    if st.button("🔍 Analyze & Guide (Start Learning)", type="primary", width="stretch"):
         if not question_input or not img_data:
             st.warning("⚠️ Vui lòng nhập đầy đủ Đề bài và tải Ảnh lên để bắt đầu.")
         else:
@@ -1367,7 +1367,7 @@ if st.session_state.step == 2 and st.session_state.guide_data:
         
         # Hình ảnh biểu đồ
         if st.session_state.saved_img:
-            st.image(st.session_state.saved_img, use_container_width=True)
+            st.image(st.session_state.saved_img, width="stretch")
         
         st.info(f"📌 **Dạng bài:** {data.get('task_type')}")
 
@@ -1478,7 +1478,7 @@ if st.session_state.step == 3 and st.session_state.grading_result:
             
             # Ảnh
             if st.session_state.saved_img:
-                st.image(st.session_state.saved_img, use_container_width=True)
+                st.image(st.session_state.saved_img, width="stretch")
             
             st.markdown("---")
             
@@ -1563,7 +1563,7 @@ if st.session_state.step == 3 and st.session_state.grading_result:
             docx = create_docx(g_data, res['topic'], res['essay'], analysis_text)
             d1.download_button("📥 Tải báo cáo (.docx)", docx, "IELTS_Report.docx", mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document")
             
-            if st.button("🔄 Làm bài mới (Reset)", use_container_width=True):
+            if st.button("🔄 Làm bài mới (Reset)", width="stretch"):
                 for k in ["step", "guide_data", "grading_result", "saved_topic", "saved_img"]: st.session_state[k] = None
                 st.session_state.step = 1
                 st.rerun()
