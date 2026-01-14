@@ -1014,37 +1014,37 @@ if st.session_state.step == 1:
      <li>
          <div style="background-color:#f8f9fa; border:1px solid #bdc3c7; border-radius:5px; padding:15px; margin-bottom:15px;">
          <strong style="color:#d35400;">📚 KHO MẪU CÂU BODY 1 (ADVANCED):</strong>
-         <br><i>(Áp dụng chặt chẽ các kỹ thuật Linking & Paraphrasing trong Lesson 3)</i>
+         <br><i>(Áp dụng chặt chẽ các kỹ thuật Linking & Paraphrasing)</i>
          
-         <!-- KHỐI 1: CÂU MỞ ĐẦU (STARTING POINT - PAGE 4) -->
+         <!-- KHỐI 1: CÂU MỞ ĐẦU (STARTING POINT) -->
          <div style="background-color:#fdf2e9; border-left:4px solid #d35400; padding:10px; margin-top:5px;">
              <b>► Bước 1: Câu mở đầu (Starting Point):</b>
              <br><i>(Kết hợp Từ dẫn nhập chủ đề + Thời gian + So sánh)</i>
              
-             <br>🔸 <b>Mẫu 1: Dẫn nhập chủ đề (Theo Sample Page 9):</b>
-             <br>"<b>Regarding &#91;Line A&#93;</b> (the largest figure/group), in <b>&#91;Year 1&#93;</b>, it stood at <b>&#91;Data&#93;</b>."
+             <br>🔸 <b>Mẫu 1: Dẫn nhập chủ đề:</b>
+             <br>"<b>Regarding &#91;Category A&#93;</b> (the largest figure/group), in <b>&#91;Year 1&#93;</b>, it stood at <b>&#91;Data&#93;</b>."
              
-             <br>🔸 <b>Mẫu 2: So sánh trực tiếp (Theo Page 4):</b>
-             <br>"At the beginning of the period, <b>&#91;Line A&#93;</b> stood at <b>&#91;Data&#93;</b>, <b>which was significantly higher than</b> the figure for <b>&#91;Line B&#93;</b> (at <b>&#91;Data&#93;</b>)."
+             <br>🔸 <b>Mẫu 2: So sánh trực tiếp:</b>
+             <br>"At the beginning of the period, <b>&#91;Category A&#93;</b> stood at <b>&#91;Data&#93;</b>, <b>which was significantly higher than</b> the figure for <b>&#91;Category B&#93;</b> (at <b>&#91;Data&#93;</b>)."
              
-             <br>🔸 <b>Mẫu 3: Nhấn mạnh vị trí (Theo Sample Page 10):</b>
-             <br>"<b>At the beginning of the period</b>, <b>&#91;Line A&#93;</b> was the most common/popular reason with <b>&#91;Data&#93;</b>."
+             <br>🔸 <b>Mẫu 3: Nhấn mạnh vị trí:</b>
+             <br>"<b>At the beginning of the period</b>, <b>&#91;Category A&#93;</b> was the most common/popular reason with <b>&#91;Data&#93;</b>."
          </div>
 
-         <!-- KHỐI 2: MIÊU TẢ TREND & ĐIỂM GÃY (PAGE 5, 6, 7) - CỰC KỲ QUAN TRỌNG -->
+         <!-- KHỐI 2: MIÊU TẢ TREND & ĐIỂM GÃY - CỰC KỲ QUAN TRỌNG -->
          <div style="background-color:#fdf2e9; border-left:4px solid #d35400; padding:10px; margin-top:5px;">
              <b>► Bước 2: Phát triển Trend & Đỉnh/Đáy (Advanced Linking):</b>
              <br><i>(Dùng để nối 2-3 giai đoạn biến động thành 1 câu phức)</i>
-             <br>🔹 <b>Cấu trúc "Before V-ing" (Page 5):</b>
+             <br>🔹 <b>Cấu trúc "Before V-ing":</b>
              <br>"The figure increased to <b>&#91;Data&#93;</b>, <b>before falling back</b> to <b>&#91;Data&#93;</b>."
-             <br>🔹 <b>Cấu trúc "Reach a Peak/Low" (Page 6 & 7):</b>
+             <br>🔹 <b>Cấu trúc "Reach a Peak/Low":</b>
              <br>"It surged to <b>reach a peak of &#91;Data&#93;</b> in <b>&#91;Year&#93;</b>." (hoặc <i>hit a low of...</i>)
-             <br>🔹 <b>Cấu trúc "Followed by / After which" (Page 5):</b>
+             <br>🔹 <b>Cấu trúc "Followed by / After which":</b>
              <br>"There was a sharp rise to <b>&#91;Data&#93;</b>, <b>(which was) followed by</b> a period of stability."
              <br>"It rose steadily, <b>after which</b> it experienced a decline."
          </div>
 
-         <!-- KHỐI 3: CHỐT SỐ LIỆU CUỐI (PAGE 7 SAMPLE) -->
+         <!-- KHỐI 3: CHỐT SỐ LIỆU CUỐI -->
          <div style="background-color:#fdf2e9; border-left:4px solid #d35400; padding:10px; margin-top:5px;">
              <b>► Bước 3: Chốt năm cuối (Ending Data):</b>
              <br><i>(Sử dụng mệnh đề quan hệ rút gọn để kết câu mượt mà)</i>
@@ -1052,29 +1052,29 @@ if st.session_state.step == 1:
              <br>🔸 <b>Mẫu Ending up:</b> "..., <b>ending up at</b> <b>&#91;End Data&#93;</b> in the final year."
          </div>
 
-         <!-- KHỐI 4: LIÊN KẾT VỚI LINE KHÁC (PAGE 4) -->
+         <!-- KHỐI 4: LIÊN KẾT VỚI CATEGORY KHÁC -->
          <div style="background-color:#fdf2e9; border-left:4px solid #d35400; padding:10px; margin-top:5px;">
-             <b>► Bước 4: Line còn lại (Comparison):</b>
-             <br>🔸 <b>Tương đồng:</b> "Similarly, <b>&#91;Line B&#93;</b> also witnessed a downward trend..."
-             <br>🔸 <b>Đối lập:</b> "In contrast, <b>&#91;Line B&#93;</b> <b>followed the opposite trend</b>, as S-FV..."
+             <b>► Bước 4: Category còn lại (Comparison):</b>
+             <br>🔸 <b>Tương đồng:</b> "Similarly, <b>&#91;Category B&#93;</b> also witnessed a downward trend..."
+             <br>🔸 <b>Đối lập:</b> "In contrast, <b>&#91;Category B&#93;</b> <b>followed the opposite trend</b>, as S-FV..."
          </div>
          </div>
      </li>
      
      <hr style="border-top: 1px dashed #ccc; margin: 15px 0;">
 
-     <!-- PHẦN 2: PHÂN TÍCH (AI TỰ DUY) -->
+     <!-- PHẦN 2: PHÂN TÍCH (AI TỰ TƯ DUY) -->
      <li>
          <b>🔍 PHÂN TÍCH BÀI NÀY (Selection & Drafting):</b>
          <br><i>(Dựa trên biểu đồ, hãy lựa chọn dữ liệu đắt giá nhất để điền vào)</i>
          <br>
-         <br><b>1. Logic Chọn Nhóm (Page 2):</b>
-         <br>- Tôi chọn <b>&#91;Line A&#93;</b> và <b>&#91;Line B&#93;</b> vào Body 1.
+         <br><b>1. Logic Chọn Nhóm:</b>
+         <br>- Tôi chọn <b>&#91;Category A&#93;</b> và <b>&#91;Category B&#93;</b> vào Body 1.
          <br>- Lý do: Đây là các đường có <b>biến động lớn nhất</b> (biggest changes) hoặc <b>số liệu cao nhất</b>.
          <br>
          <br><b>2. Lắp ráp Dữ liệu (Drafting):</b>
-         <br>- <b>Năm đầu:</b> Line A = ? vs Line B = ? (Dùng mẫu So sánh).
-         <br>- <b>Điểm Đỉnh/Đáy (nếu có):</b> Line A có đạt đỉnh không? Số liệu bao nhiêu? (Dùng mẫu Reach a peak).
+         <br>- <b>Năm đầu:</b> Category A = ? vs Category B = ? (Dùng mẫu So sánh).
+         <br>- <b>Điểm Đỉnh/Đáy (nếu có):</b> Category A có đạt đỉnh không? Số liệu bao nhiêu? (Dùng mẫu Reach a peak).
          <br>- <b>Năm cuối:</b> Kết thúc tại bao nhiêu? (Dùng mẫu Finishing).
          <br>
          <br>👉 <b>Output mong đợi:</b> <i>[AI hãy tự viết nháp các ý này trước khi ghép thành đoạn văn]</i>
@@ -1082,26 +1082,26 @@ if st.session_state.step == 1:
 
      <!-- PHẦN 3: TỪ VỰNG -->
      <li><b>🔑 TỪ VỰNG & NGỮ PHÁP "ĂN ĐIỂM" (VOCABULARY BANK):</b>
-         <br><i>(Yêu cầu AI/Học sinh sử dụng tối thiểu 2 từ mỗi nhóm dưới đây)</i>
+         <br><i>(Yêu cầu Người viết sử dụng tối thiểu 2 từ mỗi nhóm dưới đây)</i>
          
          <ul style="margin-top:5px;">
             <!-- NHÓM 1: ĐỘNG TỪ TẢ XU HƯỚNG (TREND VERBS) -->
-            <li><b>1. Động từ Xu hướng (Page 5 & 6):</b>
+            <li><b>1. Động từ Xu hướng:</b>
                 <br><i>(Thay vì chỉ dùng increase/decrease)</i>
                 <br>- <b>Mạnh (Strong):</b> <i>surge / rocket</i> (Tăng vọt), <i>plunge / drop sharply</i> (Giảm mạnh).
-                <br>- <b>Trải nghiệm (Page 5):</b> <i>experience / undergo / witness</i> (+ a rise/decline).
+                <br>- <b>Trải nghiệm:</b> <i>experience / undergo / witness</i> (+ a rise/decline).
                 <br><i>VD: "The figure experienced a sharp decline."</i>
-                <br>- <b>Hồi phục/Rút lui (Sample Page 10):</b> <i>recover</i> (Hồi phục), <i>recede / fall back</i> (Rút xuống/Giảm lại).
+                <br>- <b>Hồi phục/Rút lui:</b> <i>recover</i> (Hồi phục), <i>recede / fall back</i> (Rút xuống/Giảm lại).
             </li>
 
             <!-- NHÓM 2: CẤU TRÚC ĐẶC BIỆT (SPECIAL STRUCTURES) -->
-            <li><b>2. Cấu trúc đặc biệt (Page 5 & 7):</b>
-                <br>- <b>Chủ ngữ giả (Page 5):</b> <i>"Hạng mục A + <b>saw / witnessed / recorded</b> + an increase."</i>
-                <br>- <b>Gấp đôi/ba (Page 7):</b> <i>increased <b>twofold / threefold</b></i> (hoặc <i>doubled / tripled</i>).
-                <br>- <b>Đạt đỉnh/đáy (Page 6 & 7):</b> <i>reached a peak of... / reached a low of...</i>
+            <li><b>2. Cấu trúc đặc biệt:</b>
+                <br>- <b>Chủ ngữ giả:</b> <i>"Hạng mục A + <b>saw / witnessed / recorded</b> + an increase."</i>
+                <br>- <b>Gấp đôi/ba:</b> <i>increased <b>twofold / threefold</b></i> (hoặc <i>doubled / tripled</i>).
+                <br>- <b>Đạt đỉnh/đáy:</b> <i>reached a peak of... / reached a low of...</i>
             </li>
 
-            <!-- NHÓM 3: TỪ VỰNG CHỦ ĐỀ CHI TIÊU (SAMPLE PAGE 9) -->
+            <!-- NHÓM 3: TỪ VỰNG CHỦ ĐỀ CHI TIÊU -->
             <li><b>3. Topic Vocabulary (Spending):</b>
                 <br><i>(Dùng khi biểu đồ nói về Tiền/Budget - Rất hay gặp)</i>
                 <br>- <b>Thay cho "Spend":</b> <i>allocate (to), devote (to), apportion (to), dedicate (to).</i>
@@ -1109,14 +1109,14 @@ if st.session_state.step == 1:
                 <br><i>VD: "Portugal apportioned the most to this sector."</i>
             </li>
 
-            <!-- NHÓM 4: TRẠNG TỪ MỨC ĐỘ (ADVERBS - PAGE 7) -->
+            <!-- NHÓM 4: TRẠNG TỪ MỨC ĐỘ (ADVERBS) -->
             <li><b>4. Trạng từ mức độ (Adverbs):</b>
                 <br><i>(Bắt buộc dùng trong Body 1 để tả biến động lớn)</i>
                 <br>- <b>Mạnh/Nhanh:</b> <i>significantly, dramatically, sharply, rapidly.</i>
-                <br>- <b>Dao động:</b> <i>fluctuated wildly</i> (dao động dữ dội) vs <i>fluctuated modestly</i> (dao động nhẹ - Page 9).
+                <br>- <b>Dao động:</b> <i>fluctuated wildly</i> (dao động dữ dội) vs <i>fluctuated modestly</i> (dao động nhẹ).
             </li>
             
-            <!-- NHÓM 5. GIỚI TỪ ĐƯA SỐ LIỆU (PAGE 7) -->
+            <!-- NHÓM 5. GIỚI TỪ ĐƯA SỐ LIỆU -->
              <li><b>1. Giới từ đưa số liệu (Prepositions for Data):</b>
                  <br>⚠️ <i>Phân biệt chính xác:</i>
                  <br>- <b>To:</b> Tăng/giảm <b>đến</b> mức nào. <i>(rose <b>to</b> 100)</i>.
@@ -1125,7 +1125,7 @@ if st.session_state.step == 1:
                  <br>- <b>With:</b> Dùng trong câu mô tả kèm theo. <i>(starting <b>with</b> 10 million...)</i>.
              </li>
 
-             <!-- 2. CẤU TRÚC CHÈN SỐ LIỆU PHỨC TẠP (PAGE 7) -->
+             <!-- 2. CẤU TRÚC CHÈN SỐ LIỆU PHỨC TẠP -->
              <li><b>2. Cấu trúc chèn số liệu (Complex Data Insertion):</b>
                  <br><i>(Không viết số liệu ngay sau động từ mãi, hãy dùng biến thể)</i>
                  <br>- <b>Reaching:</b> <i>...rose significantly, <b>reaching</b> a peak of [Data].</i>
@@ -1133,7 +1133,7 @@ if st.session_state.step == 1:
                  <br>- <b>Adjective + Data:</b> <i>...to a low <b>of</b> [Data] / a peak <b>of</b> [Data].</i>
              </li>
 
-             <!-- 3. TỪ NỐI GIỮA CÁC CÂU (LINKING DEVICES - PAGE 8) -->
+             <!-- 3. TỪ NỐI GIỮA CÁC CÂU (LINKING DEVICES) -->
              <li><b>3. Từ nối chuyển mạch (Linking Devices):</b>
                  <br><i>(Dùng để đầu câu, giúp đoạn văn liền mạch)</i>
                  <br>- <b>Thời gian (Time markers):</b> <i>At the start of the period, ... / Thereafter, ... / In the subsequent years, ... / In the final year, ...</i>
