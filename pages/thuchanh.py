@@ -980,9 +980,12 @@ if st.session_state.step == 1:
                              <br>- Bài này khớp với <b>Loại mấy?</b> (1, 2 hay 3): <i>[AI trả lời. VD: Loại 2 (Mix)]</i>
                              <br>- Điền dữ liệu vào mẫu đó: <b>&#91;Line A/B&#93;</b> là gì? <b>&#91;Line C&#93;</b> là gì?
                              <br>
+                             <br>👉 <b>Câu tham khảo Trends:</b> <i>[AI viết câu hoàn chỉnh dựa trên mẫu đã chọn và dữ liệu trên]</i>
+                             <br>
                              <br><b>2. Phân tích Điểm nổi bật (Sentence 2):</b>
                              <br>- Bài này khớp với <b>Loại mấy?</b> (1, 2 hay 3): <i>[AI trả lời. VD: Loại 3 (Soán ngôi)]</i>
                              <br>- Điền dữ liệu vào mẫu đó: Ai vượt qua Ai?
+                             <br>👉 <b>Câu tham khảo Highlights:</b> <i>[AI viết câu hoàn chỉnh dựa trên mẫu đã chọn và dữ liệu trên]</i>
                          </li>
 
                          <!-- PHẦN 3: TỪ VỰNG -->
