@@ -941,14 +941,11 @@ if st.session_state.step == 1:
                              <!-- KHỐI 2: TRENDS (LIỆT KÊ ĐỦ 3 LOẠI) -->
                              <div style="background-color:#fdf2e9; border-left:4px solid #d35400; padding:10px; margin-top:5px;">
                                  <b>► 2. Các mẫu câu Xu hướng (Trends):</b>
-                                 <br><i>(Người viết chọn 1 trong 3 loại dưới đây tùy vào biểu đồ)</i>
-                                 <br>
+                                 <br><i>(Người viết chọn 1 trong 3 loại dưới đây tùy vào biểu đồ)</i>                                
                                  <br>🔹 <b>Loại 1: Đồng loạt Tăng/Giảm (Same Direction)</b>
-                                 <br>"It is clear that the total <b>&#91;Topic&#93;</b> increased/decreased over the period."
-                                 <br>
+                                 <br>"It is clear that the total <b>&#91;Topic&#93;</b> increased/decreased over the period."                             
                                  <br>🔹 <b>Loại 2: Xu hướng ngược (Mix / Opposite)</b>
-                                 <br>"It is clear that while the figures for <b>&#91;Line A&#93;</b> and <b>&#91;Line B&#93;</b> increased, the opposite was true for <b>&#91;Line C&#93;</b>."
-                                 <br>
+                                 <br>"It is clear that while the figures for <b>&#91;Line A&#93;</b> and <b>&#91;Line B&#93;</b> increased, the opposite was true for <b>&#91;Line C&#93;</b>."                            
                                  <br>🔹 <b>Loại 3: Ngoại lệ (Exception)</b>
                                  <br>"The figures for most categories increased, with the exception of <b>&#91;Line C&#93;</b>."
                              </div>
@@ -956,14 +953,11 @@ if st.session_state.step == 1:
                              <!-- KHỐI 3: HIGHLIGHTS (LIỆT KÊ ĐỦ 3 LOẠI) -->
                              <div style="background-color:#fdf2e9; border-left:4px solid #d35400; padding:10px; margin-top:5px;">
                                  <b>► 3. Các mẫu câu Điểm nổi bật (Highlights):</b>
-                                 <br><i>(Người viết chọn 1 trong 3 loại dưới đây)</i>
-                                 <br>
+                                 <br><i>(Người viết chọn 1 trong 3 loại dưới đây)</i>                               
                                  <br>🔸 <b>Loại 1: Cao nhất/Thấp nhất (Ranking)</b>
-                                 <br>"<b>&#91;Line A&#93;</b> consistently had the highest figures throughout the period."
-                                 <br>
+                                 <br>"<b>&#91;Line A&#93;</b> consistently had the highest figures throughout the period."                              
                                  <br>🔸 <b>Loại 2: Biến động lớn nhất (Biggest Change)</b>
-                                 <br>"<b>&#91;Line B&#93;</b> witnessed the most dramatic change."
-                                 <br>
+                                 <br>"<b>&#91;Line B&#93;</b> witnessed the most dramatic change."                             
                                  <br>🔸 <b>Loại 3: Soán ngôi (Ranking Shift)</b>
                                  <br>"<b>&#91;Line A&#93;</b> overtook <b>&#91;Line B&#93;</b> to become the dominant category."
                              </div>
@@ -971,18 +965,18 @@ if st.session_state.step == 1:
                          
                          <hr style="border-top: 1px dashed #ccc; margin: 15px 0;">
 
-                         <!-- PHẦN 2: PHÂN TÍCH (AI CHỌN MẪU NÀO) -->
+                         <!-- PHẦN 2: PHÂN TÍCH (BƯỚC NÀY AI MỚI ĐƯỢC PHÉP CHỌN LỌC) -->
                          <li>
-                             <b>🔍 PHÂN TÍCH BÀI NÀY (Drafting):</b>
-                             <br><i>(Bây giờ AI hãy chọn xem bài này phù hợp với mẫu nào trong danh sách trên)</i>
+                             <b>🔍 PHÂN TÍCH BÀI NÀY (Selection & Drafting):</b>
+                             <br><i>(Dựa trên hình ảnh, hãy tick chọn xem bài này thuộc Loại mấy trong Menu trên)</i>
                              <br>
-                             <br><b>1. Về Xu hướng (Trends):</b>
-                             <br>- Bài này thuộc Loại mấy? (1, 2 hay 3): <i>[AI trả lời]</i>
-                             <br>- Xác định đối tượng: <b>&#91;Line A/B&#93;</b> là gì, <b>&#91;Line C&#93;</b> là gì?
+                             <br><b>1. Phân tích Xu hướng (Sentence 1):</b>
+                             <br>- Bài này khớp với <b>Loại mấy?</b> (1, 2 hay 3): <i>[AI trả lời. VD: Loại 2 (Mix)]</i>
+                             <br>- Điền dữ liệu vào mẫu đó: <b>&#91;Line A/B&#93;</b> là gì? <b>&#91;Line C&#93;</b> là gì?
                              <br>
-                             <br><b>2. Về Điểm nổi bật (Highlights):</b>
-                             <br>- Bài này thuộc Loại mấy? (1, 2 hay 3): <i>[AI trả lời]</i>
-                             <br>- Xác định đối tượng nổi bật đó tên là gì?
+                             <br><b>2. Phân tích Điểm nổi bật (Sentence 2):</b>
+                             <br>- Bài này khớp với <b>Loại mấy?</b> (1, 2 hay 3): <i>[AI trả lời. VD: Loại 3 (Soán ngôi)]</i>
+                             <br>- Điền dữ liệu vào mẫu đó: Ai vượt qua Ai?
                          </li>
 
                          <!-- PHẦN 3: TỪ VỰNG -->
