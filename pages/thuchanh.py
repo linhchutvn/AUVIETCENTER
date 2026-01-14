@@ -1395,7 +1395,7 @@ if st.session_state.step == 2 and st.session_state.guide_data:
         st.markdown("---")
         
         # Nút chấm điểm (Sử dụng Prompt gốc của bạn)
-        if st.button("🎓 Gửi bài chấm điểm (Examiner Pro)", type="primary", use_container_width=True):
+        if st.button("🎓 Gửi bài chấm điểm (Examiner Pro)", type="primary", width="stretch"):
             if current_wc < 30:
                 st.warning("⚠️ Bài viết quá ngắn, AI không thể chấm điểm chính xác.")
             else:
