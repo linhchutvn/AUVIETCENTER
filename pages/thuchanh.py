@@ -1466,16 +1466,24 @@ if st.session_state.step == 1:
                     """
                     
                     # Gọi AI
-                    res, _ = generate_content_with_failover(prompt_guide + "\nĐề bài: " + question_input, img_data, json_mode=True)
-                    if res:
+                   res, _ = generate_content_with_failover(prompt_guide + "\nĐề bài: " + question_input, img_data, json_mode=True)
+                    
+                    if res and res.text:
+                        # Thử parse JSON
                         data = parse_guide_response(res.text)
-                    # Dù AI trả về gì, ta cũng phải gán guide_data để App không bị kẹt ở Step 1
-                        st.session_state.guide_data = data if data else {
-                            "task_type": "Task 1", "intro_guide": "AI Error - Please try again", 
-                            "overview_guide": "", "body1_guide": "", "body2_guide": ""
-                    }
-                    st.session_state.step = 2
-                    st.rerun() # Buộc Streamlit vẽ lại giao diện Phase 2 ngay lập tức
+                        
+                        if data:
+                            st.session_state.guide_data = data
+                            st.session_state.step = 2
+                            st.rerun()
+                        else:
+                            # Trường hợp AI trả về text nhưng không phải JSON chuẩn
+                            st.error("⚠️ AI phân tích xong nhưng trả về dữ liệu không đúng định dạng JSON. Vui lòng thử lại.")
+                            # Debug: In ra để xem AI trả về cái gì
+                            with st.expander("Xem dữ liệu thô từ AI"):
+                                st.code(res.text)
+                    else:
+                        st.error("❌ Lỗi kết nối AI: Không nhận được phản hồi. Vui lòng kiểm tra API Key hoặc thử lại.")
 
 # ==========================================
 # 6. UI: PHASE 2 - WRITING PRACTICE (ULTIMATE STICKY)
