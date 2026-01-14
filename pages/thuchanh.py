@@ -349,7 +349,7 @@ def generate_content_with_failover(prompt, image=None, json_mode=False):
     random.shuffle(keys_to_try) 
     
     model_priority = [
-        "gemini-3-flash-preview", "gemini-2.0-flash-thinking-preview-01-21", 
+        "gemini-2.0-flash-thinking-preview-01-21", "gemini-3-flash-preview", 
         "gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-pro", "gemini-1.5-flash"
     ]
     
