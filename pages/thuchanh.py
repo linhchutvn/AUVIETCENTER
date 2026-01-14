@@ -345,33 +345,41 @@ except Exception:
     st.stop()
 
 def generate_content_with_failover(prompt, image=None, json_mode=False):
-    """Phiên bản MASTER: Nén ảnh, chống chặn IP và đổi Key thông minh"""
+    """Bản cập nhật MASTER: Chống chặn IP, Nén ảnh và Delay thông minh"""
     import time
     
     keys_to_try = list(ALL_KEYS)
     random.shuffle(keys_to_try) 
     
-    model_priority = ["Gemini 2.5 Flash-Lite Preview", "gemini-1.5-flash", "gemini-1.5-pro"]
+    # Ưu tiên model Flash để có hạn mức cao nhất, tránh 429
+    model_priority = ["gemini-1.5-flash", "gemini-2.0-flash", "gemini-1.5-pro"]
     last_error = ""
 
-    # --- BƯỚC 1: NÉN ẢNH (Quan trọng để giảm Token, né bị chặn IP) ---
+    # --- BƯỚC 1: XỬ LÝ ẢNH (GIẢM TOKEN ĐỂ NÉ CHẶN IP) ---
     processed_image = image
     if image:
         try:
-            # Giảm kích thước ảnh xuống tối đa 800px để giảm Token tốn phí
-            image.thumbnail((800, 800))
-            processed_image = image
+            # Copy ảnh để tránh làm hỏng ảnh gốc hiển thị trên UI
+            img_copy = image.copy()
+            # Giảm kích thước ảnh xuống tối đa 600px (vẫn đủ nét để AI đọc nhưng cực nhẹ)
+            img_copy.thumbnail((600, 600))
+            processed_image = img_copy
         except:
             pass
 
+    # Tạo một vùng hiển thị trạng thái nhỏ bên dưới nút bấm
+    status_msg = st.empty()
+
     for index, current_key in enumerate(keys_to_try):
         try:
-            # Nghỉ 1 giây trước khi thử Key tiếp theo để né cơ chế quét Spam IP
+            # 💡 BƯỚC 2: DELAY THÔNG MINH (TRÁNH BỊ CHẶN IP DẢI SERVER)
             if index > 0:
-                time.sleep(1.5) 
+                status_msg.warning(f"⏳ Key trước bị chặn IP. Đang đợi 2s để thử Key #{index+1}...")
+                time.sleep(2) 
             
             client = genai.Client(api_key=current_key)
             
+            # Thử từng model
             for sel_model in model_priority:
                 try:
                     contents = [prompt]
@@ -380,9 +388,8 @@ def generate_content_with_failover(prompt, image=None, json_mode=False):
                     
                     config_args = {
                         "temperature": 0.3,
-                        "max_output_tokens": 12000, # Giới hạn đầu ra vừa đủ dùng
+                        "max_output_tokens": 10000, # Giới hạn token đầu ra để tiết kiệm
                     }
-                    
                     if json_mode:
                         config_args["response_mime_type"] = "application/json"
 
@@ -391,21 +398,24 @@ def generate_content_with_failover(prompt, image=None, json_mode=False):
                         contents=contents,
                         config=types.GenerateContentConfig(**config_args)
                     )
+                    status_msg.empty() # Xóa thông báo khi thành công
                     return response, sel_model
                 
                 except Exception as e:
                     last_error = str(e)
-                    # Nếu báo lỗi 404 (Model không tồn tại) hoặc 429 thì mới đổi Model/Key
+                    # Nếu lỗi 404 (sai model) hoặc 429 (hết lượt) thì mới nhảy sang Key/Model khác
                     if "429" in last_error or "404" in last_error or "RESOURCE_EXHAUSTED" in last_error:
                         continue
                     else:
-                        break # Nếu lỗi cú pháp thì dừng luôn để sửa
+                        break 
                         
-        except Exception as e:
-            last_error = str(e)
+        except Exception as key_err:
+            last_error = str(key_err)
             continue
             
-    st.error(f"❌ Tất cả 10 Key từ 10 Gmail đều bị Google chặn tạm thời.\nNguyên nhân: IP server Streamlit bị giới hạn hoặc nội dung quá nặng.\nGiải pháp: Vui lòng đợi 1 phút rồi nhấn thử lại.")
+    # HIỂN THỊ THÔNG BÁO LỖI CUỐI CÙNG
+    status_msg.empty()
+    st.error(f"❌ Google đang tạm khóa IP của máy chủ này (Lỗi 429).\nGiải pháp: Vui lòng đợi đúng 60 giây rồi nhấn 'Analyze' lại. Đừng nhấn liên tục.")
     return None, None
 
 # ==========================================
