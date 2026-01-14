@@ -338,85 +338,94 @@ st.markdown("""
 # ==========================================
 # 2. LOGIC AI (FAILOVER)
 # ==========================================
-try:
-    ALL_KEYS = st.secrets["GEMINI_API_KEYS"]
-except Exception:
-    st.error("⚠️ Chưa cấu hình secrets.toml chứa GEMINI_API_KEYS!")
-    st.stop()
+ALL_KEYS = st.secrets["GEMINI_API_KEYS"]
 
-def generate_content_with_failover(prompt, image=None, json_mode=False):
-    """Bản cập nhật MASTER: Chống chặn IP, Nén ảnh và Delay thông minh"""
-    import time
-    
+def generate_content_with_failover(prompt, image=None):
+    """Smart function to automatically detect the best available Model with quota."""
     keys_to_try = list(ALL_KEYS)
     random.shuffle(keys_to_try) 
     
-    # Ưu tiên model Flash để có hạn mức cao nhất, tránh 429
-    model_priority = ["Gemini 2.0 Flash-Lite"]
+    # PRIORITY LIST
+    model_priority = [
+        #"gemini-2.0-flash-thinking-preview-01-21",
+        #"gemini-3-pro-preview", 
+        #"gemini-2.5-pro",
+        "gemini-3-flash-preview",        
+        "gemini-2.5-flash",
+        "gemini-2.5-flash-lite",
+        "gemini-2.0-flash",
+        "gemini-1.5-pro", 
+        "gemini-1.5-flash"
+    ]
+    
     last_error = ""
-
-    # --- BƯỚC 1: XỬ LÝ ẢNH (GIẢM TOKEN ĐỂ NÉ CHẶN IP) ---
-    processed_image = image
-    if image:
-        try:
-            # Copy ảnh để tránh làm hỏng ảnh gốc hiển thị trên UI
-            img_copy = image.copy()
-            # Giảm kích thước ảnh xuống tối đa 600px (vẫn đủ nét để AI đọc nhưng cực nhẹ)
-            img_copy.thumbnail((600, 600))
-            processed_image = img_copy
-        except:
-            pass
-
-    # Tạo một vùng hiển thị trạng thái nhỏ bên dưới nút bấm
-    status_msg = st.empty()
-
     for index, current_key in enumerate(keys_to_try):
         try:
-            # 💡 BƯỚC 2: DELAY THÔNG MINH (TRÁNH BỊ CHẶN IP DẢI SERVER)
-            if index > 0:
-                status_msg.warning(f"⏳ Key trước bị chặn IP. Đang đợi 2s để thử Key #{index+1}...")
-                time.sleep(2) 
+            genai.configure(api_key=current_key)
             
-            client = genai.Client(api_key=current_key)
+            # Get list of models actually available for this key
+            available_models = [m.name for m in genai.list_models() if 'generateContent' in m.supported_generation_methods]
             
-            # Thử từng model
-            for sel_model in model_priority:
-                try:
-                    contents = [prompt]
-                    if processed_image:
-                        contents.insert(0, processed_image)
-                    
-                    config_args = {
-                        "temperature": 0.3,
-                        "max_output_tokens": 10000, # Giới hạn token đầu ra để tiết kiệm
-                    }
-                    if json_mode:
-                        config_args["response_mime_type"] = "application/json"
+            # Find best model
+            sel_model = None
+            for target in model_priority:
+                if any(target in m_name for m_name in available_models):
+                    sel_model = target
+                    break
+            
+            if not sel_model:
+                sel_model = "gemini-1.5-flash" 
 
-                    response = client.models.generate_content(
-                        model=sel_model,
-                        contents=contents,
-                        config=types.GenerateContentConfig(**config_args)
-                    )
-                    status_msg.empty() # Xóa thông báo khi thành công
-                    return response, sel_model
-                
-                except Exception as e:
-                    last_error = str(e)
-                    # Nếu lỗi 404 (sai model) hoặc 429 (hết lượt) thì mới nhảy sang Key/Model khác
-                    if "429" in last_error or "404" in last_error or "RESOURCE_EXHAUSTED" in last_error:
-                        continue
-                    else:
-                        break 
-                        
-        except Exception as key_err:
-            last_error = str(key_err)
-            continue
+            # --- DISPLAY MODEL INFO ---
+            masked_key = f"****{current_key[-4:]}"
             
-    # HIỂN THỊ THÔNG BÁO LỖI CUỐI CÙNG
-    status_msg.empty()
-    st.error(f"❌ Google đang tạm khóa IP của máy chủ này (Lỗi 429).\nGiải pháp: Vui lòng đợi đúng 60 giây rồi nhấn 'Analyze' lại. Đừng nhấn liên tục.")
-    return None, None
+            st.toast(f"⚡ Connected: {sel_model}", icon="🤖")
+            
+            with st.expander("🔌 Technical Connection Details (Debug)", expanded=False):
+                st.write(f"**Active Model:** `{sel_model}`")
+                st.write(f"**Active API Key:** `{masked_key}` (Key #{index + 1})")
+                if "thinking" in sel_model.lower():
+                    st.caption("🧠 Thinking Mode: ON")
+            # ------------------------------------------------
+            
+            temp_model = genai.GenerativeModel(
+                model_name=sel_model, 
+            )
+            
+            content_parts = [prompt]
+            if image:
+                content_parts.append(image)
+                
+            # Generation Config
+            gen_config = {
+                "temperature": 0.3,
+                "top_p": 0.95,
+                "top_k": 64,
+                "max_output_tokens": 32000,
+            }
+
+            if "thinking" in sel_model.lower():
+                gen_config["thinking_config"] = {
+                    "include_thoughts": True,
+                    "thinking_budget": 32000
+                }
+
+            response = temp_model.generate_content(
+                content_parts,
+                generation_config=gen_config
+            )
+            
+            return response, sel_model 
+            
+        except Exception as e:
+            last_error = str(e)
+            if "429" in last_error or "quota" in last_error.lower() or "limit" in last_error.lower():
+                continue 
+            else:
+                break
+                
+    st.error(f"❌ All {len(keys_to_try)} Keys have exceeded their quota. Last error: {last_error}")
+    return None, None 
 
 # ==========================================
 # 3. PROMPT KHỦNG (NGUYÊN BẢN TỪ APP CHẤM ĐIỂM)
