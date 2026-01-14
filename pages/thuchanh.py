@@ -345,40 +345,44 @@ except Exception:
     st.stop()
 
 def generate_content_with_failover(prompt, image=None, json_mode=False):
-    """Phiên bản Debug: Hiển thị lỗi chi tiết để sửa chữa"""
+    """Phiên bản Fix lỗi 404: Sử dụng API v1alpha và tên model cụ thể"""
     keys_to_try = list(ALL_KEYS)
     random.shuffle(keys_to_try) 
     
-    # Rút gọn danh sách model về các model ổn định nhất để test
+    # Sử dụng tên model cụ thể hơn (002) để tránh lỗi 404
     model_priority = [
-        "gemini-1.5-flash",
-        "gemini-1.5-pro",
-        "gemini-2.0-flash"
+        "gemini-2.0-flash-exp", # Model mới nhất, mạnh nhất
+        "gemini-1.5-flash-002", # Bản ổn định
+        "gemini-1.5-pro-002",
+        "gemini-1.5-flash"      # Fallback cuối cùng
     ]
     
     last_error = ""
-    
-    # Hiển thị đang thử kết nối (Debug)
     status_container = st.empty()
     
     for index, current_key in enumerate(keys_to_try):
         try:
-            status_container.info(f"🔄 Đang thử Key #{index+1}...")
+            status_container.caption(f"🚀 Đang kết nối Key #{index+1}...")
             
-            # 1. Khởi tạo Client
-            client = genai.Client(api_key=current_key)
+            # --- SỬA QUAN TRỌNG: Ép dùng 'v1alpha' để tìm thấy model ---
+            client = genai.Client(
+                api_key=current_key,
+                http_options={'api_version': 'v1alpha'} 
+            )
             
-            # 2. Chọn model (Mặc định Flash cho nhanh)
-            sel_model = "gemini-1.5-flash"
-            
-            # 3. Chuẩn bị nội dung
+            # Chọn model
+            sel_model = "gemini-1.5-flash-002" # Mặc định an toàn
+            for target in model_priority:
+                sel_model = target
+                break 
+
+            # Chuẩn bị nội dung
             contents = []
             if image:
-                # SDK mới đôi khi kén định dạng ảnh, ta giữ nguyên PIL Image
                 contents.append(image)
             contents.append(prompt)
             
-            # 4. Cấu hình
+            # Cấu hình
             config_args = {
                 "temperature": 0.3,
                 "max_output_tokens": 8192,
@@ -387,24 +391,23 @@ def generate_content_with_failover(prompt, image=None, json_mode=False):
             if json_mode:
                 config_args["response_mime_type"] = "application/json"
 
-            # 5. Gọi API
+            # Gọi API
             response = client.models.generate_content(
                 model=sel_model,
                 contents=contents,
                 config=types.GenerateContentConfig(**config_args)
             )
             
-            status_container.empty() # Xóa thông báo nếu thành công
+            status_container.empty()
             return response, sel_model 
             
         except Exception as e:
             last_error = str(e)
-            # --- IN RA LỖI ĐỂ BẠN NHÌN THẤY ---
-            st.warning(f"⚠️ Key #{index+1} thất bại. Lỗi: {last_error}")
+            # In lỗi ra console server để debug (không hiện lên UI cho đỡ rối)
+            print(f"Key #{index+1} Error: {e}")
             continue
             
-    # Nếu chạy hết vòng lặp mà vẫn lỗi
-    st.error(f"❌ TẤT CẢ CÁC KEY ĐỀU LỖI. Lỗi cuối cùng: {last_error}")
+    st.error(f"❌ Kết nối thất bại. Google báo lỗi: {last_error}")
     return None, None
 
 # ==========================================
