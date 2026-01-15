@@ -1286,12 +1286,15 @@ if st.session_state.step == 1:
      
      <hr style="border-top: 1px dashed #ccc; margin: 15px 0;">
 
-     <!-- PHẦN 2: PHÂN TÍCH (AI TỰ TƯ DUY) -->
-     <li>
+     <!-- ================================================================================== -->
+     <!-- PHẦN 2: THỰC HÀNH TƯ DUY & LẮP RÁP (STEP-BY-STEP) -->
+     <!-- SYSTEM_ALERT: AI phải đối chiếu và chọn đúng Mẫu từ 4 KHỐI ở PHẦN 1. -->
+     <!-- ================================================================================== -->
+     <li>     
          <b>✍️ THỰC HÀNH TƯ DUY & LẮP RÁP (STEP-BY-STEP):</b>
          <br><i>(AI phân tích dữ liệu và <b>CHỌN</b> mẫu câu phù hợp nhất từ Kho phía trên để áp dụng)</i>
          <br>
-         <br><b> Phân tích Dữ liệu:</b>
+         <br><b>🔍 Phân tích Dữ liệu:</b>
          <br>- Nhóm này gồm: <b>&#91;Tên Category&#93;</b>.
          <br>- Lý do chọn nhóm: <b>&#91;AI giải thích: Cao nhất / Nổi bật / Biến động mạnh nhất?&#93;</b>
          <br>
