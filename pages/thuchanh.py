@@ -1288,7 +1288,7 @@ if st.session_state.step == 1:
 
      <!-- ================================================================================== -->
      <!-- PHẦN 2: THỰC HÀNH TƯ DUY & LẮP RÁP (STEP-BY-STEP) -->
-     <!-- SYSTEM_ALERT: AI phải đối chiếu và chọn đúng Mẫu từ 4 KHỐI ở PHẦN 1. -->
+     <!-- SYSTEM_ALERT: AI phải đối chiếu và chọn đúng Mẫu từ 4 KHỐI ở PHẦN 1. AI phải viết rõ câu nháp hoàn chỉnh sau mỗi bước 'Chọn' -->
      <!-- ================================================================================== -->
      <li>     
          <b>✍️ THỰC HÀNH TƯ DUY & LẮP RÁP (STEP-BY-STEP):</b>
