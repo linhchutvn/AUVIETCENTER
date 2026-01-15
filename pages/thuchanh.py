@@ -1382,7 +1382,7 @@ if st.session_state.step == 1:
                  <br><i>(Dùng để đầu câu, giúp đoạn văn liền mạch)</i>
                  <br>- <b>Thời gian (Time markers):</b> <i>At the start of the period, ... / Thereafter, ... / In the subsequent years, ... / In the final year, ...</i>
                  <br>- <b>So sánh (Comparison):</b> <i>In contrast, ... / By contrast, ... / Similarly, ... / Likewise, ...</i>
-                 <br>- <b>Chuyển ý:</b> <i>Regarding [Line A], ... / Turning to [Line B], ...</i>
+                 <br>- <b>Chuyển ý:</b> <i>Regarding [Category A], ... / Turning to [Category B], ...</i>
              </li>
          </ul>
      </li>
