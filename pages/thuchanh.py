@@ -1245,7 +1245,7 @@ if st.session_state.step == 1:
              <br><i>(Kết hợp Từ dẫn nhập chủ đề + Thời gian + So sánh)</i>
              
              <br>✅ <b>Mẫu 1: Dẫn nhập chủ đề:</b>
-             <br>"<b>Regarding &#91;Category A&#93;</b> (the largest figure/group), in <b>&#91;Year 1&#93;</b>, it stood at <b>&#91;Data&#93;</b>."
+             <br>"<b>Regarding &#91;Category A&#93;</b> (the largest figure/group), in <b>&#91;Year 1&#93 / At the beginning of the period;</b>, it stood at <b>&#91;Data&#93;</b>."
              
              <br>✅ <b>Mẫu 2: So sánh trực tiếp:</b>
              <br>"At the beginning of the period, <b>&#91;Category A&#93;</b> stood at <b>&#91;Data&#93;</b>, <b>which was significantly higher than</b> the figure for <b>&#91;Category B&#93;</b> (at <b>&#91;Data&#93;</b>)."
@@ -1269,7 +1269,7 @@ if st.session_state.step == 1:
 
          <!-- KHỐI 3: CHỐT SỐ LIỆU CUỐI -->
          <div style="background-color:#fdf2e9; border-left:4px solid #d35400; padding:10px; margin-top:5px;">
-             <b>► Bước 3: Chốt năm cuối (Ending Data):</b>
+             <b>► Bước 3: Năm cuối (Ending Data):</b>
              <br><i>(Sử dụng mệnh đề quan hệ rút gọn để kết câu mượt mà)</i>
              <br>✅ <b>Mẫu Finishing:</b> "..., <b>finishing the period at</b> <b>&#91;End Data&#93;</b>."
              <br>✅ <b>Mẫu Ending up:</b> "..., <b>ending up at</b> <b>&#91;End Data&#93;</b> in the final year."
@@ -1292,8 +1292,8 @@ if st.session_state.step == 1:
          <br><i>(AI phân tích dữ liệu và <b>CHỌN</b> mẫu câu phù hợp nhất từ Kho phía trên để áp dụng)</i>
          <br>
          <br><b> Phân tích Dữ liệu:</b>
-         <br>- Nhóm này gồm: <b>&#91;Tên Line&#93;</b>.
-         <br>- Đặc điểm: <i>[AI điền: Ổn định / Biến động / hay Ngược chiều?]</i>
+         <br>- Nhóm này gồm: <b>&#91;Tên Category&#93;</b>.
+         <br>- Đặc điểm: <i>[AI giải thích: Nổi bật / Biến động mạnh?]</i>
          <br>
          <br><b>✅ BƯỚC 1: Xử lý Câu mở đầu (Starting Point)</b>
          <br>- <b>Dữ liệu năm đầu:</b> [Category A] = ... ; [Category B] = ...
