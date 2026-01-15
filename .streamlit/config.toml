@@ -1,0 +1,12 @@
+```toml
+[server]
+# Giữ kết nối trong 1 tiếng (3600 giây)
+disconnectTimeout = 3600
+
+# Ngăn App tự động load lại khi file thay đổi ngầm
+runOnSave = false
+
+[browser]
+# Tắt thu thập dữ liệu để App chạy nhẹ hơn
+gatherUsageStats = false
+```
