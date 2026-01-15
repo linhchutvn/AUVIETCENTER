@@ -1044,7 +1044,7 @@ if st.session_state.step == 1:
             <br>- <b>Cách 3 (Comparative):</b> "...the differences in the consumption of [Category]..."</li>
     
         <li><b>Verb (Động từ khuyên dùng):</b>
-            <br><i>compares / gives information about / illustrates the breakdown of / shows the distribution of</i>.</li>
+            <br><i>compares / gives information about / how much / shows the distribution of</i>.</li>
     
         <li><b>Time Paraphrase (Thời gian Tĩnh):</b>
             <br>- <i>in [Year]</i>.
