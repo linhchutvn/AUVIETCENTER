@@ -1058,7 +1058,17 @@ if st.session_state.step == 1:
             <br>- <i>in [Year]</i>.
             <br>- <i>in the year [Year]</i>.
             <br><i>(Lưu ý: Không dùng "Over a period of..." vì đây là bài Tĩnh).</i></li>
-            
+        
+        <!-- PHẦN PARAPHRASE GỢI Ý THÊM -->
+        <li><div style="background-color:#fff3e0; padding:10px; border-radius:5px; border: 1px dashed #f39c12; margin-top:5px;">
+            <strong style="color:#d35400;">🔄 GỢI Ý PARAPHRASING (VOCABULARY INPUT):</strong>
+            <br><i>(AI tự động liệt kê 3 cụm từ Band 8.0+ thay thế cho từ gốc trong đề bài)</i>
+            <ul style="list-style-type: none; padding-left: 10px; margin-top: 5px; font-size: 0.9rem;">
+               <li>🔹 <b>Topic (Chủ đề):</b> [Trích từ gốc] &rarr; <i>[AI điền từ thay thế]</i></li>
+               <li>🔹 <b>Category (Đối tượng):</b> [Trích từ gốc] &rarr; <i>[AI điền từ thay thế]</i></li>
+               <li>🔹 <b>Context (Phạm vi):</b> [Trích từ gốc] &rarr; <i>[AI điền từ thay thế]</i></li>
+            </ul>
+        </div></li>      
         <li><div style="background-color:#e6fffa; padding:10px; border-radius:5px; margin-top:5px; border-left: 4px solid #00b894;">
             <b>📝 Nội dung mẫu (Sample Intro):</b><br>                             
             <i>"The pie charts compare the percentage of people immigrating to a European country with the proportion of emigrants leaving that nation for various reasons in 2009."</i>
@@ -1138,7 +1148,7 @@ if st.session_state.step == 1:
                          <li><div style="background-color:#fff3e0; padding:15px; border-radius:8px; margin-top:10px; border-left: 5px solid #ff9f43;">
                              <b>📝 Nội dung mẫu (Sample Overview):</b><br>
                              <div style="margin-top:5px; font-style: italic; color: #5d4037;">
-                             Overall, it is readily apparent that employment is the primary reason for immigration, whereas family reunification is the main driver for emigration. Additionally, study-related purposes account for a significant portion in both groups.
+                             Overall, it is clear that employment is the primary reason for immigration, whereas family reunification is the main driver for emigration. Additionally, study-related purposes account for a significant portion in both groups.
                              </div>
                          </div></li>
                        </ul>
