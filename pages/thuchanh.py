@@ -1062,7 +1062,7 @@ if st.session_state.step == 1:
         <!-- PHẦN PARAPHRASE GỢI Ý THÊM -->
         <li><div style="background-color:#fff3e0; padding:10px; border-radius:5px; border: 1px dashed #f39c12; margin-top:5px;">
             <strong style="color:#d35400;">🔄 GỢI Ý PARAPHRASING (VOCABULARY INPUT):</strong>
-            <br><i>(AI tự động liệt kê 3 cụm từ Band 8.0+ thay thế cho từ gốc trong đề bài)</i>
+            <br><i>(AI tự động liệt kê 3 cụm từ Band 7.0 and 8.0+ thay thế cho từ gốc trong đề bài)</i>
             <ul style="list-style-type: none; padding-left: 10px; margin-top: 5px; font-size: 0.9rem;">
                <li>🔹 <b>Topic (Chủ đề):</b> [Trích từ gốc] &rarr; <i>[AI điền từ thay thế]</i></li>
                <li>🔹 <b>Category (Đối tượng):</b> [Trích từ gốc] &rarr; <i>[AI điền từ thay thế]</i></li>
