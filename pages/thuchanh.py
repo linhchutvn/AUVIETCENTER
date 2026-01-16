@@ -409,7 +409,7 @@ def generate_content_with_failover(prompt, image=None, json_mode=False):
 
             # --- BƯỚC 7: Thực hiện gọi API ---
             # Xóa thông báo chờ trước khi gọi AI
-            status_msg.info(f"🚀 Đang xử lý dữ liệu qua Luồng #{index + 1}...")
+            status_msg.info(f"🚀 Processing data via Stream #{index + 1}...")
             
             response = client.models.generate_content(
                 model=sel_model,
