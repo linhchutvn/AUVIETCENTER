@@ -1161,9 +1161,12 @@ if st.session_state.step == 1:
      <!-- ================================================================================== -->
      <!-- PHẦN 1: KHO MẪU CÂU STATIC (REFERENCE LIBRARY) -->
      <!-- SYSTEM_ALERT: 
-          Bắt buộc hiển thị đủ các Cấu trúc so sánh, Cấu trúc Math (Gấp đôi/Gấp ba) và Cấu trúc mệnh đề quan hệ (Which/With). -->
+          Bắt buộc hiển thị đủ các Cấu trúc so sánh, Cấu trúc Math (Gấp đôi/Gấp ba) và Cấu trúc mệnh đề quan hệ (Which/With).
+          Dưới đây là DỮ LIỆU CỐ ĐỊNH (REFERENCE LIBRARY).
+          Nhiệm vụ của bạn: SAO CHÉP Y NGUYÊN TỪNG DÒNG HTML BÊN DƯỚI.
+          TUYỆT ĐỐI KHÔNG ĐƯỢC LỌC. -->
      <!-- ================================================================================== -->
-     <li>
+     <li>     
          <div style="background-color:#f8f9fa; border:1px solid #bdc3c7; border-radius:5px; padding:15px; margin-bottom:15px;">
          <strong style="color:#d35400;">📚 KHO MẪU CÂU BODY 1 (STATIC & COMPARISON):</strong>
          <br><i>(Áp dụng kỹ thuật: Ranking + Math Language + Complex Clauses)</i>
@@ -1279,7 +1282,11 @@ if st.session_state.step == 1:
                     4. **"body2_guide" (Thân bài 2 - Nhóm Nhỏ / Nhóm Còn lại):**
    - <ul>
      <!-- ================================================================================== -->
-     <!-- PHẦN 1: KHO MẪU CÂU (REFERENCE LIBRARY) -->
+     <!-- PHẦN 1: KHO MẪU CÂU (REFERENCE LIBRARY) 
+     <!-- SYSTEM_ALERT:           
+          Dưới đây là DỮ LIỆU CỐ ĐỊNH (REFERENCE LIBRARY).
+          Nhiệm vụ của bạn: SAO CHÉP Y NGUYÊN TỪNG DÒNG HTML BÊN DƯỚI.
+          TUYỆT ĐỐI KHÔNG ĐƯỢC LỌC. -->
      <!-- ================================================================================== -->
      <li>
          <div style="background-color:#f8f9fa; border:1px solid #bdc3c7; border-radius:5px; padding:15px; margin-bottom:15px;">
