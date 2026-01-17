@@ -1164,6 +1164,36 @@ if st.session_state.step == 1:
                     3. **"body1_guide" (Thân bài 1 - Nhóm Lớn Nhất / Nổi Bật Nhất):**
    - <ul>
      <!-- ================================================================================== -->
+     <!-- MA TRẬN ĐA DẠNG HÓA CẤU TRÚC (GRA BOOSTER) -->
+     <!-- ================================================================================== -->
+     <li><div style="background-color:#e8f5e9; padding:15px; border:1px solid #4caf50; border-radius:5px; margin-bottom:15px;">
+         <strong style="color:#2e7d32;">🎨 KỸ THUẬT ĐA DẠNG HÓA CHỦ NGỮ (SUBJECT VARIATION):</strong>
+         <br><i>(Examiner yêu cầu: Không được viết 2 câu liên tiếp có cùng kiểu chủ ngữ. Hãy xoay tua 4 loại sau:)</i>
+         
+         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; font-size: 0.9rem;">
+             <!-- LOẠI 1 -->
+             <div style="background-color:white; padding:8px; border-radius:4px; border:1px dashed #a5d6a7;">
+                 <b>1. Category làm chủ ngữ:</b>
+                 <br><i>"<b>Gas</b> accounted for 30%..."</i>
+             </div>
+             <!-- LOẠI 2 -->
+             <div style="background-color:white; padding:8px; border-radius:4px; border:1px dashed #a5d6a7;">
+                 <b>2. Từ chỉ Lượng làm chủ ngữ:</b>
+                 <br><i>"<b>The proportion of Gas</b> was 30%..."</i>
+             </div>
+             <!-- LOẠI 3 -->
+             <div style="background-color:white; padding:8px; border-radius:4px; border:1px dashed #a5d6a7;">
+                 <b>3. Xếp hạng làm chủ ngữ:</b>
+                 <br><i>"<b>The leading source</b> was Gas..."</i>
+             </div>
+             <!-- LOẠI 4 -->
+             <div style="background-color:white; padding:8px; border-radius:4px; border:1px dashed #a5d6a7;">
+                 <b>4. Nơi chốn/Người làm chủ ngữ:</b>
+                 <br><i>"<b>France</b> produced 30%..."</i>
+             </div>
+         </div>
+     </div></li>
+     <!-- ================================================================================== -->
      <!-- PHẦN 1: KHO MẪU CÂU STATIC (REFERENCE LIBRARY) -->
      <!-- SYSTEM_ALERT: 
           Bắt buộc hiển thị đủ các Cấu trúc so sánh, Cấu trúc Math (Gấp đôi/Gấp ba) và Cấu trúc mệnh đề quan hệ (Which/With).
@@ -1231,16 +1261,16 @@ if st.session_state.step == 1:
          <br>- Mục tiêu: Mô tả số liệu và so sánh độ lớn.
          <br>         
          <br><b>✅ BƯỚC 1: Xử lý Top 1 (The Winner)</b>
-         <br>- <b>Quyết định:</b> Chọn Mẫu nào?
+         <br>- <b>Quyết định:</b> Chọn Mẫu nào? Dùng Chủ ngữ loại mấy (1, 2, 3 hay 4)?
          <br>👉 <b>Viết nháp Câu 1:</b> <i>[AI viết câu hoàn chỉnh dựa trên Mẫu đã chọn + Chia đúng thì]</i>
          <br>
          <br><b>✅ BƯỚC 2: So sánh với Top 2 (The Runner-up)</b>
          <br>- <b>Logic Toán học:</b> Top 1 có gấp đôi Top 2 không? Hay chỉ hơn một chút?
-         <br>- <b>Quyết định:</b> Chọn Mẫu nào?
+         <br>- <b>Quyết định:</b> Chọn Mẫu nào? Dùng Chủ ngữ loại mấy (1, 2, 3 hay 4)?
          <br>👉 <b>Viết nháp Câu 2:</b> <i>[AI viết câu hoàn chỉnh dựa trên Mẫu đã chọn + Chia đúng thì]</i>
          <br>
          <br><b>✅ BƯỚC 3: Gom nhóm (nếu có Top 3 lớn)</b>
-         <br>- <b>Quyết định:</b> Chọn Mẫu nào?
+         <br>- <b>Quyết định:</b> Chọn Mẫu nào? Dùng Chủ ngữ loại mấy (1, 2, 3 hay 4)?
          <br>👉 <b>Viết nháp Câu 3:</b> <i>[AI viết câu chốt số liệu]</i>
      </li>
 
