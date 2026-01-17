@@ -1228,16 +1228,20 @@ if st.session_state.step == 1:
          <br>- Mục tiêu: Mô tả số liệu và so sánh độ lớn.
          <br>         
          <br><b>✅ BƯỚC 1: Xử lý Top 1 (The Winner)</b>
-         <br>🧠 <b>Tư duy (Tiếng Việt):</b> <i>[AI giải thích: Chọn Category nào cao nhất? Chọn Mẫu nào? Tại sao?]</i>
-         <br>👉 <b>Viết nháp (Tiếng Anh):</b> <i>[AI viết câu hoàn chỉnh + Chia đúng thì]</i>
-         <br>         
-         <br><b>✅ BƯỚC 2: So sánh với Top 2 (The Runner-up)</b>
-         <br>🧠 <b>Tư duy (Tiếng Việt):</b> <i>[AI giải thích: Số liệu này gấp đôi hay chỉ cao hơn? Chọn Mẫu nào?]</i>
-         <br>👉 <b>Viết nháp (Tiếng Anh):</b> <i>[AI viết câu hoàn chỉnh + Chia đúng thì]</i>
+         <br>- <b>Quyết định:</b> Chọn Mẫu nào?
+         <br>👉 <b>Viết nháp Câu 1 (Tiếng Việt):</b> <i>[AI viết câu hoàn chỉnh dựa trên Mẫu đã chọn + Chia đúng thì]</i>
+         <br><b>Viết nháp Câu 1 (Tiếng Anh):</b> <i>[AI viết câu hoàn chỉnh + Chia đúng thì]</i>
          <br>
-         <br><b>✅ BƯỚC 3: Gom nhóm (nếu có Top 3 lớn)</b>         
-         <br>🧠 <b>Tư duy (Tiếng Việt):</b> <i>[AI giải thích: Dùng cấu trúc 'With' hay 'Making it' để đưa thêm số liệu?]</i>
-         <br>👉 <b>Viết nháp (Tiếng Anh):</b> <i>[AI viết câu chốt số liệu]</i>
+         <br><b>✅ BƯỚC 2: So sánh với Top 2 (The Runner-up)</b>
+         <br>- <b>Logic Toán học:</b> Top 1 có gấp đôi Top 2 không? Hay chỉ hơn một chút?
+         <br>- <b>Quyết định:</b> Chọn Mẫu nào?
+         <br>👉 <b>Viết nháp Câu 2 (Tiếng Việt):</b> <i>[AI viết câu hoàn chỉnh dựa trên Mẫu đã chọn + Chia đúng thì]</i>
+         <br><b>Viết nháp Câu 2 (Tiếng Anh):</b> <i>[AI viết câu hoàn chỉnh + Chia đúng thì]</i>
+         <br>
+         <br><b>✅ BƯỚC 3: Gom nhóm (nếu có Top 3 lớn)</b>
+         <br>- <b>Quyết định:</b> Chọn Mẫu nào?
+         <br>👉 <b>Viết nháp Câu 3 (Tiếng Việt):</b> <i>[AI viết câu hoàn chỉnh dựa trên Mẫu đã chọn + Chia đúng thì]</i>
+         <br><b>Viết nháp Câu 3 (Tiếng Anh):</b> <i>[AI viết câu hoàn chỉnh + Chia đúng thì]</i>
      </li>
 
      <!-- ================================================================================== -->
