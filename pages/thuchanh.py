@@ -1229,19 +1229,19 @@ if st.session_state.step == 1:
          <br>         
          <br><b>✅ BƯỚC 1: Xử lý Top 1 (The Winner)</b>
          <br>- <b>Quyết định:</b> Chọn Mẫu nào?
-         <br>👉 <b>Viết nháp Câu 1 (Tiếng Việt):</b> <i>[AI viết câu hoàn chỉnh dựa trên Mẫu đã chọn bằng Tiếng Việt]</i>
-         <br><b>Viết nháp Câu 1 (Tiếng Anh):</b> <i>[AI dịch sang tiếng Anh, áp dụng Mẫu đã chọn + Chia đúng thì]</i>
+         <br>🧠 <b>Tư duy (Tiếng Việt):</b> <i>[AI viết câu phân tích bằng tiếng Việt tại đây. VD: Ở Pháp, Gas đứng đầu với 30%...]</i>
+         <br>🇬🇧 <b>Viết nháp (Tiếng Anh):</b> <i>[AI dịch sang tiếng Anh, áp dụng Mẫu đã chọn + Chia đúng thì]</i>
          <br>
          <br><b>✅ BƯỚC 2: So sánh với Top 2 (The Runner-up)</b>
          <br>- <b>Logic Toán học:</b> Top 1 có gấp đôi Top 2 không? Hay chỉ hơn một chút?
          <br>- <b>Quyết định:</b> Chọn Mẫu nào?
-         <br>👉 <b>Viết nháp Câu 2 (Tiếng Việt):</b> <i>[AI viết câu hoàn chỉnh dựa trên Mẫu đã chọn bằng Tiếng Việt]</i>
-         <br><b>Viết nháp Câu 2 (Tiếng Anh):</b> <i>[AI dịch sang tiếng Anh, áp dụng Mẫu đã chọn + Chia đúng thì]</i>
+         <br>🧠 <b>Tư duy (Tiếng Việt):</b> <i>[AI viết câu phân tích bằng tiếng Việt tại đây. VD: Con số này gấp đôi so với...]</i>
+         <br>🇬🇧 <b>Viết nháp (Tiếng Anh):</b> <i>[AI dịch sang tiếng Anh, áp dụng Mẫu đã chọn + Chia đúng thì]</i>
          <br>
          <br><b>✅ BƯỚC 3: Gom nhóm (nếu có Top 3 lớn)</b>
          <br>- <b>Quyết định:</b> Chọn Mẫu nào?
-         <br>👉 <b>Viết nháp Câu 3 (Tiếng Việt):</b> <i>[AI viết câu hoàn chỉnh dựa trên Mẫu đã chọn bằng Tiếng Việt]</i>
-         <br><b>Viết nháp Câu 3 (Tiếng Anh):</b> <i>[AI dịch sang tiếng Anh, áp dụng Mẫu đã chọn + Chia đúng thì]</i>
+         <br>🧠 <b>Tư duy (Tiếng Việt):</b> <i>[AI viết câu phân tích bằng tiếng Việt tại đây]</i>
+         <br>🇬🇧 <b>Viết nháp (Tiếng Anh):</b> <i>[AI dịch sang tiếng Anh]</i>
      </li>
 
      <!-- ================================================================================== -->
