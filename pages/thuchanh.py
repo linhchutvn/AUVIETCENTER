@@ -1121,7 +1121,7 @@ if st.session_state.step == 1:
                              <div style="background-color:#fdf2e9; border-left:4px solid #d35400; padding:10px; margin-top:5px;">
                                  <b>► 1. Cấu trúc tổng quát:</b>
                                  <!-- CẤU TRÚC CHUẨN (CỐ ĐỊNH - KHÔNG ĐƯỢC THAY ĐỔI) -->
-                                 <br><code>Overall, it is clear that/noticeable &#91;Most Popular Category&#93; accounts for the largest share. In contrast, &#91;Least Popular Category&#93; makes up the smallest proportion.</code>
+                                 <br><code>Overall, it is clear/noticeable that &#91;Most Popular Category&#93; accounts for the largest share. In contrast, &#91;Least Popular Category&#93; makes up the smallest proportion.</code>
                              </div>
 
                              <!-- KHỐI 2: FEATURE 1 (DOMINANT CATEGORY) -->
@@ -1505,11 +1505,11 @@ if st.session_state.step == 1:
                                  <br><i>(Người viết chọn 1 trong 3 loại dưới đây tùy vào biểu đồ)</i>                                
                                  <br>✅ <b>Loại 1: Đồng loạt Tăng/Giảm (Same Direction)</b>
                                  <br><i>(Dùng khi tất cả cùng Tăng hoặc cùng Giảm)</i>
-                                 <br>"It is clear that/noticeable the total <b>&#91;Topic&#93;</b> increased/decreased over the period."</b>
+                                 <br>"It is clear/noticeable that the total <b>&#91;Topic&#93;</b> increased/decreased over the period."</b>
                                  <br>
                                  <br>✅ <b>Loại 2: Xu hướng ngược (Mix / Opposite)</b>
                                  <br><i>(CHỈ DÙNG khi A Tăng còn B Giảm - Ngược chiều hoàn toàn)</i>
-                                 <br>"It is clear that/noticeable while the figures for <b>&#91;Category A&#93;</b> and <b>&#91;Category B&#93;</b> increased, the opposite was true for <b>&#91;Category C&#93;</b>."                            
+                                 <br>"It is clear/noticeable that while the figures for <b>&#91;Category A&#93;</b> and <b>&#91;Category B&#93;</b> increased, the opposite was true for <b>&#91;Category C&#93;</b>."                            
                                  <br>
                                  <br>✅ <b>Loại 3: Ngoại lệ (Exception)</b>
                                  <br><i>(Dùng khi đa số Tăng, chỉ có 1 cái Giảm/Ổn định)</i>
@@ -1517,7 +1517,7 @@ if st.session_state.step == 1:
                                  <br>
                                  <br>✅ <b>Loại 4: Ổn định/Dao động (Stability/Fluctuation)</b>
                                  <br><i>(Dùng khi có đường đi ngang hoặc dao động mạnh)</i>
-                                 <br>"It is clear that while <b>&#91;Category A&#93;</b> changed significantly, <b>&#91;Category B&#93;</b> remained relatively stable."</b>
+                                 <br>"It is clear/noticeable that while <b>&#91;Category A&#93;</b> changed significantly, <b>&#91;Category B&#93;</b> remained relatively stable."</b>
                                  <br>
                              </div>
 
