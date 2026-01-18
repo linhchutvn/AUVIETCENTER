@@ -1485,7 +1485,7 @@ if st.session_state.step == 1:
                               Dưới đây là DỮ LIỆU CỐ ĐỊNH (REFERENCE LIBRARY).
                               Nhiệm vụ của bạn: SAO CHÉP Y NGUYÊN TỪNG DÒNG HTML BÊN DƯỚI.
                               TUYỆT ĐỐI KHÔNG ĐƯỢC LỌC (DO NOT FILTER).
-                              Bắt buộc phải hiển thị đủ 3 Loại Trend và 3 Loại Highlight, bất kể hình ảnh là gì.
+                              Bắt buộc phải hiển thị đủ: Cấu trúc tổng quát, 4 Loại Trends và 3 Loại Highlight, bất kể hình ảnh là gì.
                               Nếu hiển thị thiếu => HỆ THỐNG SẼ BÁO LỖI (CRITICAL ERROR). -->
                          <!-- ================================================================================== -->
                          <li>
@@ -1499,7 +1499,7 @@ if st.session_state.step == 1:
                                  <br><code>Overall, &#91;Sentence 1: Trends&#93;. In addition, &#91;Sentence 2: Highlights&#93;.</code>
                              </div>
 
-                             <!-- KHỐI 2: TRENDS (LIỆT KÊ ĐỦ 3 LOẠI) -->
+                             <!-- KHỐI 2: TRENDS (LIỆT KÊ ĐỦ 4 LOẠI) -->
                              <div style="background-color:#fdf2e9; border-left:4px solid #d35400; padding:10px; margin-top:5px;">
                                  <b>► 2. Các mẫu câu Xu hướng (Trends):</b>
                                  <br><i>(Người viết chọn 1 trong 3 loại dưới đây tùy vào biểu đồ)</i>                                
