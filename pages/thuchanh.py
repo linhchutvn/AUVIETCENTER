@@ -1498,27 +1498,22 @@ if st.session_state.step == 1:
                                  <b>► 1. Cấu trúc tổng quát:</b>
                                  <br><code>Overall, &#91;Sentence 1: Trends&#93;. In addition, &#91;Sentence 2: Highlights&#93;.</code>
                              </div>
-
                              <!-- KHỐI 2: TRENDS (LIỆT KÊ ĐỦ 4 LOẠI) -->
                              <div style="background-color:#fdf2e9; border-left:4px solid #d35400; padding:10px; margin-top:5px;">
                                  <b>► 2. Các mẫu câu Xu hướng (Trends):</b>
                                  <br><i>(Người viết chọn 1 trong 3 loại dưới đây tùy vào biểu đồ)</i>                                
                                  <br>✅ <b>Loại 1: Đồng loạt Tăng/Giảm (Same Direction)</b>
                                  <br><i>(Dùng khi tất cả cùng Tăng hoặc cùng Giảm)</i>
-                                 <br>"It is clear/noticeable that the total <b>&#91;Topic&#93;</b> increased/decreased over the period."</b>
-                                 <br>
+                                 <br>"It is clear/noticeable that the total <b>&#91;Topic&#93;</b> increased/decreased over the period."</b>                               
                                  <br>✅ <b>Loại 2: Xu hướng ngược (Mix / Opposite)</b>
                                  <br><i>(CHỈ DÙNG khi A Tăng còn B Giảm - Ngược chiều hoàn toàn)</i>
-                                 <br>"It is clear/noticeable that while the figures for <b>&#91;Category A&#93;</b> and <b>&#91;Category B&#93;</b> increased, the opposite was true for <b>&#91;Category C&#93;</b>."                            
-                                 <br>
+                                 <br>"It is clear/noticeable that while the figures for <b>&#91;Category A&#93;</b> and <b>&#91;Category B&#93;</b> increased, the opposite was true for <b>&#91;Category C&#93;</b>."                           
                                  <br>✅ <b>Loại 3: Ngoại lệ (Exception)</b>
                                  <br><i>(Dùng khi đa số Tăng, chỉ có 1 cái Giảm/Ổn định)</i>
-                                 <br>"The figures for most categories increased, with the exception of <b>&#91;Category C&#93;</b>."
-                                 <br>
+                                 <br>"The figures for most categories increased, with the exception of <b>&#91;Category C&#93;</b>."                               
                                  <br>✅ <b>Loại 4: Ổn định/Dao động (Stability/Fluctuation)</b>
                                  <br><i>(Dùng khi có đường đi ngang hoặc dao động mạnh)</i>
-                                 <br>"It is clear/noticeable that while <b>&#91;Category A&#93;</b> changed significantly, <b>&#91;Category B&#93;</b> remained relatively stable."</b>
-                                 <br>
+                                 <br>"It is clear/noticeable that while <b>&#91;Category A&#93;</b> changed significantly, <b>&#91;Category B&#93;</b> remained relatively stable."</b>                                 
                              </div>
 
                              <!-- KHỐI 3: HIGHLIGHTS (LIỆT KÊ ĐỦ 3 LOẠI) -->
@@ -1526,14 +1521,11 @@ if st.session_state.step == 1:
                                  <b>► 3. Các mẫu câu Điểm nổi bật (Highlights):</b>
                                  <br><i>(Người viết chọn 1 trong 3 loại dưới đây)</i>                               
                                  <br>✅ <b>Loại 1: Cao nhất/Thấp nhất (Ranking)</b>
-                                 <br>"<b>&#91;Category A&#93;</b> consistently had the highest figures throughout the period."                              
-                                 <br>
+                                 <br>"<b>&#91;Category A&#93;</b> consistently had the highest figures throughout the period."                                 
                                  <br>✅ <b>Loại 2: Biến động lớn nhất (Biggest Change)</b>
-                                 <br>"<b>&#91;Category B&#93;</b> witnessed the most dramatic change."                             
-                                 <br>
+                                 <br>"<b>&#91;Category B&#93;</b> witnessed the most dramatic change."                               
                                  <br>✅ <b>Loại 3: Soán ngôi (Ranking Shift)</b>                                 
-                                 <br>"The <b>figure for &#91;Category A&#93;</b> overtook <b>that of &#91;Category B&#93;</b> to become the dominant category."
-                                 <br>
+                                 <br>"The <b>figure for &#91;Category A&#93;</b> overtook <b>that of &#91;Category B&#93;</b> to become the dominant category."                               
                              </div>
                          </li>
                          
@@ -1542,14 +1534,11 @@ if st.session_state.step == 1:
                          <!-- PHẦN 2: PHÂN TÍCH (BƯỚC NÀY AI MỚI ĐƯỢC PHÉP CHỌN LỌC) -->
                          <li>
                              <b>🔍 PHÂN TÍCH BÀI NÀY (Selection & Drafting):</b>
-                             <br><i>(Dựa trên hình ảnh, hãy tick chọn xem bài này thuộc Loại mấy trong Menu trên)</i>
-                             <br>
+                             <br><i>(Dựa trên hình ảnh, hãy tick chọn xem bài này thuộc Loại mấy trong Menu trên)</i>                            
                              <br><b>1. Phân tích Xu hướng (Sentence 1):</b>
                              <br>- Bài này khớp với <b>Loại mấy?</b> (1, 2, 3 hay 4): <i>[AI trả lời. VD: Loại 2 (Mix)]</i>
-                             <br>- Điền dữ liệu vào mẫu đó: <b>&#91;Category A/B&#93;</b> là gì? <b>&#91;Category C&#93;</b> là gì?
-                             <br>
-                             <br>👉 <b>Câu tham khảo Trends:</b> <i>[AI BẮT BUỘC dùng đúng cấu trúc câu của Mẫu đã chọn ở trên. KHÔNG ĐƯỢC paraphrase hay đổi cấu trúc. CHỈ ĐƯỢC thay thế các phần trong ngoặc vuông [...] bằng dữ liệu thực tế.]</i>
-                             <br>
+                             <br>- Điền dữ liệu vào mẫu đó: <b>&#91;Category A/B&#93;</b> là gì? <b>&#91;Category C&#93;</b> là gì?                            
+                             <br>👉 <b>Câu tham khảo Trends:</b> <i>[AI BẮT BUỘC dùng đúng cấu trúc câu của Mẫu đã chọn ở trên. KHÔNG ĐƯỢC paraphrase hay đổi cấu trúc. CHỈ ĐƯỢC thay thế các phần trong ngoặc vuông [...] bằng dữ liệu thực tế.]</i>                            
                              <br><b>2. Phân tích Điểm nổi bật (Sentence 2):</b>
                              <br>- Bài này khớp với <b>Loại mấy?</b> (1, 2 hay 3): <i>[AI trả lời. VD: Loại 3 (Soán ngôi)]</i>
                              <br>- Điền dữ liệu vào mẫu đó: Ai vượt qua Ai?
