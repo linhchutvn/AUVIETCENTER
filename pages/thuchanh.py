@@ -1593,14 +1593,18 @@ if st.session_state.step == 1:
              <b>► Bước 1: Câu mở đầu (Starting Point):</b>
              <br><i>(Kết hợp Từ dẫn nhập chủ đề + Thời gian + So sánh)</i>
              
-             <br>✅ <b>Mẫu 1: Dẫn nhập chủ đề:</b>
-             <br>"<b>Regarding &#91;Category A&#93;</b> (the largest figure/group), in <b>&#91;Year 1&#93 / At the beginning of the period;</b>, it stood at <b>&#91;Data&#93;</b>."
+             <br>✅ <b>Mẫu 1: Chênh lệch rõ (Dominance/Gap)</b>
+             <br><i>(Dùng khi A cao hơn hẳn B)</i>
+             <br>"<b>&#91;Category A&#93;</b> was the dominant category, <b>significantly outstripping &#91;Category B&#93;</b>, with respective figures of <b>&#91;Data A&#93;</b> and <b>&#91;Data B&#93;</b>."
              
-             <br>✅ <b>Mẫu 2: So sánh trực tiếp:</b>
-             <br>"At the beginning of the period, <b>&#91;Category A&#93;</b> stood at <b>&#91;Data&#93;</b>, <b>which was significantly higher than</b> the figure for <b>&#91;Category B&#93;</b> (at <b>&#91;Data&#93;</b>)."
+             <br>✅ <b>Mẫu 2: Sát nút / Tương đồng (Similarity/Close)</b>
+             <br><i>(Dùng khi A và B xấp xỉ hoặc bằng nhau)</i>
+             <br>"<b>&#91;Category A&#93;</b> and <b>&#91;Category B&#93;</b> started at <b>comparable levels</b> of <b>&#91;Data A&#93;</b> and <b>&#91;Data B&#93;</b> respectively."
              
-             <br>✅ <b>Mẫu 3: Nhấn mạnh vị trí:</b>
-             <br>"<b>At the beginning of the period</b>, <b>&#91;Category A&#93;</b> was the most common/popular reason with <b>&#91;Data&#93;</b>."
+             <br>✅ <b>Mẫu 3: Trung tính & Đối chiếu (Neutral Comparison)</b>
+             <br><i>(Dùng để đưa số liệu và so sánh)</i>
+             <br>"<b>Regarding &#91;Category A&#93;</b>, in <b>&#91;Year 1&#93;</b>, it stood at <b>&#91;Data A&#93;</b>, compared to <b>&#91;Data B&#93;</b> for <b>&#91;Category B&#93;</b>."
+             <br><i>Hoặc:</i> "<b>&#91;Category A&#93;</b> started the period at <b>&#91;Data A&#93;</b>, while the figure for <b>&#91;Category B&#93;</b> was <b>&#91;Data B&#93;</b>."
          </div>
 
          <!-- KHỐI 2: MIÊU TẢ TREND & ĐIỂM GÃY - CỰC KỲ QUAN TRỌNG -->
