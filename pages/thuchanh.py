@@ -1498,6 +1498,21 @@ if st.session_state.step == 1:
                                  <b>► 1. Cấu trúc tổng quát:</b>
                                  <br><code>Overall, &#91;Sentence 1: Trends&#93;. In addition, &#91;Sentence 2: Highlights&#93;.</code>
                              </div>
+                             <!-- ================================================================= -->
+                             <!-- 👇👇👇 DÁN ĐOẠN CẢNH BÁO VÀO ĐÂY 👇👇👇 -->
+                             <!-- ================================================================= -->
+                             
+                             <div style="background-color:#ffebee; border:1px solid #ef5350; padding:10px; margin-top:15px; margin-bottom:5px; border-radius:4px;">
+                                 <strong style="color:#c62828;">⛔ CẤM KỴ (STRICT GRAMMAR RULES):</strong>
+                                 <br>1. Tuyệt đối <b>KHÔNG</b> dùng động từ <i>"saw / witnessed / experienced"</i> cho chủ ngữ là <b>Số liệu</b> (The figure / The percentage).
+                                 <br>👉 <b>Số liệu</b> chỉ đi với: <i>increased, decreased, rose, fell</i>.
+                                 <br>2. Tuyệt đối <b>KHÔNG</b> dùng động từ <i>"increased / decreased"</i> cho chủ ngữ là <b>Tên nước / Hạng mục</b> (The UK / Farming).
+                                 <br>👉 <b>Hạng mục</b> phải đi với: <i>saw / witnessed ... IN ...</i>
+                             </div>
+
+                             <!-- ================================================================= -->
+                             <!-- 👆👆👆 KẾT THÚC ĐOẠN CẢNH BÁO 👆👆👆 -->
+                             <!-- ================================================================= -->
                              <!-- KHỐI 2: TRENDS (ĐÃ KIỂM TRA KỸ LƯỠNG - BUG FREE) -->
                              <div style="background-color:#fdf2e9; border-left:4px solid #d35400; padding:10px; margin-top:5px;">
                                  <b>► 2. Các mẫu câu Xu hướng (Trends):</b>
