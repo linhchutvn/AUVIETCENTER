@@ -1504,14 +1504,10 @@ if st.session_state.step == 1:
                                  <br><i>(Người viết chọn 1 trong 4 loại dưới đây tùy vào biểu đồ)</i>                                
                                  <br>✅ <b>Loại 1: Đồng loạt Tăng/Giảm (Same Direction)</b>
                                  <br><i>(Dùng khi tất cả cùng Tăng hoặc cùng Giảm)</i>
-                                 # <br>"It is clear/noticeable that the total <b>&#91;Topic&#93;</b> increased/decreased over the given period/period shown."</b>
-                                 <br>• <b>Nếu dùng Số liệu:</b> "It is clear that the <b>figures for &#91;Topic&#93;</b> increased/decreased over the given period/period shown."
-                                 <br>• <b>Nếu dùng Hạng mục:</b> "It is clear that <b>&#91;Topic&#93;</b> experienced/witnessed/saw an upward/downward trend."
+                                 <br>"It is clear/noticeable that the total <b>&#91;Topic&#93;</b> increased/decreased over the given period/period shown."</b>                                 
                                  <br>✅ <b>Loại 2: Xu hướng ngược (Mix / Opposite)</b>
                                  <br><i>(CHỈ DÙNG khi A Tăng còn B Giảm - Ngược chiều hoàn toàn)</i>
-                                 #<br>"It is clear/noticeable that while the figures for <b>&#91;Category A&#93;</b> and <b>&#91;Category B&#93;</b> increased, the opposite was true for <b>&#91;Category C&#93;</b>."
-                                 <br>• <b>Mẫu chuẩn:</b> "It is clear that while the <b>figures for &#91;Category A&#93;</b> increased, the opposite was true for <b>&#91;Category C&#93;</b>."
-                                 <br>• <b>Mẫu nâng cao:</b> "While <b>&#91;Category A&#93;</b> experienced/witnessed/saw an increase/rise, <b>&#91;Category C&#93;</b> experienced a decline."
+                                 <br>"It is clear/noticeable that while the figures for <b>&#91;Category A&#93;</b> and <b>&#91;Category B&#93;</b> increased, the opposite was true for <b>&#91;Category C&#93;</b>."                                 
                                  <br>✅ <b>Loại 3: Ngoại lệ (Exception)</b>
                                  <br><i>(Dùng khi đa số Tăng, chỉ có 1 cái Giảm/Ổn định)</i>
                                  <br>"The figures for most categories increased, with the exception of <b>&#91;Category C&#93;</b>."                               
