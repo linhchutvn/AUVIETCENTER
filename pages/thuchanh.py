@@ -1831,7 +1831,7 @@ if st.session_state.step == 1:
 
      <!-- ================================================================================== -->
      <!-- PHẦN 2: THỰC HÀNH TƯ DUY & LẮP RÁP (STEP-BY-STEP) -->
-     <!-- SYSTEM_ALERT: AI phải đối chiếu và chọn đúng Mẫu từ 4 KHỐI ở PHẦN 1. AI phải viết rõ câu nháp hoàn chỉnh sau mỗi bước 'Chọn'. Bắt buộc viết câu nháp ở trình độ Band 8.0+. -->
+     <!-- SYSTEM_ALERT: AI phải đối chiếu và chọn đúng Mẫu từ 4 KHỐI ở PHẦN 1. AI phải viết rõ câu nháp hoàn chỉnh sau mỗi bước 'Chọn'. -->
      <!-- ================================================================================== -->
      <li>     
          <b>✍️ THỰC HÀNH TƯ DUY & LẮP RÁP (SYNCHRONIZED STEP-BY-STEP):</b>
