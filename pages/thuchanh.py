@@ -1498,25 +1498,29 @@ if st.session_state.step == 1:
                                  <b>► 1. Cấu trúc tổng quát:</b>
                                  <br><code>Overall, &#91;Sentence 1: Trends&#93;. In addition, &#91;Sentence 2: Highlights&#93;.</code>
                              </div>
-                             <!-- KHỐI 2: TRENDS (LIỆT KÊ ĐỦ 4 LOẠI) -->
+                             <!-- KHỐI 2: TRENDS (ĐÃ KIỂM TRA KỸ LƯỠNG - BUG FREE) -->
                              <div style="background-color:#fdf2e9; border-left:4px solid #d35400; padding:10px; margin-top:5px;">
                                  <b>► 2. Các mẫu câu Xu hướng (Trends):</b>
                                  <br><i>(Người viết chọn 1 trong 4 loại dưới đây tùy vào biểu đồ)</i>                                
+                                 
                                  <br>✅ <b>Loại 1: Đồng loạt Tăng/Giảm (Same Direction)</b>
                                  <br><i>(Dùng khi tất cả cùng Tăng hoặc cùng Giảm)</i>                                 
                                  <br>• <b>Số liệu:</b> "It is clear that the <b>total [number/amount/percentage] of &#91;Topic&#93;</b> increased/decreased <b>over the period shown</b>."
                                  <br>• <b>Hạng mục:</b> "It is noticeable that <b>&#91;Place/Category&#93;</b> witnessed an upward/downward trend <b>IN</b> <b>&#91;Topic&#93;</b> <b>throughout the given period</b>."
+                                 
                                  <br>✅ <b>Loại 2: Xu hướng ngược (Mix / Opposite)</b>
                                  <br><i>(CHỈ DÙNG khi A Tăng còn B Giảm - Ngược chiều hoàn toàn)</i>                                 
-                                 <br>• <b>Số liệu (Mẫu chuẩn Band 9):</b> "It is clear that while the <b>figures for &#91;Category A&#93;</b> increased, the opposite was true for <b>&#91;Category C&#93;</b> <b>throughout the given period</b>."
-                                 <br>• <b>Hạng mục (Mẫu thay thế):</b> "It is noticeable that while <b>&#91;Category A&#93;</b> saw a rise, <b>&#91;Category C&#93;</b> experienced a decline <b>during the period</b>."                                 
+                                 <br>• <b>Số liệu:</b> "It is clear that while the <b>figures for &#91;Category A&#93;</b> increased, the opposite was true for <b>&#91;Category C&#93;</b> <b>over the given period</b>."
+                                 <br>• <b>Hạng mục:</b> "It is noticeable that while <b>&#91;Category A&#93;</b> saw an upward trend <b>IN</b> <b>&#91;Topic&#93;</b>, <b>&#91;Category C&#93;</b> experienced a decline <b>during the period shown</b>."                                 
+                                 
                                  <br>✅ <b>Loại 3: Ngoại lệ (Exception)</b>
                                  <br><i>(Dùng khi đa số Tăng, chỉ có 1 cái Giảm/Ổn định)</i>                                 
-                                 <br>• <b>Mẫu cơ bản:</b> "The figures for most categories increased, <b>with the exception of &#91;Category C&#93;</b> <b>over the given period."
-                                 <br>• <b>Mẫu nâng cao (Đảo ngữ):</b> "<b>With the exception of &#91;Category C&#93;</b>, all other categories <b>witnessed/saw</b> an upward/downward trend <b>over the period shown."
+                                 <br>• <b>Mẫu cơ bản:</b> "The figures for most categories increased, <b>with the exception of &#91;Category C&#93;</b>, <b>over the given period</b>."
+                                 <br>• <b>Mẫu nâng cao:</b> "<b>With the exception of &#91;Category C&#93;</b>, all other categories <b>witnessed</b> an upward/downward trend <b>over the period shown</b>."
+                                 
                                  <br>✅ <b>Loại 4: Ổn định/Dao động (Stability/Fluctuation)</b>
                                  <br><i>(Dùng khi có đường đi ngang hoặc dao động mạnh)</i>
-                                 <br>"It is clear that while <b>&#91;Category A&#93;</b> changed significantly, the figure for <b>&#91;Category B&#93;</b> remained relatively stable <b>throughout the given period/period shown</b>."                                
+                                 <br>"It is clear that while <b>&#91;Category A&#93;</b> changed significantly, the figure for <b>&#91;Category B&#93;</b> remained relatively stable <b>over the given period</b>."                                
                              </div>
 
                              <!-- KHỐI 3: HIGHLIGHTS (LIỆT KÊ ĐỦ 3 LOẠI) -->
