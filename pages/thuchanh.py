@@ -1588,6 +1588,9 @@ if st.session_state.step == 1:
 
                     3. **"body1_guide" (Thân bài 1 - Nhóm Nổi bật / Biến động mạnh):**
    - <ul>
+     <li><b>Logic chọn nhóm (Grouping Strategy):</b> Chọn 1 hoặc 2 hạng mục (Category) có <b>số liệu cao nhất</b> hoặc <b>xu hướng thay đổi mạnh nhất/tăng trưởng rõ rệt</b> để phân tích trước.</li>
+     <li><b>Cấu trúc chuẩn (Flow):</b>
+                             <br><code>[Câu mở đầu & Số liệu năm đầu] + [Mô tả xu hướng & Điểm gãy (Peak/Dip)] + [Số liệu kết thúc (Optional)]</code>.</li>
      <!-- ================================================================================== -->
      <!-- SYSTEM_ALERT: 
           1. DISPLAY_MODE = RAW. Tại phần "KHO MẪU CÂU", giữ nguyên các ký tự [Variable]. KHÔNG ĐIỀN DỮ LIỆU VÀO ĐÓ.
@@ -1658,7 +1661,7 @@ if st.session_state.step == 1:
      <!-- PHẦN 2: THỰC HÀNH TƯ DUY & LẮP RÁP (BODY 1 - 4 BƯỚC) -->
         AI phải hiển thị "Mẫu gốc" trước khi hiển thị "Kết quả" để người dùng đối chiếu. -->
      <!-- ================================================================================== -->
-     <li>     
+     <li> 
          <b>✍️ THỰC HÀNH LẮP RÁP BODY 1 (STEP-BY-STEP):</b>
          <br>
          <br><b>✅ BƯỚC 1: Xử lý Câu mở đầu</b>
@@ -1774,6 +1777,7 @@ if st.session_state.step == 1:
 
                     4. **"body2_guide" (Thân bài 2 - Quy trình Chọn & Điền):**
    - <ul>
+     <li><b>Logic chọn nhóm (Grouping Strategy):</b> Phân tích tất cả các hạng mục (Category) chưa được nhắc đến ở Body 1. Thường là nhóm có xu hướng <b>NGƯỢC LẠI</b> (Giảm/Dao động) hoặc số liệu <b>THẤP HƠN</b>.</li>
      <!-- ================================================================================== -->
      <!-- SYSTEM_ALERT: 
           1. DISPLAY_MODE = RAW. Tại phần "KHO MẪU CÂU", giữ nguyên các ký tự [Variable]. KHÔNG ĐIỀN DỮ LIỆU VÀO ĐÓ.
