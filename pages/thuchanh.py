@@ -1774,30 +1774,28 @@ if st.session_state.step == 1:
                     4. **"body2_guide" (Thân bài 2 - Quy trình Chọn & Điền):**
    - <ul>
      <!-- ================================================================================== -->
-     <!-- PHẦN 1: THƯ VIỆN CẤU TRÚC (REFERENCE LIBRARY) - CÓ MÃ SỐ ID -->
-     <!-- SYSTEM_ALERT: 
-          AI KHÔNG ĐƯỢC TỰ VIẾT. BẮT BUỘC PHẢI DÙNG CÁC MẪU CÂU DƯỚI ĐÂY.
-          Mỗi mẫu câu đã được gán mã ID (Ví dụ: [T1], [T2]...). 
-          Khi làm bài, hãy trích dẫn mã ID đó. -->
+     <!-- SYSTEM_ALERT: AI PHẢI CHỌN ĐÚNG ID [MẪU X.Y] VÀ ĐIỀN DỮ LIỆU. KHÔNG PARAPHRASE. -->
      <!-- ================================================================================== -->
      <li>
          <div style="background-color:#f8f9fa; border:1px solid #bdc3c7; border-radius:5px; padding:15px; margin-bottom:15px;">
-         <strong style="color:#2980b9;">📚 THƯ VIỆN MẪU CÂU (TEMPLATE LIBRARY):</strong>
+         <strong style="color:#2980b9;">📚 KHO MẪU CÂU BODY 2 (ADVANCED):</strong>
+         <br><i>(Chiến thuật: Gộp bước - Tăng tốc độ và sự mạch lạc)</i>
          
-         <!-- KHỐI 1: CÂU CHUYỂN ĐOẠN (TRANSITION) -->
+         <!-- KHỐI 1: CÂU CHUYỂN ĐOẠN -->
          <div style="background-color:#eaf2f8; border-left:4px solid #2980b9; padding:10px; margin-top:5px;">
-             <b>► KHỐI 1: CHUYỂN ĐOẠN (Chọn 1 trong 3):</b>
+             <b>► KHỐI 1: CHUYỂN ĐOẠN:</b>
              <br>📍 <b>[Mẫu 1.1 - Trung tính]</b> (Dùng để liệt kê tiếp):
-             <br>Code: <code>Turning to the remaining categories (<b>[Cat C]</b> and <b>[Cat D]</b>), the figure for <b>[Cat C]</b> started at <b>[Data]</b>.</code>
+             <br><code>Turning to the remaining categories (<b>[Cat C]</b> and <b>[Cat D]</b>), the figure for <b>[Cat C]</b> started at <b>[Data]</b>.</code>
              <br>📍 <b>[Mẫu 1.2 - Đối lập]</b> (Dùng khi xu hướng ngược Body 1):
-             <br>Code: <code><b>In contrast</b>, a completely different trend was observed in <b>[Cat C]</b>, which began the period at <b>[Data]</b>.</code>
+             <br><code><b>In contrast</b>, a completely different trend was observed in <b>[Cat C]</b>, which began the period at <b>[Data]</b>.</code>
              <br>📍 <b>[Mẫu 1.3 - Song song]</b> (Dùng khi diễn ra cùng lúc):
-             <br>Code: <code><b>Meanwhile</b>, the figure for <b>[Cat C]</b> stood at <b>[Data]</b> in the first year.</code>
+             <br><code><b>Meanwhile</b>, the figure for <b>[Cat C]</b> stood at <b>[Data]</b> in the first year.</code>
          </div>
 
-         <!-- KHỐI 2: DIỄN BIẾN & KẾT THÚC -->
+         <!-- KHỐI 2: DIỄN BIẾN & KẾT THÚC (GỘP) -->
          <div style="background-color:#eaf2f8; border-left:4px solid #2980b9; padding:10px; margin-top:5px;">
-             <b>► KHỐI 2: DIỄN BIẾN (Chọn 1 trong 3):</b>
+             <b>► KHỐI 2: DIỄN BIẾN & KẾT THÚC:</b>
+             <br><i>(Lưu ý: Mẫu này đã bao gồm cả Số liệu cuối cùng)</i>
              
              <br>📍 <b>[Mẫu 2.1 - Dao động]</b> (Zíc-zắc):             
              <br><code>It <b>fluctuated (wildly/moderately)</b> around <b>[Avg Data]</b>, before settling at <b>[End Data]</b>.</code>
@@ -1805,18 +1803,18 @@ if st.session_state.step == 1:
              <br>📍 <b>[Mẫu 2.2 - Ổn định]</b> (Đi ngang):             
              <br><code>The figure <b>remained relatively stable</b> at <b>[Data]</b> throughout the entire period.</code>
 
-             <br>📍 <b>[Mẫu 2.3 - Tăng/Giảm]</b> (Dùng cho cả Mạnh và Nhẹ):
-             <br><i>(AI tự chọn tính từ: significantly, steadily, marginally...)</i>
+             <br>📍 <b>[Mẫu 2.3 - Tăng/Giảm chuẩn]</b> (Dùng cho cả Mạnh và Nhẹ):
+             <br><i>(AI tự điền tính từ: significantly, steadily, marginally...)</i>
              <br><code>It witnessed a <b>[Adjective]</b> <b>(increase/decrease)</b>, finishing the period at <b>[End Data]</b>.</code>
          </div>
         
-         <!-- KHỐI 3: SO SÁNH NỘI BỘ (COMPARISON) -->
+         <!-- KHỐI 3: SO SÁNH NỘI BỘ -->
          <div style="background-color:#eaf2f8; border-left:4px solid #2980b9; padding:10px; margin-top:5px;">
-             <b>► KHỐI 3: SO SÁNH NHÓM CÒN LẠI (Chọn 1 trong 2):</b>
-             <br>📍 <b>[Mẫu 3.1 - Tương đồng]</b> (Nếu Cat D giống Cat C):
-             <br>Code: <code>A <b>similar pattern</b> was seen in <b>[Cat D]</b>, which rose/fell to <b>[Data]</b>.</code>
-             <br>📍 <b>[Mẫu 3.2 - Gấp lần]</b> (Nếu Cat D bằng 1 nửa hoặc gấp đôi Cat C):
-             <br>Code: <code>The figure for <b>[Cat C]</b> was <b>(double / two times as high as)</b> that of <b>[Cat D]</b>.</code>
+             <b>► KHỐI 3: SO SÁNH NHÓM CUỐI (Chọn 1 trong 2):</b>
+             <br>📍 <b>[Mẫu 3.1 - Tương đồng]</b>:
+             <br><code>A <b>similar pattern</b> was seen in <b>[Cat D]</b>, which rose/fell to <b>[Data]</b>.</code>
+             <br>📍 <b>[Mẫu 3.2 - Gấp lần]</b> (Toán học):
+             <br><code>The figure for <b>[Cat C]</b> was <b>(double / two times as high as)</b> that of <b>[Cat D]</b>.</code>
          </div>
          </div>
      </li>
@@ -1824,36 +1822,32 @@ if st.session_state.step == 1:
      <hr style="border-top: 1px dashed #ccc; margin: 15px 0;">
 
      <!-- ================================================================================== -->
-     <!-- PHẦN 2: QUY TRÌNH "CHỌN & ĐIỀN" (STRICT SELECTION PROCESS) -->
-     <!-- SYSTEM_ALERT: Tại phần này, AI KHÔNG ĐƯỢC TỰ VIẾT.
-          AI phải thực hiện đúng 3 bước:
-          1. QUAN SÁT DỮ LIỆU.
-          2. CHỌN MÃ ID (Ví dụ: Tôi chọn Mẫu 1.2 vì dữ liệu đối lập).
-          3. ĐIỀN DỮ LIỆU VÀO MẪU (Không paraphrase mẫu). -->
+     <!-- PHẦN 2: THỰC HÀNH TƯ DUY & LẮP RÁP -->
      <!-- ================================================================================== -->
      <li>     
-         <b>✍️ THỰC HÀNH "CHỌN & ĐIỀN" (FILL-IN-THE-BLANKS):</b>
+         <b>✍️ THỰC HÀNH LẮP RÁP BODY 2 (STEP-BY-STEP):</b>
          <br>
-         <br><b>✅ BƯỚC 1: Câu chuyển đoạn (Áp dụng KHỐI 1)</b>
-         <br>- <b>Dữ liệu:</b> [Category C] bắt đầu tại mức nào? Có ngược chiều Body 1 không?
-         <br>- <b>🔴 Lựa chọn của AI:</b> Tôi chọn <b>[Mẫu 1...]</b> vì... <i>(Giải thích lý do)</i>
-         <br>- <b>📝 Viết câu (Chỉ điền vào [...]):</b> <i>(AI điền dữ liệu vào đúng mẫu đã chọn)</i>
+         <br><b>✅ BƯỚC 1: Xử lý Câu chuyển đoạn (Áp dụng KHỐI 1)</b>
+         <br>- <b>🔴 Lựa chọn của AI:</b> Tôi chọn <b>[Mẫu 1...]</b>.
+         <br>- <b>📝 Viết câu:</b> <i>[AI điền dữ liệu vào mẫu]</i>
          <br>
-         <br><b>✅ BƯỚC 2: Diễn biến chính (Áp dụng KHỐI 2)</b>
-         <br>- <b>Dữ liệu:</b> Đường đi của nó dao động, ổn định hay tăng giảm nhẹ?
-         <br>- <b>🔴 Lựa chọn của AI:</b> Tôi chọn <b>[Mẫu 2...]</b> vì... <i>(Giải thích lý do)</i>
-         <br>- <b>📝 Viết câu (Chỉ điền vào [...]):</b> <i>(AI điền dữ liệu vào đúng mẫu đã chọn)</i>
+         <br><b>✅ BƯỚC 2: Xử lý Diễn biến & Kết thúc TRỌN GÓI (Áp dụng KHỐI 2)</b>
+         <br>- <b>🔴 Lựa chọn của AI:</b> Tôi chọn <b>[Mẫu 2...]</b>.
+         <br>- <b>📝 Viết câu:</b> <i>[AI điền dữ liệu vào mẫu. Lưu ý đã bao gồm số liệu năm cuối.]</i>
          <br>
-         <br><b>✅ BƯỚC 3: Chốt số liệu (Áp dụng KHỐI 3)</b>
-         <br>- <b>Dữ liệu:</b> Số liệu năm cuối là bao nhiêu?
-         <br>- <b>🔴 Lựa chọn của AI:</b> Tôi chọn <b>[Mẫu 3...]</b> để nối vào câu trên.
-         <br>- <b>📝 Viết câu (Chỉ điền vào [...]):</b> <i>(AI điền dữ liệu vào đúng mẫu đã chọn)</i>
-         <br>
-         <br><b>✅ BƯỚC 4: So sánh đối tượng cuối (Áp dụng KHỐI 4)</b>
-         <br>- <b>Dữ liệu:</b> [Category D] có quan hệ gì với [Category C]?
-         <br>- <b>🔴 Lựa chọn của AI:</b> Tôi chọn <b>[Mẫu 4...]</b> vì... <i>(Giải thích lý do)</i>
-         <br>- <b>📝 Viết câu (Chỉ điền vào [...]):</b> <i>(AI điền dữ liệu vào đúng mẫu đã chọn)</i>
+         <br><b>✅ BƯỚC 3: Xử lý So sánh nội bộ (Áp dụng KHỐI 3)</b>
+         <br>- <b>🔴 Lựa chọn của AI:</b> Tôi chọn <b>[Mẫu 3...]</b>.
+         <br>- <b>📝 Viết câu:</b> <i>[AI điền dữ liệu vào mẫu]</i>
      </li>
+     
+     <!-- PHẦN 4: GHÉP CÂU HOÀN CHỈNH -->
+     <li><div style="background-color:#e1f5fe; padding:15px; border-radius:8px; margin-top:10px; border-left: 5px solid #03a9f4;">
+         <b>📝 KẾT QUẢ BODY 2 (FINAL OUTPUT):</b><br>
+         <div style="margin-top:5px; font-style: italic; color: #5d4037;">
+         [AI nối các câu đã viết ở trên thành đoạn văn hoàn chỉnh.]
+         </div>
+     </div></li>
+   </ul>
 
      <!-- ================================================================================== -->
      <!-- PHẦN 3: GIẢI MÃ TỪ VỰNG "ĂN ĐIỂM" TRONG BÀI (DECODING VOCABULARY) -->
