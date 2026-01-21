@@ -1617,7 +1617,7 @@ if st.session_state.step == 1:
      <li>
          <div style="background-color:#f8f9fa; border:1px solid #bdc3c7; border-radius:5px; padding:15px; margin-bottom:15px;">
          <strong style="color:#d35400;">📚 KHO MẪU CÂU BODY 1:</strong>
-         <br><i>(AI phải hiển thị đầy đủ các mẫu dưới đây)</i>
+         <br><i>(AI phải hiển thị đầy đủ 4 KHỐI dưới đây)</i>
          
          <!-- KHỐI 1: CÂU MỞ ĐẦU (STARTING POINT) -->
          <div style="background-color:#fdf2e9; border-left:4px solid #d35400; padding:10px; margin-top:5px;">
