@@ -1591,9 +1591,24 @@ if st.session_state.step == 1:
 
                     3. **"body1_guide" (Thân bài 1 - Nhóm Nổi bật / Biến động mạnh):**
    - <ul>
-     <li><b>Logic chọn nhóm (Grouping Strategy):</b> Chọn 1 hoặc 2 hạng mục (Category) có <b>số liệu cao nhất</b> hoặc <b>xu hướng thay đổi mạnh nhất/tăng trưởng rõ rệt</b> để phân tích trước.</li>
-     <li><b>Cấu trúc chuẩn (Flow):</b>
-                             <br><code>[Câu mở đầu & Số liệu năm đầu] + [Mô tả xu hướng & Điểm gãy (Peak/Dip)] + [Số liệu kết thúc (Optional)]</code>.</li>
+     <!-- ================================================================================== -->
+     <!-- PHẦN 0: CÔNG THỨC TỔNG QUÁT (VISUAL FLOW) -->
+     <!-- SYSTEM_ALERT: Hiển thị ngay đầu tiên. -->
+     <!-- ================================================================================== -->
+     <li>
+         <div style="background-color:#fffde7; border:2px solid #fbc02d; border-radius:5px; padding:15px; margin-bottom:15px; text-align:center;">
+             <strong style="color:#f57f17; font-size: 1.1rem;">🎯 CÔNG THỨC TRIỂN KHAI (THE FLOW):</strong>
+             <br><i>(Quy trình 3 bước chuẩn hóa cho Body 1)</i>
+             <br>
+             <br>
+             <code style="font-size: 1rem; background-color: white; padding: 5px; border: 1px dashed #f9a825;">[1. So sánh Start]</code>
+             <span style="color:#f57f17; font-weight:bold;"> ➔ </span>
+             <code style="font-size: 1rem; background-color: white; padding: 5px; border: 1px dashed #f9a825;">[2. Trend & End (Cat A)]</code>
+             <span style="color:#f57f17; font-weight:bold;"> ➔ </span>
+             <code style="font-size: 1rem; background-color: white; padding: 5px; border: 1px dashed #f9a825;">[3. So sánh & End (Cat B)]</code>
+         </div>
+     </li>
+
      <!-- ================================================================================== -->
      <!-- SYSTEM_ALERT: 
           1. DISPLAY_MODE = RAW. Tại phần "KHO MẪU CÂU", giữ nguyên các ký tự [Variable]. KHÔNG ĐIỀN DỮ LIỆU VÀO ĐÓ.
@@ -1601,8 +1616,8 @@ if st.session_state.step == 1:
      <!-- ================================================================================== -->
      <li>
          <div style="background-color:#f8f9fa; border:1px solid #bdc3c7; border-radius:5px; padding:15px; margin-bottom:15px;">
-         <strong style="color:#d35400;">📚 KHO MẪU CÂU BODY 1 (ADVANCED):</strong>
-         <br><i>(AI phải hiển thị đầy đủ từ Mẫu 1.1 đến Mẫu 4.2 dưới đây)</i>
+         <strong style="color:#d35400;">📚 KHO MẪU CÂU BODY 1:</strong>
+         <br><i>(AI phải hiển thị đầy đủ các mẫu dưới đây)</i>
          
          <!-- KHỐI 1: CÂU MỞ ĐẦU (STARTING POINT) -->
          <div style="background-color:#fdf2e9; border-left:4px solid #d35400; padding:10px; margin-top:5px;">
@@ -1667,32 +1682,36 @@ if st.session_state.step == 1:
      <li> 
          <b>✍️ THỰC HÀNH LẮP RÁP BODY 1 (STEP-BY-STEP):</b>
          <br>
-         <br><b>✅ BƯỚC 1: Xử lý Câu mở đầu</b>
-         <br>- <b>🔴 Chọn ID:</b> <i>[AI chọn Mẫu 1.X phù hợp với dữ liệu]</i>
-         <br>- <b>📥 Mẫu gốc:</b> <code>[AI copy y nguyên mẫu gốc ở trên xuống đây]</code>
-         <br>- <b>📝 Điền từ:</b> <i>[AI thay thế [...] bằng dữ liệu thật. CẤM sửa các từ khác.]</i>
-         <br>
-         <br><b>✅ BƯỚC 2: Xử lý Xu hướng chính</b>
-         <br>- <b>🔴 Chọn ID:</b> <i>[AI chọn Mẫu 2.X]</i>
+         <br><b>✅ BƯỚC 1: Xử lý Câu mở đầu (So sánh Start Data)</b>
+         <br>- <b>🔴 Chọn ID:</b> <i>[AI chọn Mẫu 1.X]</i>
          <br>- <b>📥 Mẫu gốc:</b> <code>[AI copy y nguyên mẫu gốc]</code>
-         <br>- <b>📝 Điền từ:</b> <i>[AI điền dữ liệu. Nếu dữ liệu Giảm, không được chọn mẫu Tăng/Soán ngôi.]</i>
+         <br>- <b>🧩 Khai báo biến:</b>
+           <br>&nbsp;&nbsp;+ [Cat A] (Chủ thể 1) = ...
+           <br>&nbsp;&nbsp;+ [Cat B] (Chủ thể 2) = ...
+           <br>&nbsp;&nbsp;+ [Data] = ...
+         <br>- <b>📝 Kết quả ghép:</b> <i>[AI thay biến vào mẫu]</i>
          <br>
-         <br><b>✅ BƯỚC 3: Xử lý Kết thúc</b>
-         <br>- <b>🔴 Chọn ID:</b> <i>[AI chọn Mẫu 3.X]</i>
+         <br><b>✅ BƯỚC 2: Xử lý Chủ thể 1 (Trend + End Data)</b>
+         <br>- <b>🔴 Chọn ID Trend:</b> <i>[AI chọn Mẫu 2.X]</i>
          <br>- <b>📥 Mẫu gốc:</b> <code>[AI copy y nguyên mẫu gốc]</code>
-         <br>- <b>📝 Điền từ:</b> <i>[AI điền dữ liệu]</i>
+         <br>- <b>🧩 Khai báo biến Trend:</b> [Data] = ...
+         <br>- <b>🔴 Chọn ID End:</b> <i>[AI chọn Mẫu 3.X]</i>
+         <br>- <b>🧩 Khai báo biến End:</b> [End Data] = ...
+         <br>- <b>📝 Kết quả ghép (Nối 2 mẫu):</b> <i>[AI ghép Mẫu 2 + Mẫu 3]</i>
          <br>
-         <br><b>✅ BƯỚC 4: Xử lý So sánh</b>
-         <br>- <b>🔴 Chọn ID:</b> <i>[AI chọn Mẫu 4.X]</i>
+         <br><b>✅ BƯỚC 3: Xử lý Chủ thể 2 (So sánh + Trend + End Data)</b>
+         <br>- <b>🔴 Chọn ID So sánh:</b> <i>[AI chọn Mẫu 4.X]</i>
          <br>- <b>📥 Mẫu gốc:</b> <code>[AI copy y nguyên mẫu gốc]</code>
-         <br>- <b>📝 Điền từ:</b> <i>[AI điền dữ liệu]</i>
+         <br>- <b>🧩 Khai báo biến:</b>
+           <br>&nbsp;&nbsp;+ [Cat B] = ...
+           <br>&nbsp;&nbsp;+ [Data] = ...         
      </li>
      
      <!-- PHẦN 4: GHÉP CÂU HOÀN CHỈNH -->
      <li><div style="background-color:#e1f5fe; padding:15px; border-radius:8px; margin-top:10px; border-left: 5px solid #03a9f4;">
          <b>📝 KẾT QUẢ BODY 1 (FINAL OUTPUT):</b><br>
          <div style="margin-top:5px; font-style: italic; color: #5d4037;">
-         [AI nối các câu ở phần 'Điền từ' lại thành đoạn văn.]
+         [AI thay biến vào mẫu]
          </div>
      </div></li>
    </ul>
