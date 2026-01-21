@@ -347,7 +347,7 @@ def generate_content_with_failover(prompt, image=None, json_mode=False):
     random.shuffle(keys_to_try) 
     
     model_priority = [
-        "gemini-3-flash-preview",        
+        #"gemini-3-flash-preview",        
         "gemini-2.5-flash",
         "gemini-2.5-flash-lite",
         "gemini-2.0-flash",
@@ -1588,7 +1588,44 @@ if st.session_state.step == 1:
                              </div>
                          </div></li>
                        </ul>
+    ### 🕒 PHẦN BỔ TRỢ: KHO THỜI GIAN (ĐẶT TRƯỚC BODY 1)
 
+   - <ul>
+     <!-- ================================================================================== -->
+     <!-- GLOBAL MODULE: KHO THỜI GIAN VẠN NĂNG -->
+     <!-- SYSTEM_ALERT: AI tham chiếu bảng này để chọn từ chỉ thời gian phù hợp cho từng phần. -->
+     <!-- ================================================================================== -->
+     <li>
+         <div style="background-color:#e3f2fd; border:1px solid #2196f3; border-radius:5px; padding:15px; margin-bottom:15px;">
+             <strong style="color:#0d47a1;">⏰ KHO THỜI GIAN VẠN NĂNG (UNIVERSAL TIME MENU):</strong>
+             <br><i>(Hướng dẫn: Chọn 1 cụm từ dưới đây để điền vào biến số <b>[Time]</b> trong các Body)</i>
+             
+             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; font-size: 0.9rem;">
+                 <!-- CỘT 1: ĐIỂM THỜI GIAN -->
+                 <div style="background-color:white; padding:8px; border-radius:4px; border:1px dashed #2196f3;">
+                     <b style="color:#1565c0;">1. Điểm thời gian (Point):</b>
+                     <ul style="margin:5px 0; padding-left:15px;">
+                         <li>In <b>[Year]</b> / In the year <b>[Year]</b></li>
+                         <li>At the start/beginning of the period</li>
+                         <li>In the final year / By <b>[Year]</b></li>
+                         <li>In <b>[Year]</b> and <b>[Year]</b> respectively</li>
+                     </ul>
+                 </div>
+
+                 <!-- CỘT 2: KHOẢNG THỜI GIAN -->
+                 <div style="background-color:white; padding:8px; border-radius:4px; border:1px dashed #2196f3;">
+                     <b style="color:#1565c0;">2. Khoảng thời gian (Duration):</b>
+                     <ul style="margin:5px 0; padding-left:15px;">
+                         <li>Over the <b>[Number]</b>-year period</li>
+                         <li>Throughout the period</li>
+                         <li>During the given period</li>
+                         <li>In the subsequent years / Following this,</li>
+                     </ul>
+                 </div>
+             </div>
+         </div>
+     </li>
+   </ul>
                     3. **"body1_guide" (Thân bài 1 - Nhóm Nổi bật / Biến động mạnh):**
    - <ul>
      <!-- ================================================================================== -->
@@ -1618,7 +1655,8 @@ if st.session_state.step == 1:
      <li>
          <div style="background-color:#f8f9fa; border:1px solid #bdc3c7; border-radius:5px; padding:15px; margin-bottom:15px;">
          <strong style="color:#d35400;">📚 KHO MẪU CÂU BODY 1:</strong>
-         <br><i>(AI phải hiển thị đầy đủ 3 KHỐI dưới đây)</i>
+         <br><i>(Lưu ý: Chọn từ Menu Thời Gian để điền vào <b>[Time]</b>)</i>
+         <br><i>(Bắt buộc phải hiển thị đầy đủ 3 KHỐI này)</i>
          
          <!-- KHỐI 1: CÂU MỞ ĐẦU (STARTING POINT) -->
          <div style="background-color:#fdf2e9; border-left:4px solid #d35400; padding:10px; margin-top:5px;">
@@ -1626,7 +1664,7 @@ if st.session_state.step == 1:
                           
              <br>📍 <b>[Mẫu 1.1 - Chênh lệch rõ]</b> (A > B):
              <br><code><b>[Cat A]</b> was the dominant category, <b>significantly outstripping [Cat B]</b>, with respective figures of <b>[Data A]</b> and <b>[Data B]</b>.</code>
-             
+                          
              <br>📍 <b>[Mẫu 1.2 - Sát nút / Tương đồng (Similarity/Close)]</b> (A ≈ B):
              <br><code><b>[Cat A]</b> and <b>[Cat B]</b> started at <b>comparable levels</b> of <b>[Data A]</b> and <b>[Data B]</b> respectively.</code>
              
