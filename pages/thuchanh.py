@@ -1612,7 +1612,8 @@ if st.session_state.step == 1:
      <!-- ================================================================================== -->
      <!-- SYSTEM_ALERT: 
           1. DISPLAY_MODE = RAW. Tại phần "KHO MẪU CÂU", giữ nguyên các ký tự [Variable]. KHÔNG ĐIỀN DỮ LIỆU VÀO ĐÓ.
-          2. EXECUTION_MODE = STRICT. Tại phần "THỰC HÀNH", không được paraphrase. Chỉ thay thế biến số. -->
+          2. EXECUTION_MODE = STRICT. Tại phần "THỰC HÀNH", không được paraphrase. Chỉ thay thế biến số.
+          3. FORCE_FULL_DISPLAY: BẮT BUỘC hiển thị ĐỦ 4 KHỐI (KHỐI 1, 2, 3, 4). KHÔNG ĐƯỢC ẨN KHỐI 4.-->
      <!-- ================================================================================== -->
      <li>
          <div style="background-color:#f8f9fa; border:1px solid #bdc3c7; border-radius:5px; padding:15px; margin-bottom:15px;">
