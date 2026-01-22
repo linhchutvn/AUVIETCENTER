@@ -1518,9 +1518,9 @@ if st.session_state.step == 1:
                                  <br>"It is clear that while <b>&#91;Category A&#93;</b> changed significantly, the figure for <b>&#91;Category B&#93;</b> remained relatively stable <b>over the given period</b>."
                              </div>
 
-                             <!-- KHỐI 3:  KEY FEATURES / HIGHLIGHTS (LIỆT KÊ ĐỦ 3 LOẠI) -->
+                             <!-- KHỐI 3: HIGHLIGHTS (LIỆT KÊ ĐỦ 3 LOẠI) -->
                              <div style="background-color:#fdf2e9; border-left:4px solid #d35400; padding:10px; margin-top:5px;">
-                                 <b>► 3. Các mẫu câu Điểm nổi bật (Key Features / Highlights):</b>
+                                 <b>► 3. Các mẫu câu Điểm nổi bật ( Highlights):</b>
                                  <br><i>(Phân tích đề bài và hình ảnh để chọn Highlights loại nào?, và chỉ hiển thị công thức)</i>                               
                                  <br>✅ <b>Loại 1: Cao nhất/Thấp nhất (Ranking)</b>
                                  <br><i>(Dùng khi có 1 đường luôn nằm trên hoặc nằm dưới các đường khác)</i>
@@ -1554,7 +1554,7 @@ if st.session_state.step == 1:
                                   <ul style="margin-top:5px; list-style-type: none; padding-left: 10px;">
                                      <li>👀 <b>Quan sát (Observation):</b> <i>[AI MÔ TẢ. Ví dụ: "Đường A luôn nằm cao nhất, không bị ai vượt qua."]</i></li>
                                      <li>🧩 <b>Khớp với Mẫu số:</b> <b>[AI ĐIỀN LOẠI. Ví dụ: Loại 1 (Cao nhất/Ranking)]</b>.</li>                                     
-                                     <br>👉 <b>Viêt câu Highlights:</b> <i>[AI viết câu hoàn chỉnh. YÊU CẦU: không tự chế từ hoặc câu khác, phải sử dụng mẫu đã có sẵn]</i>
+                                     <br>👉 <b>Viêt câu Highlights:</b> <i>[AI viết câu hoàn chỉnh. YÊU CẦU: không tự chế, chỉ việc điền vào [...]]</i>
                                  </ul>
                              </div>                            
                          </li>
