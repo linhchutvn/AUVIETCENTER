@@ -1541,19 +1541,29 @@ if st.session_state.step == 1:
                          
                          <hr style="border-top: 1px dashed #ccc; margin: 15px 0;">
 
-                         <!-- PHẦN 2: PHÂN TÍCH (BƯỚC NÀY AI MỚI ĐƯỢC PHÉP CHỌN LỌC) -->
+                        # ==================================================================================
+                         # PHẦN 2: CHIẾN THUẬT CHỌN MẪU (TEMPLATE MATCHING)
+                         # Mục tiêu: Dạy học sinh nhìn hình -> Chọn mẫu -> Giải thích tại sao.
+                         # ==================================================================================
                          <li>
-                             <b>🔍 PHÂN TÍCH BÀI NÀY (Selection & Drafting):</b>
-                             <br><i>(Dựa trên hình ảnh, hãy tick chọn xem bài này thuộc Loại mấy trong Menu trên)</i>                            
-                             <br><b>1. Phân tích Xu hướng (Sentence 1):</b>
-                             <br>- Bài này khớp với <b>Loại mấy?</b> (1, 2, 3 hay 4): <i>[AI trả lời. VD: Loại 2 (Mix)]</i>
-                             <br>- Điền dữ liệu vào mẫu đó: <b>&#91;Category A/B&#93;</b> là gì? <b>&#91;Category C&#93;</b> là gì?                            
-                             <br>👉 <b>Câu tham khảo Trends:</b> <i>[AI BẮT BUỘC dùng đúng cấu trúc câu của Mẫu đã chọn ở trên. KHÔNG ĐƯỢC paraphrase hay đổi cấu trúc. CHỈ ĐƯỢC thay thế các phần trong ngoặc vuông [...] bằng dữ liệu thực tế.]</i>                            
-                             <br><b>2. Phân tích Điểm nổi bật (Sentence 2):</b>
-                             <br>- Bài này khớp với <b>Loại mấy?</b> (1, 2 hay 3): <i>[AI trả lời. VD: Loại 3 (Soán ngôi)]</i>
-                             <br>- Điền dữ liệu vào mẫu đó: Ai vượt qua Ai?
-                             <br>👉 <b>Câu tham khảo Highlights:</b> <i>[AI BẮT BUỘC dùng đúng cấu trúc câu của Mẫu đã chọn ở trên. KHÔNG ĐƯỢC paraphrase hay đổi cấu trúc. CHỈ ĐƯỢC thay thế các phần trong ngoặc vuông [...] bằng dữ liệu thực tế.]</i>
-                         </li>
+                             <div style="background-color:#e1f5fe; padding:15px; border-radius:8px; border-left: 5px solid #0288d1; margin-bottom: 15px;">
+                                 <strong style="color:#01579b; font-size: 1.1rem;">🎯 TẠI SAO CHỌN MẪU NÀY? (MATCHING STRATEGY):</strong>
+                                 <br><i>(Giám khảo hướng dẫn cách nhìn hình để chọn Mẫu câu phù hợp)</i>
+                                 
+                                 <br><br><b>1. Với Xu hướng (Trend - Câu 1):</b>
+                                 <ul style="margin-top:5px; list-style-type: none; padding-left: 10px;">
+                                     <li>👀 <b>Quan sát (Observation):</b> <i>[AI MÔ TẢ NGẮN GỌN DẤU HIỆU HÌNH ẢNH. Ví dụ: "Đường A đi lên mạnh, trong khi đường B lại đi xuống."]</i></li>
+                                     <li>🧩 <b>Khớp với Mẫu số:</b> <b>[AI ĐIỀN LOẠI. Ví dụ: Loại 2 (Xu hướng ngược/Mix)]</b>.</li>
+                                     <li>💡 <b>Lý do chọn:</b> <i>[AI GIẢI THÍCH LOGIC. Ví dụ: "Vì hai đường đi ngược chiều nhau nên bắt buộc dùng cấu trúc tương phản 'While/In contrast'."]</i></li>
+                                 </ul>
+
+                                 <br><b>2. Với Điểm nổi bật (Highlight - Câu 2):</b>
+                                  <ul style="margin-top:5px; list-style-type: none; padding-left: 10px;">
+                                     <li>👀 <b>Quan sát (Observation):</b> <i>[AI MÔ TẢ. Ví dụ: "Đường A luôn nằm cao nhất, không bị ai vượt qua."]</i></li>
+                                     <li>🧩 <b>Khớp với Mẫu số:</b> <b>[AI ĐIỀN LOẠI. Ví dụ: Loại 1 (Cao nhất/Ranking)]</b>.</li>
+                                     <li>💡 <b>Lý do chọn:</b> <i>[AI GIẢI THÍCH. Ví dụ: "Vì đường này luôn áp đảo (dominant) suốt giai đoạn nên dùng từ 'consistently the highest'."]</i></li>
+                                 </ul>
+                             </div>
 
                          <!-- PHẦN 3: TỪ VỰNG -->
                          <li><b>🔑 TỪ VỰNG GỢI Ý (Vocabulary):</b>
