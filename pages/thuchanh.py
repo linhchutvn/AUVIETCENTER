@@ -1032,11 +1032,7 @@ if st.session_state.step == 1:
                     # STRICT OUTPUT RULES (BẮT BUỘC TUÂN THỦ):
                     1.  **NO MARKDOWN LISTS:** Tuyệt đối KHÔNG được tự ý chuyển đổi định dạng sang gạch đầu dòng (bullet points) của Markdown.
                     2.  **HTML ONLY:** Output bắt buộc phải giữ nguyên các thẻ HTML: `<ul>`, `<li>`, `<b>`, `<br>`, `<code>`, `<div>`. Hệ thống chỉ render được HTML, nếu bạn dùng Markdown sẽ bị lỗi hiển thị.
-                    3.  **FILL-IN-THE-BLANKS (ĐIỀN VÀO CHỖ TRỐNG):** 
-                        - Nhiệm vụ của bạn là lấy nội dung phân tích và "đổ" vào đúng các vị trí trong Code Mẫu.
-                        - KHÔNG ĐƯỢC tóm tắt hay gộp các bước.
-                        - Nếu Code mẫu có "Bước 1", "Bước 2", "Bước 3", bạn phải giữ nguyên tiêu đề đó và điền nội dung tương ứng xuống dòng dưới.
-    
+                        
                     **BƯỚC 1: NHẬN DIỆN LOẠI BÀI (QUAN TRỌNG)**
                     Hãy nhìn hình ảnh và xác định nó thuộc loại nào:
                     1. **Change Over Time** (Line, Bar, Table, Pie có năm tháng): Cần từ vựng xu hướng (increase, decrease).
