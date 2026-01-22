@@ -2070,7 +2070,7 @@ if st.session_state.step == 2 and st.session_state.guide_data:
             """, unsafe_allow_html=True)
 
         # Phần hướng dẫn (Expander)
-with st.expander(f"💡 Hướng dẫn viết {title}", expanded=False):
+    with st.expander(f"💡 Hướng dẫn viết {title}", expanded=False):
     g_text = data.get(guide_key, "Không có hướng dẫn.")
     
     # === BẮT ĐẦU FIX LỖI HIỂN THỊ ===
@@ -2083,7 +2083,7 @@ with st.expander(f"💡 Hướng dẫn viết {title}", expanded=False):
     st.markdown(f"<div class='guide-box'>{g_text}</div>", unsafe_allow_html=True)
         
         # Ô nhập liệu
-        return st.text_area(label=title, height=200, key=input_key, placeholder=f"Bắt đầu viết {title} tại đây...", label_visibility="collapsed")
+    return st.text_area(label=title, height=200, key=input_key, placeholder=f"Bắt đầu viết {title} tại đây...", label_visibility="collapsed")
 
     # --- 3. CHIA CỘT LAYOUT (4-6) ---
     col_left, col_right = st.columns([4, 6], gap="large")
