@@ -1621,11 +1621,11 @@ if st.session_state.step == 1:
              <br><i>(Quy trình 3 bước chuẩn hóa cho Body 1)</i>
              <br>
              <br>
-             <code style="font-size: 1rem; background-color: white; padding: 5px; border: 1px dashed #f9a825;">[1. So sánh Start]</code>
+             <code style="font-size: 0.6rem; background-color: white; padding: 5px; border: 1px dashed #f9a825;">[1. So sánh Start]</code>
              <span style="color:#f57f17; font-weight:bold;"> ➔ </span>
-             <code style="font-size: 1rem; background-color: white; padding: 5px; border: 1px dashed #f9a825;">[2. Trend & End (Cat A)]</code>
+             <code style="font-size: 0.6rem; background-color: white; padding: 5px; border: 1px dashed #f9a825;">[2. Trend & End (Cat A)]</code>
              <span style="color:#f57f17; font-weight:bold;"> ➔ </span>
-             <code style="font-size: 1rem; background-color: white; padding: 5px; border: 1px dashed #f9a825;">[3. So sánh & End (Cat B)]</code>
+             <code style="font-size: 0.6rem; background-color: white; padding: 5px; border: 1px dashed #f9a825;">[3. So sánh & End (Cat B)]</code>
          </div>
      </li>
 
