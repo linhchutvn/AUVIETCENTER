@@ -2046,13 +2046,13 @@ if st.session_state.step == 2 and st.session_state.guide_data:
 
     data = st.session_state.guide_data
 
-    # --- 2. HÀM RENDER (ĐÃ SỬA: THÊM WORD COUNT RIÊNG) ---
+    # --- 2. HÀM RENDER (ĐÃ SỬA LỖI EXPANDER & HTML) ---
     def render_writing_section(title, guide_key, input_key):
-        # Tính số từ hiện tại của ô này
+        # Tính số từ hiện tại
         current_text = st.session_state.get(input_key, "")
         word_count = len(current_text.split())
         
-        # Hiển thị Tiêu đề và Số từ trên cùng 1 hàng
+        # Tiêu đề + Số từ
         c_title, c_count = st.columns([8, 2])
         with c_title:
             st.markdown(f"#### {title}")
@@ -2065,15 +2065,19 @@ if st.session_state.step == 2 and st.session_state.guide_data:
             </div>
             """, unsafe_allow_html=True)
 
-    # Phần hướng dẫn (Expander)
-    # ⚠️ LƯU Ý: Tất cả các dòng bên dưới 'with' phải được thụt vào 1 Tab (hoặc 4 dấu cách)
-    with st.expander(f"💡 Hướng dẫn viết {title}", expanded=False):
-        g_text = data.get(guide_key, "Không có hướng dẫn.")
-        if g_text:            
-            import re # Đảm bảo đã import re ở đầu file hoặc tại đây
-            g_text = re.sub(r'\n\s*', ' ', g_text)        
-        st.markdown(f"<div class='guide-box'>{g_text}</div>", unsafe_allow_html=True)   
-    return st.text_area(label=title, height=200, key=input_key, placeholder=f"Bắt đầu viết {title} tại đây...", label_visibility="collapsed")
+        # Phần hướng dẫn (FIX: Markdown thụt vào trong 'with')
+        with st.expander(f"💡 Hướng dẫn viết {title}", expanded=False):
+            g_text = data.get(guide_key, "Không có hướng dẫn.")
+            
+            # FIX: Xóa xuống dòng để không bị hiểu lầm là Code Block
+            if g_text:
+                import re
+                g_text = re.sub(r'\n\s*', ' ', g_text)
+                
+            st.markdown(f"<div class='guide-box'>{g_text}</div>", unsafe_allow_html=True)
+        
+        # Ô nhập liệu (Nằm ngoài 'with', trả về kết quả)
+        return st.text_area(label=title, height=200, key=input_key, placeholder=f"Bắt đầu viết {title} tại đây...", label_visibility="collapsed")
 
     # --- 3. CHIA CỘT LAYOUT (4-6) ---
     col_left, col_right = st.columns([4, 6], gap="large")
