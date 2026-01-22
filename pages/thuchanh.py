@@ -1841,47 +1841,46 @@ if st.session_state.step == 1:
 
                     4. **"body2_guide" (Thân bài 2 - Quy trình Chọn & Điền):**
    - <ul>
-     <li><b>Logic chọn nhóm (Grouping Strategy):</b> AI thực hiện: Phân tích tất cả các hạng mục (Category) còn lại. Ưu tiên gom nhóm các đường có xu hướng tương tự nhau (cùng dao động, hoặc cùng thấp).</li>
+     <li><b>Logic chọn nhóm (Grouping Strategy):</b> AI thực hiện: Phân tích tất cả các hạng mục (Category) còn lại. Ưu tiên gom nhóm các đường có xu hướng tương tự nhau.</li>
      
      <!-- ================================================================================== -->     
-     <!-- PHẦN 1: KHO MẪU CÂU (THEORY) -->
+     <!-- PHẦN 1: KHO MẪU CÂU (THEORY) - ĐÃ BỔ SUNG KHỐI 3 -->
      <!-- ================================================================================== -->
      <li>
          <div style="background-color:#f8f9fa; border:1px solid #bdc3c7; border-radius:5px; padding:15px; margin-bottom:15px;">
          <strong style="color:#2980b9;">📚 KHO MẪU CÂU BODY 2 (REMAINING CATEGORIES):</strong>         
-         <br><i>(Lưu ý kỹ: Phân biệt Chủ ngữ Số ít "It" và Số nhiều "They")</i>
+         <br><i>(Lưu ý: Phân biệt Chủ ngữ Số ít "It" và Số nhiều "They")</i>
          
          <!-- KHỐI 1: CÂU CHUYỂN ĐOẠN (STARTING) -->
          <div style="background-color:#eaf2f8; border-left:4px solid #2980b9; padding:10px; margin-top:5px;">
              <b>► KHỐI 1: CHUYỂN ĐOẠN & KHỞI ĐẦU:</b>
              
-             <br>📍 <b>[Mẫu 1.1 - Chuyển tiếp chuẩn]</b> (Dùng cho 1 đối tượng):
+             <br>📍 <b>[Mẫu 1.1 - Số ít - Chuyển tiếp chuẩn]</b> (Dùng cho 1 đối tượng):
              <br><code>Turning to <b>[Cat C]</b>, the figure started at <b>[Data]</b> <b>[Time]</b>.</code>
              
-             <br>📍 <b>[Mẫu 1.2 - Gom nhóm 2 đối tượng]</b> (Dùng cho Reading & Theatre):
+             <br>📍 <b>[Mẫu 1.2 - Số nhiều - Gom nhóm]</b> (Dùng cho 2 đối tượng):
              <br><code>Regarding <b>[Cat C]</b> and <b>[Cat D]</b>, they began the period at <b>[Data C]</b> and <b>[Data D]</b> respectively.</code>
              
-             <br>📍 <b>[Mẫu 1.3 - Đối lập]</b> (Nếu xu hướng ngược hoàn toàn Body 1):
+             <br>📍 <b>[Mẫu 1.3 - Số ít - Đối lập]</b> (Nếu xu hướng ngược hoàn toàn Body 1):
              <br><code>In contrast, a different trend was seen in <b>[Cat C]</b>, which stood at <b>[Data]</b> <b>[Time]</b>.</code>
          </div>
 
          <!-- KHỐI 2: DIỄN BIẾN (TRENDS & MIDDLE POINTS) -->
          <div style="background-color:#eaf2f8; border-left:4px solid #2980b9; padding:10px; margin-top:5px;">
              <b>► KHỐI 2: DIỄN BIẾN CHI TIẾT:</b>
-             <br><i>(Examiner Note: Phải mô tả được điểm giữa nếu biểu đồ dao động)</i>
+             <br><i>(Cảnh báo: Nếu Khối 1 dùng Mẫu 1.2, Khối 2 BẮT BUỘC dùng Mẫu 2.4)</i>
              
-             <br>📍 <b>[Mẫu 2.1 - Dao động & Kết thúc]</b> (Fluctuation):
+             <br>📍 <b>[Mẫu 2.1 - Số ít - Dao động]</b> (Fluctuation):
              <br><code>It showed a volatile pattern, <b>fluctuating between [Low Data] and [High Data]</b>, before ending the period at <b>[End Data]</b>.</code>
              
-             <br>📍 <b>[Mẫu 2.2 - Có Đỉnh/Đáy ở giữa]</b> (Quan trọng cho bài US Elders):
-             <br><i>(Dùng khi số liệu tăng lên đỉnh rồi mới giảm, hoặc ngược lại)</i>
+             <br>📍 <b>[Mẫu 2.2 - Số ít - Có Đỉnh/Đáy ở giữa]</b> (Quan trọng cho bài dao động):
              <br><code>After reaching a <b>[peak/low]</b> of <b>[Middle Data]</b> in <b>[Year]</b>, the figure <b>[rose/fell]</b> to finish at <b>[End Data]</b>.</code>
              
-             <br>📍 <b>[Mẫu 2.3 - "Dark Horse"]</b> (Tăng vọt từ mức thấp):
+             <br>📍 <b>[Mẫu 2.3 - Số ít - "Dark Horse"]</b> (Tăng vọt từ mức thấp):
              <br><i>(Dành riêng cho đối tượng như Online Activities)</i>
              <br><code>Starting at a mere <b>[Start Data]</b>, it <b>experienced a dramatic surge</b>, reaching <b>[End Data]</b> <b>[Time]</b>.</code>
              
-             <br>📍 <b>[Mẫu 2.4 - Số nhiều]</b> (Dùng cho "They" ở Mẫu 1.2):
+             <br>📍 <b>[Mẫu 2.4 - SỐ NHIỀU]</b> (Dành riêng cho "They" ở Mẫu 1.2):
              <br><code>Both categories witnessed <b>[fluctuations / similar trends]</b>, eventually ending at <b>[Data C]</b> and <b>[Data D]</b> respectively.</code>
          </div>
         
@@ -1892,9 +1891,13 @@ if st.session_state.step == 1:
              <br>📍 <b>[Mẫu 3.1 - So sánh nội bộ]</b>:
              <br><code>The figure for <b>[Cat C]</b> was significantly <b>[higher/lower]</b> than that of <b>[Cat D]</b> throughout most of the period.</code>
 
-             <br>📍 <b>[Mẫu 3.2 - Đối tượng cuối cùng]</b> (The Last One):
-             <br><i>(Dùng mẫu này để giới thiệu đối tượng lẻ loi cuối cùng, ví dụ: Online)</i>
+             <br>📍 <b>[Mẫu 3.2 - Đối tượng cuối cùng (Số ít)]</b> (The Last One):
+             <br><i>(Dùng mẫu này để giới thiệu đối tượng lẻ loi cuối cùng)</i>
              <br><code>Finally, <b>[Cat E]</b> followed a <b>[Type of Trend]</b> trend. Although it began at only <b>[Start Data]</b>, it ended at <b>[End Data]</b>, overtaking <b>[Cat X]</b>.</code>
+
+             <br>📍 <b>[Mẫu 3.3 - Nhóm còn lại (SỐ NHIỀU)]</b> (Dùng khi còn dư 2 đối tượng):
+             <br><i>(Sử dụng mẫu này nếu bạn chưa nhắc đến 2 đối tượng cuối)</i>
+             <br><code>The remaining categories, <b>[Cat E]</b> and <b>[Cat F]</b>, witnessed <b>[fluctuating/similar]</b> trends, ending at <b>[Data E]</b> and <b>[Data F]</b> respectively.</code>
          </div>
          </div>
      </li>
@@ -1908,33 +1911,64 @@ if st.session_state.step == 1:
          <div style="background-color:#e1f5fe; padding:15px; border-radius:8px; border-left: 5px solid #0288d1; margin-bottom: 15px;">
              <strong style="color:#01579b; font-size: 1.1rem;">🔍 PHÂN TÍCH & CHỌN MẪU (Step-by-Step):</strong>
              
-             <!-- MẬT LỆNH ẨN: CẤM AI PARAPHRASE -->
+             <!-- MẬT LỆNH ẨN: CẤM AI PARAPHRASE & CHẾ BIẾN BIẾN SỐ -->
              <div style="display:none;">
                  SYSTEM_COMMAND:
                  1. COPY template EXACTLY.
-                 2. HANDLE SINGULAR/PLURAL SUBJECTS CAREFULLY (If Block 1 uses "They", Block 2 MUST use "Both categories" or split them).
-                 3. REPLACE brackets [...] with real data.
-                 4. DO NOT change "figures for" to "participation".
+                 2. DO NOT INVENT NEW VARIABLES (e.g., DO NOT create [Cat E_2] if the template only has [Cat E]).
+                 3. IF you have 2 categories left, you MUST choose Template 3.3 (Plural). DO NOT choose Template 3.2 (Singular) and then try to squeeze 2 categories into it.
+                 4. REPLACE brackets [...] with real data.
              </div>
 
              <br><b>✅ BƯỚC 1: Nhóm các đối tượng còn lại</b>
-             <br>- Còn lại những đối tượng nào? (Ví dụ: Theatre, Reading, Online).
-             <br>- Có nên gom nhóm không? (VD: Gom Theatre & Reading vì cùng dao động. Để Online riêng vì tăng mạnh).
              <br>- <b>👉 Chọn Mẫu Khối 1:</b> [AI chọn Mẫu 1.X]
              <br>- <b>📝 Viết câu mở đầu:</b> <code>[AI viết câu dựa trên mẫu]</code>
              
              <br><br><b>✅ BƯỚC 2: Mô tả diễn biến (Trend & Middle Points)</b>
-             <br>- Có đỉnh (peak) hay đáy (low) nào ở giữa giai đoạn cần nhắc đến không?
              <br>- <b>👉 Chọn Mẫu Khối 2:</b> [AI chọn Mẫu 2.X]
+             <br><i>(Lưu ý: Nếu Bước 1 chọn Mẫu 1.2 (Số nhiều), Bước này bắt buộc chọn Mẫu 2.4)</i>
              <br>- <b>📝 Viết câu diễn biến:</b> <code>[AI viết câu dựa trên mẫu]</code>
              
-             <br><br><b>✅ BƯỚC 3: Xử lý đối tượng lẻ loi (nếu có) & So sánh</b>
-             <br>- Còn đối tượng nào chưa nói? (Ví dụ: Online).
-             <br>- Xu hướng của nó là gì? (Start low -> End high).
-             <br>- <b>👉 Chọn Mẫu Khối 3:</b> [AI chọn Mẫu 3.2 hoặc Mẫu Dark Horse]
+             <br><br><b>✅ BƯỚC 3: Xử lý đối tượng lẻ loi & So sánh</b>
+             <br>- Còn lại bao nhiêu đối tượng? (1 hay 2?)
+             <br>- <b>👉 Chọn Mẫu Khối 3:</b> [AI chọn Mẫu 3.2 (nếu còn 1) hoặc Mẫu 3.3 (nếu còn 2)]
              <br>- <b>📝 Viết câu cuối cùng:</b> <code>[AI viết câu dựa trên mẫu]</code>
          </div>
-     </li>       
+     </li>
+     
+     <hr style="border-top: 1px dashed #ccc; margin: 15px 0;">
+
+     <!-- ================================================================================== -->
+     <!-- PHẦN 2: THỰC HÀNH TƯ DUY & LẮP RÁP (STRICT MODE) -->
+     <!-- ================================================================================== -->
+     <li>     
+         <div style="background-color:#e1f5fe; padding:15px; border-radius:8px; border-left: 5px solid #0288d1; margin-bottom: 15px;">
+             <strong style="color:#01579b; font-size: 1.1rem;">🔍 PHÂN TÍCH & CHỌN MẪU (Step-by-Step):</strong>
+             
+             <!-- MẬT LỆNH ẨN: CẤM AI PARAPHRASE & CHẾ BIẾN BIẾN SỐ -->
+             <div style="display:none;">
+                 SYSTEM_COMMAND:
+                 1. COPY template EXACTLY.
+                 2. DO NOT INVENT NEW VARIABLES (e.g., DO NOT create [Cat E_2] if the template only has [Cat E]).
+                 3. IF you have 2 categories left, you MUST choose Template 3.3 (Plural). DO NOT choose Template 3.2 (Singular) and then try to squeeze 2 categories into it.
+                 4. REPLACE brackets [...] with real data.
+             </div>
+
+             <br><b>✅ BƯỚC 1: Nhóm các đối tượng còn lại</b>
+             <br>- <b>👉 Chọn Mẫu Khối 1:</b> [AI chọn Mẫu 1.X]
+             <br>- <b>📝 Viết câu mở đầu:</b> <code>[AI viết câu dựa trên mẫu]</code>
+             
+             <br><br><b>✅ BƯỚC 2: Mô tả diễn biến (Trend & Middle Points)</b>
+             <br>- <b>👉 Chọn Mẫu Khối 2:</b> [AI chọn Mẫu 2.X]
+             <br><i>(Lưu ý: Nếu Bước 1 chọn Mẫu 1.2 (Số nhiều), Bước này bắt buộc chọn Mẫu 2.4)</i>
+             <br>- <b>📝 Viết câu diễn biến:</b> <code>[AI viết câu dựa trên mẫu]</code>
+             
+             <br><br><b>✅ BƯỚC 3: Xử lý đối tượng lẻ loi & So sánh</b>
+             <br>- Còn lại bao nhiêu đối tượng? (1 hay 2?)
+             <br>- <b>👉 Chọn Mẫu Khối 3:</b> [AI chọn Mẫu 3.2 (nếu còn 1) hoặc Mẫu 3.3 (nếu còn 2)]
+             <br>- <b>📝 Viết câu cuối cùng:</b> <code>[AI viết câu dựa trên mẫu]</code>
+         </div>
+     </li>        
 
      <!-- ================================================================================== -->
      <!-- PHẦN 3: GIẢI MÃ TỪ VỰNG "ĂN ĐIỂM" TRONG BÀI (DECODING VOCABULARY) -->
