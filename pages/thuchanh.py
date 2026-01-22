@@ -1536,25 +1536,41 @@ if st.session_state.step == 1:
                          
                          <hr style="border-top: 1px dashed #ccc; margin: 15px 0;">
 
-                         # ==================================================================================
-                         # PHẦN 2: CHIẾN THUẬT CHỌN MẪU (TEMPLATE MATCHING)
-                         # Mục tiêu: Dạy học sinh nhìn hình -> Chọn mẫu -> Giải thích tại sao.
+                          # ==================================================================================
+                         # PHẦN 2: CHIẾN THUẬT CHỌN MẪU (STRICT MATCHING & DRAFTING)
                          # ==================================================================================
                          <li>
                              <div style="background-color:#e1f5fe; padding:15px; border-radius:8px; border-left: 5px solid #0288d1; margin-bottom: 15px;">
                                  <strong style="color:#01579b; font-size: 1.1rem;">🔍 PHÂN TÍCH BÀI NÀY (Selection & Drafting):</strong>
-                                 <br><i>(Học sinh nhìn hình để chọn Mẫu cho phù hợp)</i>                                 
+                                 <br><i>(Học sinh nhìn hình để chọn Mẫu cho phù hợp)</i>
+                                 
+                                 <!-- ⛔ MẬT LỆNH: CẤM AI SÁNG TẠO (Người dùng không thấy đoạn này) -->
+                                 <div style="display:none;">
+                                     SYSTEM_COMMAND:
+                                     1. LOOK at the template chosen below.
+                                     2. COPY that template EXACTLY word-for-word.
+                                     3. ONLY replace the text inside brackets [...] with real data.
+                                     4. DO NOT paraphrase (e.g., DO NOT change 'figures for' to 'participation', DO NOT change 'increased' to 'saw a rise' unless the template says so).
+                                 </div>
+
                                  <br><br><b>1. Với Xu hướng (Trend - Câu 1):</b>
                                  <ul style="margin-top:5px; list-style-type: none; padding-left: 10px;">
-                                     <li>👀 <b>Quan sát (Observation):</b> <i>[AI MÔ TẢ NGẮN GỌN DẤU HIỆU HÌNH ẢNH (bằng tiếng Việt). Ví dụ: "Đường A đi lên mạnh, trong khi đường B lại đi xuống."]</i></li>
-                                     <li>🧩 <b>Khớp với Mẫu số:</b> <b>[AI ĐIỀN LOẠI. Ví dụ: Loại 2 (Xu hướng ngược/Mix)]</b>.</li>                                     
-                                     <br>👉 <b>Viết câu Trends:</b> <i>[AI viết câu hoàn chỉnh. YÊU CẦU: Copy y nguyên cấu trúc mẫu, chỉ thay thế chủ ngữ và số liệu]</i>
+                                     <li>👀 <b>Quan sát (Observation):</b> <i>[AI MÔ TẢ NGẮN GỌN DẤU HIỆU. Ví dụ: "Hai đường đi ngược chiều nhau."]</i></li>
+                                     <li>🧩 <b>Khớp với Mẫu số:</b> <b>[AI ĐIỀN LOẠI]</b>.</li>
+                                     
+                                     <!-- Phần viết câu: Dùng thẻ code để nổi bật kết quả -->
+                                     <br>👉 <b>Viết câu Trends:</b> 
+                                     <br><code style="color:#d35400; background-color:#fff; padding: 2px 5px; border-radius: 4px;">[AI điền dữ liệu vào mẫu. YÊU CẦU: Copy y nguyên cấu trúc mẫu, KHÔNG ĐƯỢC sửa từ vựng]</code>
                                  </ul>
+
                                  <br><b>2. Với Điểm nổi bật (Highlight - Câu 2):</b>
                                   <ul style="margin-top:5px; list-style-type: none; padding-left: 10px;">
-                                     <li>👀 <b>Quan sát (Observation):</b> <i>[AI MÔ TẢ. Ví dụ: "Đường A luôn nằm cao nhất, không bị ai vượt qua."]</i></li>
-                                     <li>🧩 <b>Khớp với Mẫu số:</b> <b>[AI ĐIỀN LOẠI. Ví dụ: Loại 1 (Cao nhất/Ranking)]</b>.</li>                                     
-                                     <br>👉 <b>Viêt câu Highlights:</b> <i>[AI viết câu hoàn chỉnh. YÊU CẦU: không tự chế, chỉ việc điền vào [...]]</i>
+                                     <li>👀 <b>Quan sát (Observation):</b> <i>[AI MÔ TẢ NGẮN GỌN DẤU HIỆU]</i></li>
+                                     <li>🧩 <b>Khớp với Mẫu số:</b> <b>[AI ĐIỀN LOẠI]</b>.</li>
+                                     
+                                     <!-- Phần viết câu -->
+                                     <br>👉 <b>Viết câu Highlights:</b> 
+                                     <br><code style="color:#d35400; background-color:#fff; padding: 2px 5px; border-radius: 4px;">[AI điền dữ liệu vào mẫu. YÊU CẦU: Copy y nguyên cấu trúc mẫu, KHÔNG ĐƯỢC sửa từ vựng]</code>
                                  </ul>
                              </div>                            
                          </li>
@@ -1644,24 +1660,22 @@ if st.session_state.step == 1:
          <br><i>(Lưu ý: Chọn từ Menu Thời Gian để điền vào <b>[Time]</b>)</i>         
          
          <!-- KHỐI 1: CÂU MỞ ĐẦU (STARTING POINT) -->
-         <div style="background-color:#fdf2e9; border-left:4px solid #d35400; padding:10px; margin-top:5px;">
-         <br><i>(Phân tích đề bài và hình ảnh để chọn KHỐI 1 thuộc Mẫu nào?, và chỉ hiển thị công thức)</i>
+         <div style="background-color:#fdf2e9; border-left:4px solid #d35400; padding:10px; margin-top:5px;">         
              <b>► KHỐI 1: ĐIỂM XUẤT PHÁT:</b>                          
-             <br>📍 <b>[Mẫu 1.1 - Chênh lệch rõ]</b> (A > B):
-             <br><code><b>[Cat A]</b> was the dominant category, <b>significantly outstripping [Cat B]</b>, with respective figures of <b>[Data A]</b> and <b>[Data B]</b>.</code>                          
-             <br>📍 <b>[Mẫu 1.2 - Sát nút / Tương đồng (Similarity/Close)]</b> (A ≈ B):
-             <br><code><b>[Cat A]</b> and <b>[Cat B]</b> started at <b>comparable levels</b> of <b>[Data A]</b> and <b>[Data B]</b> respectively.</code>             
-             <br>📍 <b>[Mẫu 1.3 - Đồng mức]</b> (A = B):
-             <br><code>Both <b>[Cat A]</b> and <b>[Cat B]</b> <b>started the period at the exact same figure</b> of <b>[Data]</b>.</code>                          
-             <br>📍 <b>[Mẫu 1.4 - Trung tính]</b> (While):
-             <br><code><b>[Cat A]</b> started the period at <b>[Data A]</b>, while the figure for <b>[Cat B]</b> was <b>[Data B]</b>.</code>
-             <br>📍 <b>[Mẫu 1.5 - Đối chiếu]</b> (Regarding):
-             <br><code><b>Regarding [Cat A]</b>, in <b>[Year 1]</b>, it stood at <b>[Data A]</b>, compared to <b>[Data B]</b> for <b>[Cat B]</b>.</code>
+             <br>📍 <b>[Mẫu 1.1 - Chênh lệch rõ]</b> (A > B):             
+             <br><code><b>[Time]</b>, <b>[Cat A]</b> was the dominant category, <b>significantly outstripping [Cat B]</b> with <b>figures of [Data A]</b> and <b>[Data B]</b> respectively.</code>
+             <br>📍 <b>[Mẫu 1.2 - Sát nút / Tương đồng (Similarity/Close)]</b> (A ≈ B):             
+             <br><code><b>[Time]</b>, <b>[Cat A]</b> and <b>[Cat B]</b> started the period at <b>comparable levels</b> of <b>[Data A]</b> and <b>[Data B]</b> respectively.</code>
+             <br>📍 <b>[Mẫu 1.3 - Đồng mức]</b> (A = B):             
+             <br><code><b>[Time]</b>, both <b>[Cat A]</b> and <b>[Cat B]</b> <b>stood at the exact same figure</b> of <b>[Data]</b>.</code>   
+             <br>📍 <b>[Mẫu 1.4 - Trung tính]</b> (While):             
+             <br><code><b>At the start of the period</b>, <b>[Cat A]</b> stood at <b>[Data A]</b>, while the figure for <b>[Cat B]</b> was <b>[Data B]</b>.</code>
+             <br>📍 <b>[Mẫu 1.5 - Đối chiếu]</b> (Regarding):             
+             <br><code><b>Regarding [Cat A]</b>, <b>[Time]</b>, it stood at <b>[Data A]</b>, compared to <b>[Data B]</b> for <b>[Cat B]</b>.</code>             
          </div>
 
          <!-- KHỐI 2: MIÊU TẢ TREND & ĐIỂM GÃY - CỰC KỲ QUAN TRỌNG -->
-         <div style="background-color:#fdf2e9; border-left:4px solid #d35400; padding:10px; margin-top:5px;">
-         <br><i>(Phân tích đề bài và hình ảnh để chọn KHỐI 2 thuộc Mẫu nào?, và chỉ hiển thị công thức)</i>
+         <div style="background-color:#fdf2e9; border-left:4px solid #d35400; padding:10px; margin-top:5px;">         
              <b>► KHỐI 2: MIÊU TẢ TREND:</b>             
              <br>📍 <b>[Mẫu 2.1 - Before V-ing]</b> (Tăng rồi Giảm/Ngược lại):
              <br><code>The figure increased to <b>[Peak Data]</b>, <b>before falling back to finish at</b> <b>[End Data]</b>.</code>             
@@ -1685,8 +1699,7 @@ if st.session_state.step == 1:
          </div>
 
          <!-- KHỐI 3: SO SÁNH VỚI CÁC CATEGORY CÒN LẠI -->
-         <div style="background-color:#fdf2e9; border-left:4px solid #d35400; padding:10px; margin-top:5px;">
-         <br><i>(Phân tích đề bài và hình ảnh để chọn KHỐI 3 thuộc Mẫu nào?, và chỉ hiển thị công thức)</i>
+         <div style="background-color:#fdf2e9; border-left:4px solid #d35400; padding:10px; margin-top:5px;">         
              <b>► KHỐI 3: SO SÁNH VỚI CÁC CATEGORY CÒN LẠI:</b>             
              <br>📍 <b>[Mẫu 3.1 - Tương đồng]</b>: <code>Similarly, <b>[Category B]</b> also witnessed a downward trend, <b>falling/rising to [Data]</b>.</code>
              <br>📍 <b>[Mẫu 3.2 - Đối lập]</b>: <code>In contrast, <b>[Category B]</b> <b>followed the opposite trend</b>, <b>as it increased/decreased to [Data]</b>.</code>
