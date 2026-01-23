@@ -1699,6 +1699,8 @@ if st.session_state.step == 1:
              <br><code>It climbed rapidly to reach <b>[Data]</b> in <b>[Year]</b>, <b>after which it leveled off/plateaued</b> for the remainder of the period.</code>
              <br>📍 <b>[Mẫu 2.9 - Recovery]</b> (Hồi phục sau khi giảm):
              <br><code>After an initial drop to <b>[Low Data]</b>, the figure <b>recovered</b>, rising back to <b>[End Data]</b> <b>[Time]</b>.</code>
+             <br>📍 <b>[Mẫu 2.10 - Advanced Synthesis]</b> (Tả biến động kép + So sánh):
+<br><code><b>[Time]</b>, <b>[Cat A]</b> saw a <b>[Sharp/Steady]</b> <b>[Rise/Fall]</b>, <b>[Surpassing/Overtaking] [Cat B]</b> to finish the period as the leader at <b>[End Data]</b>.</code>
          </div>
 
          <!-- KHỐI 3: SO SÁNH VỚI CÁC CATEGORY CÒN LẠI -->
@@ -1871,19 +1873,17 @@ if st.session_state.step == 1:
 
          <!-- KHỐI 2: DIỄN BIẾN (TRENDS) -->
          <div style="background-color:#eaf2f8; border-left:4px solid #2980b9; padding:10px; margin-top:5px;">
-             <b>► KHỐI 2: DIỄN BIẾN & ĐIỂM GIỮA (MIDDLE POINTS):</b>
-             
+             <b>► KHỐI 2: DIỄN BIẾN & ĐIỂM GIỮA (MIDDLE POINTS):</b>             
              <br>📍 <b>[Mẫu 2.1 - SỐ ÍT - Dao động/Đỉnh/Đáy]</b> (Chuẩn cho bài nhiều biến động):
-             <br><code>It fluctuated over the period, reaching a <b>[peak/low]</b> of <b>[Middle Data]</b> in <b>[Year]</b> before ending at <b>[End Data]</b>.</code>
-             
+             <br><code>It fluctuated over the period, reaching a <b>[peak/low]</b> of <b>[Middle Data]</b> in <b>[Year]</b> before ending at <b>[End Data]</b>.</code>             
              <br>📍 <b>[Mẫu 2.2 - SỐ ÍT - Tăng/Giảm thẳng]</b>:
              <br><code>It witnessed a <b>[steady/sharp]</b> <b>[increase/decrease]</b> to finish the period at <b>[End Data]</b>.</code>
-
              <br>📍 <b>[Mẫu 2.3 - SỐ NHIỀU - Song hành]</b> (Dành riêng cho Mẫu 1.2):
-             <br><code>Both figures witnessed <b>[similar/fluctuating]</b> trends, eventually ending at <b>[End Data C]</b> and <b>[End Data D]</b> respectively.</code>
-             
+             <br><code>Both figures witnessed <b>[similar/fluctuating]</b> trends, eventually ending at <b>[End Data C]</b> and <b>[End Data D]</b> respectively.</code>             
              <br>📍 <b>[Mẫu 2.4 - SỐ NHIỀU - Tách đôi]</b> (Dành riêng cho Mẫu 1.2 nhưng xu hướng khác nhau):
              <br><code>While <b>[Cat C]</b> <b>[increased/decreased]</b> to <b>[End Data]</b>, <b>[Cat D]</b> <b>[Trend D]</b>, finishing at <b>[End Data]</b>.</code>
+             <br>📍 <b>[Mẫu 2.5 - Trend phức tạp]</b> (Dùng khi trend quá phức tạp):
+<br><code><b>[Subject]</b> + <b>[Verb of Change 1]</b> + <b>[Linker: before/after which/while]</b> + <b>[Verb of Change 2/Result]</b>, finishing at <b>[End Data]</b>.</code>
          </div>
         
          <!-- KHỐI 3: CHỐT HẠ (NẾU CÒN DƯ) -->
