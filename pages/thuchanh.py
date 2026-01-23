@@ -1740,27 +1740,55 @@ if st.session_state.step == 1:
             <div style="background-color:#e1f5fe; padding:15px; border-radius:8px; border-left: 5px solid #0288d1;">
                 <strong style="color:#01579b; font-size: 1.1rem;">🧠 MỤC 3: THỰC HÀNH LẮP RÁP CÂU</strong>                
                 <div style="display:none;">
-                    SYSTEM_COMMAND_STRICT:
-                    1. SELECTION: Identify Cat A (Highest) and Cat B (Second). Explain WHY.
-                    2. BLUEPRINT EXECUTION:
-                       - Sentence 1: Start A & Compare with B (T1 + S1/S2 + V1 + D2/D6).
-                       - Sentence 2: Trend of A (T2/T3 + S3 + V2-V7 + D4/D5/D8).
-                       - Sentence 3: Trend of B vs A (T4/T5 + S2/S7 + V2-V7 + D3/D7).
-                    3. MATH RULE: Use "double/triple" if numbers allow.
-                    4. COPY template EXACTLY.              
+                   SYSTEM_COMMAND_STRICT_V6:
+                    1. SELECTION: Identify Cat A (Highest) and Cat B (Second). Explain WHY in Vietnamese.
+                    2. SENTENCE-BY-SENTENCE LOGIC:
+                       - For each sentence, you MUST provide:
+                         a) A brief instruction in Vietnamese (Hướng dẫn).
+                         b) The code combination (Mã linh kiện T-S-V-D).
+                         c) The final English sentence (Kết quả câu).
+                    3. BLUEPRINT:
+                       - Sentence 1: Start A & Compare with B.
+                       - Sentence 2: Trend of A (Middle to End).
+                       - Sentence 3: Trend of B vs A (Interaction/Overtaking).
+                    4. MATH RULE: Use "double/triple" if numbers allow.
+                    5. COPY template EXACTLY word-for-word.
                 </div>
 
                 <br><b>✅ 1. PHÂN TÍCH CHỌN NHÓM:</b>
-                <br>- Nhóm Body 1 gồm: [Cat A] và [Cat B].
-                <br>- Lý do: [Ví dụ: Đây là hai hoạt động phổ biến nhất và có sự hoán đổi vị trí dẫn đầu].
+                <br>- <b>Nhóm Body 1 gồm:</b> [Tên Cat A] và [Tên Cat B].
+                <br>- <b>Lý do chọn:</b> [AI giải thích bằng tiếng Việt: Ví dụ: Đây là hai hạng mục có số liệu cao nhất và có sự biến động kịch tính nhất biểu đồ].
 
-                <br><b>✅ 2. QUY TRÌNH "BỐC" MÃ LINH KIỆN:</b>
-                <br>- 🧩 <b>Câu 1 (Start/Compare):</b> [Mã T] + [Mã S] + [Mã V] + [Mã D]
-                <br>- 🧩 <b>Câu 2 (Trend A):</b> [Mã T] + [Mã S] + [Mã V] + [Mã D]
-                <br>- 🧩 <b>Câu 3 (Trend B/Interact):</b> [Mã T] + [Mã S] + [Mã V] + [Mã D]
+                <br><b>✅ 2. QUY TRÌNH VIẾT CHI TIẾT TỪNG CÂU:</b>
+                
+                <!-- CÂU 1 -->
+                <div style="margin-top:10px; padding:10px; background-color:white; border-radius:5px; border: 1px solid #b3e5fc;">
+                    <b style="color:#0288d1;">📍 CÂU 1: XÁC LẬP TRẠNG THÁI ĐẦU</b>
+                    <br>• <b>Hướng dẫn:</b> [AI viết hướng dẫn ngắn bằng tiếng Việt. Ví dụ: Nêu số liệu năm 1980 của Cat A và so sánh nó gấp mấy lần Cat B].
+                    <br>• <b>Kết nối dữ liệu:</b> [Mã T] + [Mã S] + [Mã V] + [Mã D]
+                    <br>• <b>Kết quả câu:</b> <i>[AI viết câu tiếng Anh hoàn chỉnh]</i>
+                </div>
 
-                <br><b>✅ 3. KẾT QUẢ HOÀN CHỈNH:</b>
-                <li><div style="background-color:#e1f5fe; padding:15px; border-radius:8px; margin-top:10px; border-left: 5px solid #03a9f4;">[AI viết đoạn văn Body 1 tuân thủ đúng trình tự 3 bước: Khai báo đầu -> Diễn biến A -> Diễn biến B so với A. Đảm bảo số liệu khớp 100%.]</code>
+                <!-- CÂU 2 -->
+                <div style="margin-top:10px; padding:10px; background-color:white; border-radius:5px; border: 1px solid #b3e5fc;">
+                    <b style="color:#0288d1;">📍 CÂU 2: DIỄN BIẾN CỦA ĐỐI TƯỢNG CHÍNH (CAT A)</b>
+                    <br>• <b>Hướng dẫn:</b> [AI viết hướng dẫn ngắn bằng tiếng Việt. Ví dụ: Mô tả quá trình tăng trưởng của Cat A đến điểm cao nhất].
+                    <br>• <b>Kết nối dữ liệu:</b> [Mã T] + [Mã S] + [Mã V] + [Mã D]
+                    <br>• <b>Kết quả câu:</b> <i><i>[AI viết câu tiếng Anh hoàn chỉnh]</i></i>
+                </div>
+
+                <!-- CÂU 3 -->
+                <div style="margin-top:10px; padding:10px; background-color:white; border-radius:5px; border: 1px solid #b3e5fc;">
+                    <b style="color:#0288d1;">📍 CÂU 3: DIỄN BIẾN ĐỐI TƯỢNG 2 & SỰ TƯƠNG TÁC</b>
+                    <br>• <b>Hướng dẫn:</b> [AI viết hướng dẫn ngắn bằng tiếng Việt. Ví dụ: Mô tả xu hướng của Cat B và nhấn mạnh việc nó bị Cat A bỏ xa hoặc vượt mặt].
+                    <br>• <b>Kết nối dữ liệu:</b> [Mã T] + [Mã S] + [Mã V] + [Mã D]
+                    <br>• <b>Kết quả câu:</b> <i><i>[AI viết câu tiếng Anh hoàn chỉnh]</i></i>
+                </div>
+
+                <br><b>✅ 3. KẾT QUẢ BODY 1 HOÀN CHỈNH (FINAL OUTPUT):</b>
+                <div style="background-color:#fff; padding:15px; border-radius:8px; margin-top:10px; border: 2px solid #03a9f4; line-height: 1.6; font-style: italic;">
+                    [AI nối 3 câu trên lại thành một đoạn văn hoàn chỉnh mượt mà]
+                </div>
             </div>
         </li>
     </ul>
