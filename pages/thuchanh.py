@@ -1547,10 +1547,14 @@ if st.session_state.step == 1:
                                  <!-- ⛔ MẬT LỆNH: CẤM AI SÁNG TẠO (Người dùng không thấy đoạn này) -->
                                  <div style="display:none;">
                                      SYSTEM_COMMAND:
-                                     1. LOOK at the template chosen below.
-                                     2. COPY that template EXACTLY word-for-word.
-                                     3. ONLY replace the text inside brackets [...] with real data.
-                                     4. DO NOT paraphrase (e.g., DO NOT change 'figures for' to 'participation', DO NOT change 'increased' to 'saw a rise' unless the template says so).
+                                     1.  **SCAN TREND:** Phân tích kỹ xu hướng thực tế của hình ảnh.
+                                     2.  **MATCH OR BUILD:** 
+                                        - Nếu có ID khớp > 80%: Hãy COPY ID đó và điền từ.
+                                        - Nếu KHÔNG có ID nào khớp: BẮT BUỘC sử dụng tư duy "LEGO" - Ghép 2 mẫu lại với nhau (như cách bạn ghép 2.3 và 2.4).
+                                     3.  **HYBRID RULE:** Khi ghép mẫu, phải đảm bảo tính nhất quán của chủ ngữ. 
+                                        - Sai: "There was a rise... and it surpassed..." (Lỗi mix giữa There was và It).
+                                        - Đúng: "The figure experienced a rise, surpassing... and ending at..." (Sử dụng mệnh đề quan hệ/rút gọn để ghép).
+                                     4.  **EXCEPTION:** Nếu trend là "Đi ngang rồi mới tăng" (mà mẫu không có), hãy dùng cấu trúc: "[Subject] remained stable before witnessing a rise to [Data]."
                                  </div>
 
                                  <br><br><b>1. Với Xu hướng (Trend - Câu 1):</b>
