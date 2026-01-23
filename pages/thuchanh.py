@@ -1760,7 +1760,7 @@ if st.session_state.step == 1:
                 <!-- CÂU 1 -->
                 <div style="margin-top:10px; padding:10px; background-color:white; border-radius:5px; border: 1px solid #b3e5fc;">
                     <b style="color:#0288d1;">📍 CÂU 1: XÁC LẬP TRẠNG THÁI ĐẦU</b>
-                    <br>• <b>Hướng dẫn:</b> [AI viết hướng dẫn ngắn bằng tiếng Việt. Ví dụ: Nêu số liệu năm 1980 của Cat A và so sánh nó gấp mấy lần Cat B].
+                    <br>• <b>Phân tích:</b> [[AI dựa vào hình ảnh, viết số liệu và so sánh bằng tiếng Việt, đây chính là câu Tiếng Anh sẽ viết lại.].
                     <br>• <b>Kết nối dữ liệu:</b> [Mã T] + [Mã S] + [Mã V] + [Mã D]
                     <br>• <b>Kết quả câu:</b> <i>[AI viết câu tiếng Anh hoàn chỉnh]</i>
                 </div>
@@ -1768,7 +1768,7 @@ if st.session_state.step == 1:
                 <!-- CÂU 2 -->
                 <div style="margin-top:10px; padding:10px; background-color:white; border-radius:5px; border: 1px solid #b3e5fc;">
                     <b style="color:#0288d1;">📍 CÂU 2: DIỄN BIẾN CỦA ĐỐI TƯỢNG CHÍNH (CAT A)</b>
-                    <br>• <b>Hướng dẫn:</b> [AI viết hướng dẫn ngắn bằng tiếng Việt. Ví dụ: Mô tả quá trình tăng trưởng của Cat A đến điểm cao nhất].
+                    <br>• <b>Phân tích:</b> [AI dựa vào hình ảnh, viết phân tích diễn biến bằng tiếng Việt, đây chính là câu Tiếng Anh sẽ viết lại.].
                     <br>• <b>Kết nối dữ liệu:</b> [Mã T] + [Mã S] + [Mã V] + [Mã D]
                     <br>• <b>Kết quả câu:</b> <i><i>[AI viết câu tiếng Anh hoàn chỉnh]</i></i>
                 </div>
@@ -1776,7 +1776,7 @@ if st.session_state.step == 1:
                 <!-- CÂU 3 -->
                 <div style="margin-top:10px; padding:10px; background-color:white; border-radius:5px; border: 1px solid #b3e5fc;">
                     <b style="color:#0288d1;">📍 CÂU 3: DIỄN BIẾN ĐỐI TƯỢNG 2 & SỰ TƯƠNG TÁC</b>
-                    <br>• <b>Hướng dẫn:</b> [AI viết hướng dẫn ngắn bằng tiếng Việt. Ví dụ: Mô tả xu hướng của Cat B và nhấn mạnh việc nó bị Cat A bỏ xa hoặc vượt mặt].
+                    <br>• <b>Hướng dẫn:</b> [AI dựa vào hình ảnh, viết phân tích diễn biến bằng tiếng Việt, đây chính là câu Tiếng Anh sẽ viết lại.].
                     <br>• <b>Kết nối dữ liệu:</b> [Mã T] + [Mã S] + [Mã V] + [Mã D]
                     <br>• <b>Kết quả câu:</b> <i><i>[AI viết câu tiếng Anh hoàn chỉnh]</i></i>
                 </div>
