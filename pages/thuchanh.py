@@ -1607,29 +1607,25 @@ if st.session_state.step == 1:
                 <strong style="color:#1a5276; font-size: 1.1rem;">🎯 BƯỚC 1: XÁC ĐỊNH NHÓM BODY 1</strong>
                 <br><i>(Giám khảo hướng dẫn: Tại sao ta chọn 2 đối tượng này để viết trước?)</i>
                 <div style="margin-top:10px; font-size: 0.9rem;">
-                    <b>• Tiêu chí chọn:</b> AI hãy quét biểu đồ và trả lời: <b>02 đối tượng (Cat A & Cat B)</b> có số liệu cao nhất hoặc có biến động kịch tính nhất (ví dụ: tăng vọt vượt mặt đối thủ).
-                    <br><b>• Lý do:</b> ....
+                    <b>• Tiêu chí chọn:</b> Bạn hãy xem biểu đồ và chọn ra <b>02 đối tượng (Cat A & Cat B)</b> có số liệu cao nhất hoặc có biến động đáng kể nhất.
+                    <br><b>• Lý do:</b> Việc đưa những "hạng mục này" ở body 1 giúp bài viết có trọng tâm rõ ràng và gây ấn tượng mạnh với Giám khảo về khả năng chọn lọc dữ liệu (Task Achievement).
                 </div>
             </div>
         </li>
-
         <!-- ================================================================================== -->
-        <!-- MỤC 2: CẤU TRÚC BLUEPRINT 3 BƯỚC (THE FORMULA) -->
+        <!-- MỤC 2: CẤU TRÚC CHUẨN 3 BƯỚC (THE FORMULA) -->
         <!-- ================================================================================== -->
         <li>
             <div style="background-color:#fff3e0; border:2px solid #ff9800; border-radius:8px; padding:15px; margin-bottom:15px;">
                 <strong style="color:#e65100; font-size: 1.1rem;">🏛️ BƯỚC 2: CÔNG THỨC CHUẨN (FORMULA)</strong>
-                <br><i>(Bắt buộc đi theo trình tự logic)</i>
-                
+                <br><i>(Bắt buộc đi theo trình tự logic)</i>                
                 <div style="margin-top:10px; font-size: 0.9rem;">
-                    <b style="color:#bf360c;">1. Xác lập trạng thái đầu:</b>
-                    <br>➔ Chỉ ra số liệu năm đầu tiên của Cat A và so sánh tương quan với Cat B (Gấp đôi/Gấp ba/Sát nút).
-                    
-                    <br><br><b style="color:#bf360c;">2. Mô tả diễn biến của Cat A:</b>
-                    <br>➔ Mô tả xu hướng của A từ đầu đến cuối, nhấn mạnh các điểm quan trọng (Đỉnh/Đáy) và số liệu năm cuối.
-                    
+                    <b style="color:#bf360c;">1. So sánh số liệu ban đầu:</b>
+                    <br>➔ Chỉ ra số liệu và so sánh năm đầu tiên của Cat A và Cat B (Gấp đôi/Gấp ba/Sát nút).                    
+                    <br><br><b style="color:#bf360c;">2. Mô tả xu hướng của Cat A:</b>
+                    <br>➔ Mô tả xu hướng của A - thay đổi đáng kể nhất, nhấn mạnh các điểm quan trọng (Đỉnh/Đáy) và đưa số liệu năm cuối.                    
                     <br><br><b style="color:#bf360c;">3. Đối chiếu diễn biến của Cat B (The Story of B vs A):</b>
-                    <br>➔ So sánh xu hướng của B với A (Cùng chiều hay Ngược chiều), chỉ ra sự tương tác (Vượt mặt) và số liệu năm cuối.
+                    <br>➔ So sánh xu hướng với Cat B, chỉ ra sự tương tác và số liệu năm cuối.
                 </div>
             </div>
         </li>
@@ -1703,7 +1699,7 @@ if st.session_state.step == 1:
         <!-- ================================================================================== -->
         <li>
             <div style="background-color:#fff8e1; border:1px solid #ffa000; border-radius:5px; padding:15px; margin-bottom:15px;">
-                <strong style="color:#e65100; font-size: 1.1rem;">💎 MỤC 2: TỪ VỰNG & CẤU TRÚC "ĂN ĐIỂM" (VOCABULARY BOOST)</strong>
+                <strong style="color:#e65100; font-size: 0.8rem;">💎 MỤC 2: TỪ VỰNG & CẤU TRÚC "ĂN ĐIỂM" (VOCABULARY BOOST)</strong>
                 <br><i>(Dùng để tinh chỉnh câu văn sau khi lắp khung xương T-S-V-D)</i>
                 
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 10px; font-size: 0.85rem;">
@@ -1742,8 +1738,7 @@ if st.session_state.step == 1:
         <!-- ================================================================================== -->
         <li>     
             <div style="background-color:#e1f5fe; padding:15px; border-radius:8px; border-left: 5px solid #0288d1;">
-                <strong style="color:#01579b; font-size: 1.1rem;">🧠 MỤC 3: THỰC HÀNH LẮP RÁP CÂU CHUYÊN GIA (ASSEMBLY)</strong>
-                
+                <strong style="color:#01579b; font-size: 1.1rem;">🧠 MỤC 3: THỰC HÀNH LẮP RÁP CÂU</strong>                
                 <div style="display:none;">
                     SYSTEM_COMMAND_STRICT:
                     1. SELECTION: Identify Cat A (Highest) and Cat B (Second). Explain WHY.
@@ -1765,7 +1760,7 @@ if st.session_state.step == 1:
                 <br>- 🧩 <b>Câu 3 (Trend B/Interact):</b> [Mã T] + [Mã S] + [Mã V] + [Mã D]
 
                 <br><b>✅ 3. KẾT QUẢ HOÀN CHỈNH:</b>
-                <br><code style="font-size: 1rem; color:#d35400; background-color:#fff; padding:10px; display:block; border: 1px solid #0288d1; line-height: 1.6;">[AI viết đoạn văn Body 1 tuân thủ đúng trình tự 3 bước: Khai báo đầu -> Diễn biến A -> Diễn biến B so với A. Đảm bảo số liệu khớp 100%.]</code>
+                <li><div style="background-color:#e1f5fe; padding:15px; border-radius:8px; margin-top:10px; border-left: 5px solid #03a9f4;">[AI viết đoạn văn Body 1 tuân thủ đúng trình tự 3 bước: Khai báo đầu -> Diễn biến A -> Diễn biến B so với A. Đảm bảo số liệu khớp 100%.]</code>
             </div>
         </li>
     </ul>
