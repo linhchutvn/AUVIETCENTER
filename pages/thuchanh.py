@@ -1607,8 +1607,8 @@ if st.session_state.step == 1:
                 <strong style="color:#1a5276; font-size: 1.1rem;">🎯 BƯỚC 1: XÁC ĐỊNH NHÓM BODY 1</strong>
                 <br><i>(Giám khảo hướng dẫn: Tại sao ta chọn 2 đối tượng này để viết trước?)</i>
                 <div style="margin-top:10px; font-size: 0.9rem;">
-                    <b>• Tiêu chí chọn:</b> AI hãy quét biểu đồ và chọn ra <b>02 đối tượng (Cat A & Cat B)</b> có số liệu cao nhất hoặc có biến động kịch tính nhất (ví dụ: tăng vọt vượt mặt đối thủ).
-                    <br><b>• Lý do:</b> Việc đưa những "nhân vật chính" lên đầu giúp bài viết có trọng tâm rõ ràng và gây ấn tượng mạnh với Giám khảo về khả năng chọn lọc dữ liệu (Task Achievement).
+                    <b>• Tiêu chí chọn:</b> AI hãy quét biểu đồ và trả lời: <b>02 đối tượng (Cat A & Cat B)</b> có số liệu cao nhất hoặc có biến động kịch tính nhất (ví dụ: tăng vọt vượt mặt đối thủ).
+                    <br><b>• Lý do:</b> ....
                 </div>
             </div>
         </li>
@@ -1618,8 +1618,8 @@ if st.session_state.step == 1:
         <!-- ================================================================================== -->
         <li>
             <div style="background-color:#fff3e0; border:2px solid #ff9800; border-radius:8px; padding:15px; margin-bottom:15px;">
-                <strong style="color:#e65100; font-size: 1.1rem;">🏛️ BƯỚC 2: CÔNG THỨC CHUẨN (BLUEPRINT)</strong>
-                <br><i>(Bắt buộc đi theo trình tự logic để đạt Band 8.0+ Coherence)</i>
+                <strong style="color:#e65100; font-size: 1.1rem;">🏛️ BƯỚC 2: CÔNG THỨC CHUẨN (FORMULA)</strong>
+                <br><i>(Bắt buộc đi theo trình tự logic)</i>
                 
                 <div style="margin-top:10px; font-size: 0.9rem;">
                     <b style="color:#bf360c;">1. Xác lập trạng thái đầu (The Anchor):</b>
