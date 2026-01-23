@@ -1613,8 +1613,8 @@ if st.session_state.step == 1:
                         <b style="color:#e65100;">Layer 1: T (Time/Linker)</b>
                         <ul style="margin:5px 0; padding-left:15px;">
                             <li><b>T1:</b> At the start of the period, / In [First Year],</li>
-                            <li><b>T2:</b> Subsequently, / Thereafter, / Over the next [X] years,</li>
-                            <li><b>T3:</b> Midway through the period, / Halfway thông qua timeframe,</li>
+                            <li><b>T2:</b> Subsequently, / Thereafter, / Over the following [X] years,</li>
+                            <li><b>T3:</b> Midway through the period, / Halfway through the timeframe,</li>
                             <li><b>T4:</b> In the subsequent years, / Looking at the second half of the decade,</li>
                             <li><b>T5:</b> Finally, / By the year [Final Year], / For the remainder of the period,</li>
                         </ul>
@@ -1676,27 +1676,29 @@ if st.session_state.step == 1:
                 
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 10px; font-size: 0.85rem;">
                     <div>
-                        <b style="color:#bf360c;">1. Trạng từ mức độ (Adverbs):</b>
+                        <b style="color:#bf360c;">1. Trạng từ chỉ Mức độ & Tốc độ:</b>
                         <ul style="padding-left:15px; margin:5px 0;">
-                            <li><b>Mạnh:</b> significantly, dramatically, sharply.</li>
-                            <li><b>Nhẹ:</b> modestly, slightly, marginally.</li>
+                            <li><b>Mạnh/Nhanh:</b> significantly, dramatically, rapidly.</li>
+                            <li><b>Nhẹ/Dần dần:</b> modestly, gradually, marginally.</li>
+                            <li><b>Ổn định:</b> steadily, consistently.</li>
                         </ul>
-                        <b style="color:#bf360c;">2. Giới từ chính xác (Prepositions):</b>
+                        <b style="color:#bf360c;">2. Độ chính xác (Approximation):</b>
                         <ul style="padding-left:15px; margin:5px 0;">
-                            <li><b>To:</b> Chạm mức | <b>By:</b> Khoảng chênh lệch.</li>
-                            <li><b>At:</b> Đứng tại mốc | <b>With:</b> Kèm theo số liệu.</li>
+                            <li><b>Xấp xỉ:</b> approximately, roughly, nearly.</li>
+                            <li><b>Ngưỡng:</b> around the [Data] mark, just under/over.</li>
                         </ul>
                     </div>
                     <div>
-                        <b style="color:#bf360c;">3. Cấu trúc đặc biệt (GRA):</b>
+                        <b style="color:#bf360c;">3. Giới từ chính xác (Bắt buộc):</b>
+                        <ul style="padding-left:15px; margin:5px 0;">
+                            <li><b>To:</b> Chạm mức cuối | <b>By:</b> Khoảng chênh lệch.</li>
+                            <li><b>At:</b> Đứng tại mốc | <b>With:</b> Kèm theo số liệu.</li>
+                        </ul>
+                        <b style="color:#bf360c;">4. Cấu trúc đặc biệt (GRA):</b>
                         <ul style="padding-left:15px; margin:5px 0;">
                             <li><b>Chủ ngữ giả:</b> [Cat A] saw/witnessed an increase.</li>
                             <li><b>Mệnh đề rút gọn:</b> ..., reaching a peak of...</li>
-                            <li><b>Mệnh đề quan hệ:</b> ..., which was double...</li>
-                        </ul>
-                        <b style="color:#bf360c;">4. Từ nối chuyển mạch:</b>
-                        <ul style="padding-left:15px; margin:5px 0;">
-                            <li>In contrast, Conversely, Similarly, Regarding...</li>
+                            <li><b>Phép so sánh:</b> ..., which was double/triple that of...</li>
                         </ul>
                     </div>
                 </div>
@@ -1713,13 +1715,13 @@ if st.session_state.step == 1:
                 <div style="display:none;">
                     SYSTEM_COMMAND_STRICT:
                     1. SCAN DATA: Identify Cat A (Highest) and Cat B (Second) in the first year.
-                    2. ASSEMBLY PROCESS:
-                       - Sentence 1 (Start): Use T1 + Layer 2/3 + Layer 4 (Comparison D2/D3/D6).
-                       - Sentence 2 (Trend A): Use T2/T3 + Layer 2/3 + Layer 4 (Result D4/D5).
-                       - Sentence 3 (Trend B): Use T4/T5 + Layer 2/3 + Layer 4 (Synthesis D3/D7).
-                    3. WORDING: Apply at least 02 advanced elements from Mục 2.
-                    4. COPY template EXACTLY word-for-word.
-                    5. PREPOSITION CHECK: Ensure "to", "by", "at" are used with 100% precision.                
+                    2. CALCULATION: Check for approximation (e.g., is 68% "nearly 70%"?).
+                    3. ASSEMBLY LINE:
+                       - Sentence 1 (Start): Use T1 + S1/S2/S5/S6 + V1 + D2/D3/D6 (Declare start & compare).
+                       - Sentence 2 (Trend Cat A): Use T2/T3 + S3/S4 + V2/V3/V4/V5 + D4/D5/D8.
+                       - Sentence 3 (Trend Cat B): Use T4/T5 + S2/S7 + V2/V6/V7 + D1/D3/D7.
+                    4. MATH RULE: Use math comparisons (double, threefold) if numbers allow.
+                    5. COPY template EXACTLY word-for-word.               
                 </div>
 
                 <br><b>✅ BƯỚC 1: GIẢI MÃ DỮ LIỆU (DECODING LOGIC)</b>
