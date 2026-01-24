@@ -1647,11 +1647,11 @@ if st.session_state.step == 1:
              <b>► Cấu trúc chuẩn (Formula):</b> 
              <br><i>(Quy trình 3 bước chuẩn hóa cho Body 1)</i>
              <br>             
-             <code style="font-size: 0.9rem; background-color: white; padding: 5px; border: 1px dashed #f9a825;">[1. So sánh Start]</code>
+             <code style="font-size: 0.8rem; background-color: white; padding: 5px; border: 1px dashed #f9a825;">[1. So sánh Start]</code>
              <span style="color:#f57f17; font-weight:bold;"> ➔ </span>
-             <code style="font-size: 0.9rem; background-color: white; padding: 5px; border: 1px dashed #f9a825;">[2. Trend & End (Cat A)]</code>
+             <code style="font-size: 0.8rem; background-color: white; padding: 5px; border: 1px dashed #f9a825;">[2. Trend & End (Cat A)]</code>
              <span style="color:#f57f17; font-weight:bold;"> ➔ </span>
-             <code style="font-size: 0.9rem; background-color: white; padding: 5px; border: 1px dashed #f9a825;">[3. So sánh & End (Cat B)]</code>
+             <code style="font-size: 0.8rem; background-color: white; padding: 5px; border: 1px dashed #f9a825;">[3. So sánh & End (Cat B)]</code>
          </div>
      </li>
 
@@ -1667,18 +1667,27 @@ if st.session_state.step == 1:
          
          <!-- KHỐI 1: CÂU MỞ ĐẦU (STARTING POINT) -->
          <div style="background-color:#fdf2e9; border-left:4px solid #d35400; padding:10px; margin-top:5px;">         
-             <b>► KHỐI 1: ĐIỂM XUẤT PHÁT:</b>                          
-             <br>📍 <b>[Mẫu 1.1 - Chênh lệch rõ]</b> (A > B):             
-             <br><code><b>[Time]</b>, <b>[Cat A]</b> was the dominant category, <b>significantly outstripping [Cat B]</b> with <b>figures of [Data A]</b> and <b>[Data B]</b> respectively.</code>
-             <br>📍 <b>[Mẫu 1.2 - Sát nút / Tương đồng (Similarity/Close)]</b> (A ≈ B):             
-             <br><code><b>[Time]</b>, <b>[Cat A]</b> and <b>[Cat B]</b> started the period at <b>comparable levels</b> of <b>[Data A]</b> and <b>[Data B]</b> respectively.</code>
-             <br>📍 <b>[Mẫu 1.3 - Đồng mức]</b> (A = B):             
-             <br><code><b>[Time]</b>, both <b>[Cat A]</b> and <b>[Cat B]</b> <b>stood at the exact same figure</b> of <b>[Data]</b>.</code>   
-             <br>📍 <b>[Mẫu 1.4 - Trung tính]</b> (While):             
-             <br><code><b>At the start of the period</b>, <b>[Cat A]</b> stood at <b>[Data A]</b>, while the figure for <b>[Cat B]</b> was <b>[Data B]</b>.</code>
-             <br>📍 <b>[Mẫu 1.5 - Đối chiếu]</b> (Regarding):             
-             <br><code><b>Regarding [Cat A]</b>, <b>[Time]</b>, it stood at <b>[Data A]</b>, compared to <b>[Data B]</b> for <b>[Cat B]</b>.</code>             
-         </div>
+             <b>► KHỐI 1: ĐIỂM XUẤT PHÁT (STARTING POINT):</b>
+             
+             <!-- 1. CÂU MỞ ĐẦU VÀ SO SÁNH SỐ LIỆU BAN ĐẦU -->
+             <div style="margin-top:10px;">
+                 <b>📍 [Mẫu 1.1 - Cấu trúc While] (Dùng khi A và B khác biệt rõ):</b>
+                 <br><code><b>At the start of the period</b>, <b>[Cat A]</b> stood at <b>[Data A]</b>, <b>while the figure for [Cat B] was [Data B]</b>.</code>                 
+                 <br><br><b>📍 [Mẫu 1.2 - Mệnh đề quan hệ] (Dùng để nhấn mạnh chênh lệch):</b>
+                 <br><code><b>In [Year]</b>, <b>[Cat A]</b> began at <b>[Data A]</b>, <b>which was significantly [Comparison Word] than the figure for [Cat B], at [Data B]</b>.</code>                 
+                 <br><br><b>📍 [Mẫu 1.3 - Rút gọn] (Dùng khi A lớn hơn B một chút):</b>
+                 <br><code><b>[Time]</b>, <b>[Cat A]</b> was the dominant category at <b>[Data A]</b>, <b>closely followed by [Cat B] with [Data B]</b>.</code>                 
+                 <br><br><b>📍 [Mẫu 1.4 - Giới từ Compared to] (Dùng để đối chiếu):</b>
+                 <br><code><b>At the beginning of the period</b>, <b>[Cat A]</b> registered a figure of <b>[Data A]</b>, <b>compared to [Data B] for [Cat B]</b>.</code>                 
+                 <br><br><b>📍 [Mẫu 1.5 - Tương đồng] (Dùng khi A = B hoặc xấp xỉ):</b>
+                 <br><code><b>In the first year</b>, the figure for <b>[Cat A]</b> stood at <b>[Data A]</b>, <b>which was [identical/similar] to that of [Cat B]</b>.</code>                 
+                 <br><br><b>📍 [Mẫu 1.6 - 3 CAT] (Dùng cho 3+ nhóm sát nhau):</b>
+                 <br><code><b>At the beginning of the period</b>, <b>[Cat A], [Cat B] and [Cat C]</b> were clustered at significant levels, <b>ranging from [Lowest Data] to [Highest Data]</b>.</code>
+                 <br><br><b>📍 [Mẫu 1.7 - Xuất phát 0] (Dùng cho công nghệ mới):</b>
+                 <br><code><b>In [Year]</b>, <b>[Cat A]</b> was non-existent (stood at 0), <b>whereas [Cat B] was already established at [Data B]</b>.</code>
+                 <br><br><b>📍 [Mẫu 1.8 - Xấp xỉ] (Dùng khi số liệu khó đọc):</b>
+                 <br><code><b>At the start of the period</b>, <b>[Cat A]</b> stood at approximately <b>[Data A]</b>, <b>marginally [higher/lower] than the figure for [Cat B]</b>.</code>
+             </div>
 
          <!-- KHỐI 2: MIÊU TẢ TREND & ĐIỂM GÃY - CỰC KỲ QUAN TRỌNG -->
          <div style="background-color:#fdf2e9; border-left:4px solid #d35400; padding:10px; margin-top:5px;">         
@@ -1738,15 +1747,20 @@ if st.session_state.step == 1:
          <b>✍️ THỰC HÀNH LẮP RÁP BODY 1 (CHẾ ĐỘ COPY-PASTE):</b>
          <br><i>(Quy trình: Chọn ID &rarr; In Mẫu Gốc &rarr; Khai báo &rarr; Điền vào chỗ trống)</i>
          <br>
-         <br><b>✅ BƯỚC 1: Xử lý Câu mở đầu</b>
-         <br>- <b>🔴 Chọn ID:</b> <i>[AI chọn Mẫu 1.X]</i>
-         <br>- <b>📥 Mẫu gốc:</b> <code>[AI copy y nguyên mẫu gốc]</code>
-         <br>- <b>🧩 Khai báo biến:</b>
-           <br>&nbsp;&nbsp;+ [Time] = <i>(Chọn từ Menu Thời Gian)</i>
-           <br>&nbsp;&nbsp;+ [Cat A] = ...
-           <br>&nbsp;&nbsp;+ [Cat B] = ...
-           <br>&nbsp;&nbsp;+ [Data] = ...           
-         <br>- <b>📝 Điền từ:</b> <i>[AI điền dữ liệu vào mẫu]</i>
+         <br><b>✅ BƯỚC 1: Xử lý Câu mở đầu (Starting Point)</b>
+         <br><i>(Mục tiêu: Thiết lập bối cảnh thời gian và vị thế ban đầu của các đối tượng)</i>         
+         <br>- <b>🔴 Phân tích & Chọn ID:</b> <i>[AI quan sát tương quan số liệu (A>B, A=B, Sát nút, Tụ họp, hay Bằng 0) để chọn Mẫu từ 1.1 đến 1.8]</i>         
+         <br>- <b>📥 Mẫu gốc:</b> <code>[AI copy y nguyên cấu trúc mẫu đã chọn]</code>         
+         <br>- <b>🧩 Khai báo biến (Variable Declaration):</b>
+           <br>&nbsp;&nbsp;+ <b>[Time]</b> = <i>(Chọn 1 cụm từ Menu Thời Gian)</i>
+           <br>&nbsp;&nbsp;+ <b>[Cat A] & [Data A]</b> = <i>...</i>
+           <br>&nbsp;&nbsp;+ <b>[Cat B] & [Data B]</b> = <i>...</i>
+           <br>&nbsp;&nbsp;+ <b>[Comparison Word]</b> = <i>...</i>         
+         <br>- <b>🧠 Tư duy Tiếng Việt (Teacher's Analysis):</b> 
+         <br><i>(Giáo viên phân tích ý tưởng trước khi viết)</i>
+         <br><code>"[AI viết câu tiếng Việt tương ứng. VD: Vào năm 1995, số lượng X đứng ở mức 100, trong khi con số này của Y là 50.]"</code>         
+         <br>- <b>📝 Điền từ (English Output):</b> 
+         <br><i>[AI thay thế các biến số vào mẫu gốc để tạo câu tiếng Anh hoàn chỉnh]</i>
          <br>
          <br><b>✅ BƯỚC 2: Xử lý Chủ thể 1 (Trend + End)</b>
          <br>- <b>🔴 Chọn ID Trend:</b> <i>[AI chọn Mẫu 2.X]</i>
