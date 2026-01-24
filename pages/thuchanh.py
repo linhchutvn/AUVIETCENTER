@@ -1468,7 +1468,7 @@ if st.session_state.step == 1:
                 
         <li><div style="background-color:#e6fffa; padding:10px; border-radius:5px; margin-top:5px; border-left: 4px solid #00b894;">
             <b>📝 Nội dung mẫu (Sample Intro):</b><br>                             
-            <i>"[Viết câu Introduction theo hướng dẫn đã phân tích]"</i>
+            <i>[Viết câu Introduction theo hướng dẫn đã phân tích]</i>
         </div></li>
     </ul>
 
