@@ -1735,11 +1735,20 @@ if st.session_state.step == 1:
          <strong style="color:#d35400;">📚 KHO MẪU CÂU BODY 1:</strong>
          <br><i>(Lưu ý: Chọn từ Menu Thời Gian để điền vào <b>[Time]</b>)</i>         
          
-         <!-- KHỐI 1: CÂU MỞ ĐẦU (STARTING POINT) -->
+         ### KHỐI 1 - ĐIỂM XUẤT PHÁT & SO SÁNH BAN ĐẦU
+         <!-- LOGIC FLOW VISUALIZATION -->
+         <div style="margin-bottom: 10px;">
+             <b>► Logic cốt lõi (Visual Flow):</b> 
+             <code style="font-size: 0.9rem; background-color: white; padding: 2px 5px; border: 1px dashed #7f8c8d; border-radius: 3px;">[TIME]</code>
+             <span style="color:#f57f17; font-weight:bold;"> ➔ </span>
+             <code style="font-size: 0.9rem; background-color: white; padding: 2px 5px; border: 1px dashed #7f8c8d; border-radius: 3px;">[DATA A]</code>
+             <span style="color:#f57f17; font-weight:bold;"> ➔ </span>
+             <code style="font-size: 0.9rem; background-color: white; padding: 2px 5px; border: 1px dashed #7f8c8d; border-radius: 3px;">[COMPARE B]</code>
+         </div>
+         <!-- KHỐI 1: ĐIỂM XUẤT PHÁT & SO SÁNH BAN ĐẦU -->
          <div style="background-color:#fdf2e9; border-left:4px solid #d35400; padding:10px; margin-top:5px;">         
-             <b>► KHỐI 1: ĐIỂM XUẤT PHÁT (STARTING POINT):</b>
-             
-             <!-- 1. CÂU MỞ ĐẦU VÀ SO SÁNH SỐ LIỆU BAN ĐẦU -->
+             <b>► KHỐI 1: ĐIỂM XUẤT PHÁT & SO SÁNH BAN ĐẦU:</b>
+             <br><i>(Lưu ý: Luôn bắt đầu bằng mốc thời gian tuyệt đối để thiết lập bối cảnh cho toàn bài)</i>              
              <div style="margin-top:10px;">
                  <br><br><b>📍 [Mẫu 1.1 - Cấu trúc While] (Dùng khi A và B khác biệt rõ):</b>                 
                  <br><code><b>At the start of the period</b>, <b>[Cat A]</b> was the dominant sector at <b>[Data A]</b>, <b>while the figure for [Cat B] was significantly lower at [Data B]</b>.</code> 
@@ -1759,7 +1768,7 @@ if st.session_state.step == 1:
                  <br><code><b>At the start of the period</b>, <b>[Cat A]</b> stood at approximately <b>[Data A]</b>, <b>marginally [higher/lower] than the figure for [Cat B]</b>.</code>
              </div>
 
-         ### 🔄 CẬP NHẬT: KHỐI 2 - BODY 1 (Logic Tuyến Tính)
+         ### KHỐI 2 - MIÊU TẢ TREND & ĐIỂM GÃY 
          <!-- LOGIC FLOW VISUALIZATION -->
          <div style="margin-bottom: 10px;">
              <b>► Logic cốt lõi (Visual Flow):</b> 
@@ -1839,7 +1848,7 @@ if st.session_state.step == 1:
              </div>
          </div>
 
-         ### 🔄 BẢN NÂNG CẤP: KHỐI 3 - SO SÁNH & BIẾN ĐỔI (PHIÊN BẢN CỰC ĐẠI)
+         ### KHỐI 3 - SO SÁNH VỚI CÁC CATEGORY CÒN LẠI
          <!-- LOGIC FLOW VISUALIZATION -->
          <div style="margin-bottom: 10px;">
              <b>► Logic cốt lõi (Visual Flow):</b> 
