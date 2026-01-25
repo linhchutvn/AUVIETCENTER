@@ -2048,11 +2048,8 @@ if st.session_state.step == 1:
          <br>3. <b>Lệnh đặc biệt:</b> Cấm mô tả đơn lẻ từng đường. Phải dùng ít nhất 01 câu ghép có từ nối đối chiếu (*whereas/while*) hoặc so sánh hơn (*higher than/lower than*).
      </li>
 
-     <!-- ================================================================================== -->
-     <!-- PHẦN 1: CÔNG THỨC TỔNG QUÁT (VISUAL FLOW) -->
-     <!-- ================================================================================== -->
      <li>
-         <div style="margin-bottom: 10px;">
+         <div style="margin-bottom: 10px; margin-top: 10px;">
              <b>► Logic cốt lõi (Visual Flow):</b> 
              <code style="font-size: 0.8rem; background-color: white; padding: 2px 5px; border: 1px dashed #2980b9; border-radius: 3px;">[TRANSITION / LINKER]</code>
              <span style="color:#2980b9; font-weight:bold;"> ➔ </span>
@@ -2062,60 +2059,79 @@ if st.session_state.step == 1:
          </div>
      </li>
 
-     <!-- ================================================================================== -->
-     <!-- PHẦN 2: KHO MẪU CÂU BODY 2 (REMAINING CATEGORIES) -->
-     <!-- ================================================================================== -->
      <li>
          <div style="background-color:#f8f9fa; border:1px solid #bdc3c7; border-radius:5px; padding:15px; margin-bottom:15px;">
-         <strong style="color:#2980b9;">📚 KHO MẪU CÂU BODY 2:</strong>
-         <br><i>(Lưu ý: Luôn bắt đầu bằng một cụm từ chuyển đoạn để tạo sự kết nối)</i>
-         
-         <!-- KHỐI 1: CÂU CHUYỂN ĐOẠN & KHỞI ĐẦU (START) -->
-         <div style="background-color:#eaf2f8; border-left:4px solid #2980b9; padding:10px; margin-top:5px;">
-             <b>► KHỐI 1: CHUYỂN ĐOẠN & ĐIỂM XUẤT PHÁT:</b>
+             <strong style="color:#2980b9;">📚 KHO MẪU CÂU BODY 2:</strong>
+             <br><i>(Lưu ý: Luôn bắt đầu bằng một cụm từ chuyển đoạn để tạo sự kết nối)</i>
              
-             <br>📍 <b>[Mẫu 4.1 - SỐ ÍT]</b> (Nếu chỉ còn 1 đối tượng):
-             <br><code><b>Turning to the figure for [Cat C]</b>, it started the period at <b>[Start Data]</b> <b>[Time]</b>.</code>
-             
-             <br><br>📍 <b>[Mẫu 4.2 - SỐ NHIỀU]</b> (Gom 2 đối tượng tương đồng):
-             <br><code><b>Regarding [Cat C] and [Cat D]</b>, they began at <b>[Data C]</b> and <b>[Data D]</b> respectively, <b>both of which were significantly lower than the aforementioned categories</b>.</code>
-             
-             <br><br>📍 <b>[Mẫu 4.3 - ĐỐI LẬP HOÀN TOÀN]</b> (Nếu Body 2 đi ngược hẳn Body 1):
-             <br><code><b>In stark contrast to the categories mentioned above</b>, <b>[Cat C]</b> registered a much lower figure of <b>[Start Data]</b> at the beginning.</code>
-         </div>
+             <!-- KHỐI 1: SỔ XUỐNG -->
+             <details style="margin-top: 15px;">
+                 <summary style="background-color:#eaf2f8; border-left:4px solid #2980b9; padding:10px; cursor: pointer; font-weight: bold; color: #2980b9;">
+                     📍 KHỐI 1: CHUYỂN ĐOẠN & ĐIỂM XUẤT PHÁT
+                 </summary>
+                 <div style="padding: 10px; border: 1px solid #eaf2f8; border-top: none; background-color: white;">
+                     <div style="background-color:#eaf2f8; border-left:4px solid #2980b9; padding:10px; margin-top:5px;">
+                         <b>► KHỐI 1: CHUYỂN ĐOẠN & ĐIỂM XUẤT PHÁT:</b>
+                         
+                         <br>📍 <b>[Mẫu 4.1 - SỐ ÍT]</b> (Nếu chỉ còn 1 đối tượng):
+                         <br><code><b>Turning to the figure for [Cat C]</b>, it started the period at <b>[Start Data]</b> <b>[Time]</b>.</code>
+                         
+                         <br><br>📍 <b>[Mẫu 4.2 - SỐ NHIỀU]</b> (Gom 2 đối tượng tương đồng):
+                         <br><code><b>Regarding [Cat C] and [Cat D]</b>, they began at <b>[Data C]</b> and <b>[Data D]</b> respectively, <b>both of which were significantly lower than the aforementioned categories</b>.</code>
+                         
+                         <br><br>📍 <b>[Mẫu 4.3 - ĐỐI LẬP HOÀN TOÀN]</b> (Nếu Body 2 đi ngược hẳn Body 1):
+                         <br><code><b>In stark contrast to the categories mentioned above</b>, <b>[Cat C]</b> registered a much lower figure of <b>[Start Data]</b> at the beginning.</code>
+                     </div>
+                 </div>
+             </details>
 
-         <!-- KHỐI 2: DIỄN BIẾN & KẾT THÚC (TRENDS & END) -->
-         <div style="background-color:#eaf2f8; border-left:4px solid #2980b9; padding:10px; margin-top:15px;">
-             <b>► KHỐI 2: DIỄN BIẾN & KẾT THÚC:</b>             
-             
-             <br>📍 <b>[Mẫu 5.1 - SỐ ÍT - Dao động & Kết thúc]</b>:
-             <br><code>Subsequently, it <b>experienced a period of volatility</b>, <b>fluctuating around [Data]</b> before settling at <b>[End Data]</b> <b>[End Time]</b>.</code>             
-             
-             <br><br>📍 <b>[Mẫu 5.2 - SỐ ÍT - Tăng/Giảm ổn định]</b>:
-             <br><code>Thereafter, the figure <b>witnessed a [steady/marginal] [rise/fall]</b> to finish the period at <b>[End Data]</b>.</code>
+             <!-- KHỐI 2: SỔ XUỐNG -->
+             <details style="margin-top: 10px;">
+                 <summary style="background-color:#eaf2f8; border-left:4px solid #2980b9; padding:10px; cursor: pointer; font-weight: bold; color: #2980b9;">
+                     📍 KHỐI 2: DIỄN BIẾN & KẾT THÚC
+                 </summary>
+                 <div style="padding: 10px; border: 1px solid #eaf2f8; border-top: none; background-color: white;">
+                     <div style="background-color:#eaf2f8; border-left:4px solid #2980b9; padding:10px; margin-top:5px;">
+                         <b>► KHỐI 2: DIỄN BIẾN & KẾT THÚC:</b>             
+                         
+                         <br>📍 <b>[Mẫu 5.1 - SỐ ÍT - Dao động & Kết thúc]</b>:
+                         <br><code>Subsequently, it <b>experienced a period of volatility</b>, <b>fluctuating around [Data]</b> before settling at <b>[End Data]</b> <b>[End Time]</b>.</code>             
+                         
+                         <br><br>📍 <b>[Mẫu 5.2 - SỐ ÍT - Tăng/Giảm ổn định]</b>:
+                         <br><code>Thereafter, the figure <b>witnessed a [steady/marginal] [rise/fall]</b> to finish the period at <b>[End Data]</b>.</code>
 
-             <br><br>📍 <b>[Mẫu 5.3 - SỐ NHIỀU - Cùng xu hướng]</b>:
-             <br><code>Both figures <b>followed a comparable [upward/downward] trajectory</b>, eventually ending at <b>[End Data C]</b> and <b>[End Data D]</b> respectively.</code>             
-             
-             <br><br>📍 <b>[Mẫu 5.4 - SỐ NHIỀU - Tách đôi]</b> (Mẫu While phức hợp):
-             <br><code>Over the following years, <b>[Cat C] [Trend C] to [End Data]</b>, <b>while the figure for [Cat D] [Trend D]</b>, finishing at <b>[End Data]</b>.</code>
-             
-             <br><br>📍 <b>[Mẫu 5.5 - Mẫu "Về Đích" (Low Levels)]</b> (Dùng cho các hạng mục luôn thấp):
-             <br><code>Throughout the remainder of the period, these figures <b>remained at negligible levels</b>, never surpassing <b>[Data]</b>.</code>
-         </div>
-        
-         <!-- KHỐI 3: ĐỐI TƯỢNG CUỐI CÙNG (THE FINAL ONE) -->
-         <div style="background-color:#eaf2f8; border-left:4px solid #2980b9; padding:10px; margin-top:15px;">
-             <b>► KHỐI 3: ĐỐI TƯỢNG CUỐI CÙNG (Nếu còn dư 1 đường lẻ):</b>
-             
-             <br>📍 <b>[Mẫu 6.1 - Cuối cùng]</b>:
-             <br><code><b>Finally</b>, the figure for <b>[Cat E]</b> saw a <b>gradual [increase/decrease]</b>, reaching <b>[End Data]</b> by <b>[End Time]</b>.</code>
-             
-             <br><br>📍 <b>[Mẫu 6.2 - Đặc biệt/Bất ngờ]</b>:
-             <br><code><b>Finally</b>, it is notable that <b>[Cat E]</b> <b>regained its position</b> in the final years, <b>climbing back to [End Data]</b>.</code>
-         </div>
+                         <br><br>📍 <b>[Mẫu 5.3 - SỐ NHIỀU - Cùng xu hướng]</b>:
+                         <br><code>Both figures <b>followed a comparable [upward/downward] trajectory</b>, eventually ending at <b>[End Data C]</b> and <b>[End Data D]</b> respectively.</code>             
+                         
+                         <br><br>📍 <b>[Mẫu 5.4 - SỐ NHIỀU - Tách đôi]</b> (Mẫu While phức hợp):
+                         <br><code>Over the following years, <b>[Cat C] [Trend C] to [End Data]</b>, <b>while the figure for [Cat D] [Trend D]</b>, finishing at <b>[End Data]</b>.</code>
+                         
+                         <br><br>📍 <b>[Mẫu 5.5 - Mẫu "Về Đích" (Low Levels)]</b> (Dùng cho các hạng mục luôn thấp):
+                         <br><code>Throughout the remainder of the period, these figures <b>remained at negligible levels</b>, never surpassing <b>[Data]</b>.</code>
+                     </div>
+                 </div>
+             </details>
+
+             <!-- KHỐI 3: SỔ XUỐNG -->
+             <details style="margin-top: 10px;">
+                 <summary style="background-color:#eaf2f8; border-left:4px solid #2980b9; padding:10px; cursor: pointer; font-weight: bold; color: #2980b9;">
+                     📍 KHỐI 3: ĐỐI TƯỢNG CUỐI CÙNG
+                 </summary>
+                 <div style="padding: 10px; border: 1px solid #eaf2f8; border-top: none; background-color: white;">
+                     <div style="background-color:#eaf2f8; border-left:4px solid #2980b9; padding:10px; margin-top:5px;">
+                         <b>► KHỐI 3: ĐỐI TƯỢNG CUỐI CÙNG (Nếu còn dư 1 đường lẻ):</b>
+                         
+                         <br>📍 <b>[Mẫu 6.1 - Cuối cùng]</b>:
+                         <br><code><b>Finally</b>, the figure for <b>[Cat E]</b> saw a <b>gradual [increase/decrease]</b>, reaching <b>[End Data]</b> by <b>[End Time]</b>.</code>
+                         
+                         <br><br>📍 <b>[Mẫu 6.2 - Đặc biệt/Bất ngờ]</b>:
+                         <br><code><b>Finally</b>, it is notable that <b>[Cat E]</b> <b>regained its position</b> in the final years, <b>climbing back to [End Data]</b>.</code>
+                     </div>
+                 </div>
+             </details>
          </div>
      </li>
+   </ul>
 
      <hr style="border-top: 1px dashed #ccc; margin: 15px 0;">
 
