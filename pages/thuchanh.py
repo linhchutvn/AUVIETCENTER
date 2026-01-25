@@ -1445,7 +1445,8 @@ if st.session_state.step == 1:
 
                     1. **"intro_guide" (Paraphrase):**                    
     <ul>
-        <li><b>Cấu trúc chuẩn (Formula):</b> <code>[Subject] + [Finite Verb] + [Object/Topic] + [Place] + [Time]</code>.</li>
+        <li><b>Cấu trúc chuẩn (Formula):</b> 
+        <br><code>[Subject] + [Finite Verb] + [Object/Topic] + [Place] + [Time]</code>.</li>        
     
         <li><b>Subject (Lưu ý quan trọng):</b>
             <br>- <b>Xác định đúng chủ thể:</b> <i>[Xác định chính xác cái gì thay đổi]</i>.
@@ -1483,7 +1484,7 @@ if st.session_state.step == 1:
                                                          
                              <!-- KHỐI 1: TỔNG QUÁT -->
                              <div style="background-color:#fdf2e9; border-left:4px solid #d35400; padding:10px; margin-top:5px;">
-                                 <b>► 1. Cấu trúc tổng quát:</b>
+                                 <b>► 1. Cấu trúc chuẩn (Formula):</b>
                                  <br><code>Overall, &#91;Sentence 1: Trends&#93;. In addition, &#91;Sentence 2: Highlights&#93;.</code>
                              </div>
                                                         
@@ -2048,9 +2049,11 @@ if st.session_state.step == 1:
          <br>3. <b>Lệnh đặc biệt:</b> Cấm mô tả đơn lẻ từng đường. Phải dùng ít nhất 01 câu ghép có từ nối đối chiếu (*whereas/while*) hoặc so sánh hơn (*higher than/lower than*).
      </li>
 
-     <li>
-         <div style="margin-bottom: 10px; margin-top: 10px;">
-             <b>► Logic cốt lõi (Visual Flow):</b> 
+     <li>         
+         <div style="background-color:#fdf2e9; border-left:4px solid #d35400; padding:10px; margin-top:5px;">  
+             <b>► Cấu trúc chuẩn (Formula):</b> 
+             <br><i>(Quy trình 3 bước chuẩn hóa cho Body 2)</i>
+             <br>    
              <code style="font-size: 0.8rem; background-color: white; padding: 2px 5px; border: 1px dashed #2980b9; border-radius: 3px;">[TRANSITION / LINKER]</code>
              <span style="color:#2980b9; font-weight:bold;"> ➔ </span>
              <code style="font-size: 0.8rem; background-color: white; padding: 2px 5px; border: 1px dashed #2980b9; border-radius: 3px;">[CAT C (& D) DATA]</code>
