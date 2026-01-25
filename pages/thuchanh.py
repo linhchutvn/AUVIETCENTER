@@ -1969,13 +1969,16 @@ if st.session_state.step == 1:
      
 ### 💎 PHẦN 3: BỘ CÔNG CỤ NÂNG BAND (THE EXAMINER'S ELITE TOOLKIT)
 *Chỉ sử dụng khi đã nắm chắc các cấu trúc cơ bản. Nhắm thẳng vào tiêu chí Lexical Resource & Grammatical Range.*
-     <li>     
-     <strong style="color:#d35400;">🚀 VŨ KHÍ NÂNG BAND (TOP-TIER ENHANCEMENTS):</strong>
-     <br><i>(Các bạn có thể sử dụng ít nhất 1 cấu trúc nâng cao này cho mỗi đoạn thân bài)</i>
-         <br>
-         <ul style="margin-top:5px;">
+
+<li>     
+    <details style="cursor: pointer;">
+        <summary>
+            <strong style="color:#d35400;">🚀 VŨ KHÍ NÂNG BAND (TOP-TIER ENHANCEMENTS):</strong>
+        </summary>
+        <br><i>(Các bạn có thể sử dụng ít nhất 1 cấu trúc nâng cao này cho mỗi đoạn thân bài)</i>
+        <br>
+        <ul style="margin-top:5px;">
             <!-- NHÓM 1: SỰ BIẾN THỂ DANH TỪ (THE NOUN PHRASE VARIATION) -->
-            <!-- Đây là kỹ thuật cực khó giúp thí sinh thoát khỏi lối viết "S + V + Adv" đơn điệu -->
             <li><b>1. Biến thể Danh từ (Adjective + Noun):</b>
                 <br><i>(Thay vì viết "increased significantly", hãy dùng cấu trúc: There was a + adj + noun)</i>
                 <br>- <b>Mẫu:</b> <i>witnessed a <b>dramatic hike</b> / recorded a <b>slight dip</b> / experienced a <b>period of volatility</b>.</i>
@@ -1992,7 +1995,6 @@ if st.session_state.step == 1:
             </li>
 
             <!-- NHÓM 3: TỪ VỰNG THEO CHỦ ĐỀ (TOPIC-SPECIFIC VOCABULARY) -->
-            <!-- Examiner rất thích khi thí sinh dùng từ đúng chuyên ngành của biểu đồ -->
             <li><b>3. Topic Vocabulary (Nâng cao):</b>
                 <br>- <b>Chủ đề Chi tiêu (Money):</b> <i>expenditure, outlay, financial allocation, budget distribution.</i>
                 <br>- <b>Chủ đề Năng lượng/Hàng hóa:</b> <i>consumption, usage, throughput, production levels.</i>
@@ -2006,8 +2008,9 @@ if st.session_state.step == 1:
                 <br>- <b>Cấu trúc "Followed by":</b> <i>A was the highest at 50, <b>followed closely by</b> B and C at 45 and 40 respectively.</i>
                 <br>- <b>Cấu trúc "Relative":</b> <i>...ending at 100, <b>a figure which surpassed</b> all other categories.</i>
             </li>
-         </ul>
-     </li>
+        </ul>
+    </details>
+</li>
 
 ### PHẦN 4 - KẾT QUẢ BODY 1 (FINAL OUTPUT)
      <!-- ================================================================================== -->
