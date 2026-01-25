@@ -1971,7 +1971,7 @@ if st.session_state.step == 1:
 *Chỉ sử dụng khi đã nắm chắc các cấu trúc cơ bản. Nhắm thẳng vào tiêu chí Lexical Resource & Grammatical Range.*
      <li>     
      <strong style="color:#d35400;">🚀 VŨ KHÍ NÂNG BAND (TOP-TIER ENHANCEMENTS):</strong>
-     <br><i>(Quy tắc: AI phải chọn ít nhất 1 cấu trúc nâng cao này cho mỗi đoạn thân bài)</i>
+     <br><i>(Các bạn có thể sử dụng ít nhất 1 cấu trúc nâng cao này cho mỗi đoạn thân bài)</i>
          <br>
          <ul style="margin-top:5px;">
             <!-- NHÓM 1: SỰ BIẾN THỂ DANH TỪ (THE NOUN PHRASE VARIATION) -->
