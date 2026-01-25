@@ -1966,51 +1966,51 @@ if st.session_state.step == 1:
          <br>- <b>📝 Điền từ (English Output):</b> 
          <br><i>[AI hoàn thiện câu so sánh cuối cùng cho Body 1]</i>
      </li>
-st.markdown("""     
+   
 ### 💎 PHẦN 3: BỘ CÔNG CỤ NÂNG BAND (THE EXAMINER'S ELITE TOOLKIT)
 *Chỉ sử dụng khi đã nắm chắc các cấu trúc cơ bản. Nhắm thẳng vào tiêu chí Lexical Resource & Grammatical Range.*
 
 <ul style="list-style-type: none; padding-left: 0;">
-<li>     
+     <li>     
     <details style="cursor: pointer; border: 1px solid #bdc3c7; border-radius: 5px; padding: 10px; background-color: #f8f9fa;">
-        <summary>
-            <strong style="color:#d35400; font-size: 1.1rem;">🚀 VŨ KHÍ NÂNG BAND (TOP-TIER ENHANCEMENTS):</strong>
-        </summary>
-        <br><i>(Các bạn có thể sử dụng ít nhất 1 cấu trúc nâng cao này cho mỗi đoạn thân bài)</i>
-        <br>
-        <ul style="margin-top:5px; line-height: 1.6;">
-            <!-- NHÓM 1: SỰ BIẾN THỂ DANH TỪ -->
-            <li style="margin-bottom: 10px;"><b>1. Biến thể Danh từ (Adjective + Noun):</b>
-                <br><i>(Thay vì viết "increased significantly", hãy dùng cấu trúc: There was a + adj + noun)</i>
-                <br>- <b>Mẫu:</b> <i>witnessed a <b>dramatic hike</b> / recorded a <b>slight dip</b> / experienced a <b>period of volatility</b>.</i>
-                <br>- <b>Advantage:</b> Giúp thay đổi hoàn toàn cấu trúc câu, ghi điểm Grammatical Range tuyệt đối.
-            </li>
-            <!-- NHÓM 2: CÁC ĐỘNG TỪ SANG CHẢNH -->
-            <li style="margin-bottom: 10px;"><b>2. Động từ "Sang chảnh":</b>
-                <br><i>(Dùng để thay thế cho các từ tăng/giảm đã quá nhàm chán)</i>
-                <br>- <b>Tăng vọt:</b> <i>rocket / soar / surge.</i>
-                <br>- <b>Chạm đáy:</b> <i>bottom out at / hit a rock bottom of.</i>
-                <br>- <b>Chiếm tỷ trọng:</b> <i>account for / constitute / comprise.</i>
-                <br>- <b>Hồi phục:</b> <i>bounce back / regain its position.</i>
-            </li>
-            <!-- NHÓM 3: TỪ VỰNG THEO CHỦ ĐỀ -->
-            <li style="margin-bottom: 10px;"><b>3. Topic Vocabulary (Nâng cao):</b>
-                <br>- <b>Chủ đề Chi tiêu (Money):</b> <i>expenditure, outlay, financial allocation, budget distribution.</i>
-                <br>- <b>Chủ đề Năng lượng/Hàng hóa:</b> <i>consumption, usage, throughput, production levels.</i>
-                <br>- <b>Chủ đề Dân số/Người:</b> <i>demographics, workforce, participants, residents.</i>
-            </li>
-            <!-- NHÓM 4: KỸ THUẬT CHÈN SỐ LIỆU PHỨC HỢP -->
-            <li><b>4. Chèn số liệu "nén" (Data Packing):</b>
-                <br><i>(Giúp đưa được nhiều thông tin vào một câu mà không bị rối)</i>
-                <br>- <b>Cấu trúc "With":</b> <i>...rose to 50%, <b>with</b> the most significant growth <b>occurring</b> in the final year.</i>
-                <br>- <b>Cấu trúc "Followed by":</b> <i>A was the highest at 50, <b>followed closely by</b> B and C at 45 and 40 respectively.</i>
-                <br>- <b>Cấu trúc "Relative":</b> <i>...ending at 100, <b>a figure which surpassed</b> all other categories.</i>
-            </li>
-        </ul>
-    </details>
-</li>
-</ul>
-""", unsafe_allow_html=True)
+             <summary>
+                 <strong style="color:#d35400; font-size: 1.1rem;">🚀 VŨ KHÍ NÂNG BAND (TOP-TIER ENHANCEMENTS):</strong>
+             </summary>
+             <br><i>(Các bạn có thể sử dụng ít nhất 1 cấu trúc nâng cao này cho mỗi đoạn thân bài)</i>
+             <br>
+             <ul style="margin-top:5px; line-height: 1.6;">
+                 <!-- NHÓM 1: SỰ BIẾN THỂ DANH TỪ -->
+                 <li style="margin-bottom: 10px;"><b>1. Biến thể Danh từ (Adjective + Noun):</b>
+                     <br><i>(Thay vì viết "increased significantly", hãy dùng cấu trúc: There was a + adj + noun)</i>
+                     <br>- <b>Mẫu:</b> <i>witnessed a <b>dramatic hike</b> / recorded a <b>slight dip</b> / experienced a <b>period of volatility</b>.</i>
+                     <br>- <b>Advantage:</b> Giúp thay đổi hoàn toàn cấu trúc câu, ghi điểm Grammatical Range tuyệt đối.
+                 </li>
+                 <!-- NHÓM 2: CÁC ĐỘNG TỪ SANG CHẢNH -->
+                 <li style="margin-bottom: 10px;"><b>2. Động từ "Sang chảnh":</b>
+                     <br><i>(Dùng để thay thế cho các từ tăng/giảm đã quá nhàm chán)</i>
+                     <br>- <b>Tăng vọt:</b> <i>rocket / soar / surge.</i>
+                     <br>- <b>Chạm đáy:</b> <i>bottom out at / hit a rock bottom of.</i>
+                     <br>- <b>Chiếm tỷ trọng:</b> <i>account for / constitute / comprise.</i>
+                     <br>- <b>Hồi phục:</b> <i>bounce back / regain its position.</i>
+                 </li>
+                 <!-- NHÓM 3: TỪ VỰNG THEO CHỦ ĐỀ -->
+                 <li style="margin-bottom: 10px;"><b>3. Topic Vocabulary (Nâng cao):</b>
+                     <br>- <b>Chủ đề Chi tiêu (Money):</b> <i>expenditure, outlay, financial allocation, budget distribution.</i>
+                     <br>- <b>Chủ đề Năng lượng/Hàng hóa:</b> <i>consumption, usage, throughput, production levels.</i>
+                     <br>- <b>Chủ đề Dân số/Người:</b> <i>demographics, workforce, participants, residents.</i>
+                 </li>
+                 <!-- NHÓM 4: KỸ THUẬT CHÈN SỐ LIỆU PHỨC HỢP -->
+                 <li><b>4. Chèn số liệu "nén" (Data Packing):</b>
+                     <br><i>(Giúp đưa được nhiều thông tin vào một câu mà không bị rối)</i>
+                     <br>- <b>Cấu trúc "With":</b> <i>...rose to 50%, <b>with</b> the most significant growth <b>occurring</b> in the final year.</i>
+                     <br>- <b>Cấu trúc "Followed by":</b> <i>A was the highest at 50, <b>followed closely by</b> B and C at 45 and 40 respectively.</i>
+                     <br>- <b>Cấu trúc "Relative":</b> <i>...ending at 100, <b>a figure which surpassed</b> all other categories.</i>
+                 </li>
+             </ul>
+         </details>
+     </li>
+     </ul>
+
 ### PHẦN 4 - KẾT QUẢ BODY 1 (FINAL OUTPUT)
      <!-- ================================================================================== -->
      <!-- PHẦN 4: KẾT QUẢ BODY 1 (FINAL OUTPUT) -->
