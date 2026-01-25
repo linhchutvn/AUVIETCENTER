@@ -1966,7 +1966,7 @@ if st.session_state.step == 1:
          <br>- <b>📝 Điền từ (English Output):</b> 
          <br><i>[AI hoàn thiện câu so sánh cuối cùng cho Body 1]</i>
      </li>
-     
+st.markdown("""     
 ### 💎 PHẦN 3: BỘ CÔNG CỤ NÂNG BAND (THE EXAMINER'S ELITE TOOLKIT)
 *Chỉ sử dụng khi đã nắm chắc các cấu trúc cơ bản. Nhắm thẳng vào tiêu chí Lexical Resource & Grammatical Range.*
 
@@ -2010,7 +2010,7 @@ if st.session_state.step == 1:
     </details>
 </li>
 </ul>
-
+""", unsafe_allow_html=True)
 ### PHẦN 4 - KẾT QUẢ BODY 1 (FINAL OUTPUT)
      <!-- ================================================================================== -->
      <!-- PHẦN 4: KẾT QUẢ BODY 1 (FINAL OUTPUT) -->
