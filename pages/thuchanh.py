@@ -1502,18 +1502,26 @@ if st.session_state.step == 1:
             3. Output duy nhất 01 câu cho mỗi giai đoạn.
         </div>
         <br>
-        <b>✅ GIAI ĐOẠN 1: Câu chuyển đoạn và mô tả nhóm hạng mục trung bình</b>
-        <br>1. 🔴 <b>Phân tích & Chọn ID:</b> <i>[AI chọn mẫu ở Khối 1]</i>
-        <br>2. 📥 <b>Mẫu gốc:</b> <i>[AI in mẫu gốc]</i>
-        <br>3. 🧩 <b>Khai báo biến:</b> [Cat C/D] = ... ; [Data C/D] = ...
+        <br><b>✅ GIAI ĐOẠN 1: Câu chuyển đoạn và mô tả nhóm hạng mục trung bình</b>
+        <br>1. 🔴 <b>Phân tích & Chọn ID:</b> <i>[AI chọn mẫu ở Khối 1 - Body 2]</i>
+        <br>2. 📥 <b>Mẫu gốc:</b> <code>[AI in mẫu gốc]</code>
+        <br>3. 🧩 <b>Khai báo biến:</b> [Linker] = ... ; [Cat C/D] = ... ; [Data C/D] = ...
         <br>4. 🧠 <b>Tư duy Tiếng Việt:</b> <code>"[AI viết câu chuyển đoạn: Chuyển sang các mục còn lại, C và D thấp hơn nhiều...]"</code>
-        <br>5. 📝 <b>English Output:</b> <i>[AI xuất 01 câu duy nhất]</i>
+        <br>5. 📝 <b>English Output:</b> <i>[AI xuất 01 câu duy nhất đúng chuẩn mẫu]</i>
         
         <br><br><b>✅ GIAI ĐOẠN 2: Gom nhóm hoặc so sánh tương đồng các hạng mục nhỏ</b>
-        <br>1. 🔴 Phân tích -> 2. 📥 Mẫu -> 3. 🧩 Biến -> 4. 🧠 Tiếng Việt -> 5. 📝 English.
+        <br>1. 🔴 <b>Phân tích & Chọn ID:</b> <i>[AI chọn mẫu ở Khối 2 - Body 2]</i>
+        <br>2. 📥 <b>Mẫu gốc:</b> <code>[AI in mẫu gốc]</code>
+        <br>3. 🧩 <b>Khai báo biến:</b> [Cat C/D/E] = ... ; [Total Data/Range] = ...
+        <br>4. 🧠 <b>Tư duy Tiếng Việt:</b> <code>"[AI viết câu tư duy: Hai hạng mục X và Y gộp lại chỉ chiếm một lượng nhỏ là...]"</code>
+        <br>5. 📝 <b>English Output:</b> <i>[AI xuất 01 câu duy nhất đúng chuẩn mẫu]</i>
 
         <br><br><b>✅ GIAI ĐOẠN 3: Chốt hạng mục thấp nhất bài (The Minority)</b>
-        <br>1. 🔴 Phân tích -> 2. 📥 Mẫu -> 3. 🧩 Biến -> 4. 🧠 Tiếng Việt -> 5. 📝 English.
+        <br>1. 🔴 <b>Phân tích & Chọn ID:</b> <i>[AI chọn mẫu ở Khối 3 - Body 2]</i>
+        <br>2. 📥 <b>Mẫu gốc:</b> <code>[AI in mẫu gốc]</code>
+        <br>3. 🧩 <b>Khai báo biến:</b> [Cat E] = ... ; [Data E] = ... ; [Feature] = (negligible/minority)
+        <br>4. 🧠 <b>Tư duy Tiếng Việt:</b> <code>"[AI viết câu tư duy: Cuối cùng, hạng mục Z chiếm tỷ lệ không đáng kể, chỉ ở mức...]"</code>
+        <br>5. 📝 <b>English Output:</b> <i>[AI xuất 01 câu duy nhất đúng chuẩn mẫu]</i>
     </li>
 
     <!-- ================================================================================== -->
