@@ -1537,9 +1537,9 @@ if st.session_state.step == 1:
                          
                          <hr style="border-top: 1px dashed #ccc; margin: 15px 0;">
 
-                         # ==================================================================================
-                         # PHẦN 2: CHIẾN THUẬT CHỌN MẪU (STRICT MATCHING & DRAFTING)
-                         # ==================================================================================
+                         <!-- ================================================================================== -->
+                         <!-- PHẦN 2: CHIẾN THUẬT CHỌN MẪU (STRICT MATCHING & DRAFTING) -->                         
+                         <!-- ================================================================================== -->
                          <li>
                              <div style="background-color:#e1f5fe; padding:15px; border-radius:8px; border-left: 5px solid #0288d1; margin-bottom: 15px;">
                                  <strong style="color:#01579b; font-size: 1.1rem;">🔍 PHÂN TÍCH BÀI NÀY (Selection & Drafting):</strong>
