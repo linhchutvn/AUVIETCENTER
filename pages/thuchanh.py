@@ -1070,7 +1070,9 @@ if st.session_state.step == 1:
             <span style="color:#f57f17; font-weight:bold;"> ➔ </span>
             <code style="font-size: 0.8rem; background-color: white; padding: 5px; border: 1px dashed #f9a825;">[4. Paraphrased Topic]</code>
             <span style="color:#f57f17; font-weight:bold;"> ➔ </span>
-            <code style="font-size: 0.8rem; background-color: white; padding: 5px; border: 1px dashed #f9a825;">[5. Context (Place & Time)]</code>
+            <code style="font-size: 0.8rem; background-color: white; padding: 5px; border: 1px dashed #f9a825;">[5. Categories (namely...)]</code>
+            <span style="color:#f57f17; font-weight:bold;"> ➔ </span>
+            <code style="font-size: 0.8rem; background-color: white; padding: 5px; border: 1px dashed #f9a825;">[6. Context (Place & Time)]</code>
         </div>
     </li>
 
@@ -1103,7 +1105,7 @@ if st.session_state.step == 1:
                 </div>
             </details>
 
-            <!-- KHỐI 3: CATEGORY DETAILED (BƯỚC BỔ SUNG ĐỂ ĂN ĐIỂM) -->
+            <!-- KHỐI 3: CATEGORY DETAILED -->
             <details style="margin-top: 10px;">
                 <summary style="background-color:#e8f5e9; border-left:4px solid #27ae60; padding:10px; cursor: pointer; font-weight: bold; color: #1b5e20;">
                     📍 BƯỚC 4: CHI TIẾT HÓA ĐỐI TƯỢNG (CATEGORY EXPANSION)
@@ -1111,6 +1113,23 @@ if st.session_state.step == 1:
                 <div style="padding: 10px; background-color: white; border: 1px solid #e8f5e9;">
                     <b>Mẹo của Examiner:</b> Đừng chỉ viết "three categories", hãy liệt kê chúng ra bằng cụm <b>"namely..."</b> hoặc <b>"in terms of..."</b>.
                     <br><i>Ví dụ: ...expenditure on three distinct areas, namely food and drink, restaurant and hotel, and entertainment.</i>
+                </div>
+            </details>
+
+            <!-- KHỐI 4: BỔ SUNG - UNIT & PREPOSITION (NEW) -->
+            <details style="margin-top: 10px;">
+                <summary style="background-color:#e3f2fd; border-left:4px solid #2196f3; padding:10px; cursor: pointer; font-weight: bold; color: #0d47a1;">
+                    📍 BƯỚC 5: KIỂM TRA ĐƠN VỊ & GIỚI TỪ (UNIT & PREPOSITIONS)
+                </summary>
+                <div style="padding: 10px; background-color: white; border: 1px solid #e3f2fd;">
+                    <b>● Unit Check (Kiểm tra trục Y):</b> Đơn vị là % của "Cái gì"? (VD: % of total spending vs % of people).
+                    <br><b>● Preposition Pairs (Cặp bài trùng):</b>
+                    <ul style="margin: 5px 0;">
+                        <li>Expenditure + <b>on</b>...</li>
+                        <li>Allocation / Allocated + <b>to</b>...</li>
+                        <li>Spending + <b>on</b>... / <b>for</b>...</li>
+                        <li>Differences + <b>in</b>...</li>
+                    </ul>
                 </div>
             </details>
         </div>
@@ -1124,11 +1143,12 @@ if st.session_state.step == 1:
         <div style="display:none;">
             SYSTEM_COMMAND: 
             1. Bắt buộc dùng 100% cấu trúc Formula ở trên.
-            2. PHẢI thực hiện bước liệt kê cụ thể (namely/including) nếu danh sách dưới 4 hạng mục.
-            3. English Output phải là 01 câu duy nhất, trang trọng.
+            2. PHẢI xác định chính xác đơn vị (Unit) trước khi viết.
+            3. PHẢI thực hiện bước liệt kê cụ thể (namely/including) nếu danh sách dưới 4 hạng mục.
+            4. English Output phải là 01 câu duy nhất, trang trọng.
         </div>
         <br>
-        1. 🔴 <b>Phân tích đề:</b> [Xác định Chart Type, Topic gốc, Place, Time]
+        1. 🔴 <b>Phân tích đề:</b> [Xác định Chart Type, Topic gốc, Place, Time, <b>🚩 Unit Check</b>]
         <br>2. 🔄 <b>Paraphrase Vocabulary:</b> 
            <ul style="margin: 5px 0; font-size: 0.9rem;">
                <li>Topic: expenditure &rarr; [AI điền từ thay thế]</li>
