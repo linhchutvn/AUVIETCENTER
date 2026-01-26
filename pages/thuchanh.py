@@ -1382,120 +1382,165 @@ if st.session_state.step == 1:
     </li>
 </ul>
 
-                    4. **"body2_guide" (Thân bài 2 - Nhóm Nhỏ / Nhóm Còn lại):**
-    <ul>
-     <li><b>Logic chọn nhóm:</b> AI thực hiện: Gom toàn bộ các hạng mục còn lại (nhỏ/thấp). Tập trung vào sự tương phản so với nhóm Body 1 hoặc gom chung chúng lại.</li>
-     
-     <li>
-         <div style="background-color:#eaf2f8; border-left:4px solid #2980b9; padding:10px; margin-top:5px;">             
-             <b>► Cấu trúc chuẩn (Formula):</b> 
-             <br>             
-             <code style="font-size: 0.8rem; background-color: white; padding: 2px 5px; border: 1px dashed #2980b9; border-radius: 3px;">[1. Transition]</code>
-             <span style="color:#2980b9; font-weight:bold;"> ➔ </span>
-             <code style="font-size: 0.8rem; background-color: white; padding: 2px 5px; border: 1px dashed #2980b9; border-radius: 3px;">[2. Grouping]</code>
-             <span style="color:#2980b9; font-weight:bold;"> ➔ </span>
-             <code style="font-size: 0.8rem; background-color: white; padding: 2px 5px; border: 1px dashed #2980b9; border-radius: 3px;">[3. Negligible Stats]</code>
-         </div>
-     </li>
+                    ### 4. **"body2_guide" (Thân bài 2 - Các hạng mục còn lại / Nhóm nhỏ):**
+<ul>
+    <!-- ================================================================================== -->
+    <!-- CHIẾN THUẬT GOM NHÓM (GROUPING STRATEGY) -->
+    <!-- ================================================================================== -->
+    <li>
+        <div style="background-color:#e1f5fe; padding:15px; border:1px solid #0288d1; border-radius:5px; margin-bottom:15px;">
+            <strong style="color:#01579b;">🧩 CHIẾN THUẬT GOM NHÓM (GROUPING STRATEGY):</strong>
+            <br><i>(Để tránh lỗi liệt kê, hãy áp dụng quy tắc 3 chiều sau:)</i>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; font-size: 0.9rem;">
+                <div style="background-color:white; padding:8px; border-radius:4px; border:1px dashed #0288d1;">
+                    <b>1. Gom theo tính tương đồng:</b><br>Nếu 2-3 mục có số liệu xấp xỉ nhau, hãy dùng cấu trúc <i>"comparable levels"</i> hoặc <i>"range from... to..."</i>.
+                </div>
+                <div style="background-color:white; padding:8px; border-radius:4px; border:1px dashed #0288d1;">
+                    <b>2. Gom theo tổng lượng:</b><br>Dùng <i>"collectively"</i> hoặc <i>"combined share"</i> để cộng dồn các mục quá nhỏ thành một con số ấn tượng.
+                </div>
+            </div>
+        </div>
+    </li>
 
-     <li>
-         <div style="background-color:#f8f9fa; border:1px solid #bdc3c7; border-radius:5px; padding:15px; margin-bottom:15px;">
-             <strong style="color:#2980b9;">📚 KHO MẪU CÂU BODY 2 (STATIC):</strong>
-             <br><i>(Tập trung vào sự tương phản và gom nhóm nhỏ)</i>
-             
-             <!-- KHỐI 1: SỔ XUỐNG -->
-             <details style="margin-top: 15px;">
-                 <summary style="background-color:#eaf2f8; border-left:4px solid #2980b9; padding:10px; cursor: pointer; font-weight: bold; color: #2980b9;">
-                     📍 KHỐI 1 - CÂU CHUYỂN ĐOẠN & ĐỐI LẬP
-                 </summary>
-                 <div style="padding: 10px; border: 1px solid #eaf2f8; border-top: none; background-color: white;">
-                    <b>📍 Mẫu 1.1 (Chuyển hướng):</b> "<b>Turning to</b> the remaining categories,..."
-                    <br><br><b>📍 Mẫu 1.2 (Đối lập):</b> "<b>In contrast / By comparison</b>, the figures for <b>[Category C & D]</b> <b>[V_Tense]</b> significantly lower."
-                 </div>
-             </details>
+    <!-- ================================================================================== -->
+    <!-- CÔNG THỨC TỔNG QUÁT -->
+    <!-- ================================================================================== -->
+    <li>
+        <div style="background-color:#eaf2f8; border-left:4px solid #2980b9; padding:10px; margin-bottom:15px;">             
+            <b>► Cấu trúc chuẩn (Formula):</b> 
+            <br><i>(Quy trình wrap-up cho các hạng mục còn lại)</i>
+            <br>             
+            <code style="font-size: 0.8rem; background-color: white; padding: 5px; border: 1px dashed #2980b9;">[1. Transition]</code>
+            <span style="color:#2980b9; font-weight:bold;"> ➔ </span>
+            <code style="font-size: 0.8rem; background-color: white; padding: 5px; border: 1px dashed #2980b9;">[2. Grouping/Similarities]</code>
+            <span style="color:#2980b9; font-weight:bold;"> ➔ </span>
+            <code style="font-size: 0.8rem; background-color: white; padding: 5px; border: 1px dashed #2980b9;">[3. The Smallest Category]</code>
+        </div>
+    </li>
 
-             <!-- KHỐI 2: SỔ XUỐNG -->
-             <details style="margin-top: 10px;">
-                 <summary style="background-color:#eaf2f8; border-left:4px solid #2980b9; padding:10px; cursor: pointer; font-weight: bold; color: #2980b9;">
-                     📍 KHỐI 2 - MIÊU TẢ NHÓM SỐ LIỆU NHỎ (GROUPING)
-                 </summary>
-                 <div style="padding: 10px; border: 1px solid #eaf2f8; border-top: none; background-color: white;">
-                    <b>📍 Mẫu 1.1 (Collectively):</b> "<b>[Category C]</b> and <b>[Category D]</b> <b>collectively [V_Tense] for</b> only <b>[Total %]</b>."
-                    <br><br><b>📍 Mẫu 1.2 (Range):</b> "The figures for X and Y <b>[V_Tense]</b> relatively small, <b>ranging from</b> <b>[Data 1]</b> to <b>[Data 2]</b>."
-                 </div>
-             </details>
+    <!-- ================================================================================== -->
+    <!-- KHO MẪU CÂU SỔ XUỐNG -->
+    <!-- ================================================================================== -->
+    <li>
+        <div style="background-color:#f8f9fa; border:1px solid #bdc3c7; border-radius:5px; padding:15px; margin-bottom:15px;">
+            <strong style="color:#2980b9;">📚 KHO MẪU CÂU BODY 2 (STATIC):</strong>
+            <br><i>(Lưu ý: Dùng màu xanh dương để phân biệt với nhóm dẫn đầu Body 1)</i>         
+            
+            <!-- KHỐI 1: CHUYỂN ĐOẠN -->
+            <details style="margin-top: 15px;">
+                <summary style="background-color:#eaf2f8; border-left:4px solid #2980b9; padding:10px; cursor: pointer; font-weight: bold; color: #2980b9;">
+                    📍 KHỐI 1 - CÂU CHUYỂN ĐOẠN & ĐỐI CHIẾU (TRANSITION)
+                </summary>
+                <div style="padding: 15px; background-color: white; border: 1px solid #eaf2f8; border-top: none;">
+                    <div style="margin-bottom: 10px; font-size: 0.9rem;">
+                        <b>► Logic cốt lõi:</b> <code>[TRANSITION LINKER] ➔ [CAT C & D IDENTITY] ➔ [CONTRAST WITH BODY 1]</code>
+                    </div>
+                    <div style="font-size: 0.9rem; line-height: 1.6;">
+                        <b>📍 [Mẫu 4.1 - Chuyển hướng]:</b><br>
+                        <code><b>Turning to the remaining categories</b>, the figures for <b>[Cat C]</b> and <b>[Cat D]</b> were significantly lower, at <b>[Data C]</b> and <b>[Data D]</b> respectively.</code>
+                        <br><br><b>📍 [Mẫu 4.2 - Đối lập hoàn toàn]:</b><br>
+                        <code><b>In stark contrast to the aforementioned sectors</b>, <b>[Cat C]</b> represented a much smaller share of the total, standing at only <b>[Data C]</b>.</code>
+                        <br><br><b>📍 [Mẫu 4.3 - Nhóm trung bình]:</b><br>
+                        <code><b>As for the mid-range categories</b>, <b>[Cat C]</b> and <b>[Cat D]</b> recorded <b>comparable levels</b> of <b>[Data C]</b> and <b>[Data D]</b>.</code>
+                    </div>
+                </div>
+            </details>
 
-             <!-- KHỐI 3: SỔ XUỐNG -->
-             <details style="margin-top: 10px;">
-                 <summary style="background-color:#eaf2f8; border-left:4px solid #2980b9; padding:10px; cursor: pointer; font-weight: bold; color: #2980b9;">
-                     📍 KHỐI 3 - CẤU TRÚC "NEGLIGIBLE" (SỐ LIỆU RẤT NHỎ)
-                 </summary>
-                 <div style="padding: 10px; border: 1px solid #eaf2f8; border-top: none; background-color: white;">
-                    <b>📍 Mẫu 1.1 (Negligible):</b> "The proportion of <b>[Category E]</b> <b>[V_Tense]</b> <b>negligible/insignificant</b>, at only <b>[Data]</b>."
-                    <br><br><b>📍 Mẫu 1.2 (Minority):</b> "Only a <b>small minority</b> of people (<b>[Data]</b>) <b>[V_Tense]</b> <b>[Category E]</b>."
-                 </div>
-             </details>
-         </div>
-     </li>
+            <!-- KHỐI 2: GOM NHÓM -->
+            <details style="margin-top: 10px;">
+                <summary style="background-color:#eaf2f8; border-left:4px solid #2980b9; padding:10px; cursor: pointer; font-weight: bold; color: #2980b9;">
+                    📍 KHỐI 2 - GOM NHÓM & KHOẢNG DỮ LIỆU (GROUPING)
+                </summary>
+                <div style="padding: 15px; background-color: white; border: 1px solid #eaf2f8; border-top: none;">
+                    <div style="margin-bottom: 10px; font-size: 0.9rem;">
+                        <b>► Logic cốt lõi:</b> <code>[COMBINED SUBJECTS] ➔ [COLLECTIVE VERB] ➔ [DATA RANGE]</code>
+                    </div>
+                    <div style="font-size: 0.9rem; line-height: 1.6;">
+                        <b>📍 [Mẫu 5.1 - Collectively]:</b><br>
+                        <code><b>[Cat C]</b> and <b>[Cat D]</b> <b>collectively accounted for</b> a mere <b>[Total Data]</b> of the overall <b>[Topic]</b>.</code>
+                        <br><br><b>📍 [Mẫu 5.2 - Combined share]:</b><br>
+                        <code>The <b>combined share</b> of the remaining categories, including <b>[Cat C]</b> and <b>[Cat D]</b>, stood at <b>[Total Data]</b>.</code>
+                        <br><br><b>📍 [Mẫu 5.3 - Range]:</b><br>
+                        <code>The proportions of <b>[Cat C, D, and E]</b> were relatively minor, <b>ranging from [Lowest Data] to [Highest Data]</b>.</code>
+                    </div>
+                </div>
+            </details>
 
-     <hr style="border-top: 1px dashed #ccc; margin: 15px 0;">
+            <!-- KHỐI 3: THIỂU SỐ -->
+            <details style="margin-top: 10px;">
+                <summary style="background-color:#eaf2f8; border-left:4px solid #2980b9; padding:10px; cursor: pointer; font-weight: bold; color: #2980b9;">
+                    📍 KHỐI 3 - HẠNG MỤC THẤP NHẤT (THE MINORITY)
+                </summary>
+                <div style="padding: 15px; background-color: white; border: 1px solid #eaf2f8; border-top: none;">
+                    <div style="margin-bottom: 10px; font-size: 0.9rem;">
+                        <b>► Logic cốt lõi:</b> <code>[THE LEAST POPULAR] ➔ [NEGLIGIBLE/MINORITY] ➔ [DATA]</code>
+                    </div>
+                    <div style="font-size: 0.9rem; line-height: 1.6;">
+                        <b>📍 [Mẫu 6.1 - Negligible]:</b><br>
+                        <code>Finally, the figure for <b>[Cat E]</b> was <b>negligible</b>, representing only <b>[Data E]</b> of the total.</code>
+                        <br><br><b>📍 [Mẫu 6.2 - Least significant]:</b><br>
+                        <code><b>[Cat E]</b> was the <b>least significant category</b>, with a proportion of just <b>[Data E]</b>.</code>
+                        <br><br><b>📍 [Mẫu 6.3 - Small minority]:</b><br>
+                        <code>Only a <b>small minority</b> of <b>[People/Objects]</b> belonged to the <b>[Cat E]</b> group (<b>[Data E]</b>).</code>
+                    </div>
+                </div>
+            </details>
+        </div>
+    </li>
 
-     <li>     
-         <strong style="color: #2980b9;">✍️ THỰC HÀNH LẮP RÁP BODY 2 (QUY TRÌNH 5 BƯỚC CHUẨN):</strong>
-         <div style="display:none;">
-             SYSTEM_COMMAND: 1. Bắt buộc sử dụng 100% mẫu gốc. 2. Không thêm thắt. 3. Output 01 câu duy nhất.
-         </div>
-         <br><b>✅ GIAI ĐOẠN 1: Câu chuyển đoạn & Đối lập</b>
-         <br>1. 🔴 <b>Phân tích & Chọn ID:</b> <i>[AI chọn mẫu 1.X]</i>
-         <br>2. 📥 <b>Mẫu gốc:</b> <code>[AI in mẫu gốc]</code>
-         <br>3. 🧩 <b>Khai báo biến:</b> [Cat A] = ... ; [Data] = ...
-         <br>4. 🧠 <b>Tư duy Tiếng Việt:</b> <code>"[AI viết câu tiếng Việt tương ứng]"</code>
-         <br>5. 📝 <b>English Output:</b> <i>[AI xuất 01 câu tiếng Anh hoàn chỉnh]</i>
-         <br><br><b>✅ GIAI ĐOẠN 2: Miêu tả nhóm tương đồng</b>
-         <br>1. 🔴 <b>Phân tích & Chọn ID:</b> <i>[AI chọn mẫu 1.X]</i>
-         <br>2. 📥 <b>Mẫu gốc:</b> <code>[AI in mẫu gốc]</code>
-         <br>3. 🧩 <b>Khai báo biến:</b> [Cat A] = ... ; [Data] = ...
-         <br>4. 🧠 <b>Tư duy Tiếng Việt:</b> <code>"[AI viết câu tiếng Việt tương ứng]"</code>
-         <br>5. 📝 <b>English Output:</b> <i>[AI xuất 01 câu tiếng Anh hoàn chỉnh]</i>
-         <br><br><b>✅ GIAI ĐOẠN 3: Xử lý phần còn lại (Negligible)</b>
-         <br>1. 🔴 <b>Phân tích & Chọn ID:</b> <i>[AI chọn mẫu 1.X]</i>
-         <br>2. 📥 <b>Mẫu gốc:</b> <code>[AI in mẫu gốc]</code>
-         <br>3. 🧩 <b>Khai báo biến:</b> [Cat A] = ... ; [Data] = ...
-         <br>4. 🧠 <b>Tư duy Tiếng Việt:</b> <code>"[AI viết câu tiếng Việt tương ứng]"</code>
-         <br>5. 📝 <b>English Output:</b> <i>[AI xuất 01 câu tiếng Anh hoàn chỉnh]</i>
-     </li>
-   </ul>
+    <hr style="border-top: 1px dashed #ccc; margin: 15px 0;">
 
-     <!-- ================================================================================== -->
-     <!-- PHẦN 4: KẾT QUẢ BODY 2 (FINAL OUTPUT) -->
-     <!-- SYSTEM_ALERT: 
-          1. AI thực hiện nối các câu nháp ở giai đoạn 1, 2, 3 thành đoạn văn hoàn chỉnh.
-          2. Transition Check: Phải có từ nối chuyển đoạn (Turning to, As for) để tách biệt với Body 1.
-          3. Grouping Check: Đảm bảo sử dụng kỹ thuật gom nhóm (collectively / respectively) để tránh liệt kê rời rạc.
-          4. Vocabulary Upgrade: Sử dụng các từ miêu tả mức độ thấp (negligible, minority, insignificant).
-     <!-- ================================================================================== -->
-     <li>
-         <div style="background-color:#e1f5fe; padding:20px; border-radius:8px; margin-top:10px; border: 2px solid #03a9f4; border-left: 8px solid #03a9f4;">
-             <strong style="color:#01579b; font-size: 1.1rem;">📝 KẾT QUẢ BODY 2 (THE POLISHED STATIC PARAGRAPH):</strong>
-             <br><i style="font-size: 0.85rem; color: #7f8c8d;">(Đây là đoạn văn hoàn chỉnh cho các hạng mục thứ yếu, nhấn mạnh vào sự nhỏ bé hoặc tương đồng của dữ liệu)</i>
-             
-             <div style="margin-top:10px; font-family: 'Georgia', serif; line-height: 1.6; color: #2c3e50; background-color: white; padding: 15px; border-radius: 5px; border: 1px inset #eee;">
-             [AI trình bày đoạn văn Body 2 hoàn chỉnh tại đây. 
-              Lưu ý: In đậm các cụm từ chuyển hướng và từ vựng chỉ nhóm thiểu số.]
-             </div>
+    <!-- ================================================================================== -->
+    <!-- QUY TRÌNH THỰC HÀNH LẮP RÁP BODY 2 -->
+    <!-- ================================================================================== -->
+    <li>     
+        <strong style="color: #2980b9;">✍️ THỰC HÀNH LẮP RÁP BODY 2 (QUY TRÌNH 5 BƯỚC CHUẨN):</strong>
+        <div style="display:none;">
+            SYSTEM_COMMAND: 
+            1. Bắt buộc dùng Transition Linker để nối với Body 1.
+            2. Sử dụng kỹ thuật gom nhóm (collectively/range) để bài viết súc tích.
+            3. Output duy nhất 01 câu cho mỗi giai đoạn.
+        </div>
+        <br>
+        <b>✅ GIAI ĐOẠN 1: Câu chuyển đoạn và mô tả nhóm hạng mục trung bình</b>
+        <br>1. 🔴 <b>Phân tích & Chọn ID:</b> <i>[AI chọn mẫu ở Khối 1]</i>
+        <br>2. 📥 <b>Mẫu gốc:</b> <i>[AI in mẫu gốc]</i>
+        <br>3. 🧩 <b>Khai báo biến:</b> [Cat C/D] = ... ; [Data C/D] = ...
+        <br>4. 🧠 <b>Tư duy Tiếng Việt:</b> <code>"[AI viết câu chuyển đoạn: Chuyển sang các mục còn lại, C và D thấp hơn nhiều...]"</code>
+        <br>5. 📝 <b>English Output:</b> <i>[AI xuất 01 câu duy nhất]</i>
+        
+        <br><br><b>✅ GIAI ĐOẠN 2: Gom nhóm hoặc so sánh tương đồng các hạng mục nhỏ</b>
+        <br>1. 🔴 Phân tích -> 2. 📥 Mẫu -> 3. 🧩 Biến -> 4. 🧠 Tiếng Việt -> 5. 📝 English.
 
-             <!-- EXAMINER'S FINAL CHECKLIST FOR STATIC BODY 2 -->
-             <div style="margin-top:10px; font-size: 0.8rem; color: #0288d1;">
-                 <b>✅ Examiner's Quality Audit (Grouping & Contrast):</b>
-                 <ul style="margin: 0; padding-left: 20px;">
-                     <li>Có câu chuyển đoạn rõ ràng để dẫn dắt sang nhóm mới: <b>Xác nhận</b></li>
-                     <li>Gom nhóm các hạng mục nhỏ để bài viết súc tích: <b>Có</b></li>
-                     <li>Sử dụng cấu trúc "Small minority" hoặc "Negligible" chính xác: <b>Có</b></li>
-                     <li>Đầy đủ các đối tượng còn lại (không bỏ sót hạng mục nào): <b>Đạt chuẩn</b></li>
-                 </ul>
-             </div>
-         </div>
-     </li>
+        <br><br><b>✅ GIAI ĐOẠN 3: Chốt hạng mục thấp nhất bài (The Minority)</b>
+        <br>1. 🔴 Phân tích -> 2. 📥 Mẫu -> 3. 🧩 Biến -> 4. 🧠 Tiếng Việt -> 5. 📝 English.
+    </li>
+
+    <!-- ================================================================================== -->
+    <!-- KẾT QUẢ CUỐI CÙNG BODY 2 -->
+    <!-- ================================================================================== -->
+    <li>
+        <div style="background-color:#e1f5fe; padding:20px; border-radius:8px; margin-top:10px; border: 2px solid #03a9f4; border-left: 8px solid #03a9f4;">
+            <strong style="color:#01579b; font-size: 1.1rem;">📝 KẾT QUẢ BODY 2 (THE POLISHED STATIC PARAGRAPH):</strong>
+            <br><i style="font-size: 0.85rem; color: #7f8c8d;">(Đoạn văn hoàn chỉnh cho các nhóm còn lại, nhấn mạnh tính tổng hợp)</i>
+            
+            <div style="margin-top:10px; font-family: 'Georgia', serif; line-height: 1.6; color: #2c3e50; background-color: white; padding: 15px; border-radius: 5px; border: 1px inset #eee;">
+            [AI trình bày đoạn văn Body 2 hoàn chỉnh tại đây. Lưu ý: In đậm các cụm từ gom nhóm và từ nối chuyển đoạn.]
+            </div>
+
+            <!-- EXAMINER'S QUALITY AUDIT -->
+            <div style="margin-top:10px; font-size: 0.8rem; color: #0288d1;">
+                <b>✅ Examiner's Quality Audit (Grouping & Contrast):</b>
+                <ul style="margin: 0; padding-left: 20px;">
+                    <li>Sử dụng Transition Linker để dẫn dắt: <b>Xác nhận</b></li>
+                    <li>Áp dụng kỹ thuật gom nhóm (Collectively/Combined): <b>Có</b></li>
+                    <li>Sử dụng từ vựng miêu tả mức độ thấp (Negligible/Minority): <b>Đạt chuẩn</b></li>
+                    <li>Bao phủ toàn bộ các hạng mục còn lại của đề bài: <b>Có</b></li>
+                </ul>
+            </div>
+        </div>
+    </li>
+</ul>
                     # =================================================================
                     # 🔵 TRƯỜNG HỢP 2: DẠNG "CHANGE OVER TIME" (Line, Bar, Table, Pie nhiểu năm)
                     # (Tư duy cốt lõi: Trend (Xu hướng) & Speed (Tốc độ thay đổi))
