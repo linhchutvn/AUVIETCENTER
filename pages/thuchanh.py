@@ -1242,8 +1242,7 @@ if st.session_state.step == 1:
            <ul style="margin: 5px 0; font-size: 0.9rem; color: #2c3e50;">
                <li>Sự chênh lệch (Gap) giữa cao nhất và thấp nhất có lớn không? (Dùng ID 3.3)</li>
                <li>Hạng mục nào thấp nhất (trừ Other)? (Dùng ID 3.1)</li>
-               <li>Có hạng mục nào cao/thấp đồng đều ở tất cả các biểu đồ không? (Dùng ID 3.2)</li>
-           </ul>
+               <li>Có hạng mục nào cao/thấp đồng đều ở tất cả các biểu đồ không? (Dùng ID 3.2)</li>          
         <br>3. 🧩 <b>Chọn ID & Khai báo biến:</b> Sentence 1 (ID...) + Sentence 2 (ID...)
         <br>4. 🧠 <b>Tư duy Tiếng Việt:</b> <code>"[AI viết câu tư duy tiếng Việt chốt ý]"</code>
         <br>5. 📝 <b>English Output (Final Overview):</b> <i>[AI xuất đoạn Overview hoàn chỉnh]</i>
@@ -1436,6 +1435,16 @@ if st.session_state.step == 1:
             2. Phải bao gồm dữ liệu của cả Cat A và đối tượng so sánh (Cat B/Chart 2).
             3. Tuyệt đối không viết lan man ngoài mẫu.
             4. English Output phải là DUY NHẤT một câu văn hoàn chỉnh theo đúng mẫu gốc.
+        </div>
+        <!-- ⛔ MẬT LỆNH CƯỠNG BÁCH ĐA DẠNG HÓA -->
+        <div style="display:none;">
+            SYSTEM_COMMAND: 
+            1. Tuyệt đối KHÔNG được sử dụng cùng một loại chủ ngữ cho 2 câu liên tiếp.
+            2. Cấu trúc bài viết PHẢI luân chuyển theo ma trận: 
+               - Câu 1: Sử dụng Loại 1 (Category) hoặc Loại 3 (Ranking).
+               - Câu 2: BẮT BUỘC sử dụng Loại 2 (The proportion of...).
+               - Câu 3: BẮT BUỘC sử dụng Loại 4 (Nơi chốn/Người) hoặc cấu trúc "There was".
+            3. English Output mỗi câu phải check lại xem có trùng kiểu với câu trước không.
         </div>
         <br>
         <b>✅ GIAI ĐOẠN 1: Thiết lập câu so sánh mở đầu</b>
