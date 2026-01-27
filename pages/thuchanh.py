@@ -1429,22 +1429,16 @@ if st.session_state.step == 1:
     <!-- ================================================================================== -->
     <li>     
         <strong style="color: #e67e22;">✍️ THỰC HÀNH LẮP RÁP BODY 1 (QUY TRÌNH 5 BƯỚC CHUẨN):</strong>
+        <!-- ⛔ MẬT LỆNH CƯỠNG BÁCH AI: ĐA DẠNG HÓA CẤU TRÚC TUYỆT ĐỐI -->
         <div style="display:none;">
-            SYSTEM_COMMAND: 
-            1. Bắt buộc sử dụng 100% cấu trúc của [Mẫu gốc] đã chọn. 
-            2. Phải bao gồm dữ liệu của cả Cat A và đối tượng so sánh (Cat B/Chart 2).
-            3. Tuyệt đối không viết lan man ngoài mẫu.
-            4. English Output phải là DUY NHẤT một câu văn hoàn chỉnh theo đúng mẫu gốc.
-        </div>
-        <!-- ⛔ MẬT LỆNH CƯỠNG BÁCH ĐA DẠNG HÓA -->
-        <div style="display:none;">
-            SYSTEM_COMMAND: 
-            1. Tuyệt đối KHÔNG được sử dụng cùng một loại chủ ngữ cho 2 câu liên tiếp.
-            2. Cấu trúc bài viết PHẢI luân chuyển theo ma trận: 
-               - Câu 1: Sử dụng Loại 1 (Category) hoặc Loại 3 (Ranking).
-               - Câu 2: BẮT BUỘC sử dụng Loại 2 (The proportion of...).
-               - Câu 3: BẮT BUỘC sử dụng Loại 4 (Nơi chốn/Người) hoặc cấu trúc "There was".
-            3. English Output mỗi câu phải check lại xem có trùng kiểu với câu trước không.
+            SYSTEM_COMMAND:
+            1. STRICT TEMPLATE: Bắt buộc sử dụng 100% cấu trúc của [Mẫu gốc] đã chọn. Chỉ thay thế các biến trong ngoặc vuông [ ].
+            2. MANDATORY COMPARISON: Phải bao gồm dữ liệu của cả Cat A và đối tượng so sánh (Cat B/Chart 2) trong cùng 1 câu.
+            3. SUBJECT ROTATION RULE (SỐNG CÒN): Tuyệt đối không dùng 1 kiểu chủ ngữ cho 2 câu liên tiếp.
+               - GIAI ĐOẠN 1: Bắt buộc chọn [Loại 1: Category] hoặc [Loại 3: Ranking] làm chủ ngữ.
+               - GIAI ĐOẠN 2: Bắt buộc chọn [Loại 2: Proportion/Percentage] làm chủ ngữ.
+               - GIAI ĐOẠN 3: Bắt buộc chọn [Loại 4: Entity/Place] hoặc cấu trúc "There was" làm chủ ngữ.
+            4. SINGLE SENTENCE: English Output của mỗi Giai đoạn phải là DUY NHẤT một câu văn hoàn chỉnh.
         </div>
         <br>
         <b>✅ GIAI ĐOẠN 1: Thiết lập câu so sánh mở đầu</b>
