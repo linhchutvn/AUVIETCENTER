@@ -1218,7 +1218,7 @@ if st.session_state.step == 1:
                     
                     <br><br><b style="color: #e67e22;">► KHỐI 3: Tả đặc điểm phụ & Chênh lệch (Secondary/Gap):</b>
                     <br>📍 <b>ID 3.1 (Hạng mục thấp nhất - Có tên):</b> "<b>[Category C]</b> represents the least significant portion among the specified categories."
-                    <br>📍 <b>ID 3.2 (Điểm tương đồng):</b> "It is also noticeable that <b>[Category B]</b> accounts for a significant portion in both charts."
+                    <br>📍 <b>ID 3.2 (Điểm tương đồng):</b> "<b>Furthermore, [Category B]</b> accounts for a significant portion in both charts."
                     <br>📍 <b>ID 3.3 (Sự chênh lệch lớn - Gap):</b> "There is a significant disparity between the most and least popular categories across the groups."
                 </div>
             </details>
