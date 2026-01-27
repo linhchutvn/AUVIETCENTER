@@ -1177,30 +1177,20 @@ if st.session_state.step == 1:
                     ### 2. **"overview_guide" (Ranking + Gap / Static Comparison):**
 
 <ul>
-    <!-- ================================================================================== -->
     <!-- PHẦN 1: LOGIC CỐT LÕI (VISUAL FLOW) -->
-    <!-- ================================================================================== -->
     <li>
         <div style="background-color:#fdf2e9; border-left:4px solid #d35400; padding:10px; margin-top:5px;">             
             <b>► Logic cốt lõi (Visual Flow):</b> 
-            <br>             
-            <code style="font-size: 0.8rem; background-color: white; padding: 5px; border: 1px dashed #f9a825;">[Overall Linker]</code>
-            <span style="color:#f57f17; font-weight:bold;"> ➔ </span>
-            <code style="font-size: 0.8rem; background-color: white; padding: 5px; border: 1px dashed #f9a825;">[1. Ranking (Cao nhất/thấp nhất)]</code>
-            <span style="color:#f57f17; font-weight:bold;"> ➔ </span>
-            <code style="font-size: 0.8rem; background-color: white; padding: 5px; border: 1px dashed #f9a825;">[2. Comparison (Sự chênh lệch/Điểm chung)]</code>
+            <br><code style="font-size: 0.8rem; background-color: white; padding: 5px; border: 1px dashed #f9a825;">[Overall Linker] ➔ [1. Ranking (Cao nhất/thấp nhất)] ➔ [2. Comparison (Sự chênh lệch/Điểm chung)]</code>
         </div>
     </li>
 
-    <!-- ================================================================================== -->
-    <!-- PHẦN 2: LƯU Ý & KHO MẪU CÂU (DROPDOWN) -->
-    <!-- ================================================================================== -->
+    <!-- PHẦN 2: KHO MẪU CÂU (SỔ XUỐNG) -->
     <li>
         <div style="background-color:#f8f9fa; border:1px solid #bdc3c7; border-radius:5px; padding:15px; margin-bottom:15px;">
-            <strong style="color:#c0392b;">⛔ LƯU Ý QUAN TRỌNG (EXAMINER'S NOTE):</strong>
-            <br><i>1. Tuyệt đối <b>KHÔNG</b> nhắc đến tên nhóm <b>"Other/Others"</b>.</i>
-            <br><i>2. <b>TRÁNH</b> khẳng định "X là thấp nhất" (The lowest) nếu trong biểu đồ còn có nhóm "Other" nhỏ hơn nó. Thay vào đó, hãy dùng từ mang nghĩa <b>"nhóm nhỏ/thiểu số" (negligible/least significant)</b>.</i>
-            <br><i>3. Tuyệt đối <b>KHÔNG</b> đưa số liệu cụ thể vào phần này.</i>
+            <strong style="color:#c0392b;">⛔ LƯU Ý QUAN TRỌNG:</strong>
+            <br><i>1. Tuyệt đối <b>KHÔNG</b> đưa số liệu cụ thể vào phần này.</i>
+            <br><i>2. <b>KHÔNG</b> nhắc đến tên nhóm <b>"Other/Others"</b>.</i>
 
             <details style="margin-top: 15px;">
                 <summary style="background-color:#fdf2e9; border-left:4px solid #d35400; padding:10px; cursor: pointer; font-weight: bold; color: #d35400;">
@@ -1209,71 +1199,44 @@ if st.session_state.step == 1:
                 <div style="padding: 15px; background-color: white; border: 1px solid #fdf2e9; border-top: none;">
                     
                     <b style="color: #e67e22;">► KHỐI 1: Cấu trúc tổng quát (Gom Nhất & Bét):</b>
-                    <br>📍 <b>ID 1.1:</b> <code>Overall, it is clear/noticeable that [Most Popular Category] accounts for the largest share, whereas [Least Popular Category] makes up the smallest proportion.</code>
+                    <br>📍 <b>ID 1.1:</b> <code>Overall, it is clear that [Most Popular Category] accounts for the largest share, whereas [Least Popular Category] makes up the smallest proportion.</code>
                     
                     <br><br><b style="color: #e67e22;">► KHỐI 2: Tả nhóm lớn nhất (Dominant Feature):</b>
-                    <br>📍 <b>ID 2.1 (Áp đảo):</b> "<b>[Category A]</b> is by far the most popular option/reason."
-                    <br>📍 <b>ID 2.2 (Chiếm đa số):</b> "The majority of <b>[Topic]</b> is allocated to <b>[Category A]</b>."
-                    <br>📍 <b>ID 2.3 (So sánh chéo 2 nhóm/năm):</b> "While <b>[Category A]</b> is the dominant figure in <b>[Group 1]</b>, <b>[Category B]</b> takes the lead in <b>[Group 2]</b>."
+                    <br>📍 <b>ID 2.1:</b> "<b>[Category A]</b> is by far the most popular option/reason."
+                    <br>📍 <b>ID 2.2:</b> "The majority of <b>[Topic]</b> is allocated to <b>[Category A]</b>."
+                    <br>📍 <b>ID 2.3:</b> "While <b>[Category A]</b> is the dominant figure in <b>[Group 1]</b>, <b>[Category B]</b> takes the lead in <b>[Group 2]</b>."
                     
                     <br><br><b style="color: #e67e22;">► KHỐI 3: Tả đặc điểm phụ & Chênh lệch (Secondary/Gap):</b>
-                    <br>📍 <b>ID 3.1 (Hạng mục thấp nhất - Có tên):</b> "<b>[Category C]</b> represents the least significant portion among the specified categories."
-                    <br>📍 <b>ID 3.2 (Điểm tương đồng):</b> "<b>Furthermore, [Category B]</b> accounts for a significant portion in both charts."
-                    <br>📍 <b>ID 3.3 (Sự chênh lệch lớn - Gap):</b> "There is a significant disparity between the most and least popular categories across the groups."
+                    <br>📍 <b>ID 3.1:</b> "<b>[Category C]</b> represents the least significant portion among the specified categories."
+                    <br>📍 <b>ID 3.2:</b> "<b>Furthermore, [Category B]</b> accounts for a significant portion in both charts."
+                    <br>📍 <b>ID 3.3:</b> "There is a significant disparity between the most and least popular categories across the groups."
                 </div>
             </details>
         </div>
     </li>
 
-    <!-- ================================================================================== -->
-    <!-- PHẦN 3: THỰC HÀNH LẮP RÁP 5 BƯỚC (INTEGRATED ANALYSIS) -->
-    <!-- ================================================================================== -->
+    <!-- PHẦN 3: THỰC HÀNH LẮP RÁP 5 BƯỚC CHUẨN -->
     <li>     
         <strong style="color: #e67e22;">✍️ THỰC HÀNH LẮP RÁP OVERVIEW (DÂY CHUYỀN 5 BƯỚC):</strong>
         <div style="display:none;">
             SYSTEM_COMMAND: 
-            1. Không đưa số liệu (%) vào bài viết. 
-            2. Câu 1 ưu tiên Ranking (ID Khối 2). 
-            3. Câu 2 ưu tiên Contrast/Gap (ID Khối 3).
-            4. Phải trả lời được các câu hỏi quan sát ở Bước 1 & 2.
+            1. Bắt buộc dùng 100% cấu trúc của [Mẫu gốc] đã chọn. Chỉ thay thế các biến trong [ ].
+            2. Tuyệt đối KHÔNG đưa số liệu (%) vào bài viết. 
+            3. Expert Version = Câu 1 (từ ID Khối 1/2) + Câu 2 (từ ID Khối 3).
         </div>
-        <br>1. 🔴 <b>Phân tích Dominant:</b> [Hạng mục cao nhất - Trừ Total/Other]
-        <br>2. 🔴 <b>Phân tích Contrast & Gap (Tư duy đa chiều):</b> 
-           <ul style="margin: 5px 0; font-size: 0.9rem; color: #2c3e50;">
-               <li>Sự chênh lệch (Gap) giữa cao nhất và thấp nhất có lớn không? (Dùng ID 3.3)</li>
-               <li>Hạng mục nào thấp nhất (trừ Other)? (Dùng ID 3.1)</li>
-               <li>Có hạng mục nào cao/thấp đồng đều ở tất cả các biểu đồ không? (Dùng ID 3.2)</li>          
-        <br>3. 🧩 <b>Chọn ID & Khai báo biến:</b> Sentence 1 (ID...) + Sentence 2 (ID...)
-        <br>4. 🧠 <b>Tư duy Tiếng Việt:</b> <code>"[AI viết câu tư duy tiếng Việt chốt ý]"</code>
-        <br>5. 📝 <b>English Output (Final Overview):</b> <i>[AI áp dụng công thức, chỉ thay các biến [...] để thành câu hoàn chỉnh]</i>
+        <br>1. 🔴 <b>Phân tích đề:</b> [Xác định Hạng mục cao nhất & thấp nhất]
+        <br>2. 📥 <b>Mẫu gốc (ID):</b> [AI in 2 mẫu gốc sẽ sử dụng]
+        <br>3. 🧩 <b>Khai báo biến:</b> [Cat A] = ... ; [Cat B] = ...
+        <br>4. 🧠 <b>Tư duy Tiếng Việt:</b> <code>"[Dịch ý tưởng Overview]"</code>
+        <br>5. 📝 <b>English Output:</b> <i>[Lắp ráp thành đoạn văn 2 câu hoàn chỉnh]</i>
     </li>
 
-    <!-- ================================================================================== -->
-    <!-- PHẦN 4: TỪ VỰNG "ĂN ĐIỂM" GỐC -->
-    <!-- ================================================================================== -->
+    <!-- PHẦN 4: KẾT QUẢ ĐỐI CHIẾU -->
     <li>
-        <strong style="color:#d35400;">🔑 TỪ VỰNG GỢI Ý (VOCABULARY BANK):</strong>
-        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 10px; font-size: 0.85rem;">
-            <div style="background-color:white; padding:8px; border:1px dashed #d35400;">
-                <b>Động từ (Verbs):</b><br>account for, make up, constitute, represent, comprise, dominate.
-            </div>
-            <div style="background-color:white; padding:8px; border:1px dashed #d35400;">
-                <b>Tính từ (Adj):</b><br>dominant, significant, negligible, overwhelming, modest.
-            </div>
-            <div style="background-color:white; padding:8px; border:1px dashed #d35400;">
-                <b>Cụm từ (Nouns/Phrases):</b><br>the lion's share, the vast majority, a small fraction.
-            </div>
-        </div>
-    </li>
-
-    <!-- ================================================================================== -->
-    <!-- PHẦN 5: KẾT QUẢ MẪU -->
-    <!-- ================================================================================== -->
-    <li>
-        <div style="background-color:#fff3e0; padding:15px; border-radius:8px; margin-top:10px; border-left: 5px solid #ff9f43;">
-            <b>📝 Nội dung mẫu (Sample Overview):</b><br>
-            <div style="margin-top:5px; font-style: italic; color: #5d4037;">
-            [AI thực hiện ghép các câu nháp từ quy trình trên thành đoạn Overview hoàn chỉnh].
+        <div style="background-color:#fff3e0; padding:15px; border-radius:8px; margin-top:10px; border: 2px solid #ff9f43; border-left: 8px solid #ff9f43;">
+            <b>📝 Bản Overview chuẩn (Expert Version):</b><br>
+            <div style="margin-top:5px; font-family: 'Georgia', serif; font-style: italic; color: #5d4037;">
+            [AI tổng hợp 2 câu ở Bước 5 thành đoạn văn. Yêu cầu: Đúng mẫu 100%, không thêm bớt từ ngữ ngoài công thức.]
             </div>
         </div>
     </li>
