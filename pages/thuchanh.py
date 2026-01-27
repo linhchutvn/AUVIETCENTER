@@ -1308,6 +1308,12 @@ if st.session_state.step == 1:
     <!-- ================================================================================== -->
     <!-- CÔNG THỨC TỔNG QUÁT -->
     <!-- ================================================================================== -->
+    <li><b>Logic chọn nhóm (Grouping Strategy):</b> 
+        <br>AI thực hiện: Chọn các hạng mục (Categories) có số liệu **LỚN NHẤT** hoặc chiếm **TỶ TRỌNG ÁP ĐẢO**.
+        <br>🚩 <b>QUY TẮC CHỐNG LẶP DỮ LIỆU (STATIC):</b> 
+        <br>1. Mỗi con số (Data point) chỉ được xuất hiện DUY NHẤT một lần trong cả bài.
+        <br>2. Nếu đã dùng số liệu đó để so sánh ở câu trước, câu sau chỉ mô tả đặc tính hoặc gap (khoảng cách).
+    </li>
     <li>
         <div style="background-color:#fdf2e9; border-left:4px solid #d35400; padding:10px; margin-bottom:15px;">             
             <b>► Cấu trúc chuẩn (Formula):</b> 
@@ -1440,6 +1446,9 @@ if st.session_state.step == 1:
                - GIAI ĐOẠN 3: Bắt buộc chọn [Loại 4: Entity/Place] hoặc cấu trúc "There was" làm chủ ngữ.
             4. SINGLE SENTENCE: English Output của mỗi Giai đoạn phải là DUY NHẤT một câu văn hoàn chỉnh.
         </div>
+        <br><b>🎯 BƯỚC ĐỊNH HƯỚNG (PLANNING):</b> 
+        <br>● <b>Hạng mục ưu tiên (Body 1):</b> [VD: Food và Entertainment]
+        <br>● <b>Dữ liệu độc nhất:</b> [Liệt kê các con số sẽ dùng, không để trùng nhau]
         <br>
         <b>✅ GIAI ĐOẠN 1: Thiết lập câu so sánh mở đầu</b>
         <br>1. 🔴 <b>Phân tích & Chọn ID:</b> <i>[AI chọn 1 trong 5 mẫu ở Khối 1]</i>
