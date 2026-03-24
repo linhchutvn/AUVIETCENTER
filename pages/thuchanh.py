@@ -1148,16 +1148,14 @@ if st.session_state.step == 1:
            <ul style="margin: 5px 0; font-size: 0.9rem;">
                <li>Topic replacement: ...</li>
                <li>Categories/Groups replacement: ...</li>
-           </ul>
-        <br>
+           </ul>        
         3. <b>Khai báo biến Formula:</b> 
            <ul style="margin: 5px 0; font-size: 0.9rem;">
                <li>[Subject] = The + [Chart Type]</li>
                <li>[Finite Verb] = ...</li>
                <li>[Object] = [Percentage/Number] + [Topic] + [namely...]</li>
                <li>[Place] = ... ; [Time] = ...</li>
-           </ul>
-        <br>
+           </ul>        
         4. <b>Tư duy Tiếng Việt:</b> <code>"[Dịch logic câu theo thứ tự Formula]"</code>
         <br>
         5. <b>English Output (Final Intro):</b> <i>[Lắp ráp thành câu hoàn chỉnh]</i>
@@ -1185,16 +1183,17 @@ if st.session_state.step == 1:
     <li>
         <div style="background-color:#fdf2e9; border-left:4px solid #d35400; padding:10px; margin-top:5px;">             
             <b>► Logic cốt lõi (Visual Flow):</b> 
-            <br><code style="font-size: 0.8rem; background-color: white; padding: 5px; border: 1px dashed #f9a825;">[Overall Linker] ➔ [1. Ranking (Cao nhất/thấp nhất)] ➔ [2. Comparison (Sự chênh lệch/Điểm chung)]</code>
+            <br><code style="font-size: 0.8rem; background-color: white; padding: 5px; border: 1px dashed #f9a825;">[Overall] ➔ [1. Gom Đặc điểm Lớn nhất/Nhỏ nhất] ➔ [2. Diễn giải ý nghĩa (Widely used) / Big Picture (Sự phụ thuộc)]</code>
         </div>
     </li>
 
     <!-- PHẦN 2: KHO MẪU CÂU (SỔ XUỐNG) -->
     <li>
         <div style="background-color:#f8f9fa; border:1px solid #bdc3c7; border-radius:5px; padding:15px; margin-bottom:15px;">
-            <strong style="color:#c0392b;">⛔ LƯU Ý QUAN TRỌNG:</strong>
-            <br><i>1. Tuyệt đối <b>KHÔNG</b> đưa số liệu cụ thể vào phần này.</i>
-            <br><i>2. <b>KHÔNG</b> nhắc đến tên nhóm <b>"Other/Others"</b>.</i>
+            <strong style="color:#c0392b;">⛔ 3 LƯU Ý "SỐNG CÒN" KHI VIẾT OVERVIEW:</strong>
+            <br><i>1. Tuyệt đối <b>KHÔNG</b> đưa số liệu cụ thể (%, số lượng) vào phần này.</i>
+            <br><i>2. <b>KHÔNG</b> nhắc đến nhóm hạng mục phụ gộp chung <b>"Other / Others"</b>.</i>
+            <br><i>3. <b>TRÁNH</b> dùng từ mang ý kiến cá nhân/cảm xúc như <b>"popular, favorite"</b> (Nên dùng: commonly/widely used).</i>
 
             <details style="margin-top: 15px;">
                 <summary style="background-color:#fdf2e9; border-left:4px solid #d35400; padding:10px; cursor: pointer; font-weight: bold; color: #d35400;">
@@ -1202,18 +1201,20 @@ if st.session_state.step == 1:
                 </summary>
                 <div style="padding: 15px; background-color: white; border: 1px solid #fdf2e9; border-top: none;">
                     
-                    <b style="color: #e67e22;">► KHỐI 1: Cấu trúc tổng quát (Gom Nhất & Bét):</b>
-                    <br>📍 <b>ID 1.1:</b> <code>Overall, it is clear that [Most Popular Category] accounts for the largest share, whereas [Least Popular Category] makes up the smallest proportion.</code>
+                    <b style="color: #e67e22;">► KHỐI 1: Cấu trúc cơ bản (So sánh Lớn nhất / Nhỏ nhất):</b>
+                    <br><i>(Tư duy: Tìm ra điểm lớn nhất của từng đối tượng và nối bằng "while/whereas")</i>
+                    <br>📍 <b>ID 1.1 (So sánh trực tiếp):</b> <code>Overall, [Subject A] [V: produced/consumed/spent...] the most [Topic] from/on [Category A], while [Subject B]...</code>
+                    <br>📍 <b>ID 1.2 (Lấy Data làm chủ ngữ):</b> <code>Overall, [Category A] accounted for / made up the greatest percentage of [Topic] in [Subject].</code>
                     
-                    <br><br><b style="color: #e67e22;">► KHỐI 2: Tả nhóm lớn nhất (Dominant Feature):</b>
-                    <br>📍 <b>ID 2.1:</b> "<b>[Category A]</b> is by far the most popular option/reason."
-                    <br>📍 <b>ID 2.2:</b> "The majority of <b>[Topic]</b> is allocated to <b>[Category A]</b>."
-                    <br>📍 <b>ID 2.3:</b> "While <b>[Category A]</b> is the dominant figure in <b>[Group 1]</b>, <b>[Category B]</b> takes the lead in <b>[Group 2]</b>."
+                    <br><br><b style="color: #e67e22;">► KHỐI 2: Nâng cấp - Diễn tả ý nghĩa con số (Meaning):</b>
+                    <br><i>(Tư duy: Đổi từ việc "đọc số lớn nhất" sang "bản chất hành động" - phổ biến nhất, dùng nhiều nhất)</i>
+                    <br>📍 <b>ID 2.1:</b> "Overall, <b>[Category A]</b> was the most widely/commonly used source/type of <b>[Topic]</b> in <b>[Subject]</b>."
+                    <br>📍 <b>ID 2.2:</b> "<b>[Category A]</b> was the primary choice / primary source of <b>[Topic]</b> for <b>[Subject]</b>."
                     
-                    <br><br><b style="color: #e67e22;">► KHỐI 3: Tả đặc điểm phụ & Chênh lệch (Secondary/Gap):</b>
-                    <br>📍 <b>ID 3.1:</b> "<b>[Category C]</b> represents the least significant portion among the specified categories."
-                    <br>📍 <b>ID 3.2:</b> "<b>Furthermore, [Category B]</b> accounts for a significant portion in both charts."
-                    <br>📍 <b>ID 3.3:</b> "There is a significant disparity between the most and least popular categories across the groups."
+                    <br><br><b style="color: #e67e22;">► KHỐI 3: Nâng cấp - Bức tranh tổng thể & Sự phụ thuộc (Big Picture / Gap):</b>
+                    <br><i>(Tư duy: Gom nhóm các hạng mục nhỏ thành [Broader Category] để thấy sự chênh lệch lớn)</i>
+                    <br>📍 <b>ID 3.1:</b> "<b>Furthermore, [Subject A]</b> relied more heavily on / showed a higher dependence on <b>[Broader Category]</b> than <b>[Subject B]</b>."
+                    <br>📍 <b>ID 3.2:</b> "While <b>[Subject A]</b> showed a higher preference for <b>[Broader Category 1]</b>, <b>[Subject B]</b> relied predominantly on <b>[Broader Category 2]</b>."
                 </div>
             </details>
         </div>
@@ -1224,13 +1225,13 @@ if st.session_state.step == 1:
         <strong style="color: #e67e22;">✍️ THỰC HÀNH LẮP RÁP OVERVIEW (DÂY CHUYỀN 5 BƯỚC):</strong>
         <div style="display:none;">
             SYSTEM_COMMAND: 
-            1. Bắt buộc dùng 100% cấu trúc của [Mẫu gốc] đã chọn. Chỉ thay thế các biến trong [ ].
-            2. Tuyệt đối KHÔNG đưa số liệu (%) vào bài viết. 
-            3. Expert Version = Câu 1 (từ ID Khối 1/2) + Câu 2 (từ ID Khối 3).
+            1. Bắt buộc dùng 100% cấu trúc của[Mẫu gốc] đã chọn. Chỉ thay thế các biến trong [ ].
+            2. Tuyệt đối KHÔNG đưa số liệu (%) vào bài viết. Không dùng "Other" hay "popular".
+            3. Expert Version = Câu 1 (từ ID Khối 1 hoặc 2) + Câu 2 (từ ID Khối 3 - Big Picture).
         </div>
-        <br>1. 🔴 <b>Phân tích đề:</b> [Xác định Hạng mục cao nhất & thấp nhất]
-        <br>2. 📥 <b>Mẫu gốc (ID):</b> [AI in 2 mẫu gốc sẽ sử dụng]
-        <br>3. 🧩 <b>Khai báo biến:</b> [Cat A] = ... ; [Cat B] = ...
+        <br>1. 🔴 <b>Phân tích đề:</b>[Xác định hạng mục lớn nhất & Gom nhóm Big Picture]
+        <br>2. 📥 <b>Mẫu gốc (ID):</b>[AI in 2 mẫu gốc sẽ sử dụng, ví dụ ID 2.1 + ID 3.1]
+        <br>3. 🧩 <b>Khai báo biến:</b> [Subject] = ... ; [Category A] = ... ; [Broader Category] = ...
         <br>4. 🧠 <b>Tư duy Tiếng Việt:</b> <code>"[Dịch ý tưởng Overview]"</code>
         <br>5. 📝 <b>English Output:</b> <i>[Lắp ráp thành đoạn văn 2 câu hoàn chỉnh]</i>
     </li>
@@ -1239,8 +1240,7 @@ if st.session_state.step == 1:
     <li>
         <div style="background-color:#fff3e0; padding:15px; border-radius:8px; margin-top:10px; border: 2px solid #ff9f43; border-left: 8px solid #ff9f43;">
             <b>📝 Bản Overview chuẩn (Expert Version):</b><br>
-            <div style="margin-top:5px; font-family: 'Georgia', serif; font-style: italic; color: #5d4037;">
-            [AI tổng hợp 2 câu ở Bước 5 thành đoạn văn. Yêu cầu: Đúng mẫu 100%, không thêm bớt từ ngữ ngoài công thức.]
+            <div style="margin-top:5px; font-family: 'Georgia', serif; font-style: italic; color: #5d4037;">[AI tổng hợp 2 câu ở Bước 5 thành đoạn văn. Yêu cầu: Đúng mẫu 100%, có sự kết nối mượt mà giữa ý "Lớn nhất" và "Big Picture".]
             </div>
         </div>
     </li>
