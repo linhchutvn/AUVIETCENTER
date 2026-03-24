@@ -1142,21 +1142,25 @@ if st.session_state.step == 1:
             3. PHẢI liệt kê cụ thể hạng mục nếu có 2-3 cái.
         </div>
         <br>
-        1. 🔴 <b>Phân tích đề:</b> [Xác định Chart Type, Topic, Place, Time, 🚩 Unit]
-        <br>2. 🔄 <b>Paraphrase Vocabulary:</b> 
+        1. <b>Phân tích đề:</b> [Xác định Chart Type, Topic, Place, Time, Unit]
+        <br>
+        2. <b>Paraphrase Vocabulary:</b> 
            <ul style="margin: 5px 0; font-size: 0.9rem;">
                <li>Topic replacement: ...</li>
                <li>Categories/Groups replacement: ...</li>
            </ul>
-        <br>3. 🧩 <b>Khai báo biến Formula:</b> 
+        <br>
+        3. <b>Khai báo biến Formula:</b> 
            <ul style="margin: 5px 0; font-size: 0.9rem;">
                <li>[Subject] = The + [Chart Type]</li>
                <li>[Finite Verb] = ...</li>
                <li>[Object] = [Percentage/Number] + [Topic] + [namely...]</li>
                <li>[Place] = ... ; [Time] = ...</li>
            </ul>
-        <br>4. 🧠 <b>Tư duy Tiếng Việt:</b> <code>"[Dịch logic câu theo thứ tự Formula]"</code>
-        <br>5. 📝 <b>English Output (Final Intro):</b> <i>[Lắp ráp thành câu hoàn chỉnh]</i>
+        <br>
+        4. <b>Tư duy Tiếng Việt:</b> <code>"[Dịch logic câu theo thứ tự Formula]"</code>
+        <br>
+        5. <b>English Output (Final Intro):</b> <i>[Lắp ráp thành câu hoàn chỉnh]</i>
     </li>
 
     <!-- ================================================================================== -->
