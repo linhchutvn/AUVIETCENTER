@@ -406,7 +406,7 @@ elif st.session_state.app_step == 5:
             **Tự kiểm tra trước khi nộp bài thực tế:**
             - [ ] Đã kiểm tra lỗi chính tả (Spelling).
             - [ ] Không có chuỗi 4-5 từ nào sao chép y nguyên từ bài gốc.
-            - [ ] Đếm lại số từ lần cuối (Nằm trong khoảng 90 - 110 từ).
+            - [ ] Đếm lại số từ lần cuối (Nằm trong khoảng 100 - 120 từ).
             - [ ] Đã dùng thì Hiện tại đơn (Simple Present) cho các động từ báo cáo.
             """)
             
