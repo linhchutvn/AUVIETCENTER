@@ -308,19 +308,27 @@ elif st.session_state.app_step == 2:
 
         # --- GIAI ĐOẠN 3 ---
         st.markdown("#### 🧠 Giai đoạn 3: Tổng hợp (Tự kiểm tra)")
+        st.markdown('Đã đến lúc "gấp tài liệu lại". Bằng trí nhớ và sự hiểu biết từ Giai đoạn 2, em hãy tự đúc kết lại thông điệp cốt lõi nhất của toàn bộ bài viết.')
+        
         with st.container(border=True):
-            st.markdown("**Kết quả tham khảo của Giáo sư:**")
-            st.success(f"*{data.get('step1_reference_result', '')}*")
-            st.markdown("---")
-            st.markdown("**Nhiệm vụ của em:** Đóng bài gốc lại. Bằng sự hiểu biết vừa rồi, hãy tự viết lại **Luận điểm chính (Thesis Statement)** vào ô dưới đây để làm kim chỉ nam cho bài Tóm tắt.")
+            st.markdown("**Nhiệm vụ của em:** Tự viết lại **Luận điểm chính (Thesis Statement)** vào ô dưới đây (Có thể chép lại câu gốc Tiếng Anh hoặc diễn đạt bằng lời của em). Câu này sẽ là 'kim chỉ nam' cho toàn bộ bài tóm tắt ở Bước 3.")
             
-            thesis_input = st.text_area("Luận điểm cốt lõi của bài là gì?", value=st.session_state.user_thesis, height=80)
+            # 1. Để ô nhập liệu lên trên cùng
+            thesis_input = st.text_area("Luận điểm cốt lõi của bài là gì?", value=st.session_state.user_thesis, height=100, label_visibility="collapsed")
+            
+            # 2. Giấu đáp án vào trong Expander để học sinh đối chiếu SAU KHI làm
+            with st.expander("👀 Đã viết xong? Bấm vào đây để đối chiếu với Đáp án của Giáo sư"):
+                st.markdown("**1. Câu Luận điểm (Thesis Statement) gốc trích từ bài:**")
+                st.info(f"*{data.get('thesis_actual', 'Bài viết không có câu Thesis lộ diện rõ ràng, cần tự tổng hợp.')}*")
+                
+                st.markdown("**2. Giáo sư diễn giải ý nghĩa cốt lõi:**")
+                st.success(f"*{data.get('step1_reference_result', '')}*")
         
         # --- NÚT ĐIỀU HƯỚNG ---
         st.markdown("<br>", unsafe_allow_html=True)
         if st.button("Tiếp tục: Bước 2 (Chắt Lọc & Loại bỏ) ➡️", type="primary"):
             if not thesis_input.strip():
-                st.warning("⚠️ Em hãy thử tự viết ra luận điểm trước khi sang bước sau nhé!")
+                st.warning("⚠️ Em hãy thử tự viết ra luận điểm (dù chỉ là vài từ khóa) trước khi sang bước sau nhé!")
             else:
                 st.session_state.user_thesis = thesis_input
                 st.session_state.app_step = 3
