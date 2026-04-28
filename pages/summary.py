@@ -559,6 +559,7 @@ elif st.session_state.app_step == 4:
                     st.error("Bài viết quá ngắn. Bạn chưa hoàn thành các Tab Mở đầu, Thân bài, Kết luận đúng không?")
                 else:
                     st.session_state.user_draft = draft_input # Lưu lại bản cuối cùng
+                    st.session_state.final_word_count = wc # <-- THÊM DÒNG NÀY ĐỂ LƯU SỐ TỪ CHÍNH XÁC
                     with st.spinner("👨‍🏫 Giáo sư AI đang phân tích từng câu chữ và chấm điểm bài của bạn..."):
                         grade_prompt = GRADING_PROMPT.replace("{{ORIGINAL}}", st.session_state.original_text).replace("{{STUDENT}}", draft_input)
                         res = generate_content_with_failover(grade_prompt, json_mode=True)
