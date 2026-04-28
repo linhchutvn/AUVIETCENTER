@@ -120,7 +120,11 @@ Hệ thống chấm điểm tổng là 1.0 ĐIỂM, được chia thành 3 tiêu
 
 1. Main Ideas (0.4 pt): Tóm tắt có bám sát các ý chính và thông điệp cốt lõi của bài gốc không? Đủ ý trọn 0.4, thiếu ý trừ dần.
 2. Own wording (0.4 pt): Học sinh có dùng từ ngữ của riêng mình (paraphrase) không? Nếu copy y nguyên cả câu từ bài gốc -> 0 điểm phần này. Nếu có đổi cấu trúc, đổi từ vựng -> 0.4 điểm.
-3. Word limit (0.2 pt): Yêu cầu là "khoảng 100 từ" (about 100 words). Độ dài lý tưởng là 100 - 120 từ (đạt 0.2 pt). Nếu quá dài hoặc quá ngắn, trừ còn 0.1 hoặc 0.0.
+3. Word limit (0.2 pt): Yêu cầu là "khoảng 100 - 120 từ" (about 100 - 120 words). Độ dài lý tưởng là 100 - 120 từ (đạt 0.2 pt). Nếu quá dài hoặc quá ngắn, trừ còn 0.1 hoặc 0.0.
+
+YÊU CẦU ĐẶC BIỆT VỀ "ĐỐI CHIẾU & NÂNG CẤP":
+Sau khi viết bài mẫu (model_summary), bạn BẮT BUỘC phải so sánh bài của học sinh với bài mẫu đó. Hãy nhặt ra 3-4 chỗ trong bài của học sinh cần SỬA, THÊM, hoặc NÂNG CẤP TỪ VỰNG. 
+Lưu ý: Chỉ đề xuất từ vựng ở mức độ TRUNG BÌNH KHÁ (B1, B2). Không dùng từ quá học thuật (C1, C2). (Ví dụ: thay vì dùng "using less energy", hãy khuyên dùng "reducing energy consumption" (B2) thay vì "curtailing energy expenditure" (C2)).
 
 Trả về BẮT BUỘC định dạng JSON sau:
 {
@@ -338,7 +342,7 @@ elif st.session_state.app_step == 5:
             st.caption(f"Độ dài bài viết: **{res.get('actual_word_count', 'N/A')} words**")
     
     with col_detail:
-        tab1, tab2, tab3 = st.tabs(["📊 Bảng điểm chi tiết (Rubric)", "💡 Bài tóm tắt Mẫu", "🔄 Rà soát lỗi"])
+        tab1, tab2, tab3 = st.tabs(["📊 Bảng điểm (Rubric)", "💡 Đối chiếu & Nâng cấp (B1-B2)", "🔄 Rà soát lỗi"])
         
         with tab1:
             st.markdown(f"""
@@ -367,15 +371,42 @@ elif st.session_state.app_step == 5:
             """, unsafe_allow_html=True)
 
         with tab2:
-            st.markdown('<div style="background:#EFF6FF; padding:20px; border-radius:8px; font-family: Merriweather, serif; line-height: 1.8; border: 1px solid #BFDBFE;">' + res.get('model_summary', '') + '</div>', unsafe_allow_html=True)
-            st.caption("🔍 Phân tích bài mẫu: Bài mẫu trên được AI viết bám sát yêu cầu khoảng 100 từ, cấu trúc lại hoàn toàn các câu gốc (Own wording) và tóm gọn đủ các ý chính.")
+            st.markdown("##### 1. Bản tóm tắt mẫu (Mức độ B1-B2)")
+            st.markdown('<div style="background:#EFF6FF; padding:20px; border-radius:8px; font-family: Merriweather, serif; line-height: 1.8; border: 1px solid #BFDBFE; margin-bottom: 20px;">' + res.get('model_summary', '') + '</div>', unsafe_allow_html=True)
+            
+            st.markdown("##### 2. Bài học rút ra từ bài mẫu (Sửa / Thêm / Nâng cấp)")
+            comparisons = res.get('detailed_comparison', [])
+            if comparisons:
+                for item in comparisons:
+                    action = item.get('action', 'NÂNG CẤP').upper()
+                    
+                    # Set màu sắc tùy theo hành động
+                    color_bg = "#F3F4F6"
+                    color_border = "#9CA3AF"
+                    icon = "🔧"
+                    if "NÂNG CẤP" in action: color_bg = "#E0F2FE"; color_border = "#3B82F6"; icon = "✨"
+                    elif "THÊM" in action: color_bg = "#DCFCE7"; color_border = "#10B981"; icon = "➕"
+                    elif "SỬA" in action: color_bg = "#FEF3C7"; color_border = "#F59E0B"; icon = "🛠️"
+
+                    st.markdown(f"""
+                    <div style="background-color: {color_bg}; border-left: 4px solid {color_border}; padding: 12px; margin-bottom: 12px; border-radius: 4px;">
+                        <div style="font-weight: bold; margin-bottom: 5px;">{icon} Lệnh: {action}</div>
+                        <div style="display: flex; gap: 10px; margin-bottom: 5px;">
+                            <div style="flex: 1; text-decoration: line-through; color: #6B7280;">{item.get('student_text', '')}</div>
+                            <div style="flex: 1; font-weight: bold; color: #111827;">➔ {item.get('suggested_text', '')}</div>
+                        </div>
+                        <div style="font-size: 0.9rem; color: #4B5563;"><i>Lý do: {item.get('explanation', '')}</i></div>
+                    </div>
+                    """, unsafe_allow_html=True)
+            else:
+                st.info("Bài của bạn đã rất tốt, gần sát với bài mẫu!")
             
         with tab3:
             st.markdown("""
             **Tự kiểm tra trước khi nộp bài thực tế:**
             - [ ] Đã kiểm tra lỗi chính tả (Spelling).
-            - [ ] Không có chuỗi 4-5 từ nào sao chép y nguyên từ bài gốc (Trừ thuật ngữ chuyên ngành).
-            - [ ] Đếm lại số từ lần cuối (Nên nằm trong khoảng 100 - 120 từ).
+            - [ ] Không có chuỗi 4-5 từ nào sao chép y nguyên từ bài gốc.
+            - [ ] Đếm lại số từ lần cuối (Nằm trong khoảng 90 - 110 từ).
             - [ ] Đã dùng thì Hiện tại đơn (Simple Present) cho các động từ báo cáo.
             """)
             
