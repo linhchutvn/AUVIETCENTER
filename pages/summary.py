@@ -46,14 +46,12 @@ except Exception:
     st.error("⚠️ Chưa cấu hình secrets.toml chứa GEMINI_API_KEYS!")
     st.stop()
 
-# ĐÃ SỬA: Tăng cường bộ lọc JSON để tránh lỗi Markdown
 def clean_json(text):
     if not text: return None
     text = str(text).replace("```json\n", "").replace("```json", "").replace("```", "").strip()
     match = re.search(r"(\{[\s\S]*\})", text)
     return match.group(1).strip() if match else text
 
-# ĐÃ SỬA: Chỉ trả về response.text thay vì Tuple
 def generate_content_with_failover(prompt, image=None, json_mode=False):
     keys_to_try = list(ALL_KEYS)
     random.shuffle(keys_to_try) 
@@ -72,7 +70,6 @@ def generate_content_with_failover(prompt, image=None, json_mode=False):
             available_models = [m.name.replace("models/", "") for m in raw_models]
             
             sel_model = next((m for m in model_priority if m in available_models), "gemini-1.5-flash")
-            st.toast(f"⚡ Connected: {sel_model}", icon="🤖")
             
             content_parts = [image, prompt] if image else [prompt]
             config_args = {"temperature": 0.2, "max_output_tokens": 8000}
@@ -88,7 +85,6 @@ def generate_content_with_failover(prompt, image=None, json_mode=False):
             )
             
             status_msg.empty()
-            # TRẢ VỀ TEXT THAY VÌ TUPLE
             return response.text if response else None
             
         except Exception as e:
@@ -123,7 +119,7 @@ Hệ thống chấm điểm tổng là 1.0 ĐIỂM, được chia thành 3 tiêu
 
 1. Main Ideas (0.4 pt): Tóm tắt có bám sát các ý chính và thông điệp cốt lõi của bài gốc không? Đủ ý trọn 0.4, thiếu ý trừ dần.
 2. Own wording (0.4 pt): Học sinh có dùng từ ngữ của riêng mình (paraphrase) không? Nếu copy y nguyên cả câu từ bài gốc -> 0 điểm phần này. Nếu có đổi cấu trúc, đổi từ vựng -> 0.4 điểm.
-3. Word limit (0.2 pt): Yêu cầu là "khoảng 100 từ" (about 100 words). Độ dài lý tưởng là 100 - 120 từ (đạt 0.2 pt). Nếu quá dài hoặc quá ngắn, trừ còn 0.1 hoặc 0.0.
+3. Word limit (0.2 pt): Yêu cầu là "khoảng 100 từ" (about 100 words). Độ dài lý tưởng là 90 - 110 từ (đạt 0.2 pt). Nếu quá dài hoặc quá ngắn, trừ còn 0.1 hoặc 0.0.
 
 Trả về BẮT BUỘC định dạng JSON sau:
 {
@@ -134,11 +130,12 @@ Trả về BẮT BUỘC định dạng JSON sau:
     "feedback_wording": "Nhận xét chi tiết về kỹ năng paraphrase. Trích dẫn cụ thể câu nào học sinh đang chép nguyên văn (nếu có).",
     "actual_word_count": "Đếm chính xác số từ trong bài của học sinh",
     "score_word_limit": "Điểm độ dài (Ví dụ: 0.2/0.2)",
-    "feedback_word_limit": "Nhận xét về độ dài so với yêu cầu 100-120 từ.",
-    "model_summary": "Viết một bản tóm tắt mẫu hoàn hảo (chính xác khoảng 100-120 từ, paraphrase xuất sắc, đủ ý)."
+    "feedback_word_limit": "Nhận xét về độ dài so với yêu cầu ~100 từ.",
+    "model_summary": "Viết một bản tóm tắt mẫu hoàn hảo (chính xác khoảng 95-105 từ, paraphrase xuất sắc, đủ ý)."
 }
 Bài gốc: {{ORIGINAL}}
 Bản tóm tắt của học sinh: {{STUDENT}}
+""" 
 
 # ==========================================
 # 4. QUẢN LÝ TRẠNG THÁI (SESSION STATE)
@@ -211,14 +208,13 @@ if st.session_state.app_step == 1:
                         st.session_state.app_step = 2
                         st.rerun()
                     except Exception as e:
-                        # ĐÃ SỬA: Bắt lỗi và in ra rõ ràng để biết nguyên nhân
                         st.error("❌ Lỗi giải mã dữ liệu JSON từ AI.")
                         with st.expander("Chi tiết lỗi (Dành cho Debug):"):
                             st.write(str(e))
                             st.code(res)
 
 # ---------------------------------------------------------
-# CÁC BƯỚC 2, 3, 4, 5 GIỮ NGUYÊN HOÀN TOÀN NHƯ CŨ
+# APP STEP 2: BƯỚC 1 - HIỂU
 # ---------------------------------------------------------
 elif st.session_state.app_step == 2:
     data = st.session_state.ai_analysis
@@ -236,6 +232,9 @@ elif st.session_state.app_step == 2:
         if st.button("Tiếp tục: Bước 2 (Chắt lọc) ➡️", type="primary"):
             st.session_state.user_thesis = thesis_input; st.session_state.app_step = 3; st.rerun()
 
+# ---------------------------------------------------------
+# APP STEP 3: BƯỚC 2 - CHẮT LỌC
+# ---------------------------------------------------------
 elif st.session_state.app_step == 3:
     data = st.session_state.ai_analysis
     col1, col2 = st.columns([4, 6], gap="large")
@@ -255,6 +254,9 @@ elif st.session_state.app_step == 3:
         if col_b2.button("Tiếp tục: Bước 3 (Viết nháp) ➡️", type="primary"):
             st.session_state.user_points = points_input; st.session_state.app_step = 4; st.rerun()
 
+# ---------------------------------------------------------
+# APP STEP 4: BƯỚC 3 - VIẾT NHÁP
+# ---------------------------------------------------------
 elif st.session_state.app_step == 4:
     col1, col2 = st.columns([4, 6], gap="large")
     with col1:
@@ -288,7 +290,7 @@ elif st.session_state.app_step == 4:
                             st.error("Lỗi chấm điểm từ AI.")
 
 # ---------------------------------------------------------
-# APP STEP 5: PDF BƯỚC 4 - KẾT QUẢ THEO RUBRIC MỚI
+# APP STEP 5: BƯỚC 4 - KẾT QUẢ THEO RUBRIC MỚI
 # ---------------------------------------------------------
 elif st.session_state.app_step == 5:
     res = st.session_state.ai_grading
@@ -297,7 +299,6 @@ elif st.session_state.app_step == 5:
     col_score, col_detail = st.columns([3, 7], gap="medium")
     
     with col_score:
-        # Hộp điểm tổng
         st.markdown(f"""
         <div style="background: #ECFDF5; border: 2px solid #10B981; border-radius: 12px; padding: 20px; text-align: center; margin-bottom: 20px;">
             <h3 style="color: #047857; margin-bottom: 0;">TỔNG ĐIỂM</h3>
@@ -313,7 +314,6 @@ elif st.session_state.app_step == 5:
         tab1, tab2, tab3 = st.tabs(["📊 Bảng điểm chi tiết (Rubric)", "💡 Bài tóm tắt Mẫu", "🔄 Rà soát lỗi"])
         
         with tab1:
-            # Tiêu chí 1: Main Ideas
             st.markdown(f"""
             <div style="background-color: white; border-left: 4px solid #3B82F6; padding: 15px; margin-bottom: 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
                 <h4 style="margin-top: 0; color: #1E3A8A;">1. Central and Main Ideas (Max: 0.4 pt)</h4>
@@ -322,7 +322,6 @@ elif st.session_state.app_step == 5:
             </div>
             """, unsafe_allow_html=True)
 
-            # Tiêu chí 2: Wording / Paraphrasing
             st.markdown(f"""
             <div style="background-color: white; border-left: 4px solid #F59E0B; padding: 15px; margin-bottom: 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
                 <h4 style="margin-top: 0; color: #B45309;">2. Own Wording / No Copying (Max: 0.4 pt)</h4>
@@ -331,7 +330,6 @@ elif st.session_state.app_step == 5:
             </div>
             """, unsafe_allow_html=True)
 
-            # Tiêu chí 3: Word Limit
             st.markdown(f"""
             <div style="background-color: white; border-left: 4px solid #10B981; padding: 15px; margin-bottom: 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
                 <h4 style="margin-top: 0; color: #065F46;">3. Word Limit (~100 words) (Max: 0.2 pt)</h4>
