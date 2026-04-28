@@ -452,7 +452,28 @@ elif st.session_state.app_step == 3:
 # ---------------------------------------------------------
 # APP STEP 4: BƯỚC 3 - VIẾT NHÁP (DÂY CHUYỀN LẮP RÁP)
 # ---------------------------------------------------------
-# Lấy dữ liệu tham khảo từ AI
+elif st.session_state.app_step == 4:
+    data = st.session_state.ai_analysis
+    
+    # -- Cột Trái: Giữ nguyên Dàn ý & Nguồn để học sinh đối chiếu --
+    col1, col2 = st.columns([4, 6], gap="large")
+    with col1:
+        st.markdown("### 🗂️ Dàn ý cốt lõi của bạn")
+        with st.container(height=650, border=True):
+            st.success("**Luận điểm chính (Thesis):**\n\n" + st.session_state.user_thesis)
+            st.info("**Các ý hỗ trợ (Points):**\n\n" + st.session_state.user_points)
+            with st.expander("📄 Xem lại văn bản gốc (Đã gạch bỏ chi tiết phụ)", expanded=False):
+                render_annotated_sidebar(st.session_state.original_text, data.get('details_to_omit'))
+                
+    # -- Cột Phải: Dây chuyền Viết từng bước --
+    with col2:
+        st.markdown('<div class="step-header">BƯỚC 3: VIẾT - Dây Chuyền Lắp Ráp (Drafting)</div>', unsafe_allow_html=True)
+        st.markdown('<div class="theory-box">Hãy chia nhỏ để trị! Chúng ta sẽ viết từng phần riêng biệt, sau đó hệ thống sẽ giúp bạn ghép lại thành một bài hoàn chỉnh.</div>', unsafe_allow_html=True)
+        
+        # ĐÂY LÀ DÒNG BỊ THIẾU GÂY RA LỖI NAMERROR: Khai báo 4 tabs
+        tab_intro, tab_body, tab_concl, tab_final = st.tabs(["1. Câu Mở Đầu", "2. Thân Bài", "3. Câu Kết", "4. 🧩 Lắp Ráp & Nộp Bài"])
+        
+        # Lấy dữ liệu tham khảo từ AI
         draft_refs = data.get('step3_drafting_reference', {})
         
         # --- TAB 1: CÂU MỞ ĐẦU ---
@@ -500,6 +521,7 @@ elif st.session_state.app_step == 3:
 
             with st.expander("👀 Đã viết xong? Tham khảo Câu Kết Luận của Giáo sư"):
                 st.info(f"💡 **Giáo sư viết:** {draft_refs.get('concl_ref', '')}")
+
         # --- TAB 4: LẮP RÁP & NỘP BÀI ---
         with tab_final:
             st.markdown("#### ✨ Đánh Bóng Bản Nháp (The Final Polish)")
