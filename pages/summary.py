@@ -120,7 +120,7 @@ Hệ thống chấm điểm tổng là 1.0 ĐIỂM, được chia thành 3 tiêu
 
 1. Main Ideas (0.4 pt): Tóm tắt có bám sát các ý chính và thông điệp cốt lõi của bài gốc không? Đủ ý trọn 0.4, thiếu ý trừ dần.
 2. Own wording (0.4 pt): Học sinh có dùng từ ngữ của riêng mình (paraphrase) không? Nếu copy y nguyên cả câu từ bài gốc -> 0 điểm phần này. Nếu có đổi cấu trúc, đổi từ vựng -> 0.4 điểm.
-3. Word limit (0.2 pt): Yêu cầu là "khoảng 100 từ" (about 100 words). Độ dài lý tưởng là 90 - 110 từ (đạt 0.2 pt). Nếu quá dài hoặc quá ngắn, trừ còn 0.1 hoặc 0.0.
+3. Word limit (0.2 pt): Yêu cầu là "khoảng 100 từ" (about 100 words). Độ dài lý tưởng là 100 - 120 từ (đạt 0.2 pt). Nếu quá dài hoặc quá ngắn, trừ còn 0.1 hoặc 0.0.
 
 Trả về BẮT BUỘC định dạng JSON sau:
 {
@@ -131,8 +131,8 @@ Trả về BẮT BUỘC định dạng JSON sau:
     "feedback_wording": "Nhận xét chi tiết về kỹ năng paraphrase. Trích dẫn cụ thể câu nào học sinh đang chép nguyên văn (nếu có).",
     "actual_word_count": "Đếm chính xác số từ trong bài của học sinh",
     "score_word_limit": "Điểm độ dài (Ví dụ: 0.2/0.2)",
-    "feedback_word_limit": "Nhận xét về độ dài so với yêu cầu ~100 từ.",
-    "model_summary": "Viết một bản tóm tắt mẫu hoàn hảo (chính xác khoảng 95-105 từ, paraphrase xuất sắc, đủ ý)."
+    "feedback_word_limit": "Nhận xét về độ dài so với yêu cầu 100 - 120 từ.",
+    "model_summary": "Viết một bản tóm tắt mẫu hoàn hảo (chính xác khoảng 100 - 120 từ, paraphrase xuất sắc, đủ ý)."
 }
 Bài gốc: {{ORIGINAL}}
 Bản tóm tắt của học sinh: {{STUDENT}}
@@ -296,7 +296,7 @@ elif st.session_state.app_step == 4:
                 
     with col2:
         st.markdown('<div class="step-header">BƯỚC 3: VIẾT - Soạn thảo Bản nháp & Paraphrase</div>', unsafe_allow_html=True)
-        st.markdown('<div class="theory-box"><b>Mục tiêu:</b> Lắp ráp dàn ý thành 1 đoạn văn. Dùng "Từ nối" và kỹ thuật Paraphrase. Đừng quên yêu cầu khoảng 100 từ!</div>', unsafe_allow_html=True)
+        st.markdown('<div class="theory-box"><b>Mục tiêu:</b> Lắp ráp dàn ý thành 1 đoạn văn. Dùng "Từ nối" và kỹ thuật Paraphrase. Đừng quên yêu cầu khoảng 100 - 120 từ!</div>', unsafe_allow_html=True)
         draft_input = st.text_area("Bản Tóm tắt của bạn:", value=st.session_state.user_draft, height=250)
         wc = len(draft_input.split()) if draft_input else 0
         st.markdown(f"<div style='text-align:right; color: #64748B;'>Số từ: <b>{wc}</b></div>", unsafe_allow_html=True)
@@ -375,7 +375,7 @@ elif st.session_state.app_step == 5:
             **Tự kiểm tra trước khi nộp bài thực tế:**
             - [ ] Đã kiểm tra lỗi chính tả (Spelling).
             - [ ] Không có chuỗi 4-5 từ nào sao chép y nguyên từ bài gốc (Trừ thuật ngữ chuyên ngành).
-            - [ ] Đếm lại số từ lần cuối (Nên nằm trong khoảng 90 - 110 từ).
+            - [ ] Đếm lại số từ lần cuối (Nên nằm trong khoảng 100 - 120 từ).
             - [ ] Đã dùng thì Hiện tại đơn (Simple Present) cho các động từ báo cáo.
             """)
             
