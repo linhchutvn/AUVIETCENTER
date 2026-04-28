@@ -182,7 +182,7 @@ Hệ thống chấm điểm tổng là 1.0 ĐIỂM, được chia thành 3 tiêu
 3. Word limit (0.2 pt): Yêu cầu là "khoảng 100 - 120 từ". HỆ THỐNG ĐÃ ĐẾM CHÍNH XÁC BÀI NÀY CÓ {{WORD_COUNT}} TỪ. Đừng tự đếm lại. Nếu số từ {{WORD_COUNT}} nằm trong biên độ 90 đến 130 từ, hãy cho trọn vẹn 0.2 pt.
 
 YÊU CẦU ĐẶC BIỆT VỀ "BẢN NÂNG CẤP" & "ĐỐI CHIẾU":
-1. Mục "model_summary" KHÔNG ĐƯỢC viết mới hoàn toàn. Nó phải là phiên bản ĐÃ ĐƯỢC SỬA LỖI VÀ NÂNG CẤP TỪ CHÍNH BẢI VIẾT CỦA HỌC SINH. Hãy giữ lại tối đa cấu trúc và ý tưởng của học sinh, chỉ thay thế/thêm bớt những chỗ chưa tốt.
+1. Mục "model_summary" KHÔNG ĐƯỢC viết mới hoàn toàn. Nó phải là phiên bản ĐÃ ĐƯỢC SỬA LỖI VÀ NÂNG CẤP TỪ CHÍNH BÀI VIẾT CỦA HỌC SINH. Hãy giữ lại tối đa cấu trúc và ý tưởng của học sinh, chỉ thay thế/thêm bớt những chỗ chưa tốt.
 2. Ở phần "detailed_comparison", bạn BẮT BUỘC phải nhặt ra 2-4 chỗ trong bài của học sinh mà bạn vừa sửa/nâng cấp ở phần "model_summary" để giải thích cho học sinh hiểu.
 Lưu ý: Chỉ đề xuất từ vựng ở mức độ TRUNG BÌNH KHÁ (B1, B2). Không dùng từ quá học thuật (C1, C2).
 
@@ -194,7 +194,7 @@ Trả về BẮT BUỘC định dạng JSON sau:
     "score_wording": "0.3/0.4",
     "feedback_wording": "Nhận xét chi tiết về kỹ năng paraphrase...",
     "score_word_limit": "0.2/0.2",
-    "feedback_word_limit": "Nhận xét dựa trên con số {{WORD_COUNT}} từ mà hệ thống cung cấp...",
+    "feedback_word_limit": "Hãy viết nhận xét về độ dài. BẮT BUỘC phải trích dẫn lại đúng con số {{WORD_COUNT}} từ mà hệ thống đã cung cấp. Ví dụ: 'Số lượng từ là {{WORD_COUNT}} từ, nằm trong khoảng cho phép...' ",
     "model_summary": "PHIÊN BẢN NÂNG CẤP: Viết lại dựa trên chính bài của học sinh, áp dụng các từ ngữ nâng cấp bên dưới. Đảm bảo 100 - 120 từ.",
     "detailed_comparison": [
         {
