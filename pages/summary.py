@@ -366,8 +366,20 @@ elif st.session_state.app_step == 3:
                 st.markdown("**2. Lời khuyên Xử lý & Gộp ý (Grouping) từ Giáo sư:**")
                 st.info(f"💡 {outline_data.get('grouping_advice', 'Hãy gộp các ý có chung chủ đề lại với nhau để dàn ý gọn gàng hơn.')}")
             
-            st.markdown("**3. Nhiệm vụ của em:** Dựa vào những gợi ý trên, hãy viết lại một **Dàn ý tinh gọn** (khoảng 3-5 gạch đầu dòng) vào ô dưới đây để chuẩn bị viết nháp.")
-            points_input = st.text_area("Dàn ý (Outline) của em:", value=st.session_state.user_points, height=180)
+            st.markdown("**3. Nhiệm vụ của em:** Dựa vào những gợi ý trên, hãy tự viết lại một **Dàn ý tinh gọn** (khoảng 3-5 gạch đầu dòng) vào ô dưới đây để chuẩn bị viết nháp.")
+            
+            # Ô nhập liệu của học sinh (Đẩy lên trên đáp án)
+            points_input = st.text_area("Dàn ý (Outline) của em:", value=st.session_state.user_points, height=180, label_visibility="collapsed")
+            
+            # GIẤU ĐÁP ÁN VÀO TRONG EXPANDER
+            with st.expander("👀 Đã lập dàn ý xong? Bấm vào đây để tham khảo Dàn ý tinh gọn của Giáo sư"):
+                st.markdown("**Dàn ý tinh gọn (Refined Outline):**")
+                refined_pts = outline_data.get('refined_points', [])
+                if refined_pts:
+                    for idx, pt in enumerate(refined_pts):
+                        st.success(f"**Point {idx + 1}:** {pt}")
+                else:
+                    st.warning("Hệ thống chưa tạo được dàn ý tinh gọn. Em hãy tự làm nhé!")
             
         # --- TAB 2: GIẢI PHẪU CẮT BỎ ---
         with tab_cut:
