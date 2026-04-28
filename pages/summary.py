@@ -287,27 +287,73 @@ elif st.session_state.app_step == 4:
                         except:
                             st.error("Lỗi chấm điểm từ AI.")
 
+# ---------------------------------------------------------
+# APP STEP 5: PDF BƯỚC 4 - KẾT QUẢ THEO RUBRIC MỚI
+# ---------------------------------------------------------
 elif st.session_state.app_step == 5:
     res = st.session_state.ai_grading
     st.markdown('<div class="step-header">BƯỚC 4: HOÀN THIỆN - Đánh giá & Rà soát</div>', unsafe_allow_html=True)
+    
     col_score, col_detail = st.columns([3, 7], gap="medium")
+    
     with col_score:
+        # Hộp điểm tổng
         st.markdown(f"""
         <div style="background: #ECFDF5; border: 2px solid #10B981; border-radius: 12px; padding: 20px; text-align: center; margin-bottom: 20px;">
-            <h3 style="color: #047857; margin-bottom: 0;">ĐIỂM ĐÁNH GIÁ</h3>
-            <h1 style="color: #059669; font-size: 3.5rem; margin-top: 0;">{res.get('score', 'N/A')}</h1>
+            <h3 style="color: #047857; margin-bottom: 0;">TỔNG ĐIỂM</h3>
+            <h1 style="color: #059669; font-size: 3.5rem; margin-top: 0;">{res.get('total_score', 'N/A')}</h1>
         </div>
         """, unsafe_allow_html=True)
-        with st.expander("✍️ Bản tóm tắt của bạn", expanded=True): st.write(st.session_state.user_draft)
+        
+        with st.expander("✍️ Bản tóm tắt của bạn", expanded=True): 
+            st.write(st.session_state.user_draft)
+            st.caption(f"Độ dài bài viết: **{res.get('actual_word_count', 'N/A')} words**")
+    
     with col_detail:
-        tab1, tab2, tab3 = st.tabs(["📝 Nhận xét chi tiết", "💡 Bài tóm tắt Mẫu", "🔄 Rà soát lỗi"])
+        tab1, tab2, tab3 = st.tabs(["📊 Bảng điểm chi tiết (Rubric)", "💡 Bài tóm tắt Mẫu", "🔄 Rà soát lỗi"])
+        
         with tab1:
-            st.markdown(f"**1. Độ bao quát:**\n{res.get('content_feedback')}")
-            st.markdown(f"**2. Tính súc tích:**\n{res.get('conciseness_feedback')}")
-            st.markdown(f"**3. Ngôn từ & Khách quan:**\n{res.get('grammar_paraphrase_feedback')}")
+            # Tiêu chí 1: Main Ideas
+            st.markdown(f"""
+            <div style="background-color: white; border-left: 4px solid #3B82F6; padding: 15px; margin-bottom: 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                <h4 style="margin-top: 0; color: #1E3A8A;">1. Central and Main Ideas (Max: 0.4 pt)</h4>
+                <p style="font-size: 1.2rem; font-weight: bold; color: #2563EB;">Điểm đạt: {res.get('score_ideas', '0.0/0.4')}</p>
+                <p style="margin-bottom: 0; color: #334155;"><b>Nhận xét:</b> {res.get('feedback_ideas', '')}</p>
+            </div>
+            """, unsafe_allow_html=True)
+
+            # Tiêu chí 2: Wording / Paraphrasing
+            st.markdown(f"""
+            <div style="background-color: white; border-left: 4px solid #F59E0B; padding: 15px; margin-bottom: 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                <h4 style="margin-top: 0; color: #B45309;">2. Own Wording / No Copying (Max: 0.4 pt)</h4>
+                <p style="font-size: 1.2rem; font-weight: bold; color: #D97706;">Điểm đạt: {res.get('score_wording', '0.0/0.4')}</p>
+                <p style="margin-bottom: 0; color: #334155;"><b>Nhận xét:</b> {res.get('feedback_wording', '')}</p>
+            </div>
+            """, unsafe_allow_html=True)
+
+            # Tiêu chí 3: Word Limit
+            st.markdown(f"""
+            <div style="background-color: white; border-left: 4px solid #10B981; padding: 15px; margin-bottom: 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                <h4 style="margin-top: 0; color: #065F46;">3. Word Limit (~100 words) (Max: 0.2 pt)</h4>
+                <p style="font-size: 1.2rem; font-weight: bold; color: #059669;">Điểm đạt: {res.get('score_word_limit', '0.0/0.2')}</p>
+                <p style="margin-bottom: 0; color: #334155;"><b>Số từ thực tế:</b> {res.get('actual_word_count', '')} words</p>
+                <p style="margin-bottom: 0; color: #334155;"><b>Nhận xét:</b> {res.get('feedback_word_limit', '')}</p>
+            </div>
+            """, unsafe_allow_html=True)
+
         with tab2:
-            st.markdown('<div style="background:#EFF6FF; padding:15px; border-radius:8px;">' + res.get('model_summary', '') + '</div>', unsafe_allow_html=True)
+            st.markdown('<div style="background:#EFF6FF; padding:20px; border-radius:8px; font-family: Merriweather, serif; line-height: 1.8; border: 1px solid #BFDBFE;">' + res.get('model_summary', '') + '</div>', unsafe_allow_html=True)
+            st.caption("🔍 Phân tích bài mẫu: Bài mẫu trên được AI viết bám sát yêu cầu khoảng 100 từ, cấu trúc lại hoàn toàn các câu gốc (Own wording) và tóm gọn đủ các ý chính.")
+            
         with tab3:
-            st.markdown("- [ ] Lỗi chính tả\n- [ ] Hòa hợp S-V\n- [ ] Dùng Hiện tại đơn\n- [ ] Dấu câu")
+            st.markdown("""
+            **Tự kiểm tra trước khi nộp bài thực tế:**
+            - [ ] Đã kiểm tra lỗi chính tả (Spelling).
+            - [ ] Không có chuỗi 4-5 từ nào sao chép y nguyên từ bài gốc (Trừ thuật ngữ chuyên ngành).
+            - [ ] Đếm lại số từ lần cuối (Nên nằm trong khoảng 90 - 110 từ).
+            - [ ] Đã dùng thì Hiện tại đơn (Simple Present) cho các động từ báo cáo.
+            """)
+            
     st.markdown("---")
-    if st.button("🔄 Làm bài Tóm tắt mới", type="primary"): reset_app()
+    if st.button("🔄 Làm bài Tóm tắt mới", type="primary", use_container_width=True): 
+        reset_app()
