@@ -97,11 +97,12 @@ def generate_content_with_failover(prompt, image=None, json_mode=False):
 ANALYSIS_PROMPT = """
 Bạn là một Giáo sư ngôn ngữ học dạy kỹ năng tóm tắt (Summary). Hãy phân tích văn bản bài viết THEO TỪNG ĐOẠN giống như một bài giảng, và trả về định dạng JSON nghiêm ngặt sau:
 {
-    "extracted_text": "Trích xuất toàn bộ nội dung chữ. Thay dấu ngoặc kép thành nháy đơn.",
+    "extracted_text": "Trích xuất toàn bộ nội dung chữ tiếng Anh. Thay dấu ngoặc kép thành nháy đơn.",
     "step1_skimming": {
         "topic": "Chủ đề chính của bài",
         "keywords": ["từ khóa 1", "từ khóa 2"]
     },
+    "thesis_actual": "COPY CHÍNH XÁC 1 CÂU TIẾNG ANH TRONG BÀI chứa Luận điểm chính (Thesis Statement). Nếu bài viết không có 1 câu nào bao quát hết, hãy tự viết 1 câu tiếng Anh tóm thâu luận điểm đó.",
     "step1_paragraph_analysis": [
         {
             "para_num": 1,
@@ -111,7 +112,7 @@ Bạn là một Giáo sư ngôn ngữ học dạy kỹ năng tóm tắt (Summary
             "is_thesis": true/false
         }
     ],
-    "step1_reference_result": "1 câu tổng hợp cốt lõi của toàn bài",
+    "step1_reference_result": "1 câu tiếng Việt diễn giải cốt lõi của toàn bài để học sinh tham khảo.",
     
     "step2_outline": {
         "raw_points": ["Ý thô 1 trích từ bài", "Ý thô 2", "Ý thô 3"],
