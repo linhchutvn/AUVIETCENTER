@@ -118,17 +118,27 @@ Dữ liệu đầu vào:
 """
 
 GRADING_PROMPT = """
-Bạn là giám khảo chấm bài Summary. So sánh Bản tóm tắt của học sinh với Bài gốc. Trả về JSON:
+Bạn là một giám khảo chấm thi tiếng Anh khắt khe. Hãy chấm điểm bản tóm tắt của học sinh dựa trên văn bản gốc. 
+Hệ thống chấm điểm tổng là 1.0 ĐIỂM, được chia thành 3 tiêu chí cụ thể như sau:
+
+1. Main Ideas (0.4 pt): Tóm tắt có bám sát các ý chính và thông điệp cốt lõi của bài gốc không? Đủ ý trọn 0.4, thiếu ý trừ dần.
+2. Own wording (0.4 pt): Học sinh có dùng từ ngữ của riêng mình (paraphrase) không? Nếu copy y nguyên cả câu từ bài gốc -> 0 điểm phần này. Nếu có đổi cấu trúc, đổi từ vựng -> 0.4 điểm.
+3. Word limit (0.2 pt): Yêu cầu là "khoảng 100 từ" (about 100 words). Độ dài lý tưởng là 100 - 120 từ (đạt 0.2 pt). Nếu quá dài hoặc quá ngắn, trừ còn 0.1 hoặc 0.0.
+
+Trả về BẮT BUỘC định dạng JSON sau:
 {
-    "score": "Điểm / 10",
-    "content_feedback": "Nhận xét về nội dung (Đủ ý/Thiếu ý)",
-    "conciseness_feedback": "Nhận xét về việc chắt lọc chi tiết thừa",
-    "grammar_paraphrase_feedback": "Nhận xét về lỗi câu chữ và kỹ năng Paraphrase",
-    "model_summary": "Viết một bản tóm tắt mẫu hoàn hảo (khoảng 80-120 từ)"
+    "total_score": "Tổng điểm (Ví dụ: 0.8/1.0)",
+    "score_ideas": "Điểm ý chính (Ví dụ: 0.3/0.4)",
+    "feedback_ideas": "Nhận xét chi tiết về việc chọn lọc ý chính (Chỉ ra ý nào bị thiếu hoặc thừa).",
+    "score_wording": "Điểm từ vựng (Ví dụ: 0.3/0.4)",
+    "feedback_wording": "Nhận xét chi tiết về kỹ năng paraphrase. Trích dẫn cụ thể câu nào học sinh đang chép nguyên văn (nếu có).",
+    "actual_word_count": "Đếm chính xác số từ trong bài của học sinh",
+    "score_word_limit": "Điểm độ dài (Ví dụ: 0.2/0.2)",
+    "feedback_word_limit": "Nhận xét về độ dài so với yêu cầu 100-120 từ.",
+    "model_summary": "Viết một bản tóm tắt mẫu hoàn hảo (chính xác khoảng 100-120 từ, paraphrase xuất sắc, đủ ý)."
 }
 Bài gốc: {{ORIGINAL}}
 Bản tóm tắt của học sinh: {{STUDENT}}
-"""
 
 # ==========================================
 # 4. QUẢN LÝ TRẠNG THÁI (SESSION STATE)
