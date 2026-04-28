@@ -162,7 +162,10 @@ if "user_thesis" not in st.session_state: st.session_state.user_thesis = ""
 if "user_points" not in st.session_state: st.session_state.user_points = ""
 if "user_draft" not in st.session_state: st.session_state.user_draft = ""
 if "ai_grading" not in st.session_state: st.session_state.ai_grading = None
-
+if "user_draft_intro" not in st.session_state: st.session_state.user_draft_intro = ""
+if "user_draft_body" not in st.session_state: st.session_state.user_draft_body = ""
+if "user_draft_concl" not in st.session_state: st.session_state.user_draft_concl = ""
+    
 def reset_app():
     for key in st.session_state.keys(): del st.session_state[key]
     st.rerun()
@@ -294,10 +297,12 @@ elif st.session_state.app_step == 3:
             st.session_state.user_points = points_input; st.session_state.app_step = 4; st.rerun()
 
 # ---------------------------------------------------------
-# APP STEP 4: BƯỚC 3 - VIẾT NHÁP (ĐÃ BỔ SUNG LÝ THUYẾT PARAPHRASE)
+# APP STEP 4: BƯỚC 3 - VIẾT NHÁP (DÂY CHUYỀN LẮP RÁP)
 # ---------------------------------------------------------
 elif st.session_state.app_step == 4:
     data = st.session_state.ai_analysis
+    
+    # -- Cột Trái: Giữ nguyên Dàn ý & Nguồn để học sinh đối chiếu --
     col1, col2 = st.columns([4, 6], gap="large")
     with col1:
         st.markdown("### 🗂️ Dàn ý cốt lõi của bạn")
@@ -307,47 +312,96 @@ elif st.session_state.app_step == 4:
             with st.expander("📄 Xem lại văn bản gốc (Đã gạch bỏ chi tiết phụ)", expanded=False):
                 render_annotated_sidebar(st.session_state.original_text, data.get('details_to_omit'))
                 
+    # -- Cột Phải: Dây chuyền Viết từng bước --
     with col2:
-        st.markdown('<div class="step-header">BƯỚC 3: VIẾT - Soạn thảo Bản nháp & Paraphrase</div>', unsafe_allow_html=True)
-        st.markdown('<div class="theory-box"><b>Mục tiêu:</b> "Lắp ráp" dàn ý thành một đoạn văn <b>100 - 120 từ</b>. Tuyệt đối KHÔNG chép nguyên văn. Sử dụng ngôn từ của chính bạn và giữ thái độ khách quan.</div>', unsafe_allow_html=True)
+        st.markdown('<div class="step-header">BƯỚC 3: VIẾT - Dây Chuyền Lắp Ráp (Drafting)</div>', unsafe_allow_html=True)
+        st.markdown('<div class="theory-box">Hãy chia nhỏ để trị! Chúng ta sẽ viết từng phần riêng biệt, sau đó hệ thống sẽ giúp bạn ghép lại thành một bài hoàn chỉnh.</div>', unsafe_allow_html=True)
         
-        with st.expander("🛠️ Hộp Công Cụ Paraphrase (Từ Giáo Sư)", expanded=False):
+        tab_intro, tab_body, tab_concl, tab_final = st.tabs(["1. Câu Mở Đầu", "2. Thân Bài", "3. Câu Kết", "4. 🧩 Lắp Ráp & Nộp Bài"])
+        
+        # --- TAB 1: CÂU MỞ ĐẦU ---
+        with tab_intro:
+            st.markdown("#### 🚪 Viết Câu Mở Đầu (Opening Sentence)")
             st.markdown("""
-            **1. Câu Mở Đầu Bắt Buộc (3 yếu tố):**
-            Tên Tác phẩm/Tác giả + <span class='reporting-verb'>Reporting Verb</span> + Thesis (Paraphrased).
-            *(Ví dụ: "The text <span class='reporting-verb'>explains / argues / highlights</span> that...")*
-            
-            **2. Vũ khí Paraphrase:**
-            - **Chunking (Cắt khúc):** Chia câu dài thành các cụm nhỏ, diễn đạt lại từng cụm rồi ghép lại.
-            - **Grammar Toolbox:** Thay đổi từ loại (Danh từ -> Động từ) hoặc đổi Chủ động <-> Bị động.
-            
-            **3. Nhựa đường liên kết (Transition Words):**
-            Dùng <span class='transition-word'>Firstly, Moreover, Additionally, However, Ultimately</span> để liên kết các ý mượt mà.
+            **Công thức:** `Tên Tác phẩm` + `Reporting Verb` + `Thesis (đã paraphrase)`
+            * <span class='reporting-verb'>Reporting Verbs:</span> states, explains, describes (Trung lập) | argues, claims, asserts (Lập luận).
+            * **Ví dụ:** *"The passage explains that green cities focus on protecting the environment..."*
             """, unsafe_allow_html=True)
+            
+            st.session_state.user_draft_intro = st.text_area("Viết 1 câu mở đầu dựa trên Luận điểm (Thesis) bên trái:", 
+                                                             value=st.session_state.user_draft_intro, height=120, key="intro_box")
+            
+        # --- TAB 2: THÂN BÀI ---
+        with tab_body:
+            st.markdown("#### 🧱 Viết Thân Bài (Body Paragraph)")
+            st.markdown("""
+            **Nhiệm vụ:** Chuyển các gạch đầu dòng (Points) bên trái thành các câu hoàn chỉnh.
+            * **Từ nối (Transitions):** Đừng liệt kê rời rạc. Hãy dùng <span class='transition-word'>First, Additionally, Furthermore, However, Consequently...</span>
+            * **Vũ khí Paraphrase:** 
+                * *Kể cho bạn nghe:* Đọc ý chính, nhắm mắt lại và viết ra bằng từ ngữ đơn giản.
+                * *Hộp công cụ Ngữ pháp:* Đổi Danh từ ↔ Động từ, đổi Chủ động ↔ Bị động.
+            """, unsafe_allow_html=True)
+            
+            st.session_state.user_draft_body = st.text_area("Viết các câu thân bài, nhớ dùng TỪ NỐI giữa các ý:", 
+                                                            value=st.session_state.user_draft_body, height=200, key="body_box")
+            
+        # --- TAB 3: CÂU KẾT LUẬN ---
+        with tab_concl:
+            st.markdown("#### 🏁 Viết Câu Kết Luận (Concluding Sentence)")
+            st.markdown("""
+            **Mục tiêu:** Tóm lại thông điệp cốt lõi nhất, hoặc lời kêu gọi hành động của tác giả. KHÔNG lặp lại y chang câu mở đầu.
+            * **Từ nối gợi ý:** <span class='transition-word'>In conclusion, Ultimately, To sum up,...</span>
+            * **Ví dụ:** *"Ultimately, the main goal of these actions is to build a better future."*
+            """, unsafe_allow_html=True)
+            
+            st.session_state.user_draft_concl = st.text_area("Viết 1 câu kết luận cho bài tóm tắt:", 
+                                                             value=st.session_state.user_draft_concl, height=120, key="concl_box")
 
-        draft_input = st.text_area("Soạn thảo Bản Tóm tắt của bạn tại đây:", value=st.session_state.user_draft, height=250)
-        wc = len(draft_input.split()) if draft_input else 0
-        
-        # Color coding word count
-        wc_color = "#10B981" if 90 <= wc <= 130 else "#EF4444"
-        st.markdown(f"<div style='text-align:right; color: #64748B;'>Số từ: <b style='color: {wc_color};'>{wc}</b> (Yêu cầu: ~100-120 từ)</div>", unsafe_allow_html=True)
-        
-        col_b1, col_b2 = st.columns(2)
-        if col_b1.button("⬅️ Quay lại Bước 2"): st.session_state.app_step = 3; st.rerun()
-        if col_b2.button("Nộp bài & Chấm điểm 🎓", type="primary"):
-            if wc < 30: st.warning("Bài viết quá ngắn. Hãy dùng Dàn ý bên trái để triển khai thành câu hoàn chỉnh.")
+        # --- TAB 4: LẮP RÁP & NỘP BÀI ---
+        with tab_final:
+            st.markdown("#### ✨ Đánh Bóng Bản Nháp (The Final Polish)")
+            
+            # Tự động ghép nối nếu người dùng đã nhập liệu
+            auto_assembled = f"{st.session_state.user_draft_intro} {st.session_state.user_draft_body} {st.session_state.user_draft_concl}".strip()
+            
+            # Nếu user chưa gõ gì vào ô Final nhưng có data ghép nối, thì điền auto_assembled vào
+            if not st.session_state.user_draft and auto_assembled:
+                current_draft = auto_assembled
             else:
-                st.session_state.user_draft = draft_input
-                with st.spinner("👨‍🏫 Giáo sư AI đang đọc và chấm điểm bài của bạn..."):
-                    grade_prompt = GRADING_PROMPT.replace("{{ORIGINAL}}", st.session_state.original_text).replace("{{STUDENT}}", draft_input)
-                    res = generate_content_with_failover(grade_prompt, json_mode=True)
-                    if res:
-                        try:
-                            st.session_state.ai_grading = json.loads(clean_json(res))
-                            st.session_state.app_step = 5; st.rerun()
-                        except Exception as e:
-                            st.error("Lỗi phân tích JSON từ AI lúc chấm điểm.")
-                            st.write(e)
+                current_draft = st.session_state.user_draft
+                
+            st.info("Hệ thống đã tự động ghép các phần bạn vừa viết. Hãy đọc lại một mạch, chỉnh sửa cho mượt mà (cắt các từ lặp, nối câu...) trước khi nộp cho Giáo sư AI.")
+            
+            draft_input = st.text_area("Bản Tóm Tắt Hoàn Chỉnh của bạn:", value=current_draft, height=250)
+            
+            # Đếm từ
+            wc = len(draft_input.split()) if draft_input else 0
+            wc_color = "#10B981" if 85 <= wc <= 130 else "#EF4444" # Cho phép biên độ an toàn từ 85-130 từ
+            st.markdown(f"<div style='text-align:right; color: #64748B;'>Số từ: <b style='color: {wc_color};'>{wc}</b> (Mục tiêu: ~100-120 từ)</div>", unsafe_allow_html=True)
+            
+            # Buttons điều hướng
+            st.markdown("<br>", unsafe_allow_html=True)
+            col_b1, col_b2 = st.columns(2)
+            if col_b1.button("⬅️ Quay lại Bước 2 (Lập Dàn Ý)"): 
+                st.session_state.app_step = 3
+                st.rerun()
+                
+            if col_b2.button("Nộp bài & Chấm điểm 🎓", type="primary"):
+                if wc < 30: 
+                    st.error("Bài viết quá ngắn. Bạn chưa hoàn thành các Tab Mở đầu, Thân bài, Kết luận đúng không?")
+                else:
+                    st.session_state.user_draft = draft_input # Lưu lại bản cuối cùng
+                    with st.spinner("👨‍🏫 Giáo sư AI đang phân tích từng câu chữ và chấm điểm bài của bạn..."):
+                        grade_prompt = GRADING_PROMPT.replace("{{ORIGINAL}}", st.session_state.original_text).replace("{{STUDENT}}", draft_input)
+                        res = generate_content_with_failover(grade_prompt, json_mode=True)
+                        if res:
+                            try:
+                                st.session_state.ai_grading = json.loads(clean_json(res))
+                                st.session_state.app_step = 5
+                                st.rerun()
+                            except Exception as e:
+                                st.error("Lỗi phân tích JSON từ AI lúc chấm điểm.")
+                                st.write(e)
 
 # ---------------------------------------------------------
 # APP STEP 5: BƯỚC 4 - KẾT QUẢ & ĐÁNH BÓNG
