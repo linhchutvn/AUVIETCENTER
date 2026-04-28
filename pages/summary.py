@@ -40,8 +40,7 @@ st.markdown("""
 # ==========================================
 # 2. LOGIC AI (FAILOVER)
 # ==========================================
-try:
-    ALL_KEYS = st.secrets["GEMINI_API_KEYS"]
+ALL_KEYS = st.secrets["GEMINI_API_KEYS"]
 
 def generate_content_with_failover(prompt, image=None, json_mode=False):
     import time  # Đảm bảo đã import time
