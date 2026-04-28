@@ -5,13 +5,12 @@ import json
 import re
 import time
 import random
-import os
 from PIL import Image
 
 # ==========================================
 # 1. CẤU HÌNH TRANG & CSS
 # ==========================================
-st.set_page_config(page_title="Summary Master", page_icon="📝", layout="wide")
+st.set_page_config(page_title="Summary Master Pro", page_icon="📝", layout="wide")
 
 st.markdown("""
 <style>
@@ -24,7 +23,7 @@ st.markdown("""
     .sub-header { color: #64748B; font-size: 1.1rem; margin-bottom: 1rem; border-bottom: 1px solid #E2E8F0; padding-bottom: 0.5rem; }
     .step-header { font-weight: 700; font-size: 1.3rem; color: #1E293B; margin-top: 1.5rem; margin-bottom: 0.5rem; background-color: #F8FAFC; padding: 10px; border-left: 5px solid #3B82F6; border-radius: 4px;}
     
-    .guide-box { background-color: #EFF6FF; border: 1px dashed #93C5FD; padding: 15px; border-radius: 8px; margin-bottom: 15px; color: #1E3A8A; font-size: 0.95rem;}
+    .guide-box { background-color: #EFF6FF; border: 1px dashed #3B82F6; padding: 15px; border-radius: 8px; margin-bottom: 15px; color: #1E3A8A; font-size: 0.95rem;}
     .theory-box { background-color: #FFFBEB; border-left: 4px solid #F59E0B; padding: 10px 15px; margin-bottom: 15px; font-size: 0.9rem;}
     
     /* Sticky Left Column */
@@ -34,6 +33,10 @@ st.markdown("""
     /* Button Customization */
     div.stButton > button { background-color: #3B82F6; color: white; font-weight: bold; border-radius: 8px; padding: 0.5rem 1.5rem; border: none; }
     div.stButton > button:hover { background-color: #2563EB; }
+    
+    /* Highlight Tools */
+    .reporting-verb { color: #D97706; font-weight: bold; }
+    .transition-word { color: #059669; font-weight: bold; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -43,7 +46,7 @@ st.markdown("""
 try:
     ALL_KEYS = st.secrets["GEMINI_API_KEYS"]
 except Exception:
-    st.error("⚠️ Chưa cấu hình secrets.toml chứa GEMINI_API_KEYS!")
+    st.error("⚠️ Thầy/Cô chưa cấu hình secrets.toml chứa GEMINI_API_KEYS!")
     st.stop()
 
 def clean_json(text):
@@ -74,7 +77,7 @@ def generate_content_with_failover(prompt, image=None, json_mode=False):
             if json_mode and "thinking" not in sel_model.lower():
                 config_args["response_mime_type"] = "application/json"
 
-            status_msg.info(f"🚀 AI đang xử lý dữ liệu...")
+            status_msg.info(f"🚀 Cố vấn AI đang xử lý dữ liệu...")
             response = client.models.generate_content(
                 model=sel_model, contents=content_parts, config=types.GenerateContentConfig(**config_args)
             )
@@ -89,54 +92,60 @@ def generate_content_with_failover(prompt, image=None, json_mode=False):
     return None
 
 # ==========================================
-# 3. HỆ THỐNG PROMPTS ĐÃ ĐƯỢC CẬP NHẬT
+# 3. HỆ THỐNG PROMPTS (ĐÃ ĐƯỢC GIÁO SƯ CHỈNH SỬA)
 # ==========================================
 ANALYSIS_PROMPT = """
-Bạn là một chuyên gia dạy kỹ năng tóm tắt (Summary). Người dùng cung cấp văn bản hoặc hình ảnh chứa văn bản. Hãy phân tích và trả về định dạng JSON nghiêm ngặt sau:
+Bạn là một Giáo sư dạy kỹ năng tóm tắt (Summary). Người dùng cung cấp văn bản hoặc hình ảnh chứa văn bản. Hãy phân tích và trả về định dạng JSON nghiêm ngặt sau:
 {
-    "extracted_text": "Trích xuất toàn bộ nội dung chữ tiếng Anh từ hình ảnh. Đảm bảo thay dấu ngoặc kép thành nháy đơn.",
+    "extracted_text": "Trích xuất toàn bộ nội dung chữ tiếng Anh từ hình ảnh. Thay dấu ngoặc kép thành nháy đơn để tránh lỗi hiển thị.",
     "topic": "Chủ đề chính của bài viết (1 câu ngắn)",
-    "thesis_guide": "Gợi ý nơi tìm Luận điểm chính",
+    "thesis_guide": "Gợi ý nơi tìm Luận điểm chính (Thường ở cuối đoạn mở đầu hoặc kết luận)",
     "thesis_actual": "Luận điểm chính xác trích từ bài",
     "supporting_points": ["Ý chính 1", "Ý chính 2", "Ý chính 3"],
     "details_to_omit_guide": "Hướng dẫn học sinh nhận diện các chi tiết thừa trong bài này",
     "details_to_omit": [
         {
-            "phrase": "COPY CHÍNH XÁC Y NGUYÊN 100% CỤM TỪ HOẶC CÂU CẦN CẮT BỎ TỪ BÀI GỐC (Điều này rất quan trọng để hệ thống tìm và gạch bỏ)",
-            "reason": "Giải thích ngắn gọn tại sao phải cắt bỏ cụm từ này (Ví dụ: Đây là danh sách liệt kê chi tiết cụ thể / Đây là số liệu thống kê không cần thiết / Đây là giai thoại...)"
-        },
-        {
-            "phrase": "COPY CHÍNH XÁC Y NGUYÊN 100% CỤM TỪ THỨ 2",
-            "reason": "Lý do..."
+            "phrase": "COPY CHÍNH XÁC Y NGUYÊN 100% MỘT CỤM TỪ NGẮN CẦN CẮT BỎ TỪ BÀI GỐC (Chỉ lấy cụm từ đặc trưng, không lấy cả câu dài để code Python dễ Replace)",
+            "type": "Phân loại lỗi (Ví dụ: Examples, Statistics, Descriptive Details, Quotes, Repetitions)",
+            "reason": "Giải thích ngắn gọn tại sao phải cắt bỏ cụm từ này theo chuẩn Academic Summary."
         }
     ]
 }
 Dữ liệu đầu vào:
 """
 
+# ĐÃ FIX LỖI: Thêm mảng "detailed_comparison" vào JSON schema để UI gọi ra không bị lỗi.
 GRADING_PROMPT = """
 Bạn là một giám khảo chấm thi tiếng Anh khắt khe. Hãy chấm điểm bản tóm tắt của học sinh dựa trên văn bản gốc. 
-Hệ thống chấm điểm tổng là 1.0 ĐIỂM, được chia thành 3 tiêu chí cụ thể như sau:
+Hệ thống chấm điểm tổng là 1.0 ĐIỂM, được chia thành 3 tiêu chí:
 
 1. Main Ideas (0.4 pt): Tóm tắt có bám sát các ý chính và thông điệp cốt lõi của bài gốc không? Đủ ý trọn 0.4, thiếu ý trừ dần.
 2. Own wording (0.4 pt): Học sinh có dùng từ ngữ của riêng mình (paraphrase) không? Nếu copy y nguyên cả câu từ bài gốc -> 0 điểm phần này. Nếu có đổi cấu trúc, đổi từ vựng -> 0.4 điểm.
-3. Word limit (0.2 pt): Yêu cầu là "khoảng 100 - 120 từ" (about 100 - 120 words). Độ dài lý tưởng là 100 - 120 từ (đạt 0.2 pt). Nếu quá dài hoặc quá ngắn, trừ còn 0.1 hoặc 0.0.
+3. Word limit (0.2 pt): Yêu cầu là "khoảng 100 - 120 từ". Độ dài lý tưởng là 100 - 120 từ (đạt 0.2 pt). Quá dài/ngắn trừ điểm.
 
 YÊU CẦU ĐẶC BIỆT VỀ "ĐỐI CHIẾU & NÂNG CẤP":
-Sau khi viết bài mẫu (model_summary), bạn BẮT BUỘC phải so sánh bài của học sinh với bài mẫu đó. Hãy nhặt ra 3-4 chỗ trong bài của học sinh cần SỬA, THÊM, hoặc NÂNG CẤP TỪ VỰNG. 
-Lưu ý: Chỉ đề xuất từ vựng ở mức độ TRUNG BÌNH KHÁ (B1, B2). Không dùng từ quá học thuật (C1, C2). (Ví dụ: thay vì dùng "using less energy", hãy khuyên dùng "reducing energy consumption" (B2) thay vì "curtailing energy expenditure" (C2)).
+Bạn BẮT BUỘC phải nhặt ra 2-4 chỗ trong bài của học sinh cần SỬA, THÊM, hoặc NÂNG CẤP TỪ VỰNG so với bài mẫu.
+Lưu ý: Chỉ đề xuất từ vựng ở mức độ TRUNG BÌNH KHÁ (B1, B2). Không dùng từ quá học thuật (C1, C2).
 
 Trả về BẮT BUỘC định dạng JSON sau:
 {
-    "total_score": "Tổng điểm (Ví dụ: 0.8/1.0)",
-    "score_ideas": "Điểm ý chính (Ví dụ: 0.3/0.4)",
-    "feedback_ideas": "Nhận xét chi tiết về việc chọn lọc ý chính (Chỉ ra ý nào bị thiếu hoặc thừa).",
-    "score_wording": "Điểm từ vựng (Ví dụ: 0.3/0.4)",
-    "feedback_wording": "Nhận xét chi tiết về kỹ năng paraphrase. Trích dẫn cụ thể câu nào học sinh đang chép nguyên văn (nếu có).",
-    "actual_word_count": "Đếm chính xác số từ trong bài của học sinh",
-    "score_word_limit": "Điểm độ dài (Ví dụ: 0.2/0.2)",
-    "feedback_word_limit": "Nhận xét về độ dài so với yêu cầu 100 - 120 từ.",
-    "model_summary": "Viết một bản tóm tắt mẫu hoàn hảo (chính xác khoảng 100 - 120 từ, paraphrase xuất sắc, đủ ý)."
+    "total_score": "0.8/1.0",
+    "score_ideas": "0.3/0.4",
+    "feedback_ideas": "Nhận xét chi tiết về việc chọn lọc ý chính...",
+    "score_wording": "0.3/0.4",
+    "feedback_wording": "Nhận xét chi tiết về kỹ năng paraphrase...",
+    "actual_word_count": "Đếm chính xác số từ",
+    "score_word_limit": "0.2/0.2",
+    "feedback_word_limit": "Nhận xét về độ dài...",
+    "model_summary": "Viết một bản tóm tắt mẫu hoàn hảo (chính xác 100 - 120 từ, paraphrase xuất sắc, đủ ý).",
+    "detailed_comparison": [
+        {
+            "action": "NÂNG CẤP (hoặc THÊM, SỬA)",
+            "student_text": "Trích đoạn của học sinh",
+            "suggested_text": "Đoạn đề xuất tốt hơn (B1-B2)",
+            "explanation": "Lý do vì sao đề xuất này tốt hơn."
+        }
+    ]
 }
 Bài gốc: {{ORIGINAL}}
 Bản tóm tắt của học sinh: {{STUDENT}}
@@ -158,7 +167,6 @@ def reset_app():
     for key in st.session_state.keys(): del st.session_state[key]
     st.rerun()
 
-# ĐÃ CẬP NHẬT: Hàm Render hiển thị văn bản có khả năng "Gạch bỏ" động
 def render_annotated_sidebar(original_text, omit_data=None):
     st.markdown("### 📄 Nguồn bài gốc")
     with st.container(height=650, border=True):
@@ -168,13 +176,13 @@ def render_annotated_sidebar(original_text, omit_data=None):
         
         display_text = original_text
         
-        # Nếu có danh sách từ cần bỏ (Truyền vào ở Bước 2 và 3)
         if omit_data:
+            # Sắp xếp các chuỗi dài thay thế trước để không bị dính vào nhau
+            omit_data = sorted(omit_data, key=lambda x: len(x.get('phrase', '')), reverse=True)
             for item in omit_data:
                 phrase = item.get('phrase', '').strip()
-                # Tìm và thay thế bằng thẻ gạch ngang nền đỏ
                 if phrase and phrase in display_text:
-                    styled_phrase = f'<del style="color: #EF4444; background-color: #FEE2E2; text-decoration-thickness: 2px;">{phrase}</del>'
+                    styled_phrase = f'<del title="{item.get("reason", "")}" style="color: #EF4444; background-color: #FEE2E2; text-decoration-thickness: 2px; cursor: help;">{phrase}</del>'
                     display_text = display_text.replace(phrase, styled_phrase)
 
         st.markdown(f'<div style="background:#F8FAFC; padding:15px; border-radius:8px; font-size: 0.95rem; line-height: 1.8;">{display_text}</div>', unsafe_allow_html=True)
@@ -183,7 +191,7 @@ def render_annotated_sidebar(original_text, omit_data=None):
 # 5. GIAO DIỆN CÁC BƯỚC
 # ==========================================
 st.markdown('<div class="main-header">📝 Summary Master Pro</div>', unsafe_allow_html=True)
-st.markdown('<div class="sub-header">Luyện tập kỹ năng Viết Tóm tắt theo Quy trình 4 Bước chuẩn Học thuật</div>', unsafe_allow_html=True)
+st.markdown('<div class="sub-header">Luyện tập kỹ năng Viết Tóm tắt theo Quy trình 4 Bước chuẩn Học thuật (Tích hợp AI)</div>', unsafe_allow_html=True)
 
 # ---------------------------------------------------------
 # APP STEP 1: NHẬP ĐỀ BÀI
@@ -195,7 +203,7 @@ if st.session_state.app_step == 1:
     col_input1, col_input2 = st.columns(2, gap="large")
     
     with col_input1:
-        st.markdown("**Cách 1: Tải ảnh chụp đoạn văn (Hỗ trợ Paste)**")
+        st.markdown("**Cách 1: Tải ảnh chụp đoạn văn**")
         uploaded_file = st.file_uploader("Upload Image", type=['png', 'jpg', 'jpeg'], label_visibility="collapsed")
         img_data = None
         if uploaded_file:
@@ -208,11 +216,11 @@ if st.session_state.app_step == 1:
     
     st.markdown("<br>", unsafe_allow_html=True)
     
-    if st.button("🚀 Bắt đầu Phân tích", width="stretch", type="primary"):
+    if st.button("🚀 Phân tích & Bắt đầu bài học", width="stretch", type="primary"):
         if not input_text.strip() and not img_data:
             st.warning("⚠️ Vui lòng tải hình ảnh HOẶC dán văn bản để bắt đầu.")
         else:
-            with st.spinner("Đang xử lý dữ liệu và lên kế hoạch hướng dẫn..."):
+            with st.spinner("Giáo sư AI đang đọc tài liệu và thiết kế giáo án riêng cho bạn..."):
                 final_prompt = ANALYSIS_PROMPT + (f"\n\nText từ người dùng:\n{input_text}" if input_text else "")
                 res = generate_content_with_failover(final_prompt, image=img_data, json_mode=True)
                 
@@ -237,95 +245,116 @@ elif st.session_state.app_step == 2:
     data = st.session_state.ai_analysis
     col1, col2 = st.columns([4, 6], gap="large")
     
-    # Bước này hiển thị text bình thường chưa gạch bỏ
     with col1: render_annotated_sidebar(st.session_state.original_text)
     
     with col2:
         st.markdown('<div class="step-header">BƯỚC 1: HIỂU - Đọc và Nắm bắt cốt lõi</div>', unsafe_allow_html=True)
-        st.markdown('<div class="theory-box"><b>Mục tiêu:</b> Không chỉ đọc chữ, mà phải hiểu cấu trúc. Tìm Topic và Luận điểm chính (Thesis Statement).</div>', unsafe_allow_html=True)
+        st.markdown('<div class="theory-box"><b>Mục tiêu:</b> Không thể tóm tắt thứ mà bạn không hiểu. Hãy dùng kỹ năng Skimming để tìm <b>Topic</b> và <b>Thesis Statement</b> (Thường nằm ở cuối đoạn mở đầu).</div>', unsafe_allow_html=True)
+        
         with st.expander("🤖 Gia sư AI gợi ý Skimming (Đọc lướt):", expanded=True):
-            st.markdown(f"**Chủ đề bài viết:** {data.get('topic')}")
-            st.markdown(f"**Gợi ý tìm Thesis:** {data.get('thesis_guide')}")
+            st.markdown(f"🎯 **Chủ đề bài viết:** {data.get('topic')}")
+            st.markdown(f"📍 **Gợi ý tìm Thesis:** {data.get('thesis_guide')}")
+            
         st.markdown("---")
-        st.markdown("**Nhiệm vụ của bạn:** Viết lại Luận điểm chính (Thesis Statement) vào ô dưới đây.")
+        st.markdown("**Nhiệm vụ của bạn:** Viết lại Luận điểm chính (Thesis Statement) vào ô dưới đây (Bằng lời của bạn hoặc chép nguyên văn đều được).")
         thesis_input = st.text_area("Luận điểm chính của bài là gì?", value=st.session_state.user_thesis, height=100)
+        
         if st.button("Tiếp tục: Bước 2 (Chắt lọc) ➡️", type="primary"):
             st.session_state.user_thesis = thesis_input; st.session_state.app_step = 3; st.rerun()
 
 # ---------------------------------------------------------
-# APP STEP 3: BƯỚC 2 - CHẮT LỌC (CẬP NHẬT HIỆU ỨNG GẠCH BỎ)
+# APP STEP 3: BƯỚC 2 - CHẮT LỌC 
 # ---------------------------------------------------------
 elif st.session_state.app_step == 3:
     data = st.session_state.ai_analysis
     col1, col2 = st.columns([4, 6], gap="large")
     
-    # ĐÃ CẬP NHẬT: Gửi danh sách các từ cần bỏ vào hàm Sidebar để nó tự tìm và Gạch Đỏ
     with col1: render_annotated_sidebar(st.session_state.original_text, data.get('details_to_omit'))
     
     with col2:
         st.markdown('<div class="step-header">BƯỚC 2: CHẮT LỌC - Rút Ý chính & Bỏ Chi tiết phụ</div>', unsafe_allow_html=True)
-        st.markdown('<div class="theory-box"><b>Quy tắc vàng:</b> Giữ lại "cái gì" (what), không phải "như thế nào" (how). Hãy nhìn sang cột trái, các chi tiết thừa đã được AI dùng "dao mổ" gạch bỏ màu đỏ.</div>', unsafe_allow_html=True)
+        st.markdown('<div class="theory-box"><b>Quy tắc vàng:</b> Tóm tắt là giữ lại <b>"cái gì" (what)</b>, không phải <b>"như thế nào" (how in detail)</b>. Hãy nhìn sang cột trái, các chi tiết thừa đã được AI dùng "dao mổ" gạch bỏ màu đỏ. Rê chuột vào phần gạch đỏ để xem lý do.</div>', unsafe_allow_html=True)
         
-        # ĐÃ CẬP NHẬT: Giao diện bên phải giải thích vì sao đoạn bôi đỏ bị gạch
-        with st.expander("🤖 Giải phẫu văn bản (Lý do gạch bỏ):", expanded=True):
-            st.markdown(f"**Dấu hiệu nhận diện chung:** {data.get('details_to_omit_guide')}")
+        with st.expander("🤖 Lớp học Giải phẫu Văn bản (Tại sao lại gạch bỏ?):", expanded=True):
+            st.markdown(f"**💡 Hướng dẫn nhận diện:** {data.get('details_to_omit_guide')}")
             st.markdown("---")
             for idx, item in enumerate(data.get('details_to_omit', [])):
                 st.markdown(f"**{idx + 1}. Bỏ cụm:** <del style='color: gray;'>{item.get('phrase')}</del>", unsafe_allow_html=True)
+                st.markdown(f"🏷️ **Phân loại:** `{item.get('type', 'Details')}`")
                 st.markdown(f"👉 **Lý do:** <span style='color: #D97706;'>{item.get('reason')}</span>", unsafe_allow_html=True)
                 st.markdown("<br>", unsafe_allow_html=True)
                 
         st.markdown("---")
-        st.markdown("**Nhiệm vụ của bạn:** Hệ thống hóa các Ý chính hỗ trợ (Supporting Points) còn lại thành gạch đầu dòng.")
-        points_input = st.text_area("Dàn ý tinh gọn:", value=st.session_state.user_points, height=150)
+        st.markdown("**Nhiệm vụ của bạn:** Bỏ qua phần màu đỏ, hãy hệ thống hóa các Ý chính hỗ trợ (Supporting Points) còn lại thành các gạch đầu dòng.")
+        points_input = st.text_area("Dàn ý tinh gọn của bạn:", value=st.session_state.user_points, height=150)
+        
         col_b1, col_b2 = st.columns(2)
         if col_b1.button("⬅️ Quay lại Bước 1"): st.session_state.app_step = 2; st.rerun()
         if col_b2.button("Tiếp tục: Bước 3 (Viết nháp) ➡️", type="primary"):
             st.session_state.user_points = points_input; st.session_state.app_step = 4; st.rerun()
 
 # ---------------------------------------------------------
-# APP STEP 4: BƯỚC 3 - VIẾT NHÁP
+# APP STEP 4: BƯỚC 3 - VIẾT NHÁP (ĐÃ BỔ SUNG LÝ THUYẾT PARAPHRASE)
 # ---------------------------------------------------------
 elif st.session_state.app_step == 4:
     data = st.session_state.ai_analysis
     col1, col2 = st.columns([4, 6], gap="large")
     with col1:
-        st.markdown("### 🗂️ Dàn ý của bạn")
+        st.markdown("### 🗂️ Dàn ý cốt lõi của bạn")
         with st.container(height=650, border=True):
-            st.success("**Luận điểm chính:**\n" + st.session_state.user_thesis)
-            st.info("**Các ý hỗ trợ:**\n" + st.session_state.user_points)
+            st.success("**Luận điểm chính (Thesis):**\n\n" + st.session_state.user_thesis)
+            st.info("**Các ý hỗ trợ (Points):**\n\n" + st.session_state.user_points)
             with st.expander("📄 Xem lại văn bản gốc (Đã gạch bỏ chi tiết phụ)", expanded=False):
-                # Ở bước viết nháp, giữ nguyên giao diện gạch đỏ cho học sinh dễ bỏ qua
                 render_annotated_sidebar(st.session_state.original_text, data.get('details_to_omit'))
                 
     with col2:
         st.markdown('<div class="step-header">BƯỚC 3: VIẾT - Soạn thảo Bản nháp & Paraphrase</div>', unsafe_allow_html=True)
-        st.markdown('<div class="theory-box"><b>Mục tiêu:</b> Lắp ráp dàn ý thành 1 đoạn văn. Dùng "Từ nối" và kỹ thuật Paraphrase. Đừng quên yêu cầu khoảng 100 - 120 từ!</div>', unsafe_allow_html=True)
-        draft_input = st.text_area("Bản Tóm tắt của bạn:", value=st.session_state.user_draft, height=250)
+        st.markdown('<div class="theory-box"><b>Mục tiêu:</b> "Lắp ráp" dàn ý thành một đoạn văn <b>100 - 120 từ</b>. Tuyệt đối KHÔNG chép nguyên văn. Sử dụng ngôn từ của chính bạn và giữ thái độ khách quan.</div>', unsafe_allow_html=True)
+        
+        with st.expander("🛠️ Hộp Công Cụ Paraphrase (Từ Giáo Sư)", expanded=False):
+            st.markdown("""
+            **1. Câu Mở Đầu Bắt Buộc (3 yếu tố):**
+            Tên Tác phẩm/Tác giả + <span class='reporting-verb'>Reporting Verb</span> + Thesis (Paraphrased).
+            *(Ví dụ: "The text <span class='reporting-verb'>explains / argues / highlights</span> that...")*
+            
+            **2. Vũ khí Paraphrase:**
+            - **Chunking (Cắt khúc):** Chia câu dài thành các cụm nhỏ, diễn đạt lại từng cụm rồi ghép lại.
+            - **Grammar Toolbox:** Thay đổi từ loại (Danh từ -> Động từ) hoặc đổi Chủ động <-> Bị động.
+            
+            **3. Nhựa đường liên kết (Transition Words):**
+            Dùng <span class='transition-word'>Firstly, Moreover, Additionally, However, Ultimately</span> để liên kết các ý mượt mà.
+            """, unsafe_allow_html=True)
+
+        draft_input = st.text_area("Soạn thảo Bản Tóm tắt của bạn tại đây:", value=st.session_state.user_draft, height=250)
         wc = len(draft_input.split()) if draft_input else 0
-        st.markdown(f"<div style='text-align:right; color: #64748B;'>Số từ: <b>{wc}</b></div>", unsafe_allow_html=True)
+        
+        # Color coding word count
+        wc_color = "#10B981" if 90 <= wc <= 130 else "#EF4444"
+        st.markdown(f"<div style='text-align:right; color: #64748B;'>Số từ: <b style='color: {wc_color};'>{wc}</b> (Yêu cầu: ~100-120 từ)</div>", unsafe_allow_html=True)
+        
         col_b1, col_b2 = st.columns(2)
         if col_b1.button("⬅️ Quay lại Bước 2"): st.session_state.app_step = 3; st.rerun()
-        if col_b2.button("Hoàn thiện & Gửi chấm điểm 🎓", type="primary"):
-            if wc < 20: st.warning("Bài viết quá ngắn. Hãy triển khai thêm ý.")
+        if col_b2.button("Nộp bài & Chấm điểm 🎓", type="primary"):
+            if wc < 30: st.warning("Bài viết quá ngắn. Hãy dùng Dàn ý bên trái để triển khai thành câu hoàn chỉnh.")
             else:
                 st.session_state.user_draft = draft_input
-                with st.spinner("👨‍🏫 Đang chấm điểm..."):
+                with st.spinner("👨‍🏫 Giáo sư AI đang đọc và chấm điểm bài của bạn..."):
                     grade_prompt = GRADING_PROMPT.replace("{{ORIGINAL}}", st.session_state.original_text).replace("{{STUDENT}}", draft_input)
                     res = generate_content_with_failover(grade_prompt, json_mode=True)
                     if res:
                         try:
                             st.session_state.ai_grading = json.loads(clean_json(res))
                             st.session_state.app_step = 5; st.rerun()
-                        except:
-                            st.error("Lỗi chấm điểm từ AI.")
+                        except Exception as e:
+                            st.error("Lỗi phân tích JSON từ AI lúc chấm điểm.")
+                            st.write(e)
 
 # ---------------------------------------------------------
-# APP STEP 5: BƯỚC 4 - KẾT QUẢ THEO RUBRIC CHUẨN
+# APP STEP 5: BƯỚC 4 - KẾT QUẢ & ĐÁNH BÓNG
 # ---------------------------------------------------------
 elif st.session_state.app_step == 5:
     res = st.session_state.ai_grading
-    st.markdown('<div class="step-header">BƯỚC 4: HOÀN THIỆN - Đánh giá & Rà soát</div>', unsafe_allow_html=True)
+    st.markdown('<div class="step-header">BƯỚC 4: HOÀN THIỆN - Đánh giá & Rà soát (The Final Polish)</div>', unsafe_allow_html=True)
     
     col_score, col_detail = st.columns([3, 7], gap="medium")
     
@@ -363,7 +392,7 @@ elif st.session_state.app_step == 5:
 
             st.markdown(f"""
             <div style="background-color: white; border-left: 4px solid #10B981; padding: 15px; margin-bottom: 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
-                <h4 style="margin-top: 0; color: #065F46;">3. Word Limit (~100 words) (Max: 0.2 pt)</h4>
+                <h4 style="margin-top: 0; color: #065F46;">3. Word Limit (~100 - 120 words) (Max: 0.2 pt)</h4>
                 <p style="font-size: 1.2rem; font-weight: bold; color: #059669;">Điểm đạt: {res.get('score_word_limit', '0.0/0.2')}</p>
                 <p style="margin-bottom: 0; color: #334155;"><b>Số từ thực tế:</b> {res.get('actual_word_count', '')} words</p>
                 <p style="margin-bottom: 0; color: #334155;"><b>Nhận xét:</b> {res.get('feedback_word_limit', '')}</p>
@@ -371,16 +400,15 @@ elif st.session_state.app_step == 5:
             """, unsafe_allow_html=True)
 
         with tab2:
-            st.markdown("##### 1. Bản tóm tắt mẫu (Mức độ B1-B2)")
+            st.markdown("##### 1. Bản tóm tắt mẫu từ Giáo Sư")
             st.markdown('<div style="background:#EFF6FF; padding:20px; border-radius:8px; font-family: Merriweather, serif; line-height: 1.8; border: 1px solid #BFDBFE; margin-bottom: 20px;">' + res.get('model_summary', '') + '</div>', unsafe_allow_html=True)
             
-            st.markdown("##### 2. Bài học rút ra từ bài mẫu (Sửa / Thêm / Nâng cấp)")
+            st.markdown("##### 2. Bài học rút ra (Sửa / Thêm / Nâng cấp)")
             comparisons = res.get('detailed_comparison', [])
             if comparisons:
                 for item in comparisons:
                     action = item.get('action', 'NÂNG CẤP').upper()
                     
-                    # Set màu sắc tùy theo hành động
                     color_bg = "#F3F4F6"
                     color_border = "#9CA3AF"
                     icon = "🔧"
@@ -403,13 +431,13 @@ elif st.session_state.app_step == 5:
             
         with tab3:
             st.markdown("""
-            **Tự kiểm tra trước khi nộp bài thực tế:**
-            - [ ] Đã kiểm tra lỗi chính tả (Spelling).
-            - [ ] Không có chuỗi 4-5 từ nào sao chép y nguyên từ bài gốc.
-            - [ ] Đếm lại số từ lần cuối (Nằm trong khoảng 100 - 120 từ).
-            - [ ] Đã dùng thì Hiện tại đơn (Simple Present) cho các động từ báo cáo.
+            ### ✅ Checklist trước khi rời khỏi lớp học:
+            - [ ] **Spelling:** Đã rà soát lỗi chính tả từng từ chưa?
+            - [ ] **Grammar:** Đã dùng thì Hiện tại đơn (Simple Present) cho các động từ tường thuật (states, explains) chưa?
+            - [ ] **Subject-Verb Agreement:** Chủ ngữ số ít đi với động từ thêm 's/es' chưa?
+            - [ ] **Read Aloud:** Hãy đọc to thành tiếng bản tóm tắt của bạn. Nếu thấy lủng củng ở đâu, hãy sửa ngay ở đó!
             """)
             
     st.markdown("---")
-    if st.button("🔄 Làm bài Tóm tắt mới", type="primary", use_container_width=True): 
+    if st.button("🔄 Luyện tập Đề mới", type="primary", use_container_width=True): 
         reset_app()
