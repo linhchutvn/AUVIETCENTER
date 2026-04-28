@@ -272,7 +272,7 @@ elif st.session_state.app_step == 2:
             skim_data = data.get('step1_skimming', {})
             st.markdown(f"**🎯 Chủ đề (Topic):** {skim_data.get('topic', '')}")
             st.markdown(f"**🔑 Từ khóa lặp lại (Keywords):** {', '.join(skim_data.get('keywords', []))}")
-            st.caption("👉 *Mục tiêu: Nắm bắt nhanh "nhân vật chính" của bài viết mà chưa cần sa đà vào chi tiết.*")
+            st.caption('👉 *Mục tiêu: Nắm bắt nhanh "nhân vật chính" của bài viết mà chưa cần sa đà vào chi tiết.*')
 
         # --- GIAI ĐOẠN 2 ---
         st.markdown("#### 🔍 Giai đoạn 2: Đọc Sâu và Phân Tích Từng Đoạn (Close Reading)")
