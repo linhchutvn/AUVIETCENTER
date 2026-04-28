@@ -42,50 +42,98 @@ st.markdown("""
 # ==========================================
 try:
     ALL_KEYS = st.secrets["GEMINI_API_KEYS"]
-except Exception:
-    st.error("⚠️ Chưa cấu hình secrets.toml chứa GEMINI_API_KEYS!")
-    st.stop()
-
-def clean_json(text):
-    match = re.search(r"(\{[\s\S]*\})", text)
-    return match.group(1).strip() if match else None
 
 def generate_content_with_failover(prompt, image=None, json_mode=False):
+    import time  # Đảm bảo đã import time
+    
     keys_to_try = list(ALL_KEYS)
     random.shuffle(keys_to_try) 
-    model_priority = ["gemini-2.5-flash", "gemini-1.5-pro", "gemini-1.5-flash"]
     
+    model_priority = [
+        #"gemini-3-flash-preview",        
+        "gemini-2.5-flash",
+        "gemini-2.5-flash-lite",
+        "gemini-2.0-flash",
+        "gemini-1.5-pro", 
+        "gemini-1.5-flash"
+    ]
+    
+    last_error = ""
+    # 💡 BỔ SUNG: Khởi tạo vùng thông báo để không bị lỗi NameError
     status_msg = st.empty() 
 
     for index, current_key in enumerate(keys_to_try):
         try:
+            # --- BƯỚC 1: Khởi tạo kết nối & Né chặn IP ---
             if index > 0:
-                status_msg.warning(f"⏳ Đang chuyển luồng AI #{index}...")
-                time.sleep(2) 
+                status_msg.warning(f"⏳ Luồng #{index} bận. Đang tối ưu kết nối, vui lòng đợi 3 giây...")
+                time.sleep(3) 
             
             client = genai.Client(api_key=current_key)
-            sel_model = "gemini-2.5-flash" 
-            for target in model_priority:
-                if target in [m.name.replace("models/", "") for m in client.models.list()]:
-                    sel_model = target; break
             
-            content_parts = [image, prompt] if image else [prompt]
-            config_args = {"temperature": 0.2}
-            if json_mode: config_args["response_mime_type"] = "application/json"
+            # --- BƯỚC 2: Lấy danh sách model ---
+            raw_models = list(client.models.list())
+            available_models = [m.name.replace("models/", "") for m in raw_models]
+            
+            # --- BƯỚC 3: Tìm model tốt nhất ---
+            sel_model = None
+            for target in model_priority:
+                if target in available_models:
+                    sel_model = target
+                    break
+            
+            if not sel_model:
+                sel_model = "gemini-1.5-flash" 
 
-            status_msg.info("🚀 AI đang xử lý dữ liệu...")
+            # --- BƯỚC 4: Hiển thị thông tin Debug ---
+            masked_key = f"****{current_key[-4:]}"
+            st.toast(f"⚡ Connected: {sel_model}", icon="🤖")
+            
+            with st.expander(f"🔌 Connection Details (Key #{index + 1})", expanded=False):
+                st.write(f"**Active Model:** `{sel_model}`")
+                st.write(f"**Active API Key:** `{masked_key}`")
+            
+            # --- BƯỚC 5: Chuẩn bị nội dung ---
+            content_parts = [image, prompt] if image else [prompt]
+                
+            # --- BƯỚC 6: Cấu hình ---
+            config_args = {
+                "temperature": 0.3,
+                "top_p": 0.95,
+                "top_k": 64,
+                "max_output_tokens": 32000,
+            }
+            
+            if json_mode and "thinking" not in sel_model.lower():
+                config_args["response_mime_type"] = "application/json"
+
+            if "thinking" in sel_model.lower():
+                config_args["thinking_config"] = {"include_thoughts": True, "thinking_budget": 32000}
+
+            # --- BƯỚC 7: Thực hiện gọi API ---
+            # Xóa thông báo chờ trước khi gọi AI
+            status_msg.info(f"🚀 Processing data via Stream #{index + 1}...")
+            
             response = client.models.generate_content(
-                model=sel_model, contents=content_parts, config=types.GenerateContentConfig(**config_args)
+                model=sel_model,
+                contents=content_parts,
+                config=types.GenerateContentConfig(**config_args)
             )
-            status_msg.empty()
-            return response.text 
+            
+            status_msg.empty() # Thành công thì xóa thông báo
+            return response, sel_model 
             
         except Exception as e:
-            continue
+            last_error = str(e)
+            if "429" in last_error or "quota" in last_error.lower():
+                continue 
+            else:
+                st.warning(f"⚠️ Luồng #{index+1} gặp sự cố kỹ thuật. Đang chuyển luồng...")
+                continue
                 
     status_msg.empty()
-    st.error("❌ Kết nối AI thất bại. Vui lòng thử lại sau.")
-    return None
+    st.error(f"❌ Tất cả {len(keys_to_try)} luồng kết nối đều thất bại. Vui lòng thử lại sau 1 phút.")
+    return None, None
 
 # ==========================================
 # 3. HỆ THỐNG PROMPTS
