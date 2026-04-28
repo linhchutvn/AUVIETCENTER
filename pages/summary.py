@@ -145,7 +145,10 @@ Bạn là một Giáo sư ngôn ngữ học dạy kỹ năng tóm tắt (Summary
     "step1_reference_result": "1 câu tiếng Việt diễn giải cốt lõi của toàn bài để học sinh tham khảo.",
     
     "step2_outline": {
-        "raw_points": ["Ý thô 1 trích từ bài", "Ý thô 2", "Ý thô 3"],
+        "raw_points": [
+            "Ý thô 1", 
+            "Ý thô 2 (LƯU Ý QUAN TRỌNG: Tuyệt đối KHÔNG đưa các chi tiết cụ thể, ví dụ liệt kê, hoặc số liệu vào danh sách này. Chỉ giữ lại ý khái quát nhất của đoạn)"
+        ],
         "grouping_advice": "Hướng dẫn GỘP Ý (Grouping). Ví dụ: Ý 2 và 3 đều nói về Môi trường, hãy gộp chúng lại...",
         "refined_points": ["Ý tinh gọn 1", "Ý tinh gọn 2"]
     },
