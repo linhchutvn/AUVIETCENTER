@@ -55,7 +55,6 @@ def clean_json(text):
 def generate_content_with_failover(prompt, image=None, json_mode=False):
     keys_to_try = list(ALL_KEYS)
     random.shuffle(keys_to_try) 
-    
     model_priority = ["gemini-2.5-flash", "gemini-2.5-flash-lite", "gemini-2.0-flash", "gemini-1.5-pro", "gemini-1.5-flash"]
     status_msg = st.empty() 
 
@@ -68,47 +67,49 @@ def generate_content_with_failover(prompt, image=None, json_mode=False):
             client = genai.Client(api_key=current_key)
             raw_models = list(client.models.list())
             available_models = [m.name.replace("models/", "") for m in raw_models]
-            
             sel_model = next((m for m in model_priority if m in available_models), "gemini-1.5-flash")
             
             content_parts = [image, prompt] if image else [prompt]
             config_args = {"temperature": 0.2, "max_output_tokens": 8000}
-            
             if json_mode and "thinking" not in sel_model.lower():
                 config_args["response_mime_type"] = "application/json"
 
             status_msg.info(f"🚀 AI đang xử lý dữ liệu...")
             response = client.models.generate_content(
-                model=sel_model,
-                contents=content_parts,
-                config=types.GenerateContentConfig(**config_args)
+                model=sel_model, contents=content_parts, config=types.GenerateContentConfig(**config_args)
             )
-            
             status_msg.empty()
             return response.text if response else None
             
         except Exception as e:
-            last_error = str(e)
-            if "429" in last_error or "quota" in last_error.lower(): continue 
-            else: continue
+            continue
                 
     status_msg.empty()
     st.error(f"❌ Tất cả luồng kết nối đều thất bại. Vui lòng thử lại sau.")
     return None
 
 # ==========================================
-# 3. HỆ THỐNG PROMPTS
+# 3. HỆ THỐNG PROMPTS ĐÃ ĐƯỢC CẬP NHẬT
 # ==========================================
 ANALYSIS_PROMPT = """
 Bạn là một chuyên gia dạy kỹ năng tóm tắt (Summary). Người dùng cung cấp văn bản hoặc hình ảnh chứa văn bản. Hãy phân tích và trả về định dạng JSON nghiêm ngặt sau:
 {
-    "extracted_text": "Trích xuất toàn bộ nội dung chữ tiếng Anh từ hình ảnh. Đảm bảo thay dấu ngoặc kép thành nháy đơn để tránh lỗi JSON.",
+    "extracted_text": "Trích xuất toàn bộ nội dung chữ tiếng Anh từ hình ảnh. Đảm bảo thay dấu ngoặc kép thành nháy đơn.",
     "topic": "Chủ đề chính của bài viết (1 câu ngắn)",
-    "thesis_guide": "Gợi ý nơi tìm Luận điểm chính (VD: Hãy nhìn vào câu cuối đoạn 1...)",
+    "thesis_guide": "Gợi ý nơi tìm Luận điểm chính",
     "thesis_actual": "Luận điểm chính xác trích từ bài",
     "supporting_points": ["Ý chính 1", "Ý chính 2", "Ý chính 3"],
-    "details_to_omit_guide": "Hướng dẫn học sinh các từ khóa nhận diện chi tiết thừa (VD: loại bỏ các ví dụ bắt đầu bằng such as... hoặc số liệu...)",
-    "details_to_omit": ["Cụm chi tiết thừa 1", "Cụm chi tiết thừa 2"]
+    "details_to_omit_guide": "Hướng dẫn học sinh nhận diện các chi tiết thừa trong bài này",
+    "details_to_omit": [
+        {
+            "phrase": "COPY CHÍNH XÁC Y NGUYÊN 100% CỤM TỪ HOẶC CÂU CẦN CẮT BỎ TỪ BÀI GỐC (Điều này rất quan trọng để hệ thống tìm và gạch bỏ)",
+            "reason": "Giải thích ngắn gọn tại sao phải cắt bỏ cụm từ này (Ví dụ: Đây là danh sách liệt kê chi tiết cụ thể / Đây là số liệu thống kê không cần thiết / Đây là giai thoại...)"
+        },
+        {
+            "phrase": "COPY CHÍNH XÁC Y NGUYÊN 100% CỤM TỪ THỨ 2",
+            "reason": "Lý do..."
+        }
+    ]
 }
 Dữ liệu đầu vào:
 """
@@ -153,14 +154,26 @@ def reset_app():
     for key in st.session_state.keys(): del st.session_state[key]
     st.rerun()
 
-def render_original_source_sidebar():
+# ĐÃ CẬP NHẬT: Hàm Render hiển thị văn bản có khả năng "Gạch bỏ" động
+def render_annotated_sidebar(original_text, omit_data=None):
     st.markdown("### 📄 Nguồn bài gốc")
     with st.container(height=650, border=True):
         if st.session_state.original_img:
             st.image(st.session_state.original_img, use_container_width=True)
             st.markdown("---")
-        if st.session_state.original_text:
-            st.markdown(f'<div style="background:#F8FAFC; padding:15px; border-radius:8px; font-size: 0.95rem; line-height: 1.6;">{st.session_state.original_text}</div>', unsafe_allow_html=True)
+        
+        display_text = original_text
+        
+        # Nếu có danh sách từ cần bỏ (Truyền vào ở Bước 2 và 3)
+        if omit_data:
+            for item in omit_data:
+                phrase = item.get('phrase', '').strip()
+                # Tìm và thay thế bằng thẻ gạch ngang nền đỏ
+                if phrase and phrase in display_text:
+                    styled_phrase = f'<del style="color: #EF4444; background-color: #FEE2E2; text-decoration-thickness: 2px;">{phrase}</del>'
+                    display_text = display_text.replace(phrase, styled_phrase)
+
+        st.markdown(f'<div style="background:#F8FAFC; padding:15px; border-radius:8px; font-size: 0.95rem; line-height: 1.8;">{display_text}</div>', unsafe_allow_html=True)
 
 # ==========================================
 # 5. GIAO DIỆN CÁC BƯỚC
@@ -219,7 +232,10 @@ if st.session_state.app_step == 1:
 elif st.session_state.app_step == 2:
     data = st.session_state.ai_analysis
     col1, col2 = st.columns([4, 6], gap="large")
-    with col1: render_original_source_sidebar()
+    
+    # Bước này hiển thị text bình thường chưa gạch bỏ
+    with col1: render_annotated_sidebar(st.session_state.original_text)
+    
     with col2:
         st.markdown('<div class="step-header">BƯỚC 1: HIỂU - Đọc và Nắm bắt cốt lõi</div>', unsafe_allow_html=True)
         st.markdown('<div class="theory-box"><b>Mục tiêu:</b> Không chỉ đọc chữ, mà phải hiểu cấu trúc. Tìm Topic và Luận điểm chính (Thesis Statement).</div>', unsafe_allow_html=True)
@@ -233,21 +249,30 @@ elif st.session_state.app_step == 2:
             st.session_state.user_thesis = thesis_input; st.session_state.app_step = 3; st.rerun()
 
 # ---------------------------------------------------------
-# APP STEP 3: BƯỚC 2 - CHẮT LỌC
+# APP STEP 3: BƯỚC 2 - CHẮT LỌC (CẬP NHẬT HIỆU ỨNG GẠCH BỎ)
 # ---------------------------------------------------------
 elif st.session_state.app_step == 3:
     data = st.session_state.ai_analysis
     col1, col2 = st.columns([4, 6], gap="large")
-    with col1: render_original_source_sidebar()
+    
+    # ĐÃ CẬP NHẬT: Gửi danh sách các từ cần bỏ vào hàm Sidebar để nó tự tìm và Gạch Đỏ
+    with col1: render_annotated_sidebar(st.session_state.original_text, data.get('details_to_omit'))
+    
     with col2:
         st.markdown('<div class="step-header">BƯỚC 2: CHẮT LỌC - Rút Ý chính & Bỏ Chi tiết phụ</div>', unsafe_allow_html=True)
-        st.markdown('<div class="theory-box"><b>Quy tắc vàng:</b> Giữ lại "cái gì" (what), không phải "như thế nào" (how). Cắt bỏ Ví dụ, Số liệu.</div>', unsafe_allow_html=True)
-        with st.expander("🤖 Gia sư AI hướng dẫn dọn dẹp:", expanded=True):
-            st.markdown(f"**Dấu hiệu cần cắt bỏ:** {data.get('details_to_omit_guide')}")
-            st.markdown("**Ví dụ các chi tiết KHÔNG NÊN đưa vào tóm tắt:**")
-            for item in data.get('details_to_omit', []): st.markdown(f"- ❌ <s>{item}</s>", unsafe_allow_html=True)
+        st.markdown('<div class="theory-box"><b>Quy tắc vàng:</b> Giữ lại "cái gì" (what), không phải "như thế nào" (how). Hãy nhìn sang cột trái, các chi tiết thừa đã được AI dùng "dao mổ" gạch bỏ màu đỏ.</div>', unsafe_allow_html=True)
+        
+        # ĐÃ CẬP NHẬT: Giao diện bên phải giải thích vì sao đoạn bôi đỏ bị gạch
+        with st.expander("🤖 Giải phẫu văn bản (Lý do gạch bỏ):", expanded=True):
+            st.markdown(f"**Dấu hiệu nhận diện chung:** {data.get('details_to_omit_guide')}")
+            st.markdown("---")
+            for idx, item in enumerate(data.get('details_to_omit', [])):
+                st.markdown(f"**{idx + 1}. Bỏ cụm:** <del style='color: gray;'>{item.get('phrase')}</del>", unsafe_allow_html=True)
+                st.markdown(f"👉 **Lý do:** <span style='color: #D97706;'>{item.get('reason')}</span>", unsafe_allow_html=True)
+                st.markdown("<br>", unsafe_allow_html=True)
+                
         st.markdown("---")
-        st.markdown("**Nhiệm vụ của bạn:** Hệ thống hóa các Ý chính hỗ trợ (Supporting Points) thành gạch đầu dòng.")
+        st.markdown("**Nhiệm vụ của bạn:** Hệ thống hóa các Ý chính hỗ trợ (Supporting Points) còn lại thành gạch đầu dòng.")
         points_input = st.text_area("Dàn ý tinh gọn:", value=st.session_state.user_points, height=150)
         col_b1, col_b2 = st.columns(2)
         if col_b1.button("⬅️ Quay lại Bước 1"): st.session_state.app_step = 2; st.rerun()
@@ -258,18 +283,20 @@ elif st.session_state.app_step == 3:
 # APP STEP 4: BƯỚC 3 - VIẾT NHÁP
 # ---------------------------------------------------------
 elif st.session_state.app_step == 4:
+    data = st.session_state.ai_analysis
     col1, col2 = st.columns([4, 6], gap="large")
     with col1:
         st.markdown("### 🗂️ Dàn ý của bạn")
         with st.container(height=650, border=True):
             st.success("**Luận điểm chính:**\n" + st.session_state.user_thesis)
             st.info("**Các ý hỗ trợ:**\n" + st.session_state.user_points)
-            with st.expander("📄 Xem lại văn bản gốc", expanded=False):
-                if st.session_state.original_img: st.image(st.session_state.original_img, use_container_width=True)
-                st.write(st.session_state.original_text)
+            with st.expander("📄 Xem lại văn bản gốc (Đã gạch bỏ chi tiết phụ)", expanded=False):
+                # Ở bước viết nháp, giữ nguyên giao diện gạch đỏ cho học sinh dễ bỏ qua
+                render_annotated_sidebar(st.session_state.original_text, data.get('details_to_omit'))
+                
     with col2:
         st.markdown('<div class="step-header">BƯỚC 3: VIẾT - Soạn thảo Bản nháp & Paraphrase</div>', unsafe_allow_html=True)
-        st.markdown('<div class="theory-box"><b>Mục tiêu:</b> Lắp ráp dàn ý thành 1 đoạn văn. Dùng "Từ nối" và kỹ thuật Paraphrase.</div>', unsafe_allow_html=True)
+        st.markdown('<div class="theory-box"><b>Mục tiêu:</b> Lắp ráp dàn ý thành 1 đoạn văn. Dùng "Từ nối" và kỹ thuật Paraphrase. Đừng quên yêu cầu khoảng 100 từ!</div>', unsafe_allow_html=True)
         draft_input = st.text_area("Bản Tóm tắt của bạn:", value=st.session_state.user_draft, height=250)
         wc = len(draft_input.split()) if draft_input else 0
         st.markdown(f"<div style='text-align:right; color: #64748B;'>Số từ: <b>{wc}</b></div>", unsafe_allow_html=True)
@@ -290,7 +317,7 @@ elif st.session_state.app_step == 4:
                             st.error("Lỗi chấm điểm từ AI.")
 
 # ---------------------------------------------------------
-# APP STEP 5: BƯỚC 4 - KẾT QUẢ THEO RUBRIC MỚI
+# APP STEP 5: BƯỚC 4 - KẾT QUẢ THEO RUBRIC CHUẨN
 # ---------------------------------------------------------
 elif st.session_state.app_step == 5:
     res = st.session_state.ai_grading
