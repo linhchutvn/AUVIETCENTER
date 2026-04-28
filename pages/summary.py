@@ -95,30 +95,37 @@ def generate_content_with_failover(prompt, image=None, json_mode=False):
 # 3. HỆ THỐNG PROMPTS (ĐÃ ĐƯỢC GIÁO SƯ CHỈNH SỬA)
 # ==========================================
 ANALYSIS_PROMPT = """
-Bạn là một Giáo sư ngôn ngữ học dạy kỹ năng tóm tắt (Summary). Người dùng cung cấp văn bản hoặc hình ảnh chứa văn bản tiếng Anh. 
-Hãy đóng vai trò là người "cầm tay chỉ việc", phân tích bài viết THEO TỪNG ĐOẠN giống như một bài giảng, và trả về định dạng JSON nghiêm ngặt sau:
+Bạn là một Giáo sư ngôn ngữ học dạy kỹ năng tóm tắt (Summary). Hãy phân tích văn bản bài viết THEO TỪNG ĐOẠN giống như một bài giảng, và trả về định dạng JSON nghiêm ngặt sau:
 {
-    "extracted_text": "Trích xuất toàn bộ nội dung chữ tiếng Anh từ hình ảnh. Thay dấu ngoặc kép thành nháy đơn.",
+    "extracted_text": "Trích xuất toàn bộ nội dung chữ. Thay dấu ngoặc kép thành nháy đơn.",
     "step1_skimming": {
-        "topic": "Chủ đề chính của bài viết (Ngắn gọn)",
-        "keywords": ["từ khóa 1", "từ khóa 2", "từ khóa 3"]
+        "topic": "Chủ đề chính của bài",
+        "keywords": ["từ khóa 1", "từ khóa 2"]
     },
     "step1_paragraph_analysis": [
         {
             "para_num": 1,
-            "role": "Đoạn Mở bài / Thân bài / Kết luận",
-            "analysis": "Giảng giải ngắn gọn đoạn này tác giả đang làm gì (Ví dụ: Đưa ra định nghĩa, Nêu nguyên nhân, Liệt kê ví dụ...)",
-            "key_sentence": "COPY Y NGUYÊN 1 câu quan trọng nhất của đoạn này (Câu chủ đề/Luận điểm) để học sinh gạch chân. Nếu đoạn không có câu quan trọng, để chuỗi rỗng.",
-            "is_thesis": true/false (Đánh dấu true nếu key_sentence ở trên chính là Luận điểm chính - Thesis Statement của toàn bài)
+            "role": "Mở bài / Thân bài / Kết bài",
+            "analysis": "Tác giả đang làm gì ở đoạn này?",
+            "key_sentence": "COPY 1 CÂU QUAN TRỌNG NHẤT của đoạn. Không có thì để rỗng.",
+            "is_thesis": true/false
         }
     ],
-    "step1_reference_result": "Viết 1 câu tổng hợp cốt lõi nhất của toàn bài (Tác giả muốn truyền tải điều gì?)",
-    "details_to_omit_guide": "Hướng dẫn nhận diện các chi tiết thừa trong bài này",
+    "step1_reference_result": "1 câu tổng hợp cốt lõi của toàn bài",
+    
+    "step2_outline": {
+        "raw_points": ["Ý thô 1 trích từ bài", "Ý thô 2", "Ý thô 3"],
+        "grouping_advice": "Hướng dẫn GỘP Ý (Grouping). Ví dụ: Ý 2 và 3 đều nói về Môi trường, hãy gộp chúng lại...",
+        "refined_points": ["Ý tinh gọn 1", "Ý tinh gọn 2"]
+    },
+    
+    "details_to_omit_guide": "Hướng dẫn chung về cách cắt bỏ chi tiết phụ trong bài này.",
     "details_to_omit": [
         {
-            "phrase": "COPY CHÍNH XÁC 1 CỤM TỪ NGẮN CẦN CẮT BỎ TỪ BÀI GỐC (Ví dụ cụ thể, số liệu...)",
-            "type": "Phân loại lỗi (Ví dụ: Examples, Statistics, Descriptive Details)",
-            "reason": "Lý do phải cắt bỏ."
+            "para_num": 1,
+            "phrase": "COPY CHÍNH XÁC 1 CỤM TỪ NGẮN CẦN BỎ",
+            "type": "Phân loại (Ví dụ: Examples, Statistics, Repetitions...)",
+            "reason": "Lý do cắt bỏ (Tại sao nó không quan trọng?)"
         }
     ]
 }
@@ -320,35 +327,70 @@ elif st.session_state.app_step == 2:
                 st.rerun()
 
 # ---------------------------------------------------------
-# APP STEP 3: BƯỚC 2 - CHẮT LỌC 
+# APP STEP 3: BƯỚC 2 - CHẮT LỌC (HỆ THỐNG HÓA & CẮT BỎ)
 # ---------------------------------------------------------
 elif st.session_state.app_step == 3:
     data = st.session_state.ai_analysis
     col1, col2 = st.columns([4, 6], gap="large")
     
-    with col1: render_annotated_sidebar(st.session_state.original_text, data.get('details_to_omit'))
+    with col1: 
+        # Hiển thị bài gốc với các nét gạch đỏ
+        render_annotated_sidebar(st.session_state.original_text, data.get('details_to_omit'))
     
     with col2:
-        st.markdown('<div class="step-header">BƯỚC 2: CHẮT LỌC - Rút Ý chính & Bỏ Chi tiết phụ</div>', unsafe_allow_html=True)
-        st.markdown('<div class="theory-box"><b>Quy tắc vàng:</b> Tóm tắt là giữ lại <b>"cái gì" (what)</b>, không phải <b>"như thế nào" (how in detail)</b>. Hãy nhìn sang cột trái, các chi tiết thừa đã được AI dùng "dao mổ" gạch bỏ màu đỏ. Rê chuột vào phần gạch đỏ để xem lý do.</div>', unsafe_allow_html=True)
+        st.markdown('<div class="step-header">BƯỚC 2: CHẮT LỌC - Rút Ý Chính & Loại Bỏ Chi Tiết Phụ</div>', unsafe_allow_html=True)
+        st.markdown('<div class="theory-box"><b>Nhiệm vụ:</b> Biến các ý tưởng rời rạc thành một Dàn ý (Outline) vững chắc, đồng thời dùng "dao mổ" để dọn dẹp các chi tiết thừa thãi.</div>', unsafe_allow_html=True)
         
-        with st.expander("🤖 Lớp học Giải phẫu Văn bản (Tại sao lại gạch bỏ?):", expanded=True):
-            st.markdown(f"**💡 Hướng dẫn nhận diện:** {data.get('details_to_omit_guide')}")
-            st.markdown("---")
-            for idx, item in enumerate(data.get('details_to_omit', [])):
-                st.markdown(f"**{idx + 1}. Bỏ cụm:** <del style='color: gray;'>{item.get('phrase')}</del>", unsafe_allow_html=True)
-                st.markdown(f"🏷️ **Phân loại:** `{item.get('type', 'Details')}`")
-                st.markdown(f"👉 **Lý do:** <span style='color: #D97706;'>{item.get('reason')}</span>", unsafe_allow_html=True)
-                st.markdown("<br>", unsafe_allow_html=True)
+        tab_outline, tab_cut = st.tabs(["📑 2.1: Hệ Thống Hóa Dàn Ý", "✂️ 2.2: Lớp Học Giải Phẫu (Cắt Bỏ)"])
+        
+        # --- TAB 1: LẬP DÀN Ý ---
+        with tab_outline:
+            st.markdown("#### 🧱 Từ Danh sách thô đến Dàn ý tinh gọn")
+            outline_data = data.get('step2_outline', {})
+            
+            with st.container(border=True):
+                st.markdown("**1. Danh sách thô (Các ý nhặt được từ Bước 1):**")
+                for pt in outline_data.get('raw_points', []):
+                    st.markdown(f"- {pt}")
                 
-        st.markdown("---")
-        st.markdown("**Nhiệm vụ của bạn:** Bỏ qua phần màu đỏ, hãy hệ thống hóa các Ý chính hỗ trợ (Supporting Points) còn lại thành các gạch đầu dòng.")
-        points_input = st.text_area("Dàn ý tinh gọn của bạn:", value=st.session_state.user_points, height=150)
+                st.markdown("---")
+                st.markdown("**2. Lời khuyên Xử lý & Gộp ý (Grouping) từ Giáo sư:**")
+                st.info(f"💡 {outline_data.get('grouping_advice', 'Hãy gộp các ý có chung chủ đề lại với nhau để dàn ý gọn gàng hơn.')}")
+            
+            st.markdown("**3. Nhiệm vụ của em:** Dựa vào những gợi ý trên, hãy viết lại một **Dàn ý tinh gọn** (khoảng 3-5 gạch đầu dòng) vào ô dưới đây để chuẩn bị viết nháp.")
+            points_input = st.text_area("Dàn ý (Outline) của em:", value=st.session_state.user_points, height=180)
+            
+        # --- TAB 2: GIẢI PHẪU CẮT BỎ ---
+        with tab_cut:
+            st.markdown("#### 🔪 The Surgeon's Cut (Loại bỏ chi tiết phụ)")
+            st.markdown(f"*{data.get('details_to_omit_guide', '')}*")
+            st.markdown("Hãy nhìn sang văn bản gốc ở cột trái (các phần bị gạch đỏ). Dưới đây là giải thích chi tiết cho từng đoạn:")
+            
+            omissions = data.get('details_to_omit', [])
+            # Lấy danh sách các số thứ tự đoạn văn (loại bỏ trùng lặp và sắp xếp tăng dần)
+            paras = sorted(list(set([item.get('para_num', 1) for item in omissions])))
+            
+            for p_num in paras:
+                with st.expander(f"Đoạn {p_num}: Cần cắt bỏ những gì?", expanded=True):
+                    para_omissions = [item for item in omissions if item.get('para_num') == p_num]
+                    for idx, item in enumerate(para_omissions):
+                        st.markdown(f"**{idx + 1}. Bỏ:** <del style='color: #EF4444; background-color: #FEE2E2;'>{item.get('phrase')}</del>", unsafe_allow_html=True)
+                        st.markdown(f"🏷️ **Dấu hiệu:** `{item.get('type', 'Detail')}`")
+                        st.markdown(f"👉 **Tại sao cắt?** <span style='color: #D97706;'>{item.get('reason')}</span>", unsafe_allow_html=True)
+                        if idx < len(para_omissions) - 1:
+                            st.markdown("<hr style='margin: 10px 0; border-top: 1px dashed #E2E8F0;'>", unsafe_allow_html=True)
         
+        # --- NÚT ĐIỀU HƯỚNG ---
+        st.markdown("<br>", unsafe_allow_html=True)
         col_b1, col_b2 = st.columns(2)
         if col_b1.button("⬅️ Quay lại Bước 1"): st.session_state.app_step = 2; st.rerun()
-        if col_b2.button("Tiếp tục: Bước 3 (Viết nháp) ➡️", type="primary"):
-            st.session_state.user_points = points_input; st.session_state.app_step = 4; st.rerun()
+        if col_b2.button("Tiếp tục: Bước 3 (Soạn Thảo) ➡️", type="primary"):
+            if not points_input.strip():
+                st.warning("⚠️ Em chưa lập Dàn ý! Hãy quay lại Tab '2.1 Hệ Thống Hóa Dàn Ý' để viết nhé.")
+            else:
+                st.session_state.user_points = points_input
+                st.session_state.app_step = 4
+                st.rerun()
 
 # ---------------------------------------------------------
 # APP STEP 4: BƯỚC 3 - VIẾT NHÁP (DÂY CHUYỀN LẮP RÁP)
