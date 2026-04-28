@@ -179,10 +179,11 @@ Hệ thống chấm điểm tổng là 1.0 ĐIỂM, được chia thành 3 tiêu
 
 1. Main Ideas (0.4 pt): Tóm tắt có bám sát các ý chính và thông điệp cốt lõi của bài gốc không? Đủ ý trọn 0.4, thiếu ý trừ dần.
 2. Own wording (0.4 pt): Học sinh có dùng từ ngữ của riêng mình (paraphrase) không? Nếu copy y nguyên cả câu từ bài gốc -> 0 điểm phần này. Nếu có đổi cấu trúc, đổi từ vựng -> 0.4 điểm.
-3. Word limit (0.2 pt): Yêu cầu là "khoảng 100 - 120 từ". Độ dài lý tưởng là 100 - 120 từ (đạt 0.2 pt). Quá dài/ngắn trừ điểm.
+3. Word limit (0.2 pt): Yêu cầu là "khoảng 100 - 120 từ". HỆ THỐNG ĐÃ ĐẾM CHÍNH XÁC BÀI NÀY CÓ {{WORD_COUNT}} TỪ. Đừng tự đếm lại. Nếu số từ {{WORD_COUNT}} nằm trong biên độ 90 đến 130 từ, hãy cho trọn vẹn 0.2 pt.
 
-YÊU CẦU ĐẶC BIỆT VỀ "ĐỐI CHIẾU & NÂNG CẤP":
-Bạn BẮT BUỘC phải nhặt ra 2-4 chỗ trong bài của học sinh cần SỬA, THÊM, hoặc NÂNG CẤP TỪ VỰNG so với bài mẫu.
+YÊU CẦU ĐẶC BIỆT VỀ "BẢN NÂNG CẤP" & "ĐỐI CHIẾU":
+1. Mục "model_summary" KHÔNG ĐƯỢC viết mới hoàn toàn. Nó phải là phiên bản ĐÃ ĐƯỢC SỬA LỖI VÀ NÂNG CẤP TỪ CHÍNH BẢI VIẾT CỦA HỌC SINH. Hãy giữ lại tối đa cấu trúc và ý tưởng của học sinh, chỉ thay thế/thêm bớt những chỗ chưa tốt.
+2. Ở phần "detailed_comparison", bạn BẮT BUỘC phải nhặt ra 2-4 chỗ trong bài của học sinh mà bạn vừa sửa/nâng cấp ở phần "model_summary" để giải thích cho học sinh hiểu.
 Lưu ý: Chỉ đề xuất từ vựng ở mức độ TRUNG BÌNH KHÁ (B1, B2). Không dùng từ quá học thuật (C1, C2).
 
 Trả về BẮT BUỘC định dạng JSON sau:
@@ -192,22 +193,21 @@ Trả về BẮT BUỘC định dạng JSON sau:
     "feedback_ideas": "Nhận xét chi tiết về việc chọn lọc ý chính...",
     "score_wording": "0.3/0.4",
     "feedback_wording": "Nhận xét chi tiết về kỹ năng paraphrase...",
-    "actual_word_count": "Đếm chính xác số từ",
     "score_word_limit": "0.2/0.2",
-    "feedback_word_limit": "Nhận xét về độ dài...",
-    "model_summary": "Viết một bản tóm tắt mẫu hoàn hảo (chính xác 100 - 120 từ, paraphrase xuất sắc, đủ ý).",
+    "feedback_word_limit": "Nhận xét dựa trên con số {{WORD_COUNT}} từ mà hệ thống cung cấp...",
+    "model_summary": "PHIÊN BẢN NÂNG CẤP: Viết lại dựa trên chính bài của học sinh, áp dụng các từ ngữ nâng cấp bên dưới. Đảm bảo 100 - 120 từ.",
     "detailed_comparison": [
         {
             "action": "NÂNG CẤP (hoặc THÊM, SỬA)",
             "student_text": "Trích đoạn của học sinh",
-            "suggested_text": "Đoạn đề xuất tốt hơn (B1-B2)",
+            "suggested_text": "Đoạn đề xuất tốt hơn (B1-B2) - Giống y hệt đoạn đã dùng trong model_summary",
             "explanation": "Lý do vì sao đề xuất này tốt hơn."
         }
     ]
 }
 Bài gốc: {{ORIGINAL}}
 Bản tóm tắt của học sinh: {{STUDENT}}
-""" 
+"""
 
 # ==========================================
 # 4. QUẢN LÝ TRẠNG THÁI (SESSION STATE)
@@ -626,7 +626,7 @@ elif st.session_state.app_step == 5:
             """, unsafe_allow_html=True)
 
         with tab2:
-            st.markdown("##### 1. Bản tóm tắt mẫu từ Giáo Sư")
+            st.markdown("##### 1. Phiên bản Hoàn thiện (Giáo sư sửa từ bài của em)")
             st.markdown('<div style="background:#EFF6FF; padding:20px; border-radius:8px; font-family: Merriweather, serif; line-height: 1.8; border: 1px solid #BFDBFE; margin-bottom: 20px;">' + res.get('model_summary', '') + '</div>', unsafe_allow_html=True)
             
             st.markdown("##### 2. Bài học rút ra (Sửa / Thêm / Nâng cấp)")
