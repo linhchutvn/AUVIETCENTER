@@ -58,19 +58,49 @@ def clean_json(text):
 def generate_content_with_failover(prompt, image=None, json_mode=False):
     keys_to_try = list(ALL_KEYS)
     random.shuffle(keys_to_try) 
-    model_priority = ["gemini-1.5-pro", "gemini-2.5-flash", "gemini-2.5-flash-lite", "gemini-2.0-flash", "gemini-1.5-pro", "gemini-1.5-flash"]
+    model_priority = [
+        #"gemini-3-flash-preview",        
+        "gemini-2.5-flash",
+        "gemini-2.5-flash-lite",
+        "gemini-2.0-flash",
+        "gemini-1.5-pro", 
+        "gemini-1.5-flash"
+    ]
+    
+    last_error = ""
+    # 💡 BỔ SUNG: Khởi tạo vùng thông báo để không bị lỗi NameError
     status_msg = st.empty() 
 
     for index, current_key in enumerate(keys_to_try):
         try:
+            # --- BƯỚC 1: Khởi tạo kết nối & Né chặn IP ---
             if index > 0:
-                status_msg.warning(f"⏳ Luồng #{index} bận. Đang thử luồng khác...")
-                time.sleep(2) 
+                status_msg.warning(f"⏳ Luồng #{index} bận. Đang tối ưu kết nối, vui lòng đợi 3 giây...")
+                time.sleep(3) 
             
             client = genai.Client(api_key=current_key)
+            
+            # --- BƯỚC 2: Lấy danh sách model ---
             raw_models = list(client.models.list())
             available_models = [m.name.replace("models/", "") for m in raw_models]
-            sel_model = next((m for m in model_priority if m in available_models), "gemini-1.5-flash")
+            
+            # --- BƯỚC 3: Tìm model tốt nhất ---
+            sel_model = None
+            for target in model_priority:
+                if target in available_models:
+                    sel_model = target
+                    break
+            
+            if not sel_model:
+                sel_model = "gemini-1.5-flash" 
+
+            # --- BƯỚC 4: Hiển thị thông tin Debug ---
+            masked_key = f"****{current_key[-4:]}"
+            st.toast(f"⚡ Connected: {sel_model}", icon="🤖")
+            
+            with st.expander(f"🔌 Connection Details (Key #{index + 1})", expanded=False):
+                st.write(f"**Active Model:** `{sel_model}`")
+                st.write(f"**Active API Key:** `{masked_key}`")
             
             content_parts = [image, prompt] if image else [prompt]
             config_args = {"temperature": 0.2, "max_output_tokens": 8000}
