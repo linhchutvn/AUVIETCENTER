@@ -128,7 +128,13 @@ Bạn là một Giáo sư ngôn ngữ học dạy kỹ năng tóm tắt (Summary
             "type": "Phân loại (Ví dụ: Examples, Statistics, Repetitions...)",
             "reason": "Lý do cắt bỏ (Tại sao nó không quan trọng?)"
         }
-    ]
+    ],
+    
+    "step3_drafting_reference": {
+        "intro_ref": "Viết 1 CÂU MỞ ĐẦU mẫu bằng tiếng Anh (Dùng Reporting verb + Paraphrased Thesis).",
+        "body_ref": "Viết ĐOẠN THÂN BÀI mẫu bằng tiếng Anh (Dùng Transition words và Paraphrase lại các ý tinh gọn).",
+        "concl_ref": "Viết 1 CÂU KẾT LUẬN mẫu bằng tiếng Anh (Bắt đầu bằng In conclusion, Ultimately...)."
+    }
 }
 Dữ liệu đầu vào:
 """
@@ -416,64 +422,54 @@ elif st.session_state.app_step == 3:
 # ---------------------------------------------------------
 # APP STEP 4: BƯỚC 3 - VIẾT NHÁP (DÂY CHUYỀN LẮP RÁP)
 # ---------------------------------------------------------
-elif st.session_state.app_step == 4:
-    data = st.session_state.ai_analysis
-    
-    # -- Cột Trái: Giữ nguyên Dàn ý & Nguồn để học sinh đối chiếu --
-    col1, col2 = st.columns([4, 6], gap="large")
-    with col1:
-        st.markdown("### 🗂️ Dàn ý cốt lõi của bạn")
-        with st.container(height=650, border=True):
-            st.success("**Luận điểm chính (Thesis):**\n\n" + st.session_state.user_thesis)
-            st.info("**Các ý hỗ trợ (Points):**\n\n" + st.session_state.user_points)
-            with st.expander("📄 Xem lại văn bản gốc (Đã gạch bỏ chi tiết phụ)", expanded=False):
-                render_annotated_sidebar(st.session_state.original_text, data.get('details_to_omit'))
-                
-    # -- Cột Phải: Dây chuyền Viết từng bước --
-    with col2:
-        st.markdown('<div class="step-header">BƯỚC 3: VIẾT - Dây Chuyền Lắp Ráp (Drafting)</div>', unsafe_allow_html=True)
-        st.markdown('<div class="theory-box">Hãy chia nhỏ để trị! Chúng ta sẽ viết từng phần riêng biệt, sau đó hệ thống sẽ giúp bạn ghép lại thành một bài hoàn chỉnh.</div>', unsafe_allow_html=True)
-        
-        tab_intro, tab_body, tab_concl, tab_final = st.tabs(["1. Câu Mở Đầu", "2. Thân Bài", "3. Câu Kết", "4. 🧩 Lắp Ráp & Nộp Bài"])
+# Lấy dữ liệu tham khảo từ AI
+        draft_refs = data.get('step3_drafting_reference', {})
         
         # --- TAB 1: CÂU MỞ ĐẦU ---
         with tab_intro:
             st.markdown("#### 🚪 Viết Câu Mở Đầu (Opening Sentence)")
             st.markdown("""
-            **Công thức:** `Tên Tác phẩm` + `Reporting Verb` + `Thesis (đã paraphrase)`
+            **Công thức:** `Tên Tác phẩm/Tác giả` + `Reporting Verb` + `Thesis (đã paraphrase)`
             * <span class='reporting-verb'>Reporting Verbs:</span> states, explains, describes (Trung lập) | argues, claims, asserts (Lập luận).
-            * **Ví dụ:** *"The passage explains that green cities focus on protecting the environment..."*
             """, unsafe_allow_html=True)
             
-            st.session_state.user_draft_intro = st.text_area("Viết 1 câu mở đầu dựa trên Luận điểm (Thesis) bên trái:", 
-                                                             value=st.session_state.user_draft_intro, height=120, key="intro_box")
+            st.markdown("**Nhiệm vụ của em:** Nhìn vào Luận điểm (Thesis) bên trái và tự viết 1 câu mở đầu tiếng Anh vào ô dưới đây:")
+            st.session_state.user_draft_intro = st.text_area("Câu mở đầu của em:", 
+                                                             value=st.session_state.user_draft_intro, height=100, key="intro_box", label_visibility="collapsed")
+            
+            with st.expander("👀 Đã viết xong? Tham khảo Câu Mở Đầu của Giáo sư"):
+                st.info(f"💡 **Giáo sư viết:** {draft_refs.get('intro_ref', '')}")
             
         # --- TAB 2: THÂN BÀI ---
         with tab_body:
             st.markdown("#### 🧱 Viết Thân Bài (Body Paragraph)")
             st.markdown("""
-            **Nhiệm vụ:** Chuyển các gạch đầu dòng (Points) bên trái thành các câu hoàn chỉnh.
-            * **Từ nối (Transitions):** Đừng liệt kê rời rạc. Hãy dùng <span class='transition-word'>First, Additionally, Furthermore, However, Consequently...</span>
-            * **Vũ khí Paraphrase:** 
-                * *Kể cho bạn nghe:* Đọc ý chính, nhắm mắt lại và viết ra bằng từ ngữ đơn giản.
-                * *Hộp công cụ Ngữ pháp:* Đổi Danh từ ↔ Động từ, đổi Chủ động ↔ Bị động.
+            **Công thức:** Chuyển các ý gạch đầu dòng (Points) bên trái thành câu hoàn chỉnh.
+            * Dùng **Từ nối (Transitions)**: <span class='transition-word'>First, Additionally, Furthermore, However, Consequently...</span>
+            * Thay đổi cấu trúc ngữ pháp để không chép nguyên văn.
             """, unsafe_allow_html=True)
             
-            st.session_state.user_draft_body = st.text_area("Viết các câu thân bài, nhớ dùng TỪ NỐI giữa các ý:", 
-                                                            value=st.session_state.user_draft_body, height=200, key="body_box")
+            st.markdown("**Nhiệm vụ của em:** Viết phần thân bài (nhớ dùng từ nối) vào ô dưới đây:")
+            st.session_state.user_draft_body = st.text_area("Thân bài của em:", 
+                                                            value=st.session_state.user_draft_body, height=180, key="body_box", label_visibility="collapsed")
+            
+            with st.expander("👀 Đã viết xong? Tham khảo Thân Bài của Giáo sư"):
+                st.info(f"💡 **Giáo sư viết:** {draft_refs.get('body_ref', '')}")
             
         # --- TAB 3: CÂU KẾT LUẬN ---
         with tab_concl:
             st.markdown("#### 🏁 Viết Câu Kết Luận (Concluding Sentence)")
             st.markdown("""
-            **Mục tiêu:** Tóm lại thông điệp cốt lõi nhất, hoặc lời kêu gọi hành động của tác giả. KHÔNG lặp lại y chang câu mở đầu.
-            * **Từ nối gợi ý:** <span class='transition-word'>In conclusion, Ultimately, To sum up,...</span>
-            * **Ví dụ:** *"Ultimately, the main goal of these actions is to build a better future."*
+            **Mục tiêu:** Tóm lại thông điệp cốt lõi nhất. Đừng chép lại y nguyên câu mở đầu.
+            * Dùng **Từ nối**: <span class='transition-word'>In conclusion, Ultimately, To sum up,...</span>
             """, unsafe_allow_html=True)
             
-            st.session_state.user_draft_concl = st.text_area("Viết 1 câu kết luận cho bài tóm tắt:", 
-                                                             value=st.session_state.user_draft_concl, height=120, key="concl_box")
+            st.markdown("**Nhiệm vụ của em:** Viết 1 câu kết luận vào ô dưới đây:")
+            st.session_state.user_draft_concl = st.text_area("Câu kết luận của em:", 
+                                                             value=st.session_state.user_draft_concl, height=100, key="concl_box", label_visibility="collapsed")
 
+            with st.expander("👀 Đã viết xong? Tham khảo Câu Kết Luận của Giáo sư"):
+                st.info(f"💡 **Giáo sư viết:** {draft_refs.get('concl_ref', '')}")
         # --- TAB 4: LẮP RÁP & NỘP BÀI ---
         with tab_final:
             st.markdown("#### ✨ Đánh Bóng Bản Nháp (The Final Polish)")
