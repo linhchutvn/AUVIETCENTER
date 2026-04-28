@@ -576,6 +576,10 @@ elif st.session_state.app_step == 4:
 # ---------------------------------------------------------
 elif st.session_state.app_step == 5:
     res = st.session_state.ai_grading
+    
+    # Ép Python đếm lại số từ ở màn hình này để đồng nhất 100% với màn hình trước
+    final_wc = len(st.session_state.user_draft.split()) if st.session_state.user_draft else 0
+    
     st.markdown('<div class="step-header">BƯỚC 4: HOÀN THIỆN - Đánh giá & Rà soát (The Final Polish)</div>', unsafe_allow_html=True)
     
     col_score, col_detail = st.columns([3, 7], gap="medium")
@@ -590,7 +594,7 @@ elif st.session_state.app_step == 5:
         
         with st.expander("✍️ Bản tóm tắt của bạn", expanded=True): 
             st.write(st.session_state.user_draft)
-            st.caption(f"Độ dài bài viết: **{res.get('actual_word_count', 'N/A')} words**")
+            st.caption(f"Độ dài bài viết: **{final_wc} words**")
     
     with col_detail:
         tab1, tab2, tab3 = st.tabs(["📊 Bảng điểm (Rubric)", "💡 Đối chiếu & Nâng cấp (B1-B2)", "🔄 Rà soát lỗi"])
@@ -616,7 +620,7 @@ elif st.session_state.app_step == 5:
             <div style="background-color: white; border-left: 4px solid #10B981; padding: 15px; margin-bottom: 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
                 <h4 style="margin-top: 0; color: #065F46;">3. Word Limit (~100 - 120 words) (Max: 0.2 pt)</h4>
                 <p style="font-size: 1.2rem; font-weight: bold; color: #059669;">Điểm đạt: {res.get('score_word_limit', '0.0/0.2')}</p>
-                <p style="margin-bottom: 0; color: #334155;"><b>Số từ thực tế:</b> {res.get('actual_word_count', '')} words</p>
+                <p style="margin-bottom: 0; color: #334155;"><b>Số từ thực tế:</b> {final_wc} words</p>
                 <p style="margin-bottom: 0; color: #334155;"><b>Nhận xét:</b> {res.get('feedback_word_limit', '')}</p>
             </div>
             """, unsafe_allow_html=True)
