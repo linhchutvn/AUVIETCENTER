@@ -95,19 +95,30 @@ def generate_content_with_failover(prompt, image=None, json_mode=False):
 # 3. HỆ THỐNG PROMPTS (ĐÃ ĐƯỢC GIÁO SƯ CHỈNH SỬA)
 # ==========================================
 ANALYSIS_PROMPT = """
-Bạn là một Giáo sư dạy kỹ năng tóm tắt (Summary). Người dùng cung cấp văn bản hoặc hình ảnh chứa văn bản. Hãy phân tích và trả về định dạng JSON nghiêm ngặt sau:
+Bạn là một Giáo sư ngôn ngữ học dạy kỹ năng tóm tắt (Summary). Người dùng cung cấp văn bản hoặc hình ảnh chứa văn bản tiếng Anh. 
+Hãy đóng vai trò là người "cầm tay chỉ việc", phân tích bài viết THEO TỪNG ĐOẠN giống như một bài giảng, và trả về định dạng JSON nghiêm ngặt sau:
 {
-    "extracted_text": "Trích xuất toàn bộ nội dung chữ tiếng Anh từ hình ảnh. Thay dấu ngoặc kép thành nháy đơn để tránh lỗi hiển thị.",
-    "topic": "Chủ đề chính của bài viết (1 câu ngắn)",
-    "thesis_guide": "Gợi ý nơi tìm Luận điểm chính (Thường ở cuối đoạn mở đầu hoặc kết luận)",
-    "thesis_actual": "Luận điểm chính xác trích từ bài",
-    "supporting_points": ["Ý chính 1", "Ý chính 2", "Ý chính 3"],
-    "details_to_omit_guide": "Hướng dẫn học sinh nhận diện các chi tiết thừa trong bài này",
+    "extracted_text": "Trích xuất toàn bộ nội dung chữ tiếng Anh từ hình ảnh. Thay dấu ngoặc kép thành nháy đơn.",
+    "step1_skimming": {
+        "topic": "Chủ đề chính của bài viết (Ngắn gọn)",
+        "keywords": ["từ khóa 1", "từ khóa 2", "từ khóa 3"]
+    },
+    "step1_paragraph_analysis": [
+        {
+            "para_num": 1,
+            "role": "Đoạn Mở bài / Thân bài / Kết luận",
+            "analysis": "Giảng giải ngắn gọn đoạn này tác giả đang làm gì (Ví dụ: Đưa ra định nghĩa, Nêu nguyên nhân, Liệt kê ví dụ...)",
+            "key_sentence": "COPY Y NGUYÊN 1 câu quan trọng nhất của đoạn này (Câu chủ đề/Luận điểm) để học sinh gạch chân. Nếu đoạn không có câu quan trọng, để chuỗi rỗng.",
+            "is_thesis": true/false (Đánh dấu true nếu key_sentence ở trên chính là Luận điểm chính - Thesis Statement của toàn bài)
+        }
+    ],
+    "step1_reference_result": "Viết 1 câu tổng hợp cốt lõi nhất của toàn bài (Tác giả muốn truyền tải điều gì?)",
+    "details_to_omit_guide": "Hướng dẫn nhận diện các chi tiết thừa trong bài này",
     "details_to_omit": [
         {
-            "phrase": "COPY CHÍNH XÁC Y NGUYÊN 100% MỘT CỤM TỪ NGẮN CẦN CẮT BỎ TỪ BÀI GỐC (Chỉ lấy cụm từ đặc trưng, không lấy cả câu dài để code Python dễ Replace)",
-            "type": "Phân loại lỗi (Ví dụ: Examples, Statistics, Descriptive Details, Quotes, Repetitions)",
-            "reason": "Giải thích ngắn gọn tại sao phải cắt bỏ cụm từ này theo chuẩn Academic Summary."
+            "phrase": "COPY CHÍNH XÁC 1 CỤM TỪ NGẮN CẦN CẮT BỎ TỪ BÀI GỐC (Ví dụ cụ thể, số liệu...)",
+            "type": "Phân loại lỗi (Ví dụ: Examples, Statistics, Descriptive Details)",
+            "reason": "Lý do phải cắt bỏ."
         }
     ]
 }
@@ -242,28 +253,71 @@ if st.session_state.app_step == 1:
                             st.code(res)
 
 # ---------------------------------------------------------
-# APP STEP 2: BƯỚC 1 - HIỂU
+# APP STEP 2: BƯỚC 1 - HIỂU (PHÂN TÍCH CHI TIẾT)
 # ---------------------------------------------------------
 elif st.session_state.app_step == 2:
     data = st.session_state.ai_analysis
     col1, col2 = st.columns([4, 6], gap="large")
     
-    with col1: render_annotated_sidebar(st.session_state.original_text)
+    with col1: 
+        render_annotated_sidebar(st.session_state.original_text)
     
     with col2:
-        st.markdown('<div class="step-header">BƯỚC 1: HIỂU - Đọc và Nắm bắt cốt lõi</div>', unsafe_allow_html=True)
-        st.markdown('<div class="theory-box"><b>Mục tiêu:</b> Không thể tóm tắt thứ mà bạn không hiểu. Hãy dùng kỹ năng Skimming để tìm <b>Topic</b> và <b>Thesis Statement</b> (Thường nằm ở cuối đoạn mở đầu).</div>', unsafe_allow_html=True)
+        st.markdown('<div class="step-header">BƯỚC 1: HIỂU - Đọc và Nắm bắt Toàn diện</div>', unsafe_allow_html=True)
+        st.markdown('<div class="theory-box"><b>Lời khuyên từ Giáo sư:</b> Nền tảng của một bài tóm tắt thành công không nằm ở kỹ năng viết, mà ở khả năng <b>đọc hiểu sâu sắc</b>. Hãy cùng thầy đi qua 3 giai đoạn phân tích văn bản này.</div>', unsafe_allow_html=True)
         
-        with st.expander("🤖 Gia sư AI gợi ý Skimming (Đọc lướt):", expanded=True):
-            st.markdown(f"🎯 **Chủ đề bài viết:** {data.get('topic')}")
-            st.markdown(f"📍 **Gợi ý tìm Thesis:** {data.get('thesis_guide')}")
+        # --- GIAI ĐOẠN 1 ---
+        st.markdown("#### 🧭 Giai đoạn 1: Đọc Định Hướng (Skimming)")
+        with st.container(border=True):
+            skim_data = data.get('step1_skimming', {})
+            st.markdown(f"**🎯 Chủ đề (Topic):** {skim_data.get('topic', '')}")
+            st.markdown(f"**🔑 Từ khóa lặp lại (Keywords):** {', '.join(skim_data.get('keywords', []))}")
+            st.caption("👉 *Mục tiêu: Nắm bắt nhanh "nhân vật chính" của bài viết mà chưa cần sa đà vào chi tiết.*")
+
+        # --- GIAI ĐOẠN 2 ---
+        st.markdown("#### 🔍 Giai đoạn 2: Đọc Sâu và Phân Tích Từng Đoạn (Close Reading)")
+        st.info("Cầm bút highlight lên! Cùng soi kính lúp xem mỗi đoạn tác giả cất giấu 'vàng' ở đâu.")
+        
+        para_analysis = data.get('step1_paragraph_analysis', [])
+        for para in para_analysis:
+            # Nhận diện xem câu này là Ý chính (Point) hay Luận điểm (Thesis)
+            is_thesis = para.get('is_thesis', False)
+            badge_color = "#EF4444" if is_thesis else "#3B82F6"
+            badge_text = "⭐ LUẬN ĐIỂM CHÍNH (THESIS)" if is_thesis else "Ý CHÍNH HỖ TRỢ (POINT)"
             
-        st.markdown("---")
-        st.markdown("**Nhiệm vụ của bạn:** Viết lại Luận điểm chính (Thesis Statement) vào ô dưới đây (Bằng lời của bạn hoặc chép nguyên văn đều được).")
-        thesis_input = st.text_area("Luận điểm chính của bài là gì?", value=st.session_state.user_thesis, height=100)
+            with st.expander(f"Đoạn {para.get('para_num', '?')}: {para.get('role', '')}", expanded=True):
+                st.markdown(f"**Giáo sư phân tích:** {para.get('analysis', '')}")
+                
+                key_sentence = para.get('key_sentence', '').strip()
+                if key_sentence:
+                    st.markdown(f"""
+                    <div style="background-color: #F8FAFC; border-left: 4px solid {badge_color}; padding: 10px; margin-top: 10px;">
+                        <span style="font-size: 0.8rem; font-weight: bold; color: {badge_color};">{badge_text}</span><br>
+                        <mark style="background-color: #FEF08A; padding: 2px 4px; border-radius: 3px; font-weight: 500;">"{key_sentence}"</mark>
+                    </div>
+                    """, unsafe_allow_html=True)
+                else:
+                    st.markdown("*Đoạn này chỉ chứa chi tiết phụ, không có câu ý chính.*")
+
+        # --- GIAI ĐOẠN 3 ---
+        st.markdown("#### 🧠 Giai đoạn 3: Tổng hợp (Tự kiểm tra)")
+        with st.container(border=True):
+            st.markdown("**Kết quả tham khảo của Giáo sư:**")
+            st.success(f"*{data.get('step1_reference_result', '')}*")
+            st.markdown("---")
+            st.markdown("**Nhiệm vụ của em:** Đóng bài gốc lại. Bằng sự hiểu biết vừa rồi, hãy tự viết lại **Luận điểm chính (Thesis Statement)** vào ô dưới đây để làm kim chỉ nam cho bài Tóm tắt.")
+            
+            thesis_input = st.text_area("Luận điểm cốt lõi của bài là gì?", value=st.session_state.user_thesis, height=80)
         
-        if st.button("Tiếp tục: Bước 2 (Chắt lọc) ➡️", type="primary"):
-            st.session_state.user_thesis = thesis_input; st.session_state.app_step = 3; st.rerun()
+        # --- NÚT ĐIỀU HƯỚNG ---
+        st.markdown("<br>", unsafe_allow_html=True)
+        if st.button("Tiếp tục: Bước 2 (Chắt Lọc & Loại bỏ) ➡️", type="primary"):
+            if not thesis_input.strip():
+                st.warning("⚠️ Em hãy thử tự viết ra luận điểm trước khi sang bước sau nhé!")
+            else:
+                st.session_state.user_thesis = thesis_input
+                st.session_state.app_step = 3
+                st.rerun()
 
 # ---------------------------------------------------------
 # APP STEP 3: BƯỚC 2 - CHẮT LỌC 
