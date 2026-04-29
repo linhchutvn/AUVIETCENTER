@@ -552,7 +552,7 @@ elif st.session_state.app_step == 4:
                                 st.write(e)
 
 # ---------------------------------------------------------
-# APP STEP 5: BƯỚC 4 - KẾT QUẢ & ĐÁNH BÓNG
+# APP STEP 5: BƯỚC 4 - KẾT QUẢ
 # ---------------------------------------------------------
 elif st.session_state.app_step == 5:
     res = st.session_state.ai_grading
