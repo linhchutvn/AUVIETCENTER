@@ -125,14 +125,20 @@ def generate_content_with_failover(prompt, image=None, json_mode=False):
 # 3. HỆ THỐNG PROMPTS (ĐÃ ĐƯỢC GIÁO SƯ CHỈNH SỬA)
 # ==========================================
 ANALYSIS_PROMPT = """
-Bạn là một Giáo sư ngôn ngữ học dạy kỹ năng tóm tắt (Summary). Hãy phân tích văn bản bài viết THEO TỪNG ĐOẠN giống như một bài giảng, và trả về định dạng JSON nghiêm ngặt sau:
+Bạn là một Giáo sư ngôn ngữ học dạy kỹ năng tóm tắt (Summary). Hãy phân tích văn bản bài viết THEO TỪNG ĐOẠN giống như một bài giảng, và trả về định dạng JSON nghiêm ngặt sau.
+
+QUY TRÌNH TÌM LUẬN ĐIỂM CHÍNH (THESIS STATEMENT):
+1.  Đọc kỹ đoạn Mở bài. Tìm câu văn thể hiện bao quát nhất vấn đề và định hướng của bài viết.
+2.  Đọc kỹ đoạn Kết bài. Tìm câu văn tổng kết lại giải pháp hoặc thông điệp cuối cùng.
+3.  So sánh hai câu trên. Luận điểm chính (thesis_actual) là câu thể hiện rõ nhất cả "VẤN ĐỀ" và "GIẢI PHÁP" mà tác giả muốn trình bày. Nếu không có một câu nào đủ mạnh, hãy tự viết một câu tiếng Anh tổng hợp lại.
+
 {
     "extracted_text": "Trích xuất toàn bộ nội dung chữ tiếng Anh. Thay dấu ngoặc kép thành nháy đơn.",
     "step1_skimming": {
         "topic": "Chủ đề chính của bài",
         "keywords": ["từ khóa 1", "từ khóa 2"]
     },
-    "thesis_actual": "COPY CHÍNH XÁC 1 CÂU TIẾNG ANH TRONG BÀI chứa Luận điểm chính (Thesis Statement). Nếu bài viết không có 1 câu nào bao quát hết, hãy tự viết 1 câu tiếng Anh tóm thâu luận điểm đó.",
+    "thesis_actual": "COPY CHÍNH XÁC 1 CÂU TIẾNG ANH TRONG BÀI chứa Luận điểm chính (Thesis Statement) sau khi đã thực hiện QUY TRÌNH TÌM LUẬN ĐIỂM CHÍNH ở trên.",
     "step1_paragraph_analysis": [
         {
             "para_num": 1,
