@@ -128,10 +128,10 @@ def generate_content_with_failover(prompt, image=None, json_mode=False):
 ANALYSIS_PROMPT = """
 Bạn là một Giáo sư ngôn ngữ học dạy kỹ năng tóm tắt (Summary). Hãy phân tích văn bản bài viết THEO TỪNG ĐOẠN giống như một bài giảng, và trả về định dạng JSON nghiêm ngặt sau.
 
-QUY TRÌNH TÌM LUẬN ĐIỂM CHÍNH (THESIS STATEMENT):
-1.  Đọc kỹ đoạn Mở bài. Tìm câu văn thể hiện bao quát nhất vấn đề và định hướng của bài viết.
-2.  Đọc kỹ đoạn Kết bài. Tìm câu văn tổng kết lại giải pháp hoặc thông điệp cuối cùng.
-3.  So sánh hai câu trên. Luận điểm chính (thesis_actual) là câu thể hiện rõ nhất cả "VẤN ĐỀ" và "GIẢI PHÁP" mà tác giả muốn trình bày. Nếu không có một câu nào đủ mạnh, hãy tự viết một câu tiếng Anh tổng hợp lại.
+QUY TRÌNH TÌM LUẬN ĐIỂM CHÍNH (THESIS STATEMENT) CHUẨN HỌC THUẬT:
+1. Phân biệt rạch ròi giữa "Luận điểm chính" (Thesis - Tiền đề định hướng cho toàn bộ các đoạn Thân bài) và "Lời kêu gọi/Giải pháp cuối cùng" (Call to Action / Concluding thought - Hệ quả rút ra ở cuối bài nhưng không được chứng minh trong thân bài).
+2. Hãy kiểm tra: Các đoạn Thân bài đang dùng để chứng minh cho câu văn nào? Câu văn đó chính là Thesis. 
+3. Nếu bài viết viết theo lối quy nạp (Delayed thesis), luận điểm có thể nằm ở cuối. Nhưng nếu câu cuối chứa ý tưởng hoàn toàn mới chưa được phân tích ở thân bài (ví dụ: kêu gọi tiết kiệm năng lượng), thì đó không phải là Thesis.
 
 {
     "extracted_text": "Trích xuất toàn bộ nội dung chữ tiếng Anh. Thay dấu ngoặc kép thành nháy đơn.",
@@ -139,7 +139,7 @@ QUY TRÌNH TÌM LUẬN ĐIỂM CHÍNH (THESIS STATEMENT):
         "topic": "Chủ đề chính của bài",
         "keywords": ["từ khóa 1", "từ khóa 2"]
     },
-    "thesis_actual": "COPY CHÍNH XÁC 1 CÂU TIẾNG ANH TRONG BÀI chứa Luận điểm chính (Thesis Statement) sau khi đã thực hiện QUY TRÌNH TÌM LUẬN ĐIỂM CHÍNH ở trên.",
+    "thesis_actual": "COPY CHÍNH XÁC 1 CÂU TIẾNG ANH TRONG BÀI chứa Luận điểm chính sau khi áp dụng chặt chẽ QUY TRÌNH TÌM LUẬN ĐIỂM CHÍNH ở trên.",
     "step1_paragraph_analysis": [
         {
             "para_num": 1,
@@ -154,9 +154,9 @@ QUY TRÌNH TÌM LUẬN ĐIỂM CHÍNH (THESIS STATEMENT):
     "step2_outline": {
         "raw_points": [
             "Ý thô 1", 
-            "Ý thô 2 (LƯU Ý QUAN TRỌNG: Tuyệt đối KHÔNG đưa các chi tiết cụ thể, ví dụ liệt kê, hoặc số liệu vào danh sách này. Chỉ giữ lại ý khái quát nhất của đoạn)"
+            "Ý thô 2 (LƯU Ý: Tuyệt đối KHÔNG đưa các chi tiết cụ thể, ví dụ liệt kê, hoặc số liệu vào danh sách này. Chỉ giữ lại ý khái quát)"
         ],
-        "grouping_advice": "Hướng dẫn GỘP Ý (Grouping). Ví dụ: Ý 2 và 3 đều nói về Môi trường, hãy gộp chúng lại...",
+        "grouping_advice": "Hướng dẫn GỘP Ý (Grouping).",
         "refined_points": ["Ý tinh gọn 1", "Ý tinh gọn 2"]
     },
     
