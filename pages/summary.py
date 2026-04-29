@@ -128,39 +128,42 @@ def generate_content_with_failover(prompt, image=None, json_mode=False):
 ANALYSIS_PROMPT = """
 Bạn là một Giáo sư ngôn ngữ học dạy kỹ năng tóm tắt (Summary). Hãy phân tích văn bản bài viết THEO TỪNG ĐOẠN giống như một bài giảng, và trả về định dạng JSON nghiêm ngặt sau.
 
-⚠️ QUY TRÌNH TÌM LUẬN ĐIỂM (THESIS) BẰNG PHƯƠNG PHÁP "ĐIỂM SUY NGƯỢC" (BACKWARD EVALUATION):
-Đây là hệ thống dùng cho TẤT CẢ mọi loại bài viết. Hãy thực hiện trong đầu các bước sau trước khi chọn Thesis:
-1. Đọc lướt các đoạn THÂN BÀI. Xác định xem Thân bài đang thực sự chứng minh, giải thích hay liệt kê điều gì (Ví dụ: Thân bài đang liệt kê các giải pháp, hay đang phân tích nguyên nhân?).
-2. Quét ngược lên đoạn Mở bài (hoặc đoạn chuyển giao đầu tiên). Tìm MỘT câu văn duy nhất đóng vai trò "cái ô" bao trùm chính xác những gì Thân bài vừa chứng minh. 
-3. Loại bỏ "Câu mồi" (Hook): Câu mồi thường nằm đầu bài, rất chung chung và bị khuyết ý. Nó không bao trùm được Thân bài.
-4. Loại bỏ "Câu kết/Kêu gọi" (Call to Action): Không lấy câu ở đoạn cuối cùng chứa những đề xuất tương lai chưa được chứng minh trong Thân bài.
--> Câu thỏa mãn tiêu chí (2) chính là Thesis Statement chuẩn xác nhất.
-
-⚠️ YÊU CẦU VỀ NGÔN NGỮ:
-Tất cả các trường giải thích, phân tích BẮT BUỘC PHẢI VIẾT BẰNG TIẾNG VIỆT.
+⚠️ YÊU CẦU BẮT BUỘC TRƯỚC KHI TÌM LUẬN ĐIỂM (THESIS):
+Tuyệt đối không được đoán mò Thesis theo vị trí (không tự động lấy câu cuối đoạn 1). Bạn BẮT BUỘC phải thực hiện quá trình suy luận "Điểm suy ngược" thông qua trường "step0_reasoning_scratchpad" trước khi đưa ra kết quả.
 
 {
+    "step0_reasoning_scratchpad": {
+        "1_body_analysis": "TIẾNG VIỆT: Tóm tắt thật ngắn gọn: Các đoạn Thân bài đang thực sự phân tích vấn đề gì? (Ví dụ: Thân bài đánh giá các nguồn năng lượng dựa trên 2 tiêu chí là HIỆU QUẢ và Ô NHIỄM MÔI TRƯỜNG).",
+        "2_evaluate_para_1": "TIẾNG VIỆT: Xét câu cuối cùng của Đoạn 1. Câu này có bao trùm được toàn bộ ý của Thân bài không? (Ví dụ: Câu này chỉ nói về việc thiếu năng lượng, nhưng KHÔNG hề nhắc đến yếu tố Môi trường -> Nó bị khuyết ý, KHÔNG PHẢI THESIS).",
+        "3_evaluate_para_2": "TIẾNG VIỆT: Xét các câu trong Đoạn 2. Có câu nào chứa ĐẦY ĐỦ cả 2 yếu tố mà Thân bài phân tích (Nhu cầu năng lượng + Không hại môi trường) không?",
+        "4_conclusion": "TIẾNG VIỆT: Từ các bước trên, chốt lại chính xác câu nào làm Thesis."
+    },
+    
     "extracted_text": "Trích xuất toàn bộ nội dung chữ tiếng Anh. Thay dấu ngoặc kép thành nháy đơn.",
+    
     "step1_skimming": {
         "topic": "Chủ đề chính của bài",
         "keywords": ["từ khóa 1", "từ khóa 2"]
     },
-    "thesis_actual": "COPY CHÍNH XÁC 1 CÂU TIẾNG ANH TRONG BÀI chứa Luận điểm chính (Bắt buộc phải vượt qua bài test Điểm Suy Ngược ở trên). Nếu bài viết hoàn toàn không có câu bao quát, tự viết 1 câu tiếng Anh.",
+    
+    "thesis_actual": "COPY CHÍNH XÁC 1 CÂU TIẾNG ANH TRONG BÀI là kết quả của bước 4_conclusion ở trên.",
+    
     "step1_paragraph_analysis": [
         {
             "para_num": 1,
             "role": "Mở bài / Thân bài / Kết bài",
-            "analysis": "TIẾNG VIỆT: Tác giả đang làm gì ở đoạn này? Giải thích ngắn gọn.",
+            "analysis": "TIẾNG VIỆT: Tác giả đang làm gì ở đoạn này?",
             "key_sentence": "COPY 1 CÂU QUAN TRỌNG NHẤT của đoạn. Không có thì để rỗng.",
-            "is_thesis": true/false (Chỉ được phép True ở duy nhất 1 đoạn chứa thesis_actual)
+            "is_thesis": true/false (Chỉ True ở duy nhất đoạn chứa thesis_actual)
         }
     ],
+    
     "step1_reference_result": "1 câu tiếng Việt diễn giải cốt lõi của toàn bài để học sinh tham khảo.",
     
     "step2_outline": {
         "raw_points": [
             "Ý thô 1", 
-            "Ý thô 2 (LƯU Ý: Tuyệt đối KHÔNG đưa các chi tiết cụ thể, ví dụ liệt kê, hoặc số liệu vào danh sách này. Chỉ giữ lại ý khái quát)"
+            "Ý thô 2 (Tuyệt đối KHÔNG đưa chi tiết cụ thể, ví dụ liệt kê vào đây)"
         ],
         "grouping_advice": "TIẾNG VIỆT: Hướng dẫn GỘP Ý (Grouping).",
         "refined_points": ["Ý tinh gọn 1", "Ý tinh gọn 2"]
@@ -183,43 +186,6 @@ Tất cả các trường giải thích, phân tích BẮT BUỘC PHẢI VIẾT 
     }
 }
 Dữ liệu đầu vào:
-"""
-
-# ĐÃ FIX LỖI: Thêm mảng "detailed_comparison" vào JSON schema để UI gọi ra không bị lỗi.
-GRADING_PROMPT = """
-Bạn là một giám khảo chấm thi tiếng Anh khắt khe. Hãy chấm điểm bản tóm tắt của học sinh dựa trên văn bản gốc. 
-Hệ thống chấm điểm tổng là 1.0 ĐIỂM, được chia thành 3 tiêu chí:
-
-1. Main Ideas (0.4 pt): Tóm tắt có bám sát các ý chính và thông điệp cốt lõi của bài gốc không? Đủ ý trọn 0.4, thiếu ý trừ dần.
-2. Own wording (0.4 pt): Học sinh có dùng từ ngữ của riêng mình (paraphrase) không? Nếu copy y nguyên cả câu từ bài gốc -> 0 điểm phần này. Nếu có đổi cấu trúc, đổi từ vựng -> 0.4 điểm.
-3. Word limit (0.2 pt): Yêu cầu là "khoảng 100 - 120 từ". HỆ THỐNG ĐÃ ĐẾM CHÍNH XÁC BÀI NÀY CÓ {{WORD_COUNT}} TỪ. Đừng tự đếm lại. Nếu số từ {{WORD_COUNT}} nằm trong biên độ 90 đến 130 từ, hãy cho trọn vẹn 0.2 pt.
-
-YÊU CẦU ĐẶC BIỆT VỀ "BẢN NÂNG CẤP" & "ĐỐI CHIẾU":
-1. Mục "model_summary" KHÔNG ĐƯỢC viết mới hoàn toàn. Nó phải là phiên bản ĐÃ ĐƯỢC SỬA LỖI VÀ NÂNG CẤP TỪ CHÍNH BÀI VIẾT CỦA HỌC SINH. Hãy giữ lại tối đa cấu trúc và ý tưởng của học sinh, chỉ thay thế/thêm bớt những chỗ chưa tốt.
-2. Ở phần "detailed_comparison", bạn BẮT BUỘC phải nhặt ra 2-4 chỗ trong bài của học sinh mà bạn vừa sửa/nâng cấp ở phần "model_summary" để giải thích cho học sinh hiểu.
-Lưu ý: Chỉ đề xuất từ vựng ở mức độ TRUNG BÌNH KHÁ (B1, B2). Không dùng từ quá học thuật (C1, C2).
-
-Trả về BẮT BUỘC định dạng JSON sau:
-{
-    "total_score": "0.8/1.0",
-    "score_ideas": "0.3/0.4",
-    "feedback_ideas": "Nhận xét chi tiết về việc chọn lọc ý chính...",
-    "score_wording": "0.3/0.4",
-    "feedback_wording": "Nhận xét chi tiết về kỹ năng paraphrase...",
-    "score_word_limit": "0.2/0.2",
-    "feedback_word_limit": "Hãy viết nhận xét về độ dài. BẮT BUỘC phải trích dẫn lại đúng con số {{WORD_COUNT}} từ mà hệ thống đã cung cấp. Ví dụ: 'Số lượng từ là {{WORD_COUNT}} từ, nằm trong khoảng cho phép...' ",
-    "model_summary": "PHIÊN BẢN NÂNG CẤP: Viết lại dựa trên chính bài của học sinh, áp dụng các từ ngữ nâng cấp bên dưới. Đảm bảo 100 - 120 từ.",
-    "detailed_comparison": [
-        {
-            "action": "NÂNG CẤP (hoặc THÊM, SỬA)",
-            "student_text": "Trích đoạn của học sinh",
-            "suggested_text": "Đoạn đề xuất tốt hơn (B1-B2) - Giống y hệt đoạn đã dùng trong model_summary",
-            "explanation": "Lý do vì sao đề xuất này tốt hơn."
-        }
-    ]
-}
-Bài gốc: {{ORIGINAL}}
-Bản tóm tắt của học sinh: {{STUDENT}}
 """
 
 # ==========================================
