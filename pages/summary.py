@@ -128,10 +128,16 @@ def generate_content_with_failover(prompt, image=None, json_mode=False):
 ANALYSIS_PROMPT = """
 Bạn là một Giáo sư ngôn ngữ học dạy kỹ năng tóm tắt (Summary). Hãy phân tích văn bản bài viết THEO TỪNG ĐOẠN giống như một bài giảng, và trả về định dạng JSON nghiêm ngặt sau.
 
-QUY TRÌNH TÌM LUẬN ĐIỂM CHÍNH (THESIS STATEMENT) CHUẨN HỌC THUẬT:
-1. Phân biệt rạch ròi giữa "Luận điểm chính" (Thesis - Tiền đề định hướng cho toàn bộ các đoạn Thân bài) và "Lời kêu gọi/Giải pháp cuối cùng" (Call to Action / Concluding thought - Hệ quả rút ra ở cuối bài nhưng không được chứng minh trong thân bài).
-2. Hãy kiểm tra: Các đoạn Thân bài đang dùng để chứng minh cho câu văn nào? Câu văn đó chính là Thesis. 
-3. Nếu bài viết viết theo lối quy nạp (Delayed thesis), luận điểm có thể nằm ở cuối. Nhưng nếu câu cuối chứa ý tưởng hoàn toàn mới chưa được phân tích ở thân bài (ví dụ: kêu gọi tiết kiệm năng lượng), thì đó không phải là Thesis.
+⚠️ QUY TRÌNH TÌM LUẬN ĐIỂM (THESIS) BẰNG PHƯƠNG PHÁP "ĐIỂM SUY NGƯỢC" (BACKWARD EVALUATION):
+Đây là hệ thống dùng cho TẤT CẢ mọi loại bài viết. Hãy thực hiện trong đầu các bước sau trước khi chọn Thesis:
+1. Đọc lướt các đoạn THÂN BÀI. Xác định xem Thân bài đang thực sự chứng minh, giải thích hay liệt kê điều gì (Ví dụ: Thân bài đang liệt kê các giải pháp, hay đang phân tích nguyên nhân?).
+2. Quét ngược lên đoạn Mở bài (hoặc đoạn chuyển giao đầu tiên). Tìm MỘT câu văn duy nhất đóng vai trò "cái ô" bao trùm chính xác những gì Thân bài vừa chứng minh. 
+3. Loại bỏ "Câu mồi" (Hook): Câu mồi thường nằm đầu bài, rất chung chung và bị khuyết ý. Nó không bao trùm được Thân bài.
+4. Loại bỏ "Câu kết/Kêu gọi" (Call to Action): Không lấy câu ở đoạn cuối cùng chứa những đề xuất tương lai chưa được chứng minh trong Thân bài.
+-> Câu thỏa mãn tiêu chí (2) chính là Thesis Statement chuẩn xác nhất.
+
+⚠️ YÊU CẦU VỀ NGÔN NGỮ:
+Tất cả các trường giải thích, phân tích BẮT BUỘC PHẢI VIẾT BẰNG TIẾNG VIỆT.
 
 {
     "extracted_text": "Trích xuất toàn bộ nội dung chữ tiếng Anh. Thay dấu ngoặc kép thành nháy đơn.",
@@ -139,14 +145,14 @@ QUY TRÌNH TÌM LUẬN ĐIỂM CHÍNH (THESIS STATEMENT) CHUẨN HỌC THUẬT:
         "topic": "Chủ đề chính của bài",
         "keywords": ["từ khóa 1", "từ khóa 2"]
     },
-    "thesis_actual": "COPY CHÍNH XÁC 1 CÂU TIẾNG ANH TRONG BÀI chứa Luận điểm chính sau khi áp dụng chặt chẽ QUY TRÌNH TÌM LUẬN ĐIỂM CHÍNH ở trên.",
+    "thesis_actual": "COPY CHÍNH XÁC 1 CÂU TIẾNG ANH TRONG BÀI chứa Luận điểm chính (Bắt buộc phải vượt qua bài test Điểm Suy Ngược ở trên). Nếu bài viết hoàn toàn không có câu bao quát, tự viết 1 câu tiếng Anh.",
     "step1_paragraph_analysis": [
         {
             "para_num": 1,
             "role": "Mở bài / Thân bài / Kết bài",
-            "analysis": "Tác giả đang làm gì ở đoạn này?",
+            "analysis": "TIẾNG VIỆT: Tác giả đang làm gì ở đoạn này? Giải thích ngắn gọn.",
             "key_sentence": "COPY 1 CÂU QUAN TRỌNG NHẤT của đoạn. Không có thì để rỗng.",
-            "is_thesis": true/false
+            "is_thesis": true/false (Chỉ được phép True ở duy nhất 1 đoạn chứa thesis_actual)
         }
     ],
     "step1_reference_result": "1 câu tiếng Việt diễn giải cốt lõi của toàn bài để học sinh tham khảo.",
@@ -156,17 +162,17 @@ QUY TRÌNH TÌM LUẬN ĐIỂM CHÍNH (THESIS STATEMENT) CHUẨN HỌC THUẬT:
             "Ý thô 1", 
             "Ý thô 2 (LƯU Ý: Tuyệt đối KHÔNG đưa các chi tiết cụ thể, ví dụ liệt kê, hoặc số liệu vào danh sách này. Chỉ giữ lại ý khái quát)"
         ],
-        "grouping_advice": "Hướng dẫn GỘP Ý (Grouping).",
+        "grouping_advice": "TIẾNG VIỆT: Hướng dẫn GỘP Ý (Grouping).",
         "refined_points": ["Ý tinh gọn 1", "Ý tinh gọn 2"]
     },
     
-    "details_to_omit_guide": "Hướng dẫn chung về cách cắt bỏ chi tiết phụ trong bài này.",
+    "details_to_omit_guide": "TIẾNG VIỆT: Hướng dẫn chung về cách cắt bỏ chi tiết phụ trong bài này.",
     "details_to_omit": [
         {
             "para_num": 1,
             "phrase": "COPY CHÍNH XÁC 1 CỤM TỪ NGẮN CẦN BỎ",
             "type": "Phân loại (Ví dụ: Examples, Statistics, Repetitions...)",
-            "reason": "Lý do cắt bỏ (Tại sao nó không quan trọng?)"
+            "reason": "TIẾNG VIỆT: Lý do cắt bỏ (Tại sao nó không quan trọng?)"
         }
     ],
     
