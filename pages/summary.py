@@ -475,7 +475,7 @@ elif st.session_state.app_step == 3:
                 st.rerun()
 
 # ---------------------------------------------------------
-# APP STEP 4: BƯỚC 3 - VIẾT NHÁP (DÂY CHUYỀN LẮP RÁP)
+# APP STEP 4: BƯỚC 3 - VIẾT NHÁP (HUẤN LUYỆN PARAPHRASE & LẮP RÁP)
 # ---------------------------------------------------------
 elif st.session_state.app_step == 4:
     data = st.session_state.ai_analysis
@@ -483,69 +483,92 @@ elif st.session_state.app_step == 4:
     # -- Cột Trái: Giữ nguyên Dàn ý & Nguồn để học sinh đối chiếu --
     col1, col2 = st.columns([4, 6], gap="large")
     with col1:
-        st.markdown("### 🗂️ Dàn ý cốt lõi của bạn")
+        st.markdown("### 🗂️ Nguyên liệu của bạn")
         with st.container(height=650, border=True):
             st.success("**Luận điểm chính (Thesis):**\n\n" + st.session_state.user_thesis)
             st.info("**Các ý hỗ trợ (Points):**\n\n" + st.session_state.user_points)
-            with st.expander("📄 Xem lại văn bản gốc (Đã gạch bỏ chi tiết phụ)", expanded=False):
+            with st.expander("📄 Xem lại văn bản gốc", expanded=False):
                 render_annotated_sidebar(st.session_state.original_text, data.get('details_to_omit'))
                 
     # -- Cột Phải: Dây chuyền Viết từng bước --
     with col2:
-        st.markdown('<div class="step-header">BƯỚC 3: VIẾT - Dây Chuyền Lắp Ráp (Drafting)</div>', unsafe_allow_html=True)
-        st.markdown('<div class="theory-box">Hãy chia nhỏ để trị! Chúng ta sẽ viết từng phần riêng biệt, sau đó hệ thống sẽ giúp bạn ghép lại thành một bài hoàn chỉnh.</div>', unsafe_allow_html=True)
+        st.markdown('<div class="step-header">BƯỚC 3: VIẾT - Huấn Luyện Kỹ Năng Paraphrase</div>', unsafe_allow_html=True)
         
-        # ĐÂY LÀ DÒNG BỊ THIẾU GÂY RA LỖI NAMERROR: Khai báo 4 tabs
+        # HỘP CÔNG CỤ PARAPHRASE TỪ GIÁO TRÌNH (TRANG 15-18)
+        with st.expander("🛠️ BÍ QUYẾT PARAPHRASE TỪ GIÁO SƯ (Bấm để xem) 🛠️", expanded=False):
+            st.markdown("""
+            Tuyệt đối không sao chép quá 4 từ liên tiếp từ bản gốc. Hãy dùng 3 vũ khí sau:
+            
+            **1. Kể cho bạn nghe (Tell a Friend):** Dùng cho ý ngắn.
+            - *Cách làm:* Đọc hiểu ý ➔ Nhắm mắt/Che bài lại ➔ Tưởng tượng giải thích cho bạn bè nghe bằng từ ngữ đơn giản ➔ Viết ra.
+            
+            **2. Phân đoạn (Chunking Method):** Dùng cho câu dài, phức tạp.
+            - *Cách làm:* Cắt câu gốc thành 2-3 khúc nhỏ ➔ Tìm từ đồng nghĩa cho từng khúc ➔ Ghép lại (Có thể đảo trật tự các khúc).
+            
+            **3. Hộp công cụ Ngữ pháp (Grammar Toolbox):**
+            - Đổi Từ loại: Danh từ ➔ Động từ (VD: *The development of...* ➔ *To develop...*)
+            - Đổi Thể: Chủ động ↔ Bị động.
+            """)
+            
         tab_intro, tab_body, tab_concl, tab_final = st.tabs(["1. Câu Mở Đầu", "2. Thân Bài", "3. Câu Kết", "4. 🧩 Lắp Ráp & Nộp Bài"])
         
-        # Lấy dữ liệu tham khảo từ AI
         draft_refs = data.get('step3_drafting_reference', {})
         
         # --- TAB 1: CÂU MỞ ĐẦU ---
         with tab_intro:
             st.markdown("#### 🚪 Viết Câu Mở Đầu (Opening Sentence)")
             st.markdown("""
-            **Công thức:** `Tên Tác phẩm/Tác giả` + `Reporting Verb` + `Thesis (đã paraphrase)`
-            * <span class='reporting-verb'>Reporting Verbs:</span> states, explains, describes (Trung lập) | argues, claims, asserts (Lập luận).
+            👉 **Nhịp 1 (Xác định):** Nhìn vào ô màu Xanh lá cây (Thesis) bên cột trái.
+            
+            👉 **Nhịp 2 (Paraphrase):** Áp dụng phương pháp **"Grammar Toolbox"** (Đổi chủ động thành Bị động) HOẶC **"Tell a Friend"** để diễn đạt lại Thesis đó.
+            
+            👉 **Nhịp 3 (Lắp ráp):** Áp dụng công thức chuẩn:
+            `Tên Tác giả/Bài viết` + `Reporting Verb` + `Thesis (đã paraphrase)`
+            *(Reporting verbs: states, explains, describes, argues, claims...)*
             """, unsafe_allow_html=True)
             
-            st.markdown("**Nhiệm vụ của em:** Nhìn vào Luận điểm (Thesis) bên trái và tự viết 1 câu mở đầu tiếng Anh vào ô dưới đây:")
-            st.session_state.user_draft_intro = st.text_area("Câu mở đầu của em:", 
-                                                             value=st.session_state.user_draft_intro, height=100, key="intro_box", label_visibility="collapsed")
+            st.session_state.user_draft_intro = st.text_area("Viết Câu mở đầu hoàn chỉnh của em:", 
+                                                             value=st.session_state.user_draft_intro, height=120, key="intro_box")
             
-            with st.expander("👀 Đã viết xong? Tham khảo Câu Mở Đầu của Giáo sư"):
-                st.info(f"💡 **Giáo sư viết:** {draft_refs.get('intro_ref', '')}")
+            with st.expander("👀 Cấp cứu: Xem cách Giáo sư Paraphrase Câu Mở Đầu"):
+                st.info(f"💡 **Bản nháp của Giáo sư:** {draft_refs.get('intro_ref', '')}")
             
         # --- TAB 2: THÂN BÀI ---
         with tab_body:
             st.markdown("#### 🧱 Viết Thân Bài (Body Paragraph)")
             st.markdown("""
-            **Công thức:** Chuyển các ý gạch đầu dòng (Points) bên trái thành câu hoàn chỉnh.
-            * Dùng **Từ nối (Transitions)**: <span class='transition-word'>First, Additionally, Furthermore, However, Consequently...</span>
-            * Thay đổi cấu trúc ngữ pháp để không chép nguyên văn.
+            👉 **Nhịp 1 (Xác định):** Nhìn vào ô màu Xanh dương (Các ý hỗ trợ) bên cột trái.
+            
+            👉 **Nhịp 2 (Paraphrase):** Vì các ý này thường dài, hãy dùng phương pháp **"Phân đoạn (Chunking)"**: Cắt nhỏ từng ý ra, thay từ đồng nghĩa rồi đảo vị trí của chúng.
+            
+            👉 **Nhịp 3 (Lắp ráp):** Ghép các câu lại với nhau bằng **Từ nối (Transitions)** để tạo dòng chảy mượt mà:
+            - *Bắt đầu:* First, To begin with...
+            - *Tiếp theo:* Additionally, Furthermore, Moreover...
+            - *Kết quả/Tương phản:* Consequently, As a result, However...
             """, unsafe_allow_html=True)
             
-            st.markdown("**Nhiệm vụ của em:** Viết phần thân bài (nhớ dùng từ nối) vào ô dưới đây:")
-            st.session_state.user_draft_body = st.text_area("Thân bài của em:", 
-                                                            value=st.session_state.user_draft_body, height=180, key="body_box", label_visibility="collapsed")
+            st.session_state.user_draft_body = st.text_area("Viết đoạn Thân bài hoàn chỉnh của em:", 
+                                                            value=st.session_state.user_draft_body, height=200, key="body_box")
             
-            with st.expander("👀 Đã viết xong? Tham khảo Thân Bài của Giáo sư"):
-                st.info(f"💡 **Giáo sư viết:** {draft_refs.get('body_ref', '')}")
+            with st.expander("👀 Cấp cứu: Xem cách Giáo sư Paraphrase Thân Bài"):
+                st.info(f"💡 **Bản nháp của Giáo sư:** {draft_refs.get('body_ref', '')}")
             
         # --- TAB 3: CÂU KẾT LUẬN ---
         with tab_concl:
             st.markdown("#### 🏁 Viết Câu Kết Luận (Concluding Sentence)")
             st.markdown("""
-            **Mục tiêu:** Tóm lại thông điệp cốt lõi nhất. Đừng chép lại y nguyên câu mở đầu.
-            * Dùng **Từ nối**: <span class='transition-word'>In conclusion, Ultimately, To sum up,...</span>
+            👉 **Nhịp 1 (Xác định):** Tìm thông điệp cốt lõi hoặc mục đích cuối cùng của tác giả.
+            
+            👉 **Nhịp 2 (Paraphrase):** Dùng phương pháp **"Tell a Friend"** (Nói một cách ngắn gọn, mộc mạc nhất có thể). Tránh lặp lại từ vựng đã dùng ở Câu Mở Đầu.
+            
+            👉 **Nhịp 3 (Lắp ráp):** Bắt đầu bằng từ nối kết luận: <span class='transition-word'>Ultimately, In conclusion, To sum up,...</span>
             """, unsafe_allow_html=True)
             
-            st.markdown("**Nhiệm vụ của em:** Viết 1 câu kết luận vào ô dưới đây:")
-            st.session_state.user_draft_concl = st.text_area("Câu kết luận của em:", 
-                                                             value=st.session_state.user_draft_concl, height=100, key="concl_box", label_visibility="collapsed")
+            st.session_state.user_draft_concl = st.text_area("Viết Câu kết luận hoàn chỉnh của em:", 
+                                                             value=st.session_state.user_draft_concl, height=100, key="concl_box")
 
-            with st.expander("👀 Đã viết xong? Tham khảo Câu Kết Luận của Giáo sư"):
-                st.info(f"💡 **Giáo sư viết:** {draft_refs.get('concl_ref', '')}")
+            with st.expander("👀 Cấp cứu: Xem cách Giáo sư Paraphrase Câu Kết"):
+                st.info(f"💡 **Bản nháp của Giáo sư:** {draft_refs.get('concl_ref', '')}")
 
         # --- TAB 4: LẮP RÁP & NỘP BÀI ---
         with tab_final:
@@ -560,34 +583,31 @@ elif st.session_state.app_step == 4:
             else:
                 current_draft = st.session_state.user_draft
                 
-            st.info("Hệ thống đã tự động ghép các phần bạn vừa viết. Hãy đọc lại một mạch, chỉnh sửa cho mượt mà (cắt các từ lặp, nối câu...) trước khi nộp cho Giáo sư AI.")
+            st.info("Hệ thống đã tự động ghép 3 phần em vừa viết. Hãy đọc lại một mạch, cắt bỏ các từ lặp lại, sửa dấu câu cho mượt mà trước khi nộp cho Giáo sư AI.")
             
             draft_input = st.text_area("Bản Tóm Tắt Hoàn Chỉnh của bạn:", value=current_draft, height=250)
             
             # Đếm từ
             wc = len(draft_input.split()) if draft_input else 0
-            wc_color = "#10B981" if 85 <= wc <= 130 else "#EF4444" # Cho phép biên độ an toàn từ 85-130 từ
+            wc_color = "#10B981" if 85 <= wc <= 130 else "#EF4444" 
             st.markdown(f"<div style='text-align:right; color: #64748B;'>Số từ: <b style='color: {wc_color};'>{wc}</b> (Mục tiêu: ~100-120 từ)</div>", unsafe_allow_html=True)
             
             # Buttons điều hướng
             st.markdown("<br>", unsafe_allow_html=True)
             col_b1, col_b2 = st.columns(2)
-            if col_b1.button("⬅️ Quay lại Bước 2 (Lập Dàn Ý)"): 
+            if col_b1.button("⬅️ Quay lại Bước 2 (Chắt lọc)"): 
                 st.session_state.app_step = 3
                 st.rerun()
                 
             if col_b2.button("Nộp bài & Chấm điểm 🎓", type="primary"):
                 if wc < 30: 
-                    st.error("Bài viết quá ngắn. Bạn chưa hoàn thành các Tab Mở đầu, Thân bài, Kết luận đúng không?")
+                    st.error("Bài viết quá ngắn. Em chưa hoàn thành các Tab Mở đầu, Thân bài, Kết luận đúng không?")
                 else:
                     st.session_state.user_draft = draft_input # Lưu lại bản cuối cùng
-                    st.session_state.final_word_count = wc # Lưu số từ chính xác để Bước 5 dùng lại
+                    st.session_state.final_word_count = wc # Lưu số từ chính xác
                     
-                    with st.spinner("👨‍🏫 Giáo sư AI đang phân tích từng câu chữ và chấm điểm bài của bạn..."):
-                        
-                        # DÒNG NÀY ĐÃ ĐƯỢC CẬP NHẬT ĐỂ TRUYỀN SỐ TỪ (WORD_COUNT) VÀO PROMPT
+                    with st.spinner("👨‍🏫 Giáo sư AI đang phân tích từng câu chữ và chấm điểm bài của em..."):
                         grade_prompt = GRADING_PROMPT.replace("{{ORIGINAL}}", st.session_state.original_text).replace("{{STUDENT}}", draft_input).replace("{{WORD_COUNT}}", str(wc))
-                        
                         res = generate_content_with_failover(grade_prompt, json_mode=True)
                         if res:
                             try:
