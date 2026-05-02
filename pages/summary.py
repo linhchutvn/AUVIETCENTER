@@ -126,23 +126,25 @@ def generate_content_with_failover(prompt, image=None, json_mode=False):
 # 3. HỆ THỐNG PROMPTS (ĐÃ ĐƯỢC GIÁO SƯ CHỈNH SỬA)
 # ==========================================
 ANALYSIS_PROMPT = """
-Bạn là một Giáo sư ngôn ngữ học dạy kỹ năng tóm tắt (Summary). Hãy phân tích văn bản bài viết THEO TỪNG ĐOẠN giống như một bài giảng, và trả về định dạng JSON nghiêm ngặt sau.
+Bạn là một Giáo sư ngôn ngữ học dạy kỹ năng tóm tắt học thuật (Academic Summary). Hãy phân tích văn bản bài viết THEO TỪNG ĐOẠN và trả về định dạng JSON nghiêm ngặt sau.
 
-⚠️ QUY TRÌNH TÌM LUẬN ĐIỂM (THESIS) BẰNG PHƯƠNG PHÁP "ĐIỂM SUY NGƯỢC" (BACKWARD EVALUATION):
-Đây là hệ thống dùng cho TẤT CẢ mọi loại bài viết. Hãy thực hiện trong đầu các bước sau trước khi chọn Thesis:
-1. Đọc lướt các đoạn THÂN BÀI. Xác định xem Thân bài đang thực sự chứng minh, giải thích hay liệt kê điều gì.
-2. Quét ngược lên đoạn Mở bài (hoặc đoạn chuyển giao đầu tiên). Tìm MỘT câu văn duy nhất đóng vai trò "cái ô" bao trùm chính xác những gì Thân bài vừa chứng minh. 
-3. Loại bỏ "Câu mồi" (Hook) và "Câu kết" (Call to Action/Future Solution).
--> Câu thỏa mãn tiêu chí (2) chính là Thesis Statement chuẩn xác nhất.
-
-⚠️ QUY TẮC "GIẢI PHẪU" CẮT BỎ (OMITTING DETAILS):
-Bắt buộc phân loại các cụm từ bị cắt vào đúng 1 trong 6 danh mục sau:
-[1. Ví dụ (Examples) / 2. Số liệu (Statistics) / 3. Mô tả chi tiết (Descriptive Details) / 4. Trích dẫn (Quotations) / 5. Câu chuyện cá nhân (Anecdotes) / 6. Lặp lại-Giải thích dông dài (Repetitions)]
+⚠️ QUY TRÌNH XÁC ĐỊNH LUẬN ĐIỂM TRỌNG TÂM (THESIS STATEMENT IDENTIFICATION):
+Đây là hệ thống phân tích logic áp dụng cho mọi loại văn bản. Bắt buộc thực hiện quá trình suy luận học thuật trong trường "step0_reasoning_scratchpad":
+1. Tổng hợp cốt lõi (Core Synthesis): Đọc toàn bộ văn bản. Xác định các thành tố logic: Đặt vấn đề (Problem), Luận cứ chứng minh (Arguments/Body), và Giải pháp/Kết luận (Solution/Conclusion).
+2. Đánh giá tính bao quát (Comprehensiveness): Tìm kiếm MỘT câu văn hiển ngôn (Explicit sentence) đóng vai trò là "Tiền đề bao quát" (Overarching Premise) hoặc "Ý tưởng chủ đạo" (Controlling Idea) chi phối toàn bộ các thành tố logic đã xác định ở Bước 1.
+3. Tiêu chí loại trừ học thuật (Exclusion Criteria):
+   - Loại bỏ "Câu dẫn nhập" (Background Statement / Hook): Các câu chỉ cung cấp bối cảnh, thiếu vắng ý tưởng chủ đạo.
+   - Loại bỏ "Câu chủ đề cục bộ" (Topic Sentence / Transitional Statement): Ví dụ câu "Mỗi loại có ưu nhược điểm riêng" chỉ chi phối đoạn Thân bài (Micro-level), nhưng bỏ sót thông điệp định hướng toàn bài (Macro-level).
+   - Loại bỏ "Câu kết luận mở rộng" (Call to action): Nếu nó chứa ý tưởng mới chưa từng được lập luận trong thân bài.
+4. Quyết định cuối cùng: 
+   - Nếu có 1 câu văn đạt chuẩn Tiền đề bao quát: Trích xuất nguyên văn.
+   - NẾU KHÔNG CÓ CÂU NÀO ĐẠT CHUẨN 100%: Hệ thống phải tự tổng hợp (Synthesize) một câu "Luận điểm ngụ ý" (Implied Thesis) bằng tiếng Anh, bao trùm toàn vẹn thông điệp của văn bản. Bắt đầu bằng tiền tố "[Implied Thesis] - ".
 
 {
     "step0_reasoning_scratchpad": {
-        "1_body_analysis": "TIẾNG VIỆT: Thân bài phân tích vấn đề gì?",
-        "2_thesis_evaluation": "TIẾNG VIỆT: Loại trừ câu mồi, câu kết, chọn câu bao quát Thân bài nhất."
+        "1_core_message": "TIẾNG VIỆT: Phân tích các thành tố logic cốt lõi của bài (Vấn đề -> Luận cứ -> Giải pháp).",
+        "2_candidate_filtering": "TIẾNG VIỆT: Đánh giá các câu văn tiềm năng. Áp dụng Tiêu chí loại trừ học thuật để bác bỏ các câu chỉ mang tính cục bộ (Topic Sentences).",
+        "3_final_decision": "TIẾNG VIỆT: Kết luận rút ra Tiền đề bao quát (Trích xuất hiển ngôn hay Tự tổng hợp ngụ ý?)."
     },
     
     "extracted_text": "Trích xuất toàn bộ nội dung chữ tiếng Anh. Thay dấu ngoặc kép thành nháy đơn.",
@@ -152,35 +154,35 @@ Bắt buộc phân loại các cụm từ bị cắt vào đúng 1 trong 6 danh 
         "keywords": ["từ khóa 1", "từ khóa 2"]
     },
     
-    "thesis_actual": "COPY CHÍNH XÁC 1 CÂU TIẾNG ANH TRONG BÀI chứa Luận điểm chính (Kết quả của quá trình Điểm Suy Ngược). Nếu bài viết hoàn toàn không có câu bao quát, ghi '[Implied Thesis] - ' và tự viết 1 câu tiếng Anh.",
+    "thesis_actual": "COPY CHÍNH XÁC CÂU GỐC, HOẶC TỰ VIẾT [Implied Thesis] dựa trên quyết định ở bước 3_final_decision.",
     
     "step1_paragraph_analysis": [
         {
             "para_num": 1,
             "role": "Mở bài / Thân bài / Kết bài",
-            "analysis": "TIẾNG VIỆT: Tác giả đang làm gì ở đoạn này?",
-            "key_sentence": "COPY 1 CÂU QUAN TRỌNG NHẤT của đoạn. Không có thì để rỗng.",
-            "is_thesis": true/false
+            "analysis": "TIẾNG VIỆT: Phân tích vai trò tu từ (Rhetorical function) của đoạn văn này.",
+            "key_sentence": "COPY 1 CÂU CHỦ ĐỀ CỤC BỘ (Topic Sentence) của đoạn. Không có thì để rỗng.",
+            "is_thesis": true/false (Chỉ True nếu thesis_actual là câu hiển ngôn nằm trong đoạn này)
         }
     ],
     
-    "step1_reference_result": "1 câu tiếng Việt diễn giải cốt lõi của toàn bài để học sinh tham khảo.",
+    "step1_reference_result": "1 câu tiếng Việt diễn giải thông điệp cốt lõi của toàn bài để học sinh tham khảo.",
     
     "step2_outline": {
         "raw_points": [
-            {"para": 2, "point": "Ý thô trích từ bài (TUYỆT ĐỐI không chứa ví dụ, số liệu)"}
+            {"para": 2, "point": "Luận cứ thô trích từ bài (LOẠI BỎ tuyệt đối các dẫn chứng minh họa, số liệu)"}
         ],
-        "deep_analysis": "TIẾNG VIỆT: Phân tích CHUYÊN SÂU: Dựa vào logic bài viết, tại sao phải gộp ý này với ý kia? Sự liên kết ngầm giữa chúng là gì?",
-        "refined_points": ["Point 1: [Tiêu đề nhóm] - Nội dung tinh gọn", "Point 2: [Tiêu đề nhóm] - Nội dung tinh gọn"]
+        "deep_analysis": "TIẾNG VIỆT: Phân tích cấu trúc logic: Tại sao phải nhóm các luận cứ này lại với nhau?",
+        "refined_points": ["Point 1: [Tiêu đề nhóm] - Nội dung", "Point 2: [Tiêu đề nhóm] - Nội dung"]
     },
     
-    "details_to_omit_guide": "TIẾNG VIỆT: Hướng dẫn tổng quan về cách nhận diện rác văn bản trong bài này.",
+    "details_to_omit_guide": "TIẾNG VIỆT: Hướng dẫn tổng quan về cách nhận diện thông tin thứ cấp (Secondary details) trong bài.",
     "details_to_omit": [
         {
             "para_num": 1,
-            "phrase": "COPY CHÍNH XÁC Y NGUYÊN 1 CỤM TỪ CẦN BỎ (Để code Python bôi đỏ chính xác)",
-            "type": "Ghi đúng 1 trong 6 tên danh mục bằng Tiếng Việt (Ví dụ: 1. Ví dụ (Examples))",
-            "deep_reason": "TIẾNG VIỆT: Phân tích sắc bén: Tại sao cụm từ này làm loãng bài tóm tắt và vi phạm nguyên tắc 'giữ What, bỏ How'?"
+            "phrase": "COPY CHÍNH XÁC Y NGUYÊN 1 CỤM TỪ THỨ CẤP CẦN LOẠI BỎ",
+            "type": "Phân loại học thuật (Ví dụ: Examples, Statistics, Descriptive Details, Quotations, Anecdotes, Repetitions)",
+            "deep_reason": "TIẾNG VIỆT: Phân tích sắc bén: Tại sao việc giữ lại cụm từ này làm suy yếu tính cô đọng của một bản tóm tắt học thuật?"
         }
     ],
     
