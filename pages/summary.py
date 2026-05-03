@@ -518,17 +518,19 @@ elif st.session_state.app_step == 4:
         with tab_intro:
             st.markdown("#### 🚪 Viết Câu Mở Đầu (Opening Sentence)")
             st.markdown("""
-            👉 **Nhịp 1 (Xác định):** Nhìn vào ô màu Xanh lá cây (Thesis) bên cột trái.
+            👉 **Nhịp 1 (Xác định):** Nhìn vào ô màu Xanh lá cây (Thesis/Main Idea) bên cột trái.
             
-            👉 **Nhịp 2 (Paraphrase):** Áp dụng phương pháp **"Grammar Toolbox"** (Đổi chủ động thành Bị động) HOẶC **"Tell a Friend"** để diễn đạt lại Thesis đó.
+            👉 **Nhịp 2 (Công thức):** Ráp vào ma trận chuẩn học thuật sau:
             
-            👉 **Nhịp 3 (Lắp ráp):** Áp dụng công thức chuẩn:
-            `Tên Tác giả/Bài viết` + `Reporting Verb` + `Thesis (đã paraphrase)`
-            *(Reporting verbs: states, explains, describes, argues, claims...)*
+            | Nguồn tài liệu | Động từ báo cáo (Reporting Verbs) | Thông điệp cốt lõi |
+            | :--- | :--- | :--- |
+            | The article<br>The passage<br>The excerpt<br>The text | **[Thông tin]** discusses, elaborates on, elucidates...<br>**[Tranh luận]** argues, claims, asserts... | + **[Luận điểm / Ý chính đã paraphrase]** |
+            
+            👉 **Nhịp 3 (Viết):** Hãy tự viết 1 câu mở đầu tiếng Anh hoàn chỉnh vào ô dưới đây.
             """, unsafe_allow_html=True)
             
             st.session_state.user_draft_intro = st.text_area("Viết Câu mở đầu hoàn chỉnh của em:", 
-                                                             value=st.session_state.user_draft_intro, height=120, key="intro_box")
+                                                             value=st.session_state.user_draft_intro, height=120, key="intro_box", label_visibility="collapsed")
             
             with st.expander("👀 Cấp cứu: Xem cách Giáo sư Paraphrase Câu Mở Đầu"):
                 st.info(f"💡 **Bản nháp của Giáo sư:** {draft_refs.get('intro_ref', '')}")
