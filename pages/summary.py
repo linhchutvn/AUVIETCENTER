@@ -192,8 +192,8 @@ Bạn là một Giáo sư ngôn ngữ học dạy kỹ năng tóm tắt học th
             "final_sentence": "Viết 1 CÂU MỞ ĐẦU mẫu bằng tiếng Anh (Khoảng 20 - 25 từ)."
         },
         "body": {
-            "step_by_step": "TIẾNG VIỆT: Hướng dẫn thực chiến ĐẶC BIỆT CHI TIẾT. LUẬT THÉP: Phải bao quát ĐẦY ĐỦ 100% các ý tinh gọn đã lập ở Step 2, KHÔNG ĐƯỢC BỎ SÓT bất kỳ chiến lược nào và hãy biểu diễn cách dùng phương pháp CHUNKING (Cắt khúc và thay từ đồng nghĩa). Chỉ ra cụ thể từ nối (First, Additionally...) được dùng để ghép chúng lại như thế nào. Yêu cầu: Phải bao quát ĐẦY ĐỦ các ý tinh gọn đã lập ở Step 2, không được bỏ sót ý nào để đảm bảo độ dài.",
-            "final_sentence": "Viết ĐOẠN THÂN BÀI mẫu bằng tiếng Anh (Khoảng 60 - 75 từ. Hãy dùng các cấu trúc câu phức để nối ý, đảm bảo độ dài và sự chi tiết)."
+            "step_by_step": "TIẾNG VIỆT: Hướng dẫn thực chiến ĐẶC BIỆT CHI TIẾT. LUẬT THÉP: Phải bao quát ĐẦY ĐỦ 100% các ý tinh gọn đã lập ở Step 2, KHÔNG ĐƯỢC BỎ SÓT bất kỳ chiến lược nào. YÊU CẦU TỐI THƯỢNG: Phải đối chiếu lại với danh sách 'refined_points' ở trên. Hãy biểu diễn cách dùng phương pháp CHUNKING (Cắt khúc và thay từ đồng nghĩa). Chỉ ra cụ thể từ nối (First, Additionally...) được dùng để ghép chúng lại như thế nào.",
+            "final_sentence": "Viết ĐOẠN THÂN BÀI mẫu bằng tiếng Anh (Khoảng 65 - 80 từ. Hãy dùng các cấu trúc câu phức để nối ý, đảm bảo độ dài và sự chi tiết). LƯU Ý: Để đảm bảo giới hạn từ mà không bị thiếu ý, hãy dùng từ vựng bao quát (Umbrella terms) để nén thông tin."
         },
         "concl": {
             "step_by_step": "TIẾNG VIỆT: Hướng dẫn thực chiến. Chỉ ra cách dùng phương pháp Tell a Friend để tóm gọn lại thông điệp cuối mà không lặp từ với mở bài. Chọn từ nối kết luận.
