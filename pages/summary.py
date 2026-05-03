@@ -187,9 +187,18 @@ Bạn là một Giáo sư ngôn ngữ học dạy kỹ năng tóm tắt học th
     ],
     
     "step3_drafting_reference": {
-        "intro_ref": "Viết 1 CÂU MỞ ĐẦU mẫu bằng tiếng Anh.",
-        "body_ref": "Viết ĐOẠN THÂN BÀI mẫu bằng tiếng Anh.",
-        "concl_ref": "Viết 1 CÂU KẾT LUẬN mẫu bằng tiếng Anh."
+        "intro": {
+            "step_by_step": "TIẾNG VIỆT: Hướng dẫn thực chiến. Dựa vào Thesis của bài này, hãy chỉ ra cách đổi cấu trúc ngữ pháp (Từ loại, Chủ-Bị động...) và chọn 1 Reporting verb phù hợp để viết câu mở đầu.",
+            "final_sentence": "Viết 1 CÂU MỞ ĐẦU mẫu bằng tiếng Anh."
+        },
+        "body": {
+            "step_by_step": "TIẾNG VIỆT: Hướng dẫn thực chiến ĐẶC BIỆT CHI TIẾT. Dựa vào các Ý tinh gọn ở step 2, hãy biểu diễn cách dùng phương pháp CHUNKING (Cắt khúc và thay từ đồng nghĩa). Chỉ ra cụ thể từ nối (First, Additionally...) được dùng để ghép chúng lại như thế nào.",
+            "final_sentence": "Viết ĐOẠN THÂN BÀI mẫu bằng tiếng Anh."
+        },
+        "concl": {
+            "step_by_step": "TIẾNG VIỆT: Hướng dẫn thực chiến. Chỉ ra cách dùng phương pháp Tell a Friend để tóm gọn lại thông điệp cuối mà không lặp từ với mở bài. Chọn từ nối kết luận.",
+            "final_sentence": "Viết 1 CÂU KẾT LUẬN mẫu bằng tiếng Anh."
+        }
     }
 }
 Dữ liệu đầu vào:
@@ -521,19 +530,18 @@ elif st.session_state.app_step == 4:
             👉 **Nhịp 1 (Xác định):** Nhìn vào ô màu Xanh lá cây (Thesis/Main Idea) bên cột trái.
             
             👉 **Nhịp 2 (Công thức):** Ráp vào ma trận chuẩn học thuật sau:
-            
             | Nguồn tài liệu | Động từ báo cáo (Reporting Verbs) | Thông điệp cốt lõi |
             | :--- | :--- | :--- |
-            | The article<br>The passage<br>The excerpt<br>The text | **[Thông tin]** discusses, elaborates on, elucidates...<br>**[Tranh luận]** argues, claims, asserts... | + **[Luận điểm / Ý chính đã paraphrase]** |
-            
-            👉 **Nhịp 3 (Viết):** Hãy tự viết 1 câu mở đầu tiếng Anh hoàn chỉnh vào ô dưới đây.
+            | The article / text | **[Thông tin]** discusses, elaborates on...<br>**[Tranh luận]** argues, claims, asserts... | + **[Thesis đã paraphrase]** |
             """, unsafe_allow_html=True)
             
-            st.session_state.user_draft_intro = st.text_area("Viết Câu mở đầu hoàn chỉnh của em:", 
-                                                             value=st.session_state.user_draft_intro, height=120, key="intro_box", label_visibility="collapsed")
+            st.session_state.user_draft_intro = st.text_area("👉 Nhịp 3: Viết Câu mở đầu hoàn chỉnh của em:", 
+                                                             value=st.session_state.user_draft_intro, height=120, key="intro_box")
             
-            with st.expander("👀 Cấp cứu: Xem cách Giáo sư Paraphrase Câu Mở Đầu"):
-                st.info(f"💡 **Bản nháp của Giáo sư:** {draft_refs.get('intro_ref', '')}")
+            with st.expander("👀 Bí quá? Vào Lớp học Thực chiến của Giáo sư"):
+                intro_data = draft_refs.get('intro', {})
+                st.markdown(f"**🛠️ Phân tích từng bước:**<br><span style='color:#475569;'>{intro_data.get('step_by_step', '')}</span>", unsafe_allow_html=True)
+                st.info(f"💡 **Câu hoàn chỉnh:** {intro_data.get('final_sentence', '')}")
             
         # --- TAB 2: THÂN BÀI ---
         with tab_body:
@@ -541,19 +549,18 @@ elif st.session_state.app_step == 4:
             st.markdown("""
             👉 **Nhịp 1 (Xác định):** Nhìn vào ô màu Xanh dương (Các ý hỗ trợ) bên cột trái.
             
-            👉 **Nhịp 2 (Paraphrase):** Vì các ý này thường dài, hãy dùng phương pháp **"Phân đoạn (Chunking)"**: Cắt nhỏ từng ý ra, thay từ đồng nghĩa rồi đảo vị trí của chúng.
-            
-            👉 **Nhịp 3 (Lắp ráp):** Ghép các câu lại với nhau bằng **Từ nối (Transitions)** để tạo dòng chảy mượt mà:
-            - *Bắt đầu:* First, To begin with...
-            - *Tiếp theo:* Additionally, Furthermore, Moreover...
-            - *Kết quả/Tương phản:* Consequently, As a result, However...
+            👉 **Nhịp 2 (Kỹ thuật Chunking & Transition):** 
+            - Cắt nhỏ từng ý ra, thay từ đồng nghĩa (Synonyms) hoặc đổi Từ loại (Danh từ ↔ Động từ).
+            - Dùng **Từ nối**: <span class='transition-word'>First, Additionally, Furthermore, However, Consequently...</span> để khâu chúng lại.
             """, unsafe_allow_html=True)
             
-            st.session_state.user_draft_body = st.text_area("Viết đoạn Thân bài hoàn chỉnh của em:", 
+            st.session_state.user_draft_body = st.text_area("👉 Nhịp 3: Viết đoạn Thân bài hoàn chỉnh của em:", 
                                                             value=st.session_state.user_draft_body, height=200, key="body_box")
             
-            with st.expander("👀 Cấp cứu: Xem cách Giáo sư Paraphrase Thân Bài"):
-                st.info(f"💡 **Bản nháp của Giáo sư:** {draft_refs.get('body_ref', '')}")
+            with st.expander("👀 Bí quá? Vào Lớp học Thực chiến của Giáo sư"):
+                body_data = draft_refs.get('body', {})
+                st.markdown(f"**🛠️ Phân tích từng bước (Cực kỳ quan trọng):**<br><span style='color:#475569;'>{body_data.get('step_by_step', '')}</span>", unsafe_allow_html=True)
+                st.info(f"💡 **Đoạn hoàn chỉnh:** {body_data.get('final_sentence', '')}")
             
         # --- TAB 3: CÂU KẾT LUẬN ---
         with tab_concl:
@@ -561,16 +568,17 @@ elif st.session_state.app_step == 4:
             st.markdown("""
             👉 **Nhịp 1 (Xác định):** Tìm thông điệp cốt lõi hoặc mục đích cuối cùng của tác giả.
             
-            👉 **Nhịp 2 (Paraphrase):** Dùng phương pháp **"Tell a Friend"** (Nói một cách ngắn gọn, mộc mạc nhất có thể). Tránh lặp lại từ vựng đã dùng ở Câu Mở Đầu.
-            
-            👉 **Nhịp 3 (Lắp ráp):** Bắt đầu bằng từ nối kết luận: <span class='transition-word'>Ultimately, In conclusion, To sum up,...</span>
+            👉 **Nhịp 2 (Kỹ thuật Tell a friend):** Dùng văn phong mộc mạc của em để tóm gọn lại thông điệp cuối mà không lặp từ với Câu Mở Đầu.
+            - *Từ nối:* <span class='transition-word'>Ultimately, In conclusion, To sum up,...</span>
             """, unsafe_allow_html=True)
             
-            st.session_state.user_draft_concl = st.text_area("Viết Câu kết luận hoàn chỉnh của em:", 
+            st.session_state.user_draft_concl = st.text_area("👉 Nhịp 3: Viết Câu kết luận hoàn chỉnh của em:", 
                                                              value=st.session_state.user_draft_concl, height=100, key="concl_box")
 
-            with st.expander("👀 Cấp cứu: Xem cách Giáo sư Paraphrase Câu Kết"):
-                st.info(f"💡 **Bản nháp của Giáo sư:** {draft_refs.get('concl_ref', '')}")
+            with st.expander("👀 Bí quá? Vào Lớp học Thực chiến của Giáo sư"):
+                concl_data = draft_refs.get('concl', {})
+                st.markdown(f"**🛠️ Phân tích từng bước:**<br><span style='color:#475569;'>{concl_data.get('step_by_step', '')}</span>", unsafe_allow_html=True)
+                st.info(f"💡 **Câu hoàn chỉnh:** {concl_data.get('final_sentence', '')}")
 
         # --- TAB 4: LẮP RÁP & NỘP BÀI ---
         with tab_final:
