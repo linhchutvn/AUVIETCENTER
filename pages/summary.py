@@ -192,7 +192,7 @@ Bạn là một Giáo sư ngôn ngữ học dạy kỹ năng tóm tắt học th
             "final_sentence": "Viết 1 CÂU MỞ ĐẦU mẫu bằng tiếng Anh (Khoảng 20 - 25 từ)."
         },
         "body": {
-            "step_by_step": "TIẾNG VIỆT: Hướng dẫn thực chiến ĐẶC BIỆT CHI TIẾT. Dựa vào các Ý tinh gọn ở step 2, hãy biểu diễn cách dùng phương pháp CHUNKING (Cắt khúc và thay từ đồng nghĩa). Chỉ ra cụ thể từ nối (First, Additionally...) được dùng để ghép chúng lại như thế nào. Yêu cầu: Phải bao quát ĐẦY ĐỦ các ý tinh gọn đã lập ở Step 2, không được bỏ sót ý nào để đảm bảo độ dài.",
+            "step_by_step": "TIẾNG VIỆT: Hướng dẫn thực chiến ĐẶC BIỆT CHI TIẾT. LUẬT THÉP: Phải bao quát ĐẦY ĐỦ 100% các ý tinh gọn đã lập ở Step 2, KHÔNG ĐƯỢC BỎ SÓT bất kỳ chiến lược nào và hãy biểu diễn cách dùng phương pháp CHUNKING (Cắt khúc và thay từ đồng nghĩa). Chỉ ra cụ thể từ nối (First, Additionally...) được dùng để ghép chúng lại như thế nào. Yêu cầu: Phải bao quát ĐẦY ĐỦ các ý tinh gọn đã lập ở Step 2, không được bỏ sót ý nào để đảm bảo độ dài.",
             "final_sentence": "Viết ĐOẠN THÂN BÀI mẫu bằng tiếng Anh (Khoảng 60 - 75 từ. Hãy dùng các cấu trúc câu phức để nối ý, đảm bảo độ dài và sự chi tiết)."
         },
         "concl": {
