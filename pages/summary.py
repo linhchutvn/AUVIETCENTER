@@ -189,15 +189,15 @@ Bạn là một Giáo sư ngôn ngữ học dạy kỹ năng tóm tắt học th
     "step3_drafting_reference": {
         "intro": {
             "step_by_step": "TIẾNG VIỆT: Hướng dẫn thực chiến. Dựa vào Thesis của bài này, hãy chỉ ra cách đổi cấu trúc ngữ pháp (Từ loại, Chủ-Bị động...) và chọn 1 Reporting verb phù hợp để viết câu mở đầu.",
-            "final_sentence": "Viết 1 CÂU MỞ ĐẦU mẫu bằng tiếng Anh (Tối đa 25 từ)."
+            "final_sentence": "Viết 1 CÂU MỞ ĐẦU mẫu bằng tiếng Anh (Khoảng 20 - 25 từ)."
         },
         "body": {
-            "step_by_step": "TIẾNG VIỆT: Hướng dẫn thực chiến ĐẶC BIỆT CHI TIẾT. Dựa vào các Ý tinh gọn ở step 2, hãy biểu diễn cách dùng phương pháp CHUNKING (Cắt khúc và thay từ đồng nghĩa). Chỉ ra cụ thể từ nối (First, Additionally...) được dùng để ghép chúng lại như thế nào.",
-            "final_sentence": "Viết ĐOẠN THÂN BÀI mẫu bằng tiếng Anh (Tối đa 60 từ."
+            "step_by_step": "TIẾNG VIỆT: Hướng dẫn thực chiến ĐẶC BIỆT CHI TIẾT. Dựa vào các Ý tinh gọn ở step 2, hãy biểu diễn cách dùng phương pháp CHUNKING (Cắt khúc và thay từ đồng nghĩa). Chỉ ra cụ thể từ nối (First, Additionally...) được dùng để ghép chúng lại như thế nào. Yêu cầu: Phải bao quát ĐẦY ĐỦ các ý tinh gọn đã lập ở Step 2, không được bỏ sót ý nào để đảm bảo độ dài.",
+            "final_sentence": "Viết ĐOẠN THÂN BÀI mẫu bằng tiếng Anh (Khoảng 60 - 75 từ. Hãy dùng các cấu trúc câu phức để nối ý, đảm bảo độ dài và sự chi tiết)."
         },
         "concl": {
-            "step_by_step": "TIẾNG VIỆT: Hướng dẫn thực chiến. Chỉ ra cách dùng phương pháp Tell a Friend để tóm gọn lại thông điệp cuối mà không lặp từ với mở bài. Chọn từ nối kết luận. LƯU Ý: Nếu Intro và Body đã gom đủ 100 từ và đủ ý, hãy khuyên học sinh BỎ QUA câu kết luận để tránh lặp ý.",
-            "final_sentence": "Viết 1 CÂU KẾT LUẬN mẫu bằng tiếng Anh (Tối đa 20 từ. Nếu không cần thiết, hãy ghi 'Not necessary for this short summary')."
+            "step_by_step": "TIẾNG VIỆT: Hướng dẫn thực chiến. Chỉ ra cách dùng phương pháp Tell a Friend để tóm gọn lại thông điệp cuối mà không lặp từ với mở bài. Chọn từ nối kết luận.
+            "final_sentence": "Viết 1 CÂU KẾT LUẬN mẫu (Khoảng 15 - 20 từ. Bắt đầu bằng từ nối như Ultimately, Therefore...).
         }
     }
 }
