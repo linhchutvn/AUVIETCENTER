@@ -188,16 +188,40 @@ Bạn là một Giáo sư ngôn ngữ học dạy kỹ năng tóm tắt học th
     
     "step3_drafting_reference": {
         "intro": {
-            "step_by_step": "TIẾNG VIỆT: Hướng dẫn thực chiến. Dựa vào Thesis của bài này, hãy chỉ ra cách đổi cấu trúc ngữ pháp (Từ loại, Chủ-Bị động...) và chọn 1 Reporting verb phù hợp để viết câu mở đầu.",
-            "final_sentence": "Viết 1 CÂU MỞ ĐẦU mẫu bằng tiếng Anh (Khoảng 20 - 25 từ)."
+            "original_text": "COPY lại câu Thesis gốc.",
+            "transformations": [
+                {
+                    "method": "TIẾNG VIỆT: Tên phương pháp (VD: Chọn Reporting Verb / Grammar Toolbox - Đổi từ loại / Synonyms)",
+                    "original_part": "Cụm từ gốc (hoặc 'Không có')",
+                    "new_part": "Cụm từ mới",
+                    "explanation": "TIẾNG VIỆT: Tại sao lại biến đổi như vậy? (VD: Đổi 'prioritize' thành danh từ 'prioritization' để cấu trúc câu khách quan hơn)."
+                }
+            ],
+            "final_sentence": "Viết 1 CÂU MỞ ĐẦU mẫu (Khoảng 20-25 từ)."
         },
         "body": {
-            "step_by_step": "TIẾNG VIỆT: Hướng dẫn thực chiến ĐẶC BIỆT CHI TIẾT. LUẬT THÉP: Phải bao quát ĐẦY ĐỦ 100% các ý tinh gọn đã lập ở Step 2, KHÔNG ĐƯỢC BỎ SÓT bất kỳ chiến lược nào. YÊU CẦU TỐI THƯỢNG: Phải đối chiếu lại với danh sách 'refined_points' ở trên. Hãy biểu diễn cách dùng phương pháp CHUNKING (Cắt khúc và thay từ đồng nghĩa). Chỉ ra cụ thể từ nối (First, Additionally...) được dùng để ghép chúng lại như thế nào.",
-            "final_sentence": "Viết ĐOẠN THÂN BÀI mẫu bằng tiếng Anh (Khoảng 65 - 80 từ. Hãy dùng các cấu trúc câu phức để nối ý, đảm bảo độ dài và sự chi tiết). LƯU Ý: Để đảm bảo giới hạn từ mà không bị thiếu ý, hãy dùng từ vựng bao quát (Umbrella terms) để nén thông tin."
+            "original_text": "Các ý tinh gọn từ Dàn ý (Outline).",
+            "transformations": [
+                {
+                    "method": "TIẾNG VIỆT: Tên phương pháp (VD: Chunking - Gộp ý / Transition Words - Từ nối / Synonyms)",
+                    "original_part": "Ý thô / Cụm gốc",
+                    "new_part": "Cách diễn đạt mới trong đoạn",
+                    "explanation": "TIẾNG VIỆT: Giải thích chi tiết cách dùng từ nối (Furthermore, Additionally...) hoặc cách dùng Umbrella terms để nén ý."
+                }
+            ],
+            "final_sentence": "Viết ĐOẠN THÂN BÀI mẫu (Khoảng 65-80 từ. ĐẢM BẢO ĐỦ 100% CÁC Ý TỪ DÀN Ý, dùng câu phức để nén)."
         },
         "concl": {
-            "step_by_step": "TIẾNG VIỆT: Hướng dẫn thực chiến. Chỉ ra cách dùng phương pháp Tell a Friend để tóm gọn lại thông điệp cuối mà không lặp từ với mở bài. Chọn từ nối kết luận.
-            "final_sentence": "Viết 1 CÂU KẾT LUẬN mẫu (Khoảng 15 - 20 từ. Bắt đầu bằng từ nối như Ultimately, Therefore...).
+            "original_text": "Thông điệp cốt lõi cần chốt lại.",
+            "transformations": [
+                {
+                    "method": "TIẾNG VIỆT: Tên phương pháp (VD: Tell a Friend / Transition Words)",
+                    "original_part": "Cụm gốc",
+                    "new_part": "Cụm mới",
+                    "explanation": "TIẾNG VIỆT: Giải thích cách chốt ý gọn gàng, tránh lặp lại từ vựng của Mở bài."
+                }
+            ],
+            "final_sentence": "Viết 1 CÂU KẾT LUẬN mẫu (Khoảng 15-20 từ)."
         }
     }
 }
@@ -523,6 +547,17 @@ elif st.session_state.app_step == 4:
         
         draft_refs = data.get('step3_drafting_reference', {})
         
+        # Hàm hỗ trợ in ra các bước biến đổi chi tiết
+        def render_transformations(section_data):
+            st.markdown(f"**📝 Văn bản gốc:** *{section_data.get('original_text', '')}*")
+            st.markdown("**🛠️ Phân tích từng bước Paraphrase:**")
+            for t in section_data.get('transformations', []):
+                st.markdown(f"""
+                - 🎯 **{t.get('method', '')}**: 
+                  <span style='color: #EF4444; text-decoration: line-through;'>{t.get('original_part', '')}</span> ➔ **<span style='color: #10B981;'>{t.get('new_part', '')}</span>**
+                  <br><i style='color: #64748B; font-size: 0.9em;'>👉 Giải thích: {t.get('explanation', '')}</i>
+                """, unsafe_allow_html=True)
+
         # --- TAB 1: CÂU MỞ ĐẦU ---
         with tab_intro:
             st.markdown("#### 🚪 Viết Câu Mở Đầu (Opening Sentence)")
@@ -540,7 +575,7 @@ elif st.session_state.app_step == 4:
             
             with st.expander("👀 Bí quá? Vào Lớp học Thực chiến của Giáo sư"):
                 intro_data = draft_refs.get('intro', {})
-                st.markdown(f"**🛠️ Phân tích từng bước:**<br><span style='color:#475569;'>{intro_data.get('step_by_step', '')}</span>", unsafe_allow_html=True)
+                render_transformations(intro_data)
                 st.info(f"💡 **Câu hoàn chỉnh:** {intro_data.get('final_sentence', '')}")
             
         # --- TAB 2: THÂN BÀI ---
@@ -559,7 +594,7 @@ elif st.session_state.app_step == 4:
             
             with st.expander("👀 Bí quá? Vào Lớp học Thực chiến của Giáo sư"):
                 body_data = draft_refs.get('body', {})
-                st.markdown(f"**🛠️ Phân tích từng bước (Cực kỳ quan trọng):**<br><span style='color:#475569;'>{body_data.get('step_by_step', '')}</span>", unsafe_allow_html=True)
+                render_transformations(body_data)
                 st.info(f"💡 **Đoạn hoàn chỉnh:** {body_data.get('final_sentence', '')}")
             
         # --- TAB 3: CÂU KẾT LUẬN ---
@@ -577,7 +612,7 @@ elif st.session_state.app_step == 4:
 
             with st.expander("👀 Bí quá? Vào Lớp học Thực chiến của Giáo sư"):
                 concl_data = draft_refs.get('concl', {})
-                st.markdown(f"**🛠️ Phân tích từng bước:**<br><span style='color:#475569;'>{concl_data.get('step_by_step', '')}</span>", unsafe_allow_html=True)
+                render_transformations(concl_data)
                 st.info(f"💡 **Câu hoàn chỉnh:** {concl_data.get('final_sentence', '')}")
 
         # --- TAB 4: LẮP RÁP & NỘP BÀI ---
