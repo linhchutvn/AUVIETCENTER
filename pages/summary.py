@@ -197,7 +197,7 @@ Bạn là một Giáo sư ngôn ngữ học dạy kỹ năng tóm tắt học th
                     "explanation": "TIẾNG VIỆT: Tại sao lại biến đổi như vậy? (VD: Đổi 'prioritize' thành danh từ 'prioritization' để cấu trúc câu khách quan hơn)."
                 }
             ],
-            "final_sentence": "Viết 1 CÂU MỞ ĐẦU mẫu (Khoảng 20-25 từ)."
+            "final_sentence": "Viết 1 CÂU MỞ ĐẦU mẫu (Khoảng 20-25 từ). LƯU Ý TỐI QUAN TRỌNG: Câu này BẮT BUỘC PHẢI BẮT ĐẦU bằng công thức 'The article/text + [Reporting verb] + that...'. Tuyệt đối không được viết câu khẳng định trực tiếp bỏ qua nguồn tài liệu."
         },
         "body": {
             "original_text": "Các ý tinh gọn từ Dàn ý (Outline).",
