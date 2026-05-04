@@ -51,9 +51,21 @@ except Exception:
 
 def clean_json(text):
     if not text: return None
-    text = str(text).replace("```json\n", "").replace("```json", "").replace("```", "").strip()
-    match = re.search(r"(\{[\s\S]*\})", text)
-    return match.group(1).strip() if match else text
+    # Xóa các thẻ markdown code block thường bị AI chèn thừa
+    text = re.sub(r'```json\n?', '', text)
+    text = re.sub(r'```\n?', '', text)
+    text = text.strip()
+    
+    # Tìm kiếm khối JSON bao ngoài cùng (Dùng re.DOTALL để quét qua nhiều dòng)
+    match = re.search(r'(\{.*\})', text, re.DOTALL)
+    if match:
+        json_str = match.group(1)
+        # Sửa lỗi phổ biến: AI dùng ngoặc kép không thoát (unescaped quotes) bên trong chuỗi
+        # (Đây là thao tác dọn rác cơ bản giúp hàm json.loads() không bị 'chết nghẹn')
+        json_str = json_str.replace(" \n", "\\n").replace("\r", "")
+        return json_str
+    
+    return text
 
 def generate_content_with_failover(prompt, image=None, json_mode=False):
     keys_to_try = list(ALL_KEYS)
