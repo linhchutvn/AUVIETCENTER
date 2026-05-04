@@ -316,7 +316,7 @@ def render_annotated_sidebar(original_text, omit_data=None):
 # 5. GIAO DIỆN CÁC BƯỚC
 # ==========================================
 st.markdown('<div class="main-header">📝 Summary Master Pro</div>', unsafe_allow_html=True)
-st.markdown('<div class="sub-header">Luyện tập kỹ năng Viết Tóm tắt theo Quy trình 4 Bước chuẩn Học thuật (Tích hợp AI)</div>', unsafe_allow_html=True)
+st.markdown('<div class="sub-header">Luyện tập kỹ năng Viết Tóm tắt theo Quy trình 4 Bước chuẩn Học thuật </div>', unsafe_allow_html=True)
 
 # ---------------------------------------------------------
 # APP STEP 1: NHẬP ĐỀ BÀI
@@ -698,7 +698,7 @@ elif st.session_state.app_step == 5:
             st.caption(f"Độ dài bài viết: **{final_wc} words**")
     
     with col_detail:
-        tab1, tab2, tab3 = st.tabs(["📊 Bảng điểm (Rubric)", "💡 Đối chiếu & Nâng cấp (B1-B2)", "🔄 Rà soát lỗi"])
+        tab1, tab2, tab3 = st.tabs(["📊 Bảng điểm (Rubric)", "💡 Đối chiếu & Nâng cấp", "🔄 Rà soát lỗi"])
         
         with tab1:
             st.markdown(f"""
