@@ -402,7 +402,7 @@ if st.session_state.app_step == 1:
         if not input_text.strip() and not img_data:
             st.warning("⚠️ Vui lòng tải hình ảnh HOẶC dán văn bản để bắt đầu.")
         else:
-            with st.spinner("Giáo sư AI đang đọc tài liệu và thiết kế giáo án riêng cho bạn..."):
+            with st.spinner("Giáo sư đang đọc tài liệu và thiết kế giáo án riêng cho bạn..."):
                 final_prompt = ANALYSIS_PROMPT + (f"\n\nText từ người dùng:\n{input_text}" if input_text else "")
                 res = generate_content_with_failover(final_prompt, image=img_data, json_mode=True)
                 
@@ -704,7 +704,7 @@ elif st.session_state.app_step == 4:
             else:
                 current_draft = st.session_state.user_draft
                 
-            st.info("Hệ thống đã tự động ghép 3 phần em vừa viết. Hãy đọc lại một mạch, cắt bỏ các từ lặp lại, sửa dấu câu cho mượt mà trước khi nộp cho Giáo sư AI.")
+            st.info("Hệ thống đã tự động ghép 3 phần em vừa viết. Hãy đọc lại một mạch, cắt bỏ các từ lặp lại, sửa dấu câu cho mượt mà trước khi nộp.")
             
             draft_input = st.text_area("Bản Tóm Tắt Hoàn Chỉnh của bạn:", value=current_draft, height=250)
             
