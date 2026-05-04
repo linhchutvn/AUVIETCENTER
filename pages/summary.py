@@ -246,27 +246,34 @@ Hệ thống chấm điểm tổng là 1.0 ĐIỂM, được chia thành 3 tiêu
 2. Own wording (0.4 pt): Học sinh có dùng từ ngữ của riêng mình (paraphrase) không? Nếu copy y nguyên cả câu từ bài gốc -> 0 điểm phần này. Nếu có đổi cấu trúc, đổi từ vựng -> 0.4 điểm.
 3. Word limit (0.2 pt): Yêu cầu là "khoảng 100 - 120 từ". HỆ THỐNG ĐÃ ĐẾM CHÍNH XÁC BÀI NÀY CÓ {{WORD_COUNT}} TỪ. Đừng tự đếm lại. Nếu số từ {{WORD_COUNT}} nằm trong biên độ 90 đến 130 từ, hãy cho trọn vẹn 0.2 pt.
 
-YÊU CẦU ĐẶC BIỆT VỀ "BẢN NÂNG CẤP" & "ĐỐI CHIẾU":
-1. Mục "model_summary" KHÔNG ĐƯỢC viết mới hoàn toàn. Nó phải là phiên bản ĐÃ ĐƯỢC SỬA LỖI VÀ NÂNG CẤP TỪ CHÍNH BÀI VIẾT CỦA HỌC SINH. Hãy giữ lại tối đa cấu trúc và ý tưởng của học sinh, chỉ thay thế/thêm bớt những chỗ chưa tốt.
-2. Ở phần "detailed_comparison", bạn BẮT BUỘC phải nhặt ra 2-4 chỗ trong bài của học sinh mà bạn vừa sửa/nâng cấp ở phần "model_summary" để giải thích cho học sinh hiểu.
-Lưu ý: Chỉ đề xuất từ vựng ở mức độ TRUNG BÌNH KHÁ (B1, B2). Không dùng từ quá học thuật (C1, C2).
+⚠️ YÊU CẦU TỐI QUAN TRỌNG VỀ "BẢN HOÀN THIỆN" & "ĐỐI CHIẾU":
+- NẾU HỌC SINH ĐẠT 1.0/1.0 ĐIỂM: Hãy giữ NGUYÊN VĂN bài của học sinh làm "model_summary". Trong phần "detailed_comparison", chỉ cần viết 1 mục khen ngợi (action: "KHEN NGỢI"), giải thích tại sao bài viết này xuất sắc.
+- NẾU HỌC SINH MẮC LỖI (Thiếu ý/Sai độ dài/Copy): "model_summary" PHẢI LÀ BẢN SỬA LỖI TỪ CHÍNH BÀI CỦA HỌC SINH. Giữ lại những câu học sinh viết tốt. Chỉ sửa/thêm đúng những phần bị thiếu ý hoặc lặp từ.
+- Ở phần "detailed_comparison", nhặt ra 2-4 chỗ bạn vừa sửa. NẾU thiếu ý, ghi rõ action là "BỔ SUNG Ý".
 
 Trả về BẮT BUỘC định dạng JSON sau:
 {
     "total_score": "0.8/1.0",
     "score_ideas": "0.3/0.4",
-    "feedback_ideas": "Nhận xét chi tiết về việc chọn lọc ý chính...",
+    "feedback_ideas": "Nhận xét chi tiết: Bài thiếu ý gì? Hoặc đã đủ ý ra sao?",
     "score_wording": "0.3/0.4",
-    "feedback_wording": "Nhận xét chi tiết về kỹ năng paraphrase...",
+    "feedback_wording": "Nhận xét về paraphrase...",
     "score_word_limit": "0.2/0.2",
-    "feedback_word_limit": "Hãy viết nhận xét về độ dài. BẮT BUỘC phải trích dẫn lại đúng con số {{WORD_COUNT}} từ mà hệ thống đã cung cấp. Ví dụ: 'Số lượng từ là {{WORD_COUNT}} từ, nằm trong khoảng cho phép...' ",
-    "model_summary": "PHIÊN BẢN NÂNG CẤP: Viết lại dựa trên chính bài của học sinh, áp dụng các từ ngữ nâng cấp bên dưới. Đảm bảo 100 - 120 từ.",
+    "feedback_word_limit": "Số lượng từ là {{WORD_COUNT}} từ, nằm trong/ngoài khoảng cho phép...",
+    "model_summary": "Giữ nguyên bài HS (nếu 1.0) HOẶC Viết lại bài HS có sửa lỗi/bổ sung ý (nếu < 1.0).",
     "detailed_comparison": [
         {
-            "action": "NÂNG CẤP (hoặc THÊM, SỬA)",
-            "student_text": "Trích đoạn của học sinh",
-            "suggested_text": "Đoạn đề xuất tốt hơn (B1-B2) - Giống y hệt đoạn đã dùng trong model_summary",
-            "explanation": "Lý do vì sao đề xuất này tốt hơn."
+            "action": "BỔ SUNG Ý / NÂNG CẤP / KHEN NGỢI",
+            "student_text": "Đoạn của học sinh (hoặc 'Không có' nếu là Bổ sung ý mới)",
+            "suggested_text": "Đoạn đề xuất tốt hơn / Đoạn ý bị thiếu cần thêm vào",
+            "explanation": "Lý do sửa / Lý do khen."
+        }
+    ],
+    "grammar_spelling_errors": [
+        {
+            "error": "Từ/Cụm từ sai chính tả hoặc ngữ pháp",
+            "correction": "Cách sửa đúng",
+            "reason": "Giải thích lỗi ngữ pháp"
         }
     ]
 }
@@ -685,20 +692,8 @@ elif st.session_state.app_step == 5:
     
     col_score, col_detail = st.columns([3, 7], gap="medium")
     
-    with col_score:
-        st.markdown(f"""
-        <div style="background: #ECFDF5; border: 2px solid #10B981; border-radius: 12px; padding: 20px; text-align: center; margin-bottom: 20px;">
-            <h3 style="color: #047857; margin-bottom: 0;">TỔNG ĐIỂM</h3>
-            <h1 style="color: #059669; font-size: 3.5rem; margin-top: 0;">{res.get('total_score', 'N/A')}</h1>
-        </div>
-        """, unsafe_allow_html=True)
-        
-        with st.expander("✍️ Bản tóm tắt của bạn", expanded=True): 
-            st.write(st.session_state.user_draft)
-            st.caption(f"Độ dài bài viết: **{final_wc} words**")
-    
     with col_detail:
-        tab1, tab2, tab3 = st.tabs(["📊 Bảng điểm (Rubric)", "💡 Đối chiếu & Nâng cấp", "🔄 Rà soát lỗi"])
+        tab1, tab2, tab3 = st.tabs(["📊 Bảng điểm (Rubric)", "💡 Phiên bản Hoàn thiện", "🔄 Rà soát Ngữ pháp & Chính tả"])
         
         with tab1:
             st.markdown(f"""
@@ -707,17 +702,13 @@ elif st.session_state.app_step == 5:
                 <p style="font-size: 1.2rem; font-weight: bold; color: #2563EB;">Điểm đạt: {res.get('score_ideas', '0.0/0.4')}</p>
                 <p style="margin-bottom: 0; color: #334155;"><b>Nhận xét:</b> {res.get('feedback_ideas', '')}</p>
             </div>
-            """, unsafe_allow_html=True)
-
-            st.markdown(f"""
+            
             <div style="background-color: white; border-left: 4px solid #F59E0B; padding: 15px; margin-bottom: 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
                 <h4 style="margin-top: 0; color: #B45309;">2. Own Wording / No Copying (Max: 0.4 pt)</h4>
                 <p style="font-size: 1.2rem; font-weight: bold; color: #D97706;">Điểm đạt: {res.get('score_wording', '0.0/0.4')}</p>
                 <p style="margin-bottom: 0; color: #334155;"><b>Nhận xét:</b> {res.get('feedback_wording', '')}</p>
             </div>
-            """, unsafe_allow_html=True)
-
-            st.markdown(f"""
+            
             <div style="background-color: white; border-left: 4px solid #10B981; padding: 15px; margin-bottom: 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
                 <h4 style="margin-top: 0; color: #065F46;">3. Word Limit (~100 - 120 words) (Max: 0.2 pt)</h4>
                 <p style="font-size: 1.2rem; font-weight: bold; color: #059669;">Điểm đạt: {res.get('score_word_limit', '0.0/0.2')}</p>
@@ -727,10 +718,18 @@ elif st.session_state.app_step == 5:
             """, unsafe_allow_html=True)
 
         with tab2:
-            st.markdown("##### 1. Phiên bản Hoàn thiện (Giáo sư sửa từ bài của em)")
+            is_perfect = "1.0/1.0" in res.get('total_score', '')
+            
+            if is_perfect:
+                st.markdown("##### 🏆 Chúc mừng! Bài viết của em đã đạt mức hoàn hảo!")
+                st.info("Giáo sư không cần phải sửa đổi bất kỳ cấu trúc nào trong bài viết của em. Dưới đây là bài viết gốc của em:")
+            else:
+                st.markdown("##### 1. Phiên bản Hoàn thiện (Giáo sư sửa từ bài của em)")
+                st.caption("*Giáo sư đã giữ nguyên văn phong của em, chỉ bổ sung các ý bị thiếu hoặc nâng cấp các cụm từ copy.*")
+            
             st.markdown('<div style="background:#EFF6FF; padding:20px; border-radius:8px; font-family: Merriweather, serif; line-height: 1.8; border: 1px solid #BFDBFE; margin-bottom: 20px;">' + res.get('model_summary', '') + '</div>', unsafe_allow_html=True)
             
-            st.markdown("##### 2. Bài học rút ra (Sửa / Thêm / Nâng cấp)")
+            st.markdown("##### 2. Bài học rút ra từ Giáo sư")
             comparisons = res.get('detailed_comparison', [])
             if comparisons:
                 for item in comparisons:
@@ -739,9 +738,9 @@ elif st.session_state.app_step == 5:
                     color_bg = "#F3F4F6"
                     color_border = "#9CA3AF"
                     icon = "🔧"
-                    if "NÂNG CẤP" in action: color_bg = "#E0F2FE"; color_border = "#3B82F6"; icon = "✨"
-                    elif "THÊM" in action: color_bg = "#DCFCE7"; color_border = "#10B981"; icon = "➕"
-                    elif "SỬA" in action: color_bg = "#FEF3C7"; color_border = "#F59E0B"; icon = "🛠️"
+                    if "NÂNG CẤP" in action or "SỬA" in action: color_bg = "#FEF3C7"; color_border = "#F59E0B"; icon = "🛠️"
+                    elif "BỔ SUNG Ý" in action or "THÊM" in action: color_bg = "#E0F2FE"; color_border = "#3B82F6"; icon = "➕"
+                    elif "KHEN NGỢI" in action: color_bg = "#DCFCE7"; color_border = "#10B981"; icon = "⭐"
 
                     st.markdown(f"""
                     <div style="background-color: {color_bg}; border-left: 4px solid {color_border}; padding: 12px; margin-bottom: 12px; border-radius: 4px;">
@@ -750,20 +749,27 @@ elif st.session_state.app_step == 5:
                             <div style="flex: 1; text-decoration: line-through; color: #6B7280;">{item.get('student_text', '')}</div>
                             <div style="flex: 1; font-weight: bold; color: #111827;">➔ {item.get('suggested_text', '')}</div>
                         </div>
-                        <div style="font-size: 0.9rem; color: #4B5563;"><i>Lý do: {item.get('explanation', '')}</i></div>
+                        <div style="font-size: 0.9rem; color: #4B5563;"><i>Phân tích: {item.get('explanation', '')}</i></div>
                     </div>
                     """, unsafe_allow_html=True)
-            else:
-                st.info("Bài của bạn đã rất tốt, gần sát với bài mẫu!")
             
         with tab3:
-            st.markdown("""
-            ### ✅ Checklist trước khi rời khỏi lớp học:
-            - [ ] **Spelling:** Đã rà soát lỗi chính tả từng từ chưa?
-            - [ ] **Grammar:** Đã dùng thì Hiện tại đơn (Simple Present) cho các động từ tường thuật (states, explains) chưa?
-            - [ ] **Subject-Verb Agreement:** Chủ ngữ số ít đi với động từ thêm 's/es' chưa?
-            - [ ] **Read Aloud:** Hãy đọc to thành tiếng bản tóm tắt của bạn. Nếu thấy lủng củng ở đâu, hãy sửa ngay ở đó!
-            """)
+            st.markdown("#### 🕵️ Kính lúp Soi lỗi Ngữ pháp & Chính tả")
+            errors = res.get('grammar_spelling_errors', [])
+            
+            if not errors or len(errors) == 0:
+                st.success("🎉 Tuyệt vời! Giáo sư không tìm thấy bất kỳ lỗi chính tả hay ngữ pháp cơ bản nào trong bài của em.")
+            else:
+                st.warning(f"⚠️ Phát hiện {len(errors)} lỗi cần khắc phục trong bản nháp của em:")
+                for e in errors:
+                    st.markdown(f"""
+                    - ❌ Sai: **<span style='color: #EF4444;'>{e.get('error', '')}</span>**
+                    - ✅ Sửa thành: **<span style='color: #10B981;'>{e.get('correction', '')}</span>**
+                    - 💡 Lý do: *{e.get('reason', '')}*
+                    """, unsafe_allow_html=True)
+                    st.markdown("---")
+            
+            st.info("💡 **Mẹo:** Trong các kỳ thi thực tế, sai ngữ pháp (đặc biệt là chia động từ và số nhiều) sẽ làm em bị trừ điểm rất nặng. Hãy luôn rà soát kỹ trước khi nộp bài nhé!")
             
     st.markdown("---")
     if st.button("🔄 Luyện tập Đề mới", type="primary", use_container_width=True): 
