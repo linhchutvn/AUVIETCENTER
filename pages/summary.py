@@ -401,18 +401,21 @@ if st.session_state.app_step == 1:
                 res = generate_content_with_failover(final_prompt, image=img_data, json_mode=True)
                 
                 if res:
-                    try:
-                        ai_data = clean_and_parse_json(res)
+                    # Gọi hàm tự chữa lành
+                    ai_data = clean_and_parse_json(res)
+                    
+                    # CỔNG KIỂM SOÁT AN NINH: Nếu AI trả về rỗng (do gãy JSON)
+                    if not ai_data:
+                        st.error("❌ AI đã viết quá dài dẫn đến đứt gãy cấu trúc dữ liệu. Em vui lòng bấm nút [Phân tích & Bắt đầu bài học] lại 1 lần nữa nhé!")
+                        with st.expander("🛠️ Dành cho Dev: Xem dữ liệu thô (Raw Output) bị lỗi của AI để sửa Prompt"):
+                            st.text(res) # In ra màn hình để biết AI gõ sai chỗ nào
+                    else:
+                        # Nếu dữ liệu hoàn hảo 100%, mới cho phép đi tiếp
                         st.session_state.ai_analysis = ai_data
                         st.session_state.original_text = ai_data.get("extracted_text", input_text)
                         st.session_state.original_img = img_data
                         st.session_state.app_step = 2
                         st.rerun()
-                    except Exception as e:
-                        st.error("❌ Lỗi giải mã dữ liệu JSON từ AI.")
-                        with st.expander("Chi tiết lỗi (Dành cho Debug):"):
-                            st.write(str(e))
-                            st.code(res)
 
 # ---------------------------------------------------------
 # APP STEP 2: BƯỚC 1 - HIỂU (PHÂN TÍCH CHI TIẾT)
