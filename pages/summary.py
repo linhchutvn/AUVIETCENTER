@@ -51,21 +51,22 @@ except Exception:
 
 def clean_json(text):
     if not text: return None
-    # Xóa các thẻ markdown code block thường bị AI chèn thừa
-    text = re.sub(r'```json\n?', '', text)
-    text = re.sub(r'```\n?', '', text)
-    text = text.strip()
     
-    # Tìm kiếm khối JSON bao ngoài cùng (Dùng re.DOTALL để quét qua nhiều dòng)
-    match = re.search(r'(\{.*\})', text, re.DOTALL)
-    if match:
-        json_str = match.group(1)
-        # Sửa lỗi phổ biến: AI dùng ngoặc kép không thoát (unescaped quotes) bên trong chuỗi
-        # (Đây là thao tác dọn rác cơ bản giúp hàm json.loads() không bị 'chết nghẹn')
-        json_str = json_str.replace(" \n", "\\n").replace("\r", "")
-        return json_str
+    # 1. Trích xuất khối JSON
+    match = re.search(r'(\{[\s\S]*\})', text)
+    json_str = match.group(1) if match else text
     
-    return text
+    # 2. Sửa lỗi AI quên dấu phẩy giữa 2 objects: } {  ➔  }, {
+    json_str = re.sub(r'\}\s*\{', '}, {', json_str)
+    
+    # 3. Sửa lỗi AI dư dấu phẩy ở cuối mảng/object: , }  ➔  }
+    json_str = re.sub(r',\s*\}', '}', json_str)
+    json_str = re.sub(r',\s*\]', ']', json_str)
+    
+    # 4. Sửa lỗi dấu ngoặc kép không hợp lệ (nếu có)
+    json_str = json_str.replace(" \n", "\\n")
+    
+    return json_str.strip()
 
 def generate_content_with_failover(prompt, image=None, json_mode=False):
     keys_to_try = list(ALL_KEYS)
@@ -370,7 +371,7 @@ if st.session_state.app_step == 1:
                 
                 if res:
                     try:
-                        ai_data = json.loads(clean_json(res))
+                        ai_data = json.loads(clean_json(res), strict=False)
                         st.session_state.ai_analysis = ai_data
                         st.session_state.original_text = ai_data.get("extracted_text", input_text)
                         st.session_state.original_img = img_data
@@ -684,7 +685,7 @@ elif st.session_state.app_step == 4:
                         res = generate_content_with_failover(grade_prompt, json_mode=True)
                         if res:
                             try:
-                                st.session_state.ai_grading = json.loads(clean_json(res))
+                                st.session_state.ai_grading = json.loads(clean_json(res), strict=False)
                                 st.session_state.app_step = 5
                                 st.rerun()
                             except Exception as e:
