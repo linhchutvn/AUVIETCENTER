@@ -730,18 +730,33 @@ elif st.session_state.app_step == 4:
                                 st.rerun()
 
 # ---------------------------------------------------------
-# APP STEP 5: BƯỚC 4 - KẾT QUẢ
+# APP STEP 5: BƯỚC 4 - KẾT QUẢ VÀ BẢNG ĐIỂM
 # ---------------------------------------------------------
 elif st.session_state.app_step == 5:
     res = st.session_state.ai_grading
     
-    # LẤY SỐ TỪ CHÍNH XÁC ĐÃ LƯU, KHÔNG ĐẾM LẠI NỮA
+    # Lấy số từ đã được đếm chính xác ở Bước 3
     final_wc = st.session_state.get("final_word_count", 0)
     
     st.markdown('<div class="step-header">BƯỚC 4: HOÀN THIỆN - Đánh giá & Rà soát (The Final Polish)</div>', unsafe_allow_html=True)
     
+    # Tạo 2 cột: Cột trái (Điểm) chiếm 3 phần, Cột phải (Chi tiết) chiếm 7 phần
     col_score, col_detail = st.columns([3, 7], gap="medium")
     
+    # === CỘT BÊN TRÁI: TỔNG ĐIỂM ===
+    with col_score:
+        st.markdown(f"""
+        <div style="background: #ECFDF5; border: 2px solid #10B981; border-radius: 12px; padding: 20px; text-align: center; margin-bottom: 20px;">
+            <h3 style="color: #047857; margin-bottom: 0;">TỔNG ĐIỂM</h3>
+            <h1 style="color: #059669; font-size: 3.5rem; margin-top: 0;">{res.get('total_score', 'N/A')}</h1>
+        </div>
+        """, unsafe_allow_html=True)
+        
+        with st.expander("✍️ Bản tóm tắt của bạn", expanded=True): 
+            st.write(st.session_state.user_draft)
+            st.caption(f"Độ dài bài viết: **{final_wc} words**")
+    
+    # === CỘT BÊN PHẢI: CHI TIẾT TỪNG TAB ===
     with col_detail:
         tab1, tab2, tab3 = st.tabs(["📊 Bảng điểm (Rubric)", "💡 Phiên bản Hoàn thiện", "🔄 Rà soát Ngữ pháp & Chính tả"])
         
@@ -768,7 +783,7 @@ elif st.session_state.app_step == 5:
             """, unsafe_allow_html=True)
 
         with tab2:
-            is_perfect = "1.0/1.0" in res.get('total_score', '')
+            is_perfect = "1.0/1.0" in str(res.get('total_score', ''))
             
             if is_perfect:
                 st.markdown("##### 🏆 Chúc mừng! Bài viết của em đã đạt mức hoàn hảo!")
