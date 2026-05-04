@@ -173,7 +173,10 @@ Bạn là một Giáo sư ngôn ngữ học dạy kỹ năng tóm tắt học th
             {"para": 2, "point": "Luận cứ thô trích từ bài (LOẠI BỎ tuyệt đối các dẫn chứng minh họa, số liệu)"}
         ],
         "deep_analysis": "TIẾNG VIỆT: Phân tích cấu trúc logic: Tại sao phải nhóm các luận cứ này lại với nhau?",
-        "refined_points": ["Point 1: [Tiêu đề nhóm] - Nội dung", "Point 2: [Tiêu đề nhóm] - Nội dung"]
+        "refined_points": [
+            "Point 1: [ENGLISH ONLY] - Paraphrased detail", 
+            "Point 2: [ENGLISH ONLY] - Paraphrased detail"
+        ]
     },
     
     "details_to_omit_guide": "TIẾNG VIỆT: Hướng dẫn tổng quan về cách nhận diện thông tin thứ cấp (Secondary details) trong bài.",
@@ -215,7 +218,7 @@ Bạn là một Giáo sư ngôn ngữ học dạy kỹ năng tóm tắt học th
                     "explanation": "..."
                 }
             ],
-            "final_sentence": "Viết ĐOẠN THÂN BÀI mẫu (Khoảng 65-80 từ. ĐẢM BẢO ĐỦ 100% CÁC Ý TỪ DÀN Ý)."
+            "final_sentence": "ENGLISH ONLY: Viết ĐOẠN THÂN BÀI mẫu. LƯU Ý TỐI QUAN TRỌNG: Không được liệt kê nhồi nhét. BẮT BUỘC phải viết thành 3 đến 4 câu văn phức tạp (complex sentences), sử dụng từ nối (First, Additionally, Finally...) ở đầu mỗi câu để triển khai RÕ RÀNG từng Point đã lập ở Outline."
         },
         "concl": {
             "original_text": "Thông điệp cốt lõi cần chốt lại.",
