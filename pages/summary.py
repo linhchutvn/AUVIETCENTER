@@ -95,67 +95,76 @@ def generate_content_with_failover(prompt, image=None, json_mode=False):
     keys_to_try = list(ALL_KEYS)
     random.shuffle(keys_to_try) 
     model_priority = [
-        #"gemini-3.1-pro-preview",        
         "gemini-2.5-pro",
         "gemini-1.5-pro",
         "gemini-2.5-flash",        
         "gemini-2.5-flash-lite",
-        "gemini-2.0-flash",        
+        "gemini-2.0-flash",
         "gemini-1.5-flash"
     ]
     
-    last_error = ""
-    # 💡 BỔ SUNG: Khởi tạo vùng thông báo để không bị lỗi NameError
     status_msg = st.empty() 
 
-    for index, current_key in enumerate(keys_to_try):
+    # --- VÒNG LẶP 1: DUYỆT QUA TỪNG API KEY ---
+    for key_idx, current_key in enumerate(keys_to_try):
         try:
-            # --- BƯỚC 1: Khởi tạo kết nối & Né chặn IP ---
-            if index > 0:
-                status_msg.warning(f"⏳ Luồng #{index} bận. Đang tối ưu kết nối, vui lòng đợi 3 giây...")
-                time.sleep(3) 
+            if key_idx > 0:
+                status_msg.warning(f"⏳ Cụm Server #{key_idx} quá tải. Đang đổi sang Server #{key_idx + 1}...")
+                time.sleep(1) 
             
             client = genai.Client(api_key=current_key)
-            
-            # --- BƯỚC 2: Lấy danh sách model ---
             raw_models = list(client.models.list())
             available_models = [m.name.replace("models/", "") for m in raw_models]
             
-            # --- BƯỚC 3: Tìm model tốt nhất ---
-            sel_model = None
-            for target in model_priority:
-                if target in available_models:
-                    sel_model = target
-                    break
-            
-            if not sel_model:
-                sel_model = "gemini-1.5-flash" 
+            # Lọc ra danh sách các model CÓ SẴN theo đúng thứ tự ưu tiên
+            models_to_try = [m for m in model_priority if m in available_models]
+            if not models_to_try: 
+                models_to_try = ["gemini-1.5-flash"]
 
-            # --- BƯỚC 4: Hiển thị thông tin Debug ---
             masked_key = f"****{current_key[-4:]}"
-            st.toast(f"⚡ Connected: {sel_model}", icon="🤖")
             
-            with st.expander(f"🔌 Connection Details (Key #{index + 1})", expanded=False):
-                st.write(f"**Active Model:** `{sel_model}`")
-                st.write(f"**Active API Key:** `{masked_key}`")
-            
-            content_parts = [image, prompt] if image else [prompt]
-            config_args = {"temperature": 0.2, "max_output_tokens": 8000}
-            if json_mode and "thinking" not in sel_model.lower():
-                config_args["response_mime_type"] = "application/json"
+            # --- VÒNG LẶP 2: DUYỆT TỪNG MODEL TRÊN CÙNG 1 KEY ---
+            for model_idx, sel_model in enumerate(models_to_try):
+                try:
+                    # Báo cáo UI đang thử model nào
+                    if model_idx > 0:
+                        status_msg.info(f"🔄 Hạ cấp Model: Đang thử nghiệm với {sel_model}...")
+                    else:
+                        status_msg.info(f"🚀 Cố vấn AI ({sel_model}) đang đọc dữ liệu...")
+                        
+                    st.toast(f"⚡ Đang thử kết nối: {sel_model}", icon="🔄")
+                    
+                    content_parts = [image, prompt] if image else [prompt]
+                    config_args = {"temperature": 0.2, "max_output_tokens": 8000}
+                    if json_mode and "thinking" not in sel_model.lower():
+                        config_args["response_mime_type"] = "application/json"
 
-            status_msg.info(f"🚀 Cố vấn AI đang xử lý dữ liệu...")
-            response = client.models.generate_content(
-                model=sel_model, contents=content_parts, config=types.GenerateContentConfig(**config_args)
-            )
-            status_msg.empty()
-            return response.text if response else None
+                    # Thực hiện gọi AI
+                    response = client.models.generate_content(
+                        model=sel_model, contents=content_parts, config=types.GenerateContentConfig(**config_args)
+                    )
+                    
+                    # NẾU THÀNH CÔNG -> Lưu thông tin và Thoát luôn
+                    if response:
+                        with st.expander(f"✅ Kết nối Thành công (Key #{key_idx + 1})", expanded=False):
+                            st.write(f"**Model đã dùng:** `{sel_model}`")
+                            st.write(f"**API Key:** `{masked_key}`")
+                        
+                        status_msg.empty()
+                        return response.text
+                        
+                except Exception as model_error:
+                    # NẾU MODEL NÀY BỊ LỖI QUOTA/QUYỀN -> Bỏ qua, vòng lặp sẽ tự chạy model tiếp theo (VD: từ 2.5 lùi xuống 1.5)
+                    continue 
             
-        except Exception as e:
+            # Nếu chạy hết vòng lặp Model mà vẫn không được -> Nghĩa là Key này đã "cháy", vòng lặp 1 sẽ nhảy sang Key tiếp theo.
+                    
+        except Exception as key_error:
+            # Lỗi không khởi tạo được Client
             continue
-                
+            
     status_msg.empty()
-    st.error(f"❌ Tất cả luồng kết nối đều thất bại. Vui lòng thử lại sau.")
+    st.error(f"❌ Tất cả luồng kết nối đều thất bại. Vui lòng kiểm tra lại cấu hình API Keys hoặc kết nối mạng.")
     return None
 
 # ==========================================
