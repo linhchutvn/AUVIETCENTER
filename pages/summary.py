@@ -191,9 +191,9 @@ Bạn là một Giáo sư ngôn ngữ học dạy kỹ năng tóm tắt học th
 
 {
     "step0_reasoning_scratchpad": {
-        "1_core_message": "TIẾNG VIỆT: Phân tích các thành tố logic cốt lõi của bài (Vấn đề -> Luận cứ -> Giải pháp).",
-        "2_candidate_filtering": "TIẾNG VIỆT: Đánh giá các câu văn tiềm năng. Áp dụng Tiêu chí loại trừ học thuật để bác bỏ các câu chỉ mang tính cục bộ (Topic Sentences).",
-        "3_final_decision": "TIẾNG VIỆT: Kết luận rút ra Tiền đề bao quát (Trích xuất hiển ngôn hay Tự tổng hợp ngụ ý?)."
+        "1_core_message": "TIẾNG VIỆT: Phân tích các thành tố logic cốt lõi của bài.",
+        "2_candidate_filtering": "TIẾNG VIỆT: Đánh giá và loại trừ các câu văn tiềm năng.",
+        "3_final_decision": "TIẾNG VIỆT: Kết luận rút ra Tiền đề bao quát."
     },
     
     "extracted_text": "Trích xuất toàn bộ nội dung chữ tiếng Anh. Thay dấu ngoặc kép thành nháy đơn.",
@@ -203,39 +203,39 @@ Bạn là một Giáo sư ngôn ngữ học dạy kỹ năng tóm tắt học th
         "keywords": ["từ khóa 1", "từ khóa 2"]
     },
     
-    "thesis_actual": "COPY CHÍNH XÁC CÂU GỐC, HOẶC TỰ VIẾT [Implied Thesis] dựa trên quyết định ở bước 3_final_decision.",
+    "thesis_actual": "COPY CHÍNH XÁC CÂU GỐC, HOẶC TỰ VIẾT [Implied Thesis] dựa trên quyết định ở scratchpad.",
     
     "step1_paragraph_analysis": [
         {
             "para_num": 1,
             "role": "Mở bài / Thân bài / Kết bài",
-            "analysis": "TIẾNG VIỆT: Phân tích vai trò tu từ (Rhetorical function) của đoạn văn này.",
-            "key_sentence": "COPY 1 CÂU CHỦ ĐỀ CỤC BỘ (Topic Sentence) của đoạn. Không có thì để rỗng.",
-            "is_thesis": true/false (Chỉ True nếu thesis_actual là câu hiển ngôn nằm trong đoạn này)
+            "analysis": "TIẾNG VIỆT: Phân tích vai trò tu từ của đoạn này.",
+            "key_sentence": "COPY 1 CÂU CHỦ ĐỀ CỤC BỘ. Không có thì để rỗng.",
+            "is_thesis": true/false
         }
     ],
     
-    "step1_reference_result": "1 câu tiếng Việt diễn giải thông điệp cốt lõi của toàn bài để học sinh tham khảo.",
+    "step1_reference_result": "TIẾNG VIỆT: 1 câu diễn giải thông điệp cốt lõi của toàn bài để học sinh tham khảo.",
     
     "step2_outline": {
         "raw_points": [
-            "ENGLISH ONLY: Copy ý thô từ Thân bài. KHÔNG chép kèm số liệu, ví dụ. (Lưu ý: Chỉ là 1 câu string đơn giản, KHÔNG dùng object {para: ..., point: ...} ở đây)",
+            "ENGLISH ONLY: Copy ý thô từ Thân bài. KHÔNG chép ví dụ. (Lưu ý: Chỉ là 1 câu string đơn giản)",
             "ENGLISH ONLY: Copy ý thô tiếp theo từ Thân bài..."
         ],
-        "deep_analysis": "TIẾNG VIỆT: Phân tích tại sao phải nhóm các luận cứ này.",
+        "deep_analysis": "TIẾNG VIỆT: Phân tích cấu trúc logic tại sao phải nhóm các ý này.",
         "refined_points": [
             "Point 1: [ENGLISH ONLY] - Paraphrased detail", 
             "Point 2: [ENGLISH ONLY] - Paraphrased detail"
         ]
     },
     
-    "details_to_omit_guide": "TIẾNG VIỆT: Hướng dẫn tổng quan về cách nhận diện thông tin thứ cấp (Secondary details) trong bài.",
+    "details_to_omit_guide": "TIẾNG VIỆT: Hướng dẫn tổng quan về cách nhận diện thông tin thứ cấp trong bài.",
     "details_to_omit": [
         {
             "para_num": 1,
-            "phrase": "COPY CHÍNH XÁC Y NGUYÊN 1 CỤM TỪ THỨ CẤP CẦN LOẠI BỎ",
-            "type": "Phân loại học thuật (Ví dụ: Examples, Statistics, Descriptive Details, Quotations, Anecdotes, Repetitions)",
-            "deep_reason": "TIẾNG VIỆT: Phân tích sắc bén: Tại sao việc giữ lại cụm từ này làm suy yếu tính cô đọng của một bản tóm tắt học thuật?"
+            "phrase": "COPY CHÍNH XÁC Y NGUYÊN 1 CỤM TỪ CẦN LOẠI BỎ",
+            "type": "Phân loại (Ví dụ: Examples, Statistics, Descriptive Details...)",
+            "deep_reason": "TIẾNG VIỆT: Tại sao loại bỏ cụm từ này?"
         }
     ],
     
@@ -244,43 +244,37 @@ Bạn là một Giáo sư ngôn ngữ học dạy kỹ năng tóm tắt học th
             "original_text": "COPY lại câu Thesis gốc.",
             "transformations": [
                 {
-                    "method": "TIẾNG VIỆT: Tên phương pháp (VD: Chọn Reporting Verb / Grammar Toolbox - Đổi từ loại / Synonyms)",
-                    "original_part": "Cụm từ gốc (hoặc 'Không có')",
+                    "method": "TIẾNG VIỆT: Tên phương pháp (VD: Grammar Toolbox - Đổi từ loại)",
+                    "original_part": "Cụm từ gốc",
                     "new_part": "Cụm từ mới",
-                    "explanation": "TIẾNG VIỆT: Tại sao lại biến đổi như vậy? (VD: Đổi 'prioritize' thành danh từ 'prioritization' để cấu trúc câu khách quan hơn)."
+                    "explanation": "TIẾNG VIỆT: Giải thích biến đổi. (Dùng nháy đơn)"
                 }
             ],
-            "final_sentence": "Viết 1 CÂU MỞ ĐẦU mẫu (Khoảng 20-25 từ). LƯU Ý TỐI QUAN TRỌNG: Câu này BẮT BUỘC PHẢI BẮT ĐẦU bằng công thức 'The article/text + [Reporting verb] + that...'. Tuyệt đối không được viết câu khẳng định trực tiếp bỏ qua nguồn tài liệu."
+            "final_sentence": "Viết 1 CÂU MỞ ĐẦU mẫu. BẮT BẦU BẰNG 'The article/text + [Reporting verb] + that...'."
         },
         "body": {
-            "original_text": "Các ý tinh gọn từ Dàn ý (Outline).",
+            "original_text": "Các ý tinh gọn từ Dàn ý.",
             "transformations": [
                 {
-                    "method": "TIẾNG VIỆT: Nêu rõ Tên kỹ thuật (VD: Grammar Toolbox - Đổi từ loại / Synonyms - Từ đồng nghĩa / Chunking / Transition Words)",
-                    "original_part": "LƯU Ý TỐI QUAN TRỌNG: BẮT BUỘC PHẢI LÀ MỘT CỤM TỪ RẤT NGẮN (từ 2 đến 7 chữ). TUYỆT ĐỐI KHÔNG copy nguyên cả câu dài vào đây. (Ví dụ: 'reduce ecological footprint')",
-                    "new_part": "Cụm từ mới tương ứng (Ví dụ: 'minimize environmental impact')",
-                    "explanation": "TIẾNG VIỆT: Phân tích cực kỳ chi tiết: Tại sao chọn từ này? Đổi cấu trúc ngữ pháp như thế nào? (Ví dụ: 'Thay vì dùng động từ reduce, ta dùng minimize. Cụm ecological footprint đổi thành environmental impact để đa dạng từ vựng')."
-                },
-                {
-                    "method": "...",
-                    "original_part": "TẠO RA ĐẦY ĐỦ CÁC BƯỚC BIẾN ĐỔI NHỎ LI TI NHƯ VẬY CHO TOÀN BỘ ĐOẠN THÂN BÀI. THỰC HIỆN THEO TỪNG ĐOẠN THÂN BÀI",
-                    "new_part": "...",
-                    "explanation": "..."
+                    "method": "TIẾNG VIỆT: Tên kỹ thuật",
+                    "original_part": "CỤM TỪ RẤT NGẮN (2-5 chữ)",
+                    "new_part": "Cụm từ mới",
+                    "explanation": "TIẾNG VIỆT: Giải thích chi tiết. (Dùng nháy đơn)"
                 }
             ],
-            "final_sentence": "ENGLISH ONLY: Viết ĐOẠN THÂN BÀI mẫu. LƯU Ý TỐI QUAN TRỌNG: Không được liệt kê nhồi nhét. BẮT BUỘC phải viết thành 3 đến 4 câu văn phức tạp (complex sentences), sử dụng từ nối (First, Additionally, Finally...) ở đầu mỗi câu để triển khai RÕ RÀNG từng Point đã lập ở Outline."
+            "final_sentence": "ENGLISH ONLY: Viết ĐOẠN THÂN BÀI mẫu (3-4 câu phức tạp, dùng từ nối)."
         },
         "concl": {
             "original_text": "Thông điệp cốt lõi cần chốt lại.",
             "transformations": [
                 {
-                    "method": "TIẾNG VIỆT: Tên phương pháp (VD: Tell a Friend / Transition Words)",
+                    "method": "TIẾNG VIỆT: Tên phương pháp",
                     "original_part": "Cụm gốc",
                     "new_part": "Cụm mới",
-                    "explanation": "TIẾNG VIỆT: Giải thích cách chốt ý gọn gàng, tránh lặp lại từ vựng của Mở bài."
+                    "explanation": "TIẾNG VIỆT: Giải thích cách chốt ý."
                 }
             ],
-            "final_sentence": "Viết 1 CÂU KẾT LUẬN mẫu (Khoảng 15-20 từ)."
+            "final_sentence": "Viết 1 CÂU KẾT LUẬN mẫu."
         }
     }
 }
