@@ -219,9 +219,10 @@ Bạn là một Giáo sư ngôn ngữ học dạy kỹ năng tóm tắt học th
     
     "step2_outline": {
         "raw_points": [
-            {"para": 2, "point": "Luận cứ thô trích từ bài (LOẠI BỎ tuyệt đối các dẫn chứng minh họa, số liệu)"}
+            "ENGLISH ONLY: Copy ý thô từ Thân bài. KHÔNG chép kèm số liệu, ví dụ. (Lưu ý: Chỉ là 1 câu string đơn giản, KHÔNG dùng object {para: ..., point: ...} ở đây)",
+            "ENGLISH ONLY: Copy ý thô tiếp theo từ Thân bài..."
         ],
-        "deep_analysis": "TIẾNG VIỆT: Phân tích cấu trúc logic: Tại sao phải nhóm các luận cứ này lại với nhau?",
+        "deep_analysis": "TIẾNG VIỆT: Phân tích tại sao phải nhóm các luận cứ này.",
         "refined_points": [
             "Point 1: [ENGLISH ONLY] - Paraphrased detail", 
             "Point 2: [ENGLISH ONLY] - Paraphrased detail"
@@ -517,7 +518,8 @@ elif st.session_state.app_step == 3:
             outline_data = data.get('step2_outline', {})
             
             with st.container(border=True):
-                st.markdown("**1. Danh sách thô (Các ý nhặt được từ Bước 1):**")
+                st.markdown("**1. Các ý chính rải rác (Raw Points):**")
+                # Đã làm phẳng dữ liệu, chỉ cần in thẳng String ra màn hình
                 for pt in outline_data.get('raw_points', []):
                     st.markdown(f"- {pt}")
                 
