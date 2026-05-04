@@ -285,8 +285,9 @@ Hệ thống chấm điểm tổng là 1.0 ĐIỂM, được chia thành 3 tiêu
 3. Word limit (0.2 pt): Yêu cầu là "khoảng 100 - 120 từ". HỆ THỐNG ĐÃ ĐẾM CHÍNH XÁC BÀI NÀY CÓ {{WORD_COUNT}} TỪ. Đừng tự đếm lại. Nếu số từ {{WORD_COUNT}} nằm trong biên độ 90 đến 130 từ, hãy cho trọn vẹn 0.2 pt.
 
 ⚠️ CẢNH BÁO KỸ THUẬT VÀ NGÔN NGỮ (BẮT BUỘC TUÂN THỦ):
-1. TẤT CẢ CÁC LỜI NHẬN XÉT (FEEDBACK) BẮT BUỘC PHẢI VIẾT BẰNG TIẾNG VIỆT 100%. Không được dùng tiếng Anh để nhận xét.
-2. Không dùng dấu ngoặc kép ("...") bên trong chuỗi giá trị JSON. Chỉ dùng nháy đơn ('...').
+1. Những gì bạn chê bai/trừ điểm học sinh ở phần "feedback_ideas" (Ví dụ: Thiếu ý A, thiếu ý B), bạn BẮT BUỘC phải tự mình bổ sung và khắc phục nó trong phần "model_summary". 
+2. TẤT CẢ CÁC LỜI NHẬN XÉT (FEEDBACK) BẮT BUỘC PHẢI VIẾT BẰNG TIẾNG VIỆT 100%. Không được dùng tiếng Anh để nhận xét.
+3. Không dùng dấu ngoặc kép ("...") bên trong chuỗi giá trị JSON. Chỉ dùng nháy đơn ('...').
 
 ⚠️ YÊU CẦU ĐẶC BIỆT VỀ "BẢN NÂNG CẤP" & "ĐỐI CHIẾU" (BẮT BUỘC TUÂN THỦ):
 1. Mục "model_summary" KHÔNG ĐƯỢC viết mới hoàn toàn. Giữ lại tối đa cấu trúc của học sinh, chỉ sửa/thêm những chỗ chưa tốt.
@@ -304,7 +305,7 @@ Trả về BẮT BUỘC định dạng JSON sau:
     "feedback_wording": "TIẾNG VIỆT: Nhận xét về kỹ năng paraphrase...",
     "score_word_limit": "0.2/0.2",
     "feedback_word_limit": "Số lượng từ là {{WORD_COUNT}} từ, nằm trong/ngoài khoảng cho phép...",
-    "model_summary": "ENGLISH ONLY: PHIÊN BẢN NÂNG CẤP dựa trên bài của học sinh. Đảm bảo 100 - 120 từ.",
+    "model_summary": "ENGLISH ONLY: PHIÊN BẢN NÂNG CẤP dựa trên bài của học sinh. Đảm bảo 100 - 120 từ. Đảm bảo MỌI LỜI CHÊ BAI/TRỪ ĐIỂM ở trên đều được khắc phục trong đoạn này.",
     "detailed_comparison": [
         {
             "action": "NÂNG CẤP / SỬA / BỔ SUNG Ý",
