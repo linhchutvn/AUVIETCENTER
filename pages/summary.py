@@ -94,7 +94,7 @@ def generate_content_with_failover(prompt, image=None, json_mode=False):
     keys_to_try = list(ALL_KEYS)
     random.shuffle(keys_to_try) 
     model_priority = [
-        "gemini-3-flash-preview",
+        #"gemini-3-flash-preview",
         "gemini-3.1-pro-preview",
         "gemini-3.1-flash-lite-preview",        
         "gemini-2.5-pro",
