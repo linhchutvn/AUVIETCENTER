@@ -852,14 +852,14 @@ elif st.session_state.app_step == 5:
                 model_word_border = "#10B981"
             else:
                 model_word_score = 0.0
-                model_word_feedback = "Bài viết mẫu đã vi phạm giới hạn từ (90-130 từ). AI đã bị trừ 0.2 điểm!"
+                model_word_feedback = "Bài viết mẫu đã vi phạm giới hạn từ (90-130 từ). AI đã bị Python trừ 0.2 điểm!"
                 model_word_color = "#B45309" # Cam đỏ
                 model_word_bg = "#FFFBEB"
                 model_word_border = "#F59E0B"
                 
             model_total_score = 0.4 + 0.4 + model_word_score
             
-            # Lấy lời tự biện luận của AI từ JSON ĐỘNG (Hoàn toàn do AI tự viết ra)
+            # Lấy lời tự biện luận của AI từ JSON ĐỘNG
             model_eval = res.get('model_self_evaluation', {})
             defense_ideas = model_eval.get('ideas_defense', 'AI chưa cung cấp lời biện luận.')
             defense_wording = model_eval.get('wording_defense', 'AI chưa cung cấp lời biện luận.')
@@ -868,25 +868,29 @@ elif st.session_state.app_step == 5:
             st.markdown('<div style="background:#EFF6FF; padding:20px; border-radius:8px; font-family: Merriweather, serif; line-height: 1.8; border: 1px solid #BFDBFE; margin-bottom: 20px;">' + model_text + '</div>', unsafe_allow_html=True)
             
             # Bảng điểm ĐỘNG của Phiên bản Hoàn thiện
-            st.markdown(f"##### 🏆 Bảng điểm của Phiên bản Hoàn thiện (Đạt {model_total_score:.1f}/1.0)")
+            st.markdown(f"##### 🏆 Bảng kiểm định chất lượng Phiên bản Hoàn thiện (Đạt {model_total_score:.1f}/1.0)")
+            
+            if model_total_score < 1.0:
+                st.warning("⚠️ Mặc dù xuất sắc về Nội dung và Từ vựng, bài viết mẫu của Giáo sư AI đã bị trừ điểm do không tuân thủ giới hạn độ dài. Đây là bài học cho thấy việc cân đối giữa 'Đủ ý' và 'Ngắn gọn' là rất khó!")
+
             st.markdown(f"""
             <div style="background-color: #F0FDF4; border-left: 4px solid #10B981; padding: 15px; margin-bottom: 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
-                <h4 style="margin-top: 0; color: #065F46;">1. Central and Main Ideas (Max: 0.4 pt)</h4>
-                <p style="font-size: 1.2rem; font-weight: bold; color: #059669;">Điểm đạt: 0.4/0.4</p>
-                <p style="margin-bottom: 0; color: #374151;"><b>AI tự biện luận:</b> {defense_ideas}</p>
+                <h4 style="margin-top: 0; color: #065F46;">1. Mức độ bao quát Ý chính (Main Ideas)</h4>
+                <p style="font-size: 1.2rem; font-weight: bold; color: #059669;">Đánh giá: Đạt chuẩn tối đa (0.4/0.4)</p>
+                <p style="margin-bottom: 0; color: #374151;"><b>AI tự giải trình:</b> {defense_ideas}</p>
             </div>
             
             <div style="background-color: #F0FDF4; border-left: 4px solid #10B981; padding: 15px; margin-bottom: 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
-                <h4 style="margin-top: 0; color: #065F46;">2. Own Wording / No Copying (Max: 0.4 pt)</h4>
-                <p style="font-size: 1.2rem; font-weight: bold; color: #059669;">Điểm đạt: 0.4/0.4</p>
-                <p style="margin-bottom: 0; color: #374151;"><b>AI tự biện luận:</b> {defense_wording}</p>
+                <h4 style="margin-top: 0; color: #065F46;">2. Kỹ năng Paraphrase (Own Wording)</h4>
+                <p style="font-size: 1.2rem; font-weight: bold; color: #059669;">Đánh giá: Đạt chuẩn tối đa (0.4/0.4)</p>
+                <p style="margin-bottom: 0; color: #374151;"><b>AI tự giải trình:</b> {defense_wording}</p>
             </div>
             
             <div style="background-color: {model_word_bg}; border-left: 4px solid {model_word_border}; padding: 15px; margin-bottom: 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
                 <h4 style="margin-top: 0; color: {model_word_color};">3. Word Limit (~100 - 120 words) (Max: 0.2 pt)</h4>
                 <p style="font-size: 1.2rem; font-weight: bold; color: {model_word_color};">Điểm đạt: {model_word_score}/0.2</p>
                 <p style="margin-bottom: 0; color: #374151;"><b>Số từ thực tế của AI:</b> <span style="font-weight: bold; color: {model_word_color};">{model_wc} words</span></p>
-                <p style="margin-bottom: 0; color: #374151;"><b>Hệ thống Python chấm:</b> {model_word_feedback}</p>
+                <p style="margin-bottom: 0; color: #374151;"><b>Python chấm:</b> {model_word_feedback}</p>
             </div>
             """, unsafe_allow_html=True)
             
