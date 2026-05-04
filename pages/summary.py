@@ -381,7 +381,7 @@ st.markdown('<div class="sub-header">Luyện tập kỹ năng Viết Tóm tắt 
 # ---------------------------------------------------------
 if st.session_state.app_step == 1:
     st.markdown('<div class="step-header">BƯỚC CHUẨN BỊ: Nhập Đề Bài</div>', unsafe_allow_html=True)
-    st.info("💡 Bạn có thể **Tải ảnh lên (hỗ trợ kéo thả / Paste Ctrl+V)** HOẶC **Dán đoạn văn bản** vào ô bên dưới.")
+    st.info("💡 Bạn có thể **Tải ảnh lên ** HOẶC **Nhập đoạn văn bản** vào ô bên dưới.")
     
     col_input1, col_input2 = st.columns(2, gap="large")
     
