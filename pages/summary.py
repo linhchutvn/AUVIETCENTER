@@ -174,66 +174,60 @@ Bạn là một Giáo sư ngôn ngữ học dạy kỹ năng tóm tắt học th
 
 ⚠️ CẢNH BÁO KỸ THUẬT (BẮT BUỘC TUÂN THỦ ĐỂ KHÔNG GÂY LỖI CRASH HỆ THỐNG):
 1. QUY TẮC DẤU NGOẶC: Khi trích dẫn, BẮT BUỘC PHẢI DÙNG DẤU NHÁY ĐƠN ('...'). TUYỆT ĐỐI KHÔNG SỬ DỤNG DẤU NGOẶC KÉP ("...") bên trong chuỗi giá trị.
-2. QUY TẮC XUỐNG DÒNG: TUYỆT ĐỐI KHÔNG SỬ DỤNG PHÍM ENTER (Line breaks/Newlines) HOẶC TẠO GẠCH ĐẦU DÒNG (Bullet points) BÊN TRONG CÁC CHUỖI VĂN BẢN. Hãy viết mọi lời giải thích thành một đoạn văn liền mạch duy nhất.
+2. QUY TẮC XUỐNG DÒNG: TUYỆT ĐỐI KHÔNG SỬ DỤNG PHÍM ENTER (Line breaks) BÊN TRONG CÁC CHUỖI VĂN BẢN. Viết liền mạch.
 
 ⚠️ QUY TRÌNH XÁC ĐỊNH LUẬN ĐIỂM TRỌNG TÂM (THESIS STATEMENT IDENTIFICATION):
-Đây là hệ thống phân tích logic áp dụng cho mọi loại văn bản. Bắt buộc thực hiện quá trình suy luận học thuật trong trường "step0_reasoning_scratchpad":
-1. Tổng hợp cốt lõi (Core Synthesis): Đọc toàn bộ văn bản. Xác định các thành tố logic: Đặt vấn đề (Problem), Luận cứ chứng minh (Arguments/Body), và Giải pháp/Kết luận (Solution/Conclusion).
-2. Đánh giá tính bao quát (Comprehensiveness): Tìm kiếm MỘT câu văn hiển ngôn (Explicit sentence) đóng vai trò là "Tiền đề bao quát" (Overarching Premise) hoặc "Ý tưởng chủ đạo" (Controlling Idea) chi phối toàn bộ các thành tố logic đã xác định ở Bước 1.
-3. Tiêu chí loại trừ học thuật (Exclusion Criteria):
-   - Loại bỏ "Câu dẫn nhập" (Background Statement / Hook): Các câu chỉ cung cấp bối cảnh, thiếu vắng ý tưởng chủ đạo.
-   - Loại bỏ "Câu chủ đề cục bộ" (Topic Sentence / Transitional Statement): Ví dụ câu "Mỗi loại có ưu nhược điểm riêng" chỉ chi phối đoạn Thân bài (Micro-level), nhưng bỏ sót thông điệp định hướng toàn bài (Macro-level).
-   - Loại bỏ "Câu kết luận mở rộng" (Call to action): Nếu nó chứa ý tưởng mới chưa từng được lập luận trong thân bài.
-4. Quyết định cuối cùng: 
-   - Nếu có 1 câu văn đạt chuẩn Tiền đề bao quát: Trích xuất nguyên văn.
-   - NẾU KHÔNG CÓ CÂU NÀO ĐẠT CHUẨN 100%: Hệ thống phải tự tổng hợp (Synthesize) một câu "Luận điểm ngụ ý" (Implied Thesis) bằng tiếng Anh, bao trùm toàn vẹn thông điệp của văn bản. Bắt đầu bằng tiền tố "[Implied Thesis] - ".
+1. Đọc toàn bộ văn bản. Xác định Đặt vấn đề, Luận cứ, và Giải pháp/Kết luận.
+2. Tìm MỘT câu văn đóng vai trò là "Tiền đề bao quát" chi phối toàn bộ bài.
+3. Loại bỏ Hook, Topic Sentence cục bộ, và Call to action.
+4. NẾU KHÔNG CÓ CÂU NÀO ĐẠT CHUẨN 100%, tự tổng hợp một câu bắt đầu bằng "[Implied Thesis] - ".
 
 {
     "step0_reasoning_scratchpad": {
-        "1_core_message": "TIẾNG VIỆT: Phân tích các thành tố logic cốt lõi của bài.",
-        "2_candidate_filtering": "TIẾNG VIỆT: Đánh giá và loại trừ các câu văn tiềm năng.",
-        "3_final_decision": "TIẾNG VIỆT: Kết luận rút ra Tiền đề bao quát."
+        "1_core_message": "TIẾNG VIỆT: TỐI ĐA 20 CHỮ. Vấn đề và giải pháp là gì?",
+        "2_candidate_filtering": "TIẾNG VIỆT: TỐI ĐA 20 CHỮ. Đánh giá nhanh.",
+        "3_final_decision": "TIẾNG VIỆT: TỐI ĐA 10 CHỮ. Kết luận."
     },
     
-    "extracted_text": "Trích xuất toàn bộ nội dung chữ tiếng Anh. Thay dấu ngoặc kép thành nháy đơn.",
+    "extracted_text": "NẾU NGƯỜI DÙNG CUNG CẤP HÌNH ẢNH: Trích xuất nội dung chữ. NẾU NGƯỜI DÙNG ĐÃ DÁN SẴN VĂN BẢN (TEXT): CHỈ CẦN GHI CHỮ 'TEXT_PROVIDED'. (Tuyệt đối không chép lại văn bản để tiết kiệm bộ nhớ).",
     
     "step1_skimming": {
         "topic": "Chủ đề chính của bài",
         "keywords": ["từ khóa 1", "từ khóa 2"]
     },
     
-    "thesis_actual": "COPY CHÍNH XÁC CÂU GỐC, HOẶC TỰ VIẾT [Implied Thesis] dựa trên quyết định ở scratchpad.",
+    "thesis_actual": "COPY CHÍNH XÁC CÂU GỐC, HOẶC TỰ VIẾT [Implied Thesis].",
     
     "step1_paragraph_analysis": [
         {
             "para_num": 1,
             "role": "Mở bài / Thân bài / Kết bài",
-            "analysis": "TIẾNG VIỆT: Phân tích vai trò tu từ của đoạn này.",
+            "analysis": "TIẾNG VIỆT: Phân tích ngắn gọn.",
             "key_sentence": "COPY 1 CÂU CHỦ ĐỀ CỤC BỘ. Không có thì để rỗng.",
             "is_thesis": true/false
         }
     ],
     
-    "step1_reference_result": "TIẾNG VIỆT: 1 câu diễn giải thông điệp cốt lõi của toàn bài để học sinh tham khảo.",
+    "step1_reference_result": "TIẾNG VIỆT: 1 câu diễn giải thông điệp cốt lõi.",
     
     "step2_outline": {
         "raw_points": [
-            "ENGLISH ONLY: Copy ý thô từ Thân bài. KHÔNG chép ví dụ. (Lưu ý: Chỉ là 1 câu string đơn giản)",
+            "ENGLISH ONLY: Copy ý thô từ Thân bài. (Chỉ là 1 câu string đơn giản)",
             "ENGLISH ONLY: Copy ý thô tiếp theo từ Thân bài..."
         ],
-        "deep_analysis": "TIẾNG VIỆT: Phân tích cấu trúc logic tại sao phải nhóm các ý này.",
+        "deep_analysis": "TIẾNG VIỆT: Phân tích cấu trúc logic.",
         "refined_points": [
             "Point 1: [ENGLISH ONLY] - Paraphrased detail", 
             "Point 2: [ENGLISH ONLY] - Paraphrased detail"
         ]
     },
     
-    "details_to_omit_guide": "TIẾNG VIỆT: Hướng dẫn tổng quan về cách nhận diện thông tin thứ cấp trong bài.",
+    "details_to_omit_guide": "TIẾNG VIỆT: Hướng dẫn tổng quan.",
     "details_to_omit": [
         {
             "para_num": 1,
             "phrase": "COPY CHÍNH XÁC Y NGUYÊN 1 CỤM TỪ CẦN LOẠI BỎ",
-            "type": "Phân loại (Ví dụ: Examples, Statistics, Descriptive Details...)",
+            "type": "Phân loại",
             "deep_reason": "TIẾNG VIỆT: Tại sao loại bỏ cụm từ này?"
         }
     ],
@@ -243,13 +237,13 @@ Bạn là một Giáo sư ngôn ngữ học dạy kỹ năng tóm tắt học th
             "original_text": "COPY lại câu Thesis gốc.",
             "transformations": [
                 {
-                    "method": "TIẾNG VIỆT: Tên phương pháp (VD: Grammar Toolbox - Đổi từ loại)",
+                    "method": "TIẾNG VIỆT: Tên phương pháp",
                     "original_part": "Cụm từ gốc",
                     "new_part": "Cụm từ mới",
-                    "explanation": "TIẾNG VIỆT: Giải thích biến đổi. (Dùng nháy đơn)"
+                    "explanation": "TIẾNG VIỆT: Giải thích biến đổi."
                 }
             ],
-            "final_sentence": "Viết 1 CÂU MỞ ĐẦU mẫu. BẮT BẦU BẰNG 'The article/text + [Reporting verb] + that...'."
+            "final_sentence": "Viết 1 CÂU MỞ ĐẦU mẫu."
         },
         "body": {
             "original_text": "Các ý tinh gọn từ Dàn ý.",
@@ -258,13 +252,13 @@ Bạn là một Giáo sư ngôn ngữ học dạy kỹ năng tóm tắt học th
                     "method": "TIẾNG VIỆT: Tên kỹ thuật",
                     "original_part": "CỤM TỪ RẤT NGẮN (2-5 chữ)",
                     "new_part": "Cụm từ mới",
-                    "explanation": "TIẾNG VIỆT: Giải thích chi tiết. (Dùng nháy đơn)"
+                    "explanation": "TIẾNG VIỆT: Giải thích chi tiết."
                 }
             ],
-            "final_sentence": "ENGLISH ONLY: Viết ĐOẠN THÂN BÀI mẫu (3-4 câu phức tạp, dùng từ nối)."
+            "final_sentence": "ENGLISH ONLY: Viết ĐOẠN THÂN BÀI mẫu (3-4 câu phức)."
         },
         "concl": {
-            "original_text": "Thông điệp cốt lõi cần chốt lại.",
+            "original_text": "Thông điệp cốt lõi cần chốt.",
             "transformations": [
                 {
                     "method": "TIẾNG VIỆT: Tên phương pháp",
@@ -409,9 +403,15 @@ if st.session_state.app_step == 1:
                         with st.expander("🛠️ Dành cho Dev: Xem dữ liệu thô (Raw Output) bị lỗi của AI để sửa Prompt"):
                             st.text(res) # In ra màn hình để biết AI gõ sai chỗ nào
                     else:
-                        # Nếu dữ liệu hoàn hảo 100%, mới cho phép đi tiếp
                         st.session_state.ai_analysis = ai_data
-                        st.session_state.original_text = ai_data.get("extracted_text", input_text)
+                        
+                        # LOGIC MỚI: Nếu AI báo là Text Provided (để tiết kiệm Token), ta lấy thẳng input của người dùng.
+                        extracted = ai_data.get("extracted_text", "")
+                        if "TEXT_PROVIDED" in extracted or not extracted.strip():
+                            st.session_state.original_text = input_text
+                        else:
+                            st.session_state.original_text = extracted
+                            
                         st.session_state.original_img = img_data
                         st.session_state.app_step = 2
                         st.rerun()
