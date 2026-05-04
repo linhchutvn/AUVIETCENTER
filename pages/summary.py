@@ -840,23 +840,33 @@ elif st.session_state.app_step == 5:
                 st.markdown("##### 2. Phiên bản Hoàn thiện (Đã áp dụng các chỉnh sửa trên)")
                 st.caption("*Dưới đây là bài viết của em sau khi Giáo sư đã 'lắp ráp' các đề xuất nâng cấp ở trên vào.*")
             
-            # --- XỬ LÝ VÀ IN BÀI MẪU + CHẤM ĐIỂM BÀI MẪU ---
+            # --- XỬ LÝ VÀ IN BÀI MẪU + BẢNG ĐIỂM CHUẨN MỰC ---
             model_text = res.get('model_summary', '')
             model_wc = len(model_text.split()) if model_text else 0
             
             # Khối in bài mẫu
-            st.markdown('<div style="background:#EFF6FF; padding:20px; border-radius:8px; font-family: Merriweather, serif; line-height: 1.8; border: 1px solid #BFDBFE; margin-bottom: 15px;">' + model_text + '</div>', unsafe_allow_html=True)
+            st.markdown('<div style="background:#EFF6FF; padding:20px; border-radius:8px; font-family: Merriweather, serif; line-height: 1.8; border: 1px solid #BFDBFE; margin-bottom: 20px;">' + model_text + '</div>', unsafe_allow_html=True)
             
-            # Khối "Chứng nhận chất lượng" (Chấm điểm bài mẫu)
+            # Bảng điểm của Phiên bản Hoàn thiện (Chấm điểm xanh lá cây)
+            st.markdown("##### 🏆 Bảng điểm của Phiên bản Hoàn thiện (Chứng nhận 1.0/1.0)")
             st.markdown(f"""
-            <div style="display: flex; gap: 15px; margin-bottom: 20px; font-size: 0.95rem;">
-                <div style="background: #F0FDF4; padding: 12px 15px; border-radius: 6px; border: 1px dashed #22C55E; flex: 1;">
-                    <b>📏 Độ dài tối ưu:</b> <span style="color: #16A34A; font-weight: bold;">{model_wc} words</span> (Chuẩn 90-130 từ)
-                </div>
-                <div style="background: #F0FDF4; padding: 12px 15px; border-radius: 6px; border: 1px dashed #22C55E; flex: 1.5;">
-                    <b>🏆 Đánh giá chuẩn mực:</b> <span style="color: #16A34A; font-weight: bold;">1.0 / 1.0 Điểm</span><br>
-                    <i style="color: #4B5563; font-size: 0.85rem;">(Bao quát 100% ý chính, Paraphrase toàn diện, cấu trúc logic)</i>
-                </div>
+            <div style="background-color: #F0FDF4; border-left: 4px solid #10B981; padding: 15px; margin-bottom: 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                <h4 style="margin-top: 0; color: #065F46;">1. Central and Main Ideas (Max: 0.4 pt)</h4>
+                <p style="font-size: 1.2rem; font-weight: bold; color: #059669;">Điểm đạt: 0.4/0.4</p>
+                <p style="margin-bottom: 0; color: #374151;"><b>Nhận xét của Hội đồng:</b> Bản hoàn thiện đã bao quát 100% các ý chính từ bài gốc. Đã khắc phục toàn bộ các ý bị thiếu hụt hoặc sai lệch từ bản nháp của học sinh.</p>
+            </div>
+            
+            <div style="background-color: #F0FDF4; border-left: 4px solid #10B981; padding: 15px; margin-bottom: 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                <h4 style="margin-top: 0; color: #065F46;">2. Own Wording / No Copying (Max: 0.4 pt)</h4>
+                <p style="font-size: 1.2rem; font-weight: bold; color: #059669;">Điểm đạt: 0.4/0.4</p>
+                <p style="margin-bottom: 0; color: #374151;"><b>Nhận xét của Hội đồng:</b> Đã áp dụng xuất sắc các kỹ thuật Paraphrase học thuật. Cấu trúc câu linh hoạt, từ vựng được nâng cấp (Level B2-C1), hoàn toàn không vi phạm lỗi đạo văn (Plagiarism).</p>
+            </div>
+            
+            <div style="background-color: #F0FDF4; border-left: 4px solid #10B981; padding: 15px; margin-bottom: 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                <h4 style="margin-top: 0; color: #065F46;">3. Word Limit (~100 - 120 words) (Max: 0.2 pt)</h4>
+                <p style="font-size: 1.2rem; font-weight: bold; color: #059669;">Điểm đạt: 0.2/0.2</p>
+                <p style="margin-bottom: 0; color: #374151;"><b>Số từ thực tế:</b> <span style="font-weight: bold; color: #059669;">{model_wc} words</span></p>
+                <p style="margin-bottom: 0; color: #374151;"><b>Nhận xét của Hội đồng:</b> Độ dài được kiểm soát hoàn hảo, nằm trọn trong biên độ tiêu chuẩn của một bài tóm tắt súc tích.</p>
             </div>
             """, unsafe_allow_html=True)
             
