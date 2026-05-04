@@ -735,8 +735,8 @@ elif st.session_state.app_step == 4:
 elif st.session_state.app_step == 5:
     res = st.session_state.ai_grading
     
-    # Ép Python đếm lại số từ ở màn hình này để đồng nhất 100% với màn hình trước
-    final_wc = len(st.session_state.user_draft.split()) if st.session_state.user_draft else 0
+    # LẤY SỐ TỪ CHÍNH XÁC ĐÃ LƯU, KHÔNG ĐẾM LẠI NỮA
+    final_wc = st.session_state.get("final_word_count", 0)
     
     st.markdown('<div class="step-header">BƯỚC 4: HOÀN THIỆN - Đánh giá & Rà soát (The Final Polish)</div>', unsafe_allow_html=True)
     
