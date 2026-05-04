@@ -283,10 +283,12 @@ Hệ thống chấm điểm tổng là 1.0 ĐIỂM, được chia thành 3 tiêu
 2. Own wording (0.4 pt): Học sinh có dùng từ ngữ của riêng mình (paraphrase) không? Nếu copy y nguyên cả câu từ bài gốc -> 0 điểm phần này. Nếu có đổi cấu trúc, đổi từ vựng -> 0.4 điểm.
 3. Word limit (0.2 pt): Yêu cầu là "khoảng 100 - 120 từ". HỆ THỐNG ĐÃ ĐẾM CHÍNH XÁC BÀI NÀY CÓ {{WORD_COUNT}} TỪ. Đừng tự đếm lại. Nếu số từ {{WORD_COUNT}} nằm trong biên độ 90 đến 130 từ, hãy cho trọn vẹn 0.2 pt.
 
-⚠️ YÊU CẦU TỐI QUAN TRỌNG VỀ "BẢN HOÀN THIỆN" & "ĐỐI CHIẾU":
-- NẾU HỌC SINH ĐẠT 1.0/1.0 ĐIỂM: Hãy giữ NGUYÊN VĂN bài của học sinh làm "model_summary". Trong phần "detailed_comparison", chỉ cần viết 1 mục khen ngợi (action: "KHEN NGỢI"), giải thích tại sao bài viết này xuất sắc.
-- NẾU HỌC SINH MẮC LỖI (Thiếu ý/Sai độ dài/Copy): "model_summary" PHẢI LÀ BẢN SỬA LỖI TỪ CHÍNH BÀI CỦA HỌC SINH. Giữ lại những câu học sinh viết tốt. Chỉ sửa/thêm đúng những phần bị thiếu ý hoặc lặp từ.
-- Ở phần "detailed_comparison", nhặt ra 2-4 chỗ bạn vừa sửa. NẾU thiếu ý, ghi rõ action là "BỔ SUNG Ý".
+⚠️ YÊU CẦU ĐẶC BIỆT VỀ "BẢN NÂNG CẤP" & "ĐỐI CHIẾU" (BẮT BUỘC TUÂN THỦ):
+1. Mục "model_summary" KHÔNG ĐƯỢC viết mới hoàn toàn. Giữ lại tối đa cấu trúc của học sinh, chỉ sửa/thêm những chỗ chưa tốt.
+2. Ở phần "detailed_comparison", BẠN PHẢI LÀM VIỆC NHƯ MỘT BIÊN TẬP VIÊN CHI TIẾT (Micro-Editor). 
+   - BẤT KỲ MỘT CÂU NÀO bị bạn thay đổi/chỉnh sửa trong "model_summary" đều PHẢI có mặt trong danh sách này.
+   - TUYỆT ĐỐI KHÔNG gom nguyên một đoạn văn dài vào một mục. Hãy tách nhỏ ra từng câu (Ví dụ: Câu mở đầu sửa gì? Câu số 2 sửa gì?).
+   - Phải trích dẫn CHÍNH XÁC câu văn gốc của học sinh và câu bạn đã sửa.
 
 Trả về BẮT BUỘC định dạng JSON sau:
 {
@@ -297,13 +299,19 @@ Trả về BẮT BUỘC định dạng JSON sau:
     "feedback_wording": "Nhận xét về paraphrase...",
     "score_word_limit": "0.2/0.2",
     "feedback_word_limit": "Số lượng từ là {{WORD_COUNT}} từ, nằm trong/ngoài khoảng cho phép...",
-    "model_summary": "Giữ nguyên bài HS (nếu 1.0) HOẶC Viết lại bài HS có sửa lỗi/bổ sung ý (nếu < 1.0).",
+    "model_summary": "PHIÊN BẢN NÂNG CẤP: Viết lại dựa trên chính bài của học sinh. Đảm bảo 100 - 120 từ.",
     "detailed_comparison": [
         {
-            "action": "BỔ SUNG Ý / NÂNG CẤP / KHEN NGỢI",
-            "student_text": "Đoạn của học sinh (hoặc 'Không có' nếu là Bổ sung ý mới)",
-            "suggested_text": "Đoạn đề xuất tốt hơn / Đoạn ý bị thiếu cần thêm vào",
-            "explanation": "Lý do sửa / Lý do khen."
+            "action": "NÂNG CẤP / SỬA / BỔ SUNG Ý",
+            "student_text": "TRÍCH DẪN 1 CÂU NGẮN HOẶC 1 CỤM TỪ CỦA HỌC SINH (TUYỆT ĐỐI KHÔNG TRÍCH NGUYÊN ĐOẠN DÀI)",
+            "suggested_text": "CÂU/CỤM TỪ ĐÃ SỬA TƯƠNG ỨNG TRONG MODEL_SUMMARY",
+            "explanation": "Lý do sửa chi tiết."
+        },
+        {
+            "action": "...",
+            "student_text": "...",
+            "suggested_text": "...",
+            "explanation": "..."
         }
     ],
     "grammar_spelling_errors": [
