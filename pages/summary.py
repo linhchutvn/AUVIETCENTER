@@ -298,32 +298,30 @@ Hệ thống chấm điểm tổng là 1.0 ĐIỂM, được chia thành 3 tiêu
 
 Trả về BẮT BUỘC định dạng JSON sau:
 {
-    "total_score": "0.8/1.0",
+    "total_score": "Cộng tổng 3 điểm lại /1.0",
     "score_ideas": "0.3/0.4",
-    "feedback_ideas": "Nhận xét chi tiết: Bài thiếu ý gì? Hoặc đã đủ ý ra sao?",
+    "feedback_ideas": "TIẾNG VIỆT: Nhận xét bài học sinh...",
     "score_wording": "0.3/0.4",
-    "feedback_wording": "TIẾNG VIỆT: Nhận xét về kỹ năng paraphrase...",
-    "score_word_limit": "0.2/0.2",
-    "feedback_word_limit": "Số lượng từ là {{WORD_COUNT}} từ, nằm trong/ngoài khoảng cho phép...",
-    "model_summary": "ENGLISH ONLY: PHIÊN BẢN NÂNG CẤP dựa trên bài của học sinh. Đảm bảo 100 - 120 từ. Đảm bảo MỌI LỜI CHÊ BAI/TRỪ ĐIỂM ở trên đều được khắc phục trong đoạn này.",
+    "feedback_wording": "TIẾNG VIỆT: Nhận xét bài học sinh...",
+    "score_word_limit": "{{WORD_SCORE}}/0.2",
+    "feedback_word_limit": "TIẾNG VIỆT: Bài viết có {{WORD_COUNT}} từ. {{WORD_FEEDBACK}}",
+    "model_summary": "ENGLISH ONLY: PHIÊN BẢN NÂNG CẤP dựa trên bài của học sinh.",
+    "model_self_evaluation": {
+        "ideas_defense": "TIẾNG VIỆT: Tự biện luận: Tại sao bản nâng cấp này xứng đáng đạt 0.4/0.4 điểm Ý chính? Bạn đã gộp/nén ý như thế nào?",
+        "wording_defense": "TIẾNG VIỆT: Tự biện luận: Tại sao bản nâng cấp này xứng đáng 0.4/0.4 điểm Paraphrase? Bạn đã dùng cấu trúc/từ vựng đắt giá nào?"
+    },
     "detailed_comparison": [
         {
             "action": "NÂNG CẤP / SỬA / BỔ SUNG Ý",
-            "student_text": "TRÍCH DẪN 1 CÂU NGẮN HOẶC 1 CỤM TỪ CỦA HỌC SINH (TUYỆT ĐỐI KHÔNG TRÍCH NGUYÊN ĐOẠN DÀI)",
-            "suggested_text": "CÂU/CỤM TỪ ĐÃ SỬA TƯƠNG ỨNG TRONG MODEL_SUMMARY",
-            "explanation": "Lý do sửa chi tiết."
-        },
-        {
-            "action": "...",
-            "student_text": "...",
-            "suggested_text": "...",
-            "explanation": "..."
+            "student_text": "Trích 1 CÂU của học sinh",
+            "suggested_text": "CÂU ĐÃ SỬA",
+            "explanation": "TIẾNG VIỆT: Lý do sửa."
         }
     ],
     "grammar_spelling_errors": [
         {
-            "error": "Từ/Cụm từ sai chính tả hoặc ngữ pháp",
-            "correction": "Cách sửa đúng",
+            "error": "Từ sai",
+            "correction": "Sửa đúng",
             "reason": "TIẾNG VIỆT: Giải thích"
         }
     ]
