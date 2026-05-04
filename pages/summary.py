@@ -57,38 +57,37 @@ def clean_and_parse_json(text):
     if not match: return {}
     json_str = match.group(1)
     
-    # 2. Xử lý các lỗi cơ bản (phẩy thừa ở cuối mảng)
+    # 2. XÓA SẠCH các dấu xuống dòng (Enter) bị AI lén nhét vào BÊN TRONG chuỗi
+    json_str = json_str.replace('\n', ' ').replace('\r', '').replace('\t', ' ')
+    
+    # 3. Vá lỗi thiếu dấu phẩy giữa 2 object (VD: } {  ➔  }, {)
+    json_str = re.sub(r'\}\s*\{', '}, {', json_str)
+    
+    # 4. Vá lỗi dư dấu phẩy
     json_str = re.sub(r',\s*\}', '}', json_str)
     json_str = re.sub(r',\s*\]', ']', json_str)
     
-    # 3. VÒNG LẶP TỰ PHỤC HỒI (SELF-HEALING) - Cứu tinh của chúng ta!
-    max_attempts = 20 # Cho phép code tự sửa sai 20 lần
+    # 5. VÒNG LẶP TỰ PHỤC HỒI (SELF-HEALING)
+    max_attempts = 20
     for attempt in range(max_attempts):
         try:
-            # strict=False giúp bỏ qua lỗi do AI lén bấm Enter xuống dòng
             return json.loads(json_str, strict=False) 
         except json.JSONDecodeError as e:
-            # Nếu Python báo lỗi, tìm ra đúng số thứ tự ký tự gây lỗi
             match = re.search(r'char (\d+)', str(e))
             if match:
                 pos = int(match.group(1))
                 json_list = list(json_str)
-                
-                # Rà soát xung quanh vị trí lỗi để tìm dấu ngoặc kép "vô duyên"
                 for offset in [0, -1, -2, 1]:
                     check_pos = pos + offset
                     if 0 <= check_pos < len(json_list) and json_list[check_pos] == '"':
                         json_list[check_pos] = "'" # Thay ngoặc kép thành nháy đơn
                         break
                 else:
-                    # Nếu không phải ngoặc kép, thay bằng khoảng trắng để xóa dấu vết
                     if pos < len(json_list):
                         json_list[pos] = " "
-                        
-                # Ráp chuỗi lại để thử lần tiếp theo
                 json_str = "".join(json_list)
             else:
-                break # Không tìm ra vị trí lỗi thì chịu thua
+                break
     return {}
 
 def generate_content_with_failover(prompt, image=None, json_mode=False):
@@ -719,13 +718,16 @@ elif st.session_state.app_step == 4:
                         grade_prompt = GRADING_PROMPT.replace("{{ORIGINAL}}", st.session_state.original_text).replace("{{STUDENT}}", draft_input).replace("{{WORD_COUNT}}", str(wc))
                         res = generate_content_with_failover(grade_prompt, json_mode=True)
                         if res:
-                            try:
-                                st.session_state.ai_grading = clean_and_parse_json(res)
+                            ai_grade_data = clean_and_parse_json(res)
+                            # CỔNG KIỂM SOÁT TẠI BƯỚC CHẤM ĐIỂM
+                            if not ai_grade_data:
+                                st.error("❌ Khối dữ liệu chấm điểm từ AI bị đứt gãy. Em vui lòng bấm [Nộp bài & Chấm điểm] lại 1 lần nữa nhé!")
+                                with st.expander("🛠️ Dành cho Dev: Xem dữ liệu thô bị lỗi"):
+                                    st.text(res)
+                            else:
+                                st.session_state.ai_grading = ai_grade_data
                                 st.session_state.app_step = 5
                                 st.rerun()
-                            except Exception as e:
-                                st.error("Lỗi phân tích JSON từ AI lúc chấm điểm.")
-                                st.write(e)
 
 # ---------------------------------------------------------
 # APP STEP 5: BƯỚC 4 - KẾT QUẢ
