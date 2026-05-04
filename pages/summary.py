@@ -203,13 +203,19 @@ Bạn là một Giáo sư ngôn ngữ học dạy kỹ năng tóm tắt học th
             "original_text": "Các ý tinh gọn từ Dàn ý (Outline).",
             "transformations": [
                 {
-                    "method": "TIẾNG VIỆT: Tên phương pháp (VD: Chunking - Gộp ý / Transition Words - Từ nối / Synonyms)",
-                    "original_part": "Ý thô / Cụm gốc",
-                    "new_part": "Cách diễn đạt mới trong đoạn",
-                    "explanation": "TIẾNG VIỆT: Giải thích chi tiết cách dùng từ nối (Furthermore, Additionally...) hoặc cách dùng Umbrella terms để nén ý."
+                    "method": "TIẾNG VIỆT: Nêu rõ Tên kỹ thuật (VD: Grammar Toolbox - Đổi từ loại / Synonyms - Từ đồng nghĩa / Chunking / Transition Words)",
+                    "original_part": "LƯU Ý TỐI QUAN TRỌNG: BẮT BUỘC PHẢI LÀ MỘT CỤM TỪ RẤT NGẮN (từ 2 đến 7 chữ). TUYỆT ĐỐI KHÔNG copy nguyên cả câu dài vào đây. (Ví dụ: 'reduce ecological footprint')",
+                    "new_part": "Cụm từ mới tương ứng (Ví dụ: 'minimize environmental impact')",
+                    "explanation": "TIẾNG VIỆT: Phân tích cực kỳ chi tiết: Tại sao chọn từ này? Đổi cấu trúc ngữ pháp như thế nào? (Ví dụ: 'Thay vì dùng động từ reduce, ta dùng minimize. Cụm ecological footprint đổi thành environmental impact để đa dạng từ vựng')."
+                },
+                {
+                    "method": "...",
+                    "original_part": "TẠO RA ÍT NHẤT 4 ĐẾN 6 BƯỚC BIẾN ĐỔI NHỎ LI TI NHƯ VẬY CHO TOÀN BỘ ĐOẠN THÂN BÀI.",
+                    "new_part": "...",
+                    "explanation": "..."
                 }
             ],
-            "final_sentence": "Viết ĐOẠN THÂN BÀI mẫu (Khoảng 65-80 từ. ĐẢM BẢO ĐỦ 100% CÁC Ý TỪ DÀN Ý, dùng câu phức để nén)."
+            "final_sentence": "Viết ĐOẠN THÂN BÀI mẫu (Khoảng 65-80 từ. ĐẢM BẢO ĐỦ 100% CÁC Ý TỪ DÀN Ý)."
         },
         "concl": {
             "original_text": "Thông điệp cốt lõi cần chốt lại.",
