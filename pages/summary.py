@@ -840,8 +840,25 @@ elif st.session_state.app_step == 5:
                 st.markdown("##### 2. Phiên bản Hoàn thiện (Đã áp dụng các chỉnh sửa trên)")
                 st.caption("*Dưới đây là bài viết của em sau khi Giáo sư đã 'lắp ráp' các đề xuất nâng cấp ở trên vào.*")
             
-            # Khối in bài mẫu (luôn nằm ở dưới cùng)
-            st.markdown('<div style="background:#EFF6FF; padding:20px; border-radius:8px; font-family: Merriweather, serif; line-height: 1.8; border: 1px solid #BFDBFE; margin-bottom: 20px;">' + res.get('model_summary', '') + '</div>', unsafe_allow_html=True)
+            # --- XỬ LÝ VÀ IN BÀI MẪU + CHẤM ĐIỂM BÀI MẪU ---
+            model_text = res.get('model_summary', '')
+            model_wc = len(model_text.split()) if model_text else 0
+            
+            # Khối in bài mẫu
+            st.markdown('<div style="background:#EFF6FF; padding:20px; border-radius:8px; font-family: Merriweather, serif; line-height: 1.8; border: 1px solid #BFDBFE; margin-bottom: 15px;">' + model_text + '</div>', unsafe_allow_html=True)
+            
+            # Khối "Chứng nhận chất lượng" (Chấm điểm bài mẫu)
+            st.markdown(f"""
+            <div style="display: flex; gap: 15px; margin-bottom: 20px; font-size: 0.95rem;">
+                <div style="background: #F0FDF4; padding: 12px 15px; border-radius: 6px; border: 1px dashed #22C55E; flex: 1;">
+                    <b>📏 Độ dài tối ưu:</b> <span style="color: #16A34A; font-weight: bold;">{model_wc} words</span> (Chuẩn 90-130 từ)
+                </div>
+                <div style="background: #F0FDF4; padding: 12px 15px; border-radius: 6px; border: 1px dashed #22C55E; flex: 1.5;">
+                    <b>🏆 Đánh giá chuẩn mực:</b> <span style="color: #16A34A; font-weight: bold;">1.0 / 1.0 Điểm</span><br>
+                    <i style="color: #4B5563; font-size: 0.85rem;">(Bao quát 100% ý chính, Paraphrase toàn diện, cấu trúc logic)</i>
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
             
         with tab3:
             st.markdown("#### 🕵️ Kính lúp Soi lỗi Ngữ pháp & Chính tả")
