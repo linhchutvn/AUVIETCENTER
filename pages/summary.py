@@ -723,11 +723,23 @@ elif st.session_state.app_step == 4:
                     st.session_state.user_draft = draft_input # Lưu lại bản cuối cùng
                     st.session_state.final_word_count = wc # Lưu số từ chính xác
                     
-                    with st.spinner("👨‍🏫 Giáo sư AI đang phân tích từng câu chữ và chấm điểm bài của em..."):
-                        grade_prompt = GRADING_PROMPT.replace("{{ORIGINAL}}", st.session_state.original_text).replace("{{STUDENT}}", draft_input).replace("{{WORD_COUNT}}", str(wc))
+                    with st.spinner("👨‍🏫 Giáo sư đang phân tích từng câu chữ và chấm điểm bài của em..."):
+                        
+                        # PYTHON TỰ TÍNH ĐIỂM SỐ TỪ VÀ NHẬN XÉT (Không nhờ AI nữa)
+                        if 90 <= wc <= 130:
+                            word_score = "0.2"
+                            word_feedback = "Nằm trong khoảng cho phép (90-130 từ). Rất tốt!"
+                        else:
+                            word_score = "0.0"
+                            word_feedback = "Nằm ngoài khoảng cho phép (90-130 từ). Cần chú ý độ dài bài viết."
+                            
+                        # TRUYỀN SẴN ĐIỂM VÀO PROMPT
+                        grade_prompt = GRADING_PROMPT.replace("{{ORIGINAL}}", st.session_state.original_text).replace("{{STUDENT}}", draft_input).replace("{{WORD_COUNT}}", str(wc)).replace("{{WORD_SCORE}}", word_score).replace("{{WORD_FEEDBACK}}", word_feedback)
+                        
                         res = generate_content_with_failover(grade_prompt, json_mode=True)
                         if res:
                             ai_grade_data = clean_and_parse_json(res)
+                            
                             # CỔNG KIỂM SOÁT TẠI BƯỚC CHẤM ĐIỂM
                             if not ai_grade_data:
                                 st.error("❌ Khối dữ liệu chấm điểm từ AI bị đứt gãy. Em vui lòng bấm [Nộp bài & Chấm điểm] lại 1 lần nữa nhé!")
