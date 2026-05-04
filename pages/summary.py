@@ -237,13 +237,14 @@ Bạn là một Giáo sư ngôn ngữ học dạy kỹ năng tóm tắt học th
             "original_text": "COPY lại câu Thesis gốc.",
             "transformations": [
                 {
-                    "method": "TIẾNG VIỆT: Tên phương pháp",
+                    "method": "Tên phương pháp (Ví dụ: Đổi từ loại, Từ đồng nghĩa)",
                     "original_part": "Cụm từ gốc",
                     "new_part": "Cụm từ mới",
-                    "explanation": "TIẾNG VIỆT: Giải thích biến đổi."
+                    "explanation": "Giải thích ngắn gọn (Không ghi lại chữ 'Tiếng Việt:')"
                 }
             ],
-            "final_sentence": "Viết 1 CÂU MỞ ĐẦU mẫu."
+            "reporting_verb_used": "GHI RÕ 1 ĐỘNG TỪ BÁO CÁO đã chọn (Ví dụ: discusses, highlights, argues).",
+            "final_sentence": "Viết 1 CÂU MỞ ĐẦU mẫu. BẮT BẦU BẰNG 'The article/text + [reporting_verb_used] + that...'. Tuyệt đối không viết câu khẳng định trực tiếp."
         },
         "body": {
             "original_text": "Các ý tinh gọn từ Dàn ý.",
