@@ -52,19 +52,24 @@ except Exception:
 def clean_json(text):
     if not text: return None
     
-    # 1. Trích xuất khối JSON
+    # 1. Trích xuất khối JSON ra khỏi các chữ rườm rà (như ```json...)
     match = re.search(r'(\{[\s\S]*\})', text)
-    json_str = match.group(1) if match else text
+    if not match: return text
+    json_str = match.group(1)
     
-    # 2. Sửa lỗi AI quên dấu phẩy giữa 2 objects: } {  ➔  }, {
+    # 2. XÓA SẠCH các dấu xuống dòng thực tế (Enter) bị AI lén nhét vào BÊN TRONG chuỗi
+    # Bằng cách thay thế toàn bộ ký tự \n bằng dấu cách (space), JSON sẽ trở nên phẳng (flat) và an toàn tuyệt đối
+    json_str = json_str.replace('\n', ' ').replace('\r', '').replace('\t', ' ')
+    
+    # 3. Vá lỗi thiếu dấu phẩy giữa 2 object (VD: } {  ➔  }, {)
     json_str = re.sub(r'\}\s*\{', '}, {', json_str)
     
-    # 3. Sửa lỗi AI dư dấu phẩy ở cuối mảng/object: , }  ➔  }
+    # 4. Vá lỗi thiếu dấu phẩy giữa 2 thuộc tính (VD: "a":"b" "c":"d" ➔ "a":"b", "c":"d")
+    json_str = re.sub(r'("\s*: \s*"[^"]*")\s*"', r'\1, "', json_str)
+    
+    # 5. Dọn dẹp dấu phẩy thừa ở cuối mảng/object (VD: , } ➔ })
     json_str = re.sub(r',\s*\}', '}', json_str)
     json_str = re.sub(r',\s*\]', ']', json_str)
-    
-    # 4. Sửa lỗi dấu ngoặc kép không hợp lệ (nếu có)
-    json_str = json_str.replace(" \n", "\\n")
     
     return json_str.strip()
 
@@ -140,6 +145,10 @@ def generate_content_with_failover(prompt, image=None, json_mode=False):
 # ==========================================
 ANALYSIS_PROMPT = """
 Bạn là một Giáo sư ngôn ngữ học dạy kỹ năng tóm tắt học thuật (Academic Summary). Hãy phân tích văn bản bài viết THEO TỪNG ĐOẠN và trả về định dạng JSON nghiêm ngặt sau.
+
+⚠️ CẢNH BÁO KỸ THUẬT (BẮT BUỘC TUÂN THỦ ĐỂ KHÔNG GÂY LỖI CRASH HỆ THỐNG):
+1. QUY TẮC DẤU NGOẶC: Khi trích dẫn, BẮT BUỘC PHẢI DÙNG DẤU NHÁY ĐƠN ('...'). TUYỆT ĐỐI KHÔNG SỬ DỤNG DẤU NGOẶC KÉP ("...") bên trong chuỗi giá trị.
+2. QUY TẮC XUỐNG DÒNG: TUYỆT ĐỐI KHÔNG SỬ DỤNG PHÍM ENTER (Line breaks/Newlines) HOẶC TẠO GẠCH ĐẦU DÒNG (Bullet points) BÊN TRONG CÁC CHUỖI VĂN BẢN. Hãy viết mọi lời giải thích thành một đoạn văn liền mạch duy nhất.
 
 ⚠️ QUY TRÌNH XÁC ĐỊNH LUẬN ĐIỂM TRỌNG TÂM (THESIS STATEMENT IDENTIFICATION):
 Đây là hệ thống phân tích logic áp dụng cho mọi loại văn bản. Bắt buộc thực hiện quá trình suy luận học thuật trong trường "step0_reasoning_scratchpad":
