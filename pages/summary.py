@@ -787,36 +787,40 @@ elif st.session_state.app_step == 5:
             
             if is_perfect:
                 st.markdown("##### 🏆 Chúc mừng! Bài viết của em đã đạt mức hoàn hảo!")
-                st.info("Giáo sư không cần phải sửa đổi bất kỳ cấu trúc nào trong bài viết của em. Dưới đây là bài viết gốc của em:")
+                st.info("Giáo sư không cần phải sửa đổi bất kỳ cấu trúc nào trong bài viết của em.")
             else:
-                st.markdown("##### 1. Phiên bản Hoàn thiện (Giáo sư sửa từ bài của em)")
-                st.caption("*Giáo sư đã giữ nguyên văn phong của em, chỉ bổ sung các ý bị thiếu hoặc nâng cấp các cụm từ copy.*")
-            
-            st.markdown('<div style="background:#EFF6FF; padding:20px; border-radius:8px; font-family: Merriweather, serif; line-height: 1.8; border: 1px solid #BFDBFE; margin-bottom: 20px;">' + res.get('model_summary', '') + '</div>', unsafe_allow_html=True)
-            
-            st.markdown("##### 2. Bài học rút ra từ Giáo sư")
-            comparisons = res.get('detailed_comparison', [])
-            if comparisons:
-                for item in comparisons:
-                    action = item.get('action', 'NÂNG CẤP').upper()
-                    
-                    color_bg = "#F3F4F6"
-                    color_border = "#9CA3AF"
-                    icon = "🔧"
-                    if "NÂNG CẤP" in action or "SỬA" in action: color_bg = "#FEF3C7"; color_border = "#F59E0B"; icon = "🛠️"
-                    elif "BỔ SUNG Ý" in action or "THÊM" in action: color_bg = "#E0F2FE"; color_border = "#3B82F6"; icon = "➕"
-                    elif "KHEN NGỢI" in action: color_bg = "#DCFCE7"; color_border = "#10B981"; icon = "⭐"
+                st.markdown("##### 1. Bài học rút ra từ Giáo sư (Các lỗi cần khắc phục)")
+                comparisons = res.get('detailed_comparison', [])
+                if comparisons:
+                    for item in comparisons:
+                        action = item.get('action', 'NÂNG CẤP').upper()
+                        
+                        color_bg = "#F3F4F6"
+                        color_border = "#9CA3AF"
+                        icon = "🔧"
+                        if "NÂNG CẤP" in action or "SỬA" in action: color_bg = "#FEF3C7"; color_border = "#F59E0B"; icon = "🛠️"
+                        elif "BỔ SUNG Ý" in action or "THÊM" in action: color_bg = "#E0F2FE"; color_border = "#3B82F6"; icon = "➕"
+                        elif "KHEN NGỢI" in action: color_bg = "#DCFCE7"; color_border = "#10B981"; icon = "⭐"
 
-                    st.markdown(f"""
-                    <div style="background-color: {color_bg}; border-left: 4px solid {color_border}; padding: 12px; margin-bottom: 12px; border-radius: 4px;">
-                        <div style="font-weight: bold; margin-bottom: 5px;">{icon} Lệnh: {action}</div>
-                        <div style="display: flex; gap: 10px; margin-bottom: 5px;">
-                            <div style="flex: 1; text-decoration: line-through; color: #6B7280;">{item.get('student_text', '')}</div>
-                            <div style="flex: 1; font-weight: bold; color: #111827;">➔ {item.get('suggested_text', '')}</div>
+                        st.markdown(f"""
+                        <div style="background-color: {color_bg}; border-left: 4px solid {color_border}; padding: 12px; margin-bottom: 12px; border-radius: 4px;">
+                            <div style="font-weight: bold; margin-bottom: 5px;">{icon} Lệnh: {action}</div>
+                            <div style="display: flex; gap: 10px; margin-bottom: 5px;">
+                                <div style="flex: 1; text-decoration: line-through; color: #6B7280;">{item.get('student_text', '')}</div>
+                                <div style="flex: 1; font-weight: bold; color: #111827;">➔ {item.get('suggested_text', '')}</div>
+                            </div>
+                            <div style="font-size: 0.9rem; color: #4B5563;"><i>Phân tích: {item.get('explanation', '')}</i></div>
                         </div>
-                        <div style="font-size: 0.9rem; color: #4B5563;"><i>Phân tích: {item.get('explanation', '')}</i></div>
-                    </div>
-                    """, unsafe_allow_html=True)
+                        """, unsafe_allow_html=True)
+                else:
+                    st.info("Bài của em đã rất tốt, không có lỗi lớn nào cần sửa!")
+                
+                st.markdown("---")
+                st.markdown("##### 2. Phiên bản Hoàn thiện (Đã áp dụng các chỉnh sửa trên)")
+                st.caption("*Dưới đây là bài viết của em sau khi Giáo sư đã 'lắp ráp' các đề xuất nâng cấp ở trên vào.*")
+            
+            # Khối in bài mẫu (luôn nằm ở dưới cùng)
+            st.markdown('<div style="background:#EFF6FF; padding:20px; border-radius:8px; font-family: Merriweather, serif; line-height: 1.8; border: 1px solid #BFDBFE; margin-bottom: 20px;">' + res.get('model_summary', '') + '</div>', unsafe_allow_html=True)
             
         with tab3:
             st.markdown("#### 🕵️ Kính lúp Soi lỗi Ngữ pháp & Chính tả")
