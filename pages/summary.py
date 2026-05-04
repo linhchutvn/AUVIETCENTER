@@ -210,7 +210,7 @@ Bạn là một Giáo sư ngôn ngữ học dạy kỹ năng tóm tắt học th
                 },
                 {
                     "method": "...",
-                    "original_part": "TẠO RA ÍT NHẤT 4 ĐẾN 6 BƯỚC BIẾN ĐỔI NHỎ LI TI NHƯ VẬY CHO TOÀN BỘ ĐOẠN THÂN BÀI.",
+                    "original_part": "TẠO RA ĐẦY ĐỦ CÁC BƯỚC BIẾN ĐỔI NHỎ LI TI NHƯ VẬY CHO TOÀN BỘ ĐOẠN THÂN BÀI. THỰC HIỆN THEO TỪNG ĐOẠN THÂN BÀI",
                     "new_part": "...",
                     "explanation": "..."
                 }
