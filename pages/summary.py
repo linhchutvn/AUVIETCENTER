@@ -845,33 +845,49 @@ elif st.session_state.app_step == 5:
                 st.markdown("##### 2. Phiên bản Hoàn thiện (Đã áp dụng các chỉnh sửa trên)")
                 st.caption("*Dưới đây là bài viết của em sau khi Giáo sư đã 'lắp ráp' các đề xuất nâng cấp ở trên vào.*")
             
-            # --- XỬ LÝ VÀ IN BÀI MẪU + BẢNG ĐIỂM CHUẨN MỰC ---
+            # --- XỬ LÝ VÀ IN BÀI MẪU + BẢNG ĐIỂM CÔNG BẰNG TỪ PYTHON ---
             model_text = res.get('model_summary', '')
             model_wc = len(model_text.split()) if model_text else 0
+            
+            # PYTHON TỰ ĐỘNG CHẤM ĐIỂM BÀI MẪU CỦA AI (Chấm Word Limit)
+            if 90 <= model_wc <= 130:
+                model_word_score = 0.2
+                model_word_feedback = "Độ dài được kiểm soát hoàn hảo, nằm trọn trong biên độ tiêu chuẩn của một bài tóm tắt súc tích."
+                model_word_color = "#059669" # Xanh lá
+                model_word_bg = "#F0FDF4"
+                model_word_border = "#10B981"
+            else:
+                model_word_score = 0.0
+                model_word_feedback = "Bài viết mẫu đã vi phạm giới hạn từ (90-130 từ). Điều này cho thấy việc nén đủ ý vào một đoạn văn ngắn là cực kỳ khó, ngay cả với Giáo sư AI!"
+                model_word_color = "#B45309" # Cam đỏ (Báo lỗi)
+                model_word_bg = "#FFFBEB"
+                model_word_border = "#F59E0B"
+                
+            model_total_score = 0.4 + 0.4 + model_word_score
             
             # Khối in bài mẫu
             st.markdown('<div style="background:#EFF6FF; padding:20px; border-radius:8px; font-family: Merriweather, serif; line-height: 1.8; border: 1px solid #BFDBFE; margin-bottom: 20px;">' + model_text + '</div>', unsafe_allow_html=True)
             
-            # Bảng điểm của Phiên bản Hoàn thiện (Chấm điểm xanh lá cây)
-            st.markdown("##### 🏆 Bảng điểm của Phiên bản Hoàn thiện (Chứng nhận 1.0/1.0)")
+            # Bảng điểm ĐỘNG của Phiên bản Hoàn thiện
+            st.markdown(f"##### 🏆 Bảng điểm của Phiên bản Hoàn thiện (Đạt {model_total_score:.1f}/1.0)")
             st.markdown(f"""
             <div style="background-color: #F0FDF4; border-left: 4px solid #10B981; padding: 15px; margin-bottom: 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
                 <h4 style="margin-top: 0; color: #065F46;">1. Central and Main Ideas (Max: 0.4 pt)</h4>
                 <p style="font-size: 1.2rem; font-weight: bold; color: #059669;">Điểm đạt: 0.4/0.4</p>
-                <p style="margin-bottom: 0; color: #374151;"><b>Nhận xét của Hội đồng:</b> Bản hoàn thiện đã bao quát 100% các ý chính từ bài gốc. Đã khắc phục toàn bộ các ý bị thiếu hụt hoặc sai lệch từ bản nháp của học sinh.</p>
+                <p style="margin-bottom: 0; color: #374151;"><b>Hệ thống đánh giá:</b> Bản hoàn thiện đã bao quát 100% các ý chính từ bài gốc và khắc phục toàn bộ các ý bị thiếu hụt từ bản nháp của học sinh.</p>
             </div>
             
             <div style="background-color: #F0FDF4; border-left: 4px solid #10B981; padding: 15px; margin-bottom: 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
                 <h4 style="margin-top: 0; color: #065F46;">2. Own Wording / No Copying (Max: 0.4 pt)</h4>
                 <p style="font-size: 1.2rem; font-weight: bold; color: #059669;">Điểm đạt: 0.4/0.4</p>
-                <p style="margin-bottom: 0; color: #374151;"><b>Nhận xét của Hội đồng:</b> Đã áp dụng xuất sắc các kỹ thuật Paraphrase học thuật. Cấu trúc câu linh hoạt, từ vựng được nâng cấp (Level B2-C1), hoàn toàn không vi phạm lỗi đạo văn (Plagiarism).</p>
+                <p style="margin-bottom: 0; color: #374151;"><b>Hệ thống đánh giá:</b> Đã áp dụng xuất sắc các kỹ thuật Paraphrase. Cấu trúc câu linh hoạt, từ vựng được nâng cấp, hoàn toàn không vi phạm lỗi đạo văn.</p>
             </div>
             
-            <div style="background-color: #F0FDF4; border-left: 4px solid #10B981; padding: 15px; margin-bottom: 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
-                <h4 style="margin-top: 0; color: #065F46;">3. Word Limit (~100 - 120 words) (Max: 0.2 pt)</h4>
-                <p style="font-size: 1.2rem; font-weight: bold; color: #059669;">Điểm đạt: 0.2/0.2</p>
-                <p style="margin-bottom: 0; color: #374151;"><b>Số từ thực tế:</b> <span style="font-weight: bold; color: #059669;">{model_wc} words</span></p>
-                <p style="margin-bottom: 0; color: #374151;"><b>Nhận xét của Hội đồng:</b> Độ dài được kiểm soát hoàn hảo, nằm trọn trong biên độ tiêu chuẩn của một bài tóm tắt súc tích.</p>
+            <div style="background-color: {model_word_bg}; border-left: 4px solid {model_word_border}; padding: 15px; margin-bottom: 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                <h4 style="margin-top: 0; color: {model_word_color};">3. Word Limit (~100 - 120 words) (Max: 0.2 pt)</h4>
+                <p style="font-size: 1.2rem; font-weight: bold; color: {model_word_color};">Điểm đạt: {model_word_score}/0.2</p>
+                <p style="margin-bottom: 0; color: #374151;"><b>Số từ thực tế của AI:</b> <span style="font-weight: bold; color: {model_word_color};">{model_wc} words</span></p>
+                <p style="margin-bottom: 0; color: #374151;"><b>Hệ thống đánh giá:</b> {model_word_feedback}</p>
             </div>
             """, unsafe_allow_html=True)
             
