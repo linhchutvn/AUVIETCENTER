@@ -288,6 +288,12 @@ Hệ thống chấm điểm tổng là 1.0 ĐIỂM, được chia thành 3 tiêu
 2. Own wording (0.4 pt): Học sinh có dùng từ ngữ của riêng mình (paraphrase) không? Nếu copy y nguyên cả câu từ bài gốc -> 0 điểm phần này. Nếu có đổi cấu trúc, đổi từ vựng -> 0.4 điểm.
 3. Word limit (0.2 pt): Yêu cầu là "khoảng 100 - 120 từ". HỆ THỐNG ĐÃ ĐẾM CHÍNH XÁC BÀI NÀY CÓ {{WORD_COUNT}} TỪ. Đừng tự đếm lại. Nếu số từ {{WORD_COUNT}} nằm trong biên độ 90 đến 130 từ, hãy cho trọn vẹn 0.2 pt.
 
+⚠️ TỪ ĐIỂN LỖI HỌC THUẬT (ERROR TYPOLOGY) - BẮT BUỘC SỬ DỤNG:
+Khi phát hiện lỗi sai trong bài của học sinh, bạn PHẢI phân loại lỗi đó theo ĐÚNG các mã lỗi (Error Codes) dưới đây:
+A. [COHERENCE & COHESION]: Illogical Grouping, Missing Overview, Fragmented Flow, Lack of Progression, Incoherent Paragraphing, Mechanical Linking, Overuse of Connectors, Ambiguous Referencing, Repetitive Structure, Data Inaccuracy.
+B. [GRAMMAR]: Comma Splice, Run-on Sentence, Sentence Fragment, Faulty Parallelism, Misplaced Modifier, Word Order, Subject-Verb Agreement, Tense Inconsistency, Passive Voice Error, Relative Clause Error, Article Error, Preposition Error, Singular/Plural, Countable/Uncountable, Punctuation.
+C. [VOCABULARY]: Imprecise Word Choice, Incompatible Collocation, Word Form Error, Selectional Restriction Violation, Informal Register, Pretentious Language, Redundancy, Forced Paraphrasing.
+
 ⚠️ CẢNH BÁO KỸ THUẬT VÀ NGÔN NGỮ (BẮT BUỘC TUÂN THỦ):
 1. Những gì bạn chê bai/trừ điểm học sinh ở phần "feedback_ideas" (Ví dụ: Thiếu ý A, thiếu ý B), bạn BẮT BUỘC phải tự mình bổ sung và khắc phục nó trong phần "model_summary". 
 2. TẤT CẢ CÁC LỜI NHẬN XÉT (FEEDBACK) BẮT BUỘC PHẢI VIẾT BẰNG TIẾNG VIỆT 100%. Không được dùng tiếng Anh để nhận xét.
@@ -322,7 +328,7 @@ Trả về BẮT BUỘC định dạng JSON sau:
             "explanation": "TIẾNG VIỆT: Lý do sửa."
         }
     ],
-    "grammar_spelling_errors": [
+    "writing_errors": [
         {
             "error": "Từ sai",
             "correction": "Sửa đúng",
@@ -899,22 +905,46 @@ elif st.session_state.app_step == 5:
             """, unsafe_allow_html=True)
             
         with tab3:
-            st.markdown("#### 🕵️ Kính lúp Soi lỗi Ngữ pháp & Chính tả")
-            errors = res.get('grammar_spelling_errors', [])
+            st.markdown("#### 🕵️ Phân tích Lỗi Học thuật Chuyên sâu (Advanced Error Analysis)")
+            errors = res.get('writing_errors', [])
             
             if not errors or len(errors) == 0:
-                st.success("🎉 Tuyệt vời! Giáo sư không tìm thấy bất kỳ lỗi chính tả hay ngữ pháp cơ bản nào trong bài của em.")
+                st.success("🎉 Xuất sắc! Giáo sư không tìm thấy bất kỳ lỗi nào về Mạch văn, Ngữ pháp hay Từ vựng trong bài của em.")
             else:
-                st.warning(f"⚠️ Phát hiện {len(errors)} lỗi cần khắc phục trong bản nháp của em:")
+                st.warning(f"⚠️ Phát hiện {len(errors)} lỗi học thuật cần khắc phục trong bản nháp của em:")
+                
                 for e in errors:
+                    cat = e.get('category', '')
+                    code = e.get('error_code', '')
+                    
+                    # Cài đặt màu sắc theo từng nhóm lỗi
+                    if "GRAMMAR" in cat: 
+                        bg_col, text_col, icon = "#FEE2E2", "#B91C1C", "📝" # Màu đỏ
+                    elif "VOCABULARY" in cat: 
+                        bg_col, text_col, icon = "#FEF3C7", "#B45309", "📚" # Màu cam
+                    elif "COHERENCE" in cat: 
+                        bg_col, text_col, icon = "#E0E7FF", "#1D4ED8", "🔗" # Màu xanh dương
+                    else: 
+                        bg_col, text_col, icon = "#F3F4F6", "#4B5563", "⚠️" # Mặc định
+                    
                     st.markdown(f"""
-                    - ❌ Sai: **<span style='color: #EF4444;'>{e.get('error', '')}</span>**
-                    - ✅ Sửa thành: **<span style='color: #10B981;'>{e.get('correction', '')}</span>**
-                    - 💡 Lý do: *{e.get('reason', '')}*
+                    <div style='background-color: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px; padding: 15px; margin-bottom: 15px;'>
+                        <div style='margin-bottom: 10px;'>
+                            <span style='background-color: {bg_col}; color: {text_col}; padding: 4px 8px; border-radius: 4px; font-size: 0.85rem; font-weight: bold; border: 1px solid {text_col};'>
+                                {icon} {cat} | {code}
+                            </span>
+                        </div>
+                        <div style='display: flex; gap: 10px; margin-bottom: 8px;'>
+                            <div style='flex: 1;'><span style='color: #EF4444;'>❌ <b>Lỗi sai:</b></span> <span style='text-decoration: line-through; color: #64748B;'>{e.get('student_text', '')}</span></div>
+                            <div style='flex: 1;'><span style='color: #10B981;'>✅ <b>Sửa chuẩn:</b></span> <b>{e.get('correction', '')}</b></div>
+                        </div>
+                        <div style='background-color: white; padding: 10px; border-radius: 6px; border-left: 3px solid {text_col}; font-size: 0.9rem; color: #475569;'>
+                            <i><b>Giáo sư phân tích:</b> {e.get('explanation', '')}</i>
+                        </div>
+                    </div>
                     """, unsafe_allow_html=True)
-                    st.markdown("---")
             
-            st.info("💡 **Mẹo:** Trong các kỳ thi thực tế, sai ngữ pháp (đặc biệt là chia động từ và số nhiều) sẽ làm em bị trừ điểm rất nặng. Hãy luôn rà soát kỹ trước khi nộp bài nhé!")
+            st.info("💡 **Mẹo Học thuật:** Nắm vững các thuật ngữ lỗi (Error Codes) ở trên sẽ giúp em tự audit (kiểm toán) bài viết của mình trước khi nộp trong các kỳ thi thực tế!")
             
     st.markdown("---")
     if st.button("🔄 Luyện tập Đề mới", type="primary", use_container_width=True): 
