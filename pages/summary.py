@@ -330,9 +330,11 @@ Trả về BẮT BUỘC định dạng JSON sau:
     ],
     "writing_errors": [
         {
-            "error": "Từ sai",
-            "correction": "Sửa đúng",
-            "reason": "TIẾNG VIỆT: Giải thích"
+            "category": "Copy 1 trong 3 nhóm (Ví dụ: B. [GRAMMAR])",
+            "error_code": "Copy đúng 1 mã lỗi từ TỪ ĐIỂN LỖI ở trên (Ví dụ: Subject-Verb Agreement)",
+            "student_text": "Trích cụm từ/câu bị sai của học sinh",
+            "correction": "Sửa lại cho chuẩn",
+            "explanation": "TIẾNG VIỆT: Tại sao lại vi phạm mã lỗi này?"
         }
     ]
 }
@@ -908,16 +910,25 @@ elif st.session_state.app_step == 5:
             st.markdown("#### 🕵️ Phân tích Lỗi Học thuật Chuyên sâu (Advanced Error Analysis)")
             errors = res.get('writing_errors', [])
             
+            # Để đề phòng AI vẫn trả về key cũ do lỗi hệ thống (fallback)
+            if not errors and 'grammar_spelling_errors' in res:
+                errors = res.get('grammar_spelling_errors', [])
+            
             if not errors or len(errors) == 0:
                 st.success("🎉 Xuất sắc! Giáo sư không tìm thấy bất kỳ lỗi nào về Mạch văn, Ngữ pháp hay Từ vựng trong bài của em.")
             else:
                 st.warning(f"⚠️ Phát hiện {len(errors)} lỗi học thuật cần khắc phục trong bản nháp của em:")
                 
                 for e in errors:
-                    cat = e.get('category', '')
-                    code = e.get('error_code', '')
+                    # Hỗ trợ lấy dữ liệu từ cả 2 format (Mới: writing_errors / Cũ: grammar_spelling_errors)
+                    cat = e.get('category', 'LỖI CHUNG')
+                    code = e.get('error_code', 'Grammar/Spelling')
                     
-                    # Cài đặt màu sắc theo từng nhóm lỗi
+                    # Lấy text lỗi (ưu tiên key mới, nếu không có lấy key cũ)
+                    wrong_text = e.get('student_text', e.get('error', ''))
+                    right_text = e.get('correction', '')
+                    reason = e.get('explanation', e.get('reason', ''))
+                    
                     if "GRAMMAR" in cat: 
                         bg_col, text_col, icon = "#FEE2E2", "#B91C1C", "📝" # Màu đỏ
                     elif "VOCABULARY" in cat: 
@@ -935,11 +946,11 @@ elif st.session_state.app_step == 5:
                             </span>
                         </div>
                         <div style='display: flex; gap: 10px; margin-bottom: 8px;'>
-                            <div style='flex: 1;'><span style='color: #EF4444;'>❌ <b>Lỗi sai:</b></span> <span style='text-decoration: line-through; color: #64748B;'>{e.get('student_text', '')}</span></div>
-                            <div style='flex: 1;'><span style='color: #10B981;'>✅ <b>Sửa chuẩn:</b></span> <b>{e.get('correction', '')}</b></div>
+                            <div style='flex: 1;'><span style='color: #EF4444;'>❌ <b>Lỗi sai:</b></span> <span style='text-decoration: line-through; color: #64748B;'>{wrong_text}</span></div>
+                            <div style='flex: 1;'><span style='color: #10B981;'>✅ <b>Sửa chuẩn:</b></span> <b>{right_text}</b></div>
                         </div>
                         <div style='background-color: white; padding: 10px; border-radius: 6px; border-left: 3px solid {text_col}; font-size: 0.9rem; color: #475569;'>
-                            <i><b>Giáo sư phân tích:</b> {e.get('explanation', '')}</i>
+                            <i><b>Giáo sư phân tích:</b> {reason}</i>
                         </div>
                     </div>
                     """, unsafe_allow_html=True)
